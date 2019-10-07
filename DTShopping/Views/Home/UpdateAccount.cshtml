@@ -1,0 +1,79 @@
+﻿@model DTShopping.Models.UserDetails
+@{
+    ViewBag.Title = "UpdateAccount";
+}
+
+<div class="">
+    <div class="container">
+        <div class="sixteen columns">
+            <div class="breadcrumbs_box">
+                <a href="http://www.ethemeuk.com" class="headerNavigation1">Top</a><a href="/Home/Index" class="headerNavigation1">Catalog</a><span class="headerNavigation">Create an Account</span>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="sixteen columns">
+        <div id="bodyContent" class="sixteen columns omega main_part_wrapper">
+        
+            <h1>Update Account</h1>
+
+
+            <form name="update_account" id="update_account" onSubmit="return UpdateAccount();">
+                <input type="hidden" name="formid" value="e77a43c4c12f4fbfe82280d444af171e" /><input type="hidden" name="action" value="process" />
+                <div class="contentContainer">
+                    <div>
+
+                        <h2>wecome <strong>@Model.username</strong></h2>
+                    </div>
+
+                    <div class="contentText">
+                        <table border="0" cellspacing="2" cellpadding="2" width="100%">
+                            <tr>
+                                @Html.HiddenFor(m=>m.id)
+                                <td class="fieldKey">First Name:</td>
+                                <td class="fieldValue"> @Html.TextBoxFor(m => m.first_name, new { @type = "text", @id = "firstname", @required = "required", @placeholder = "" })&nbsp;<span class="inputRequirement">*</span></td>
+                            </tr>
+                            <tr>
+                                <td bgcolor="#EEEEEE" class="fieldKey">Last Name:</td>
+                                <td bgcolor="#EEEEEE" class="fieldValue">@Html.TextBoxFor(m => m.last_name, new { @type = "text", @id = "lastname", @required = "required", @placeholder = "" })&nbsp;<span class="inputRequirement">*</span></td>
+                            </tr>
+                            <tr>
+                                <td class="fieldKey">Old Password :</td>
+                                @Html.HiddenFor(m => m.password_str,new { @id = "password_str" })
+                                <td class="fieldValue"><input type="text" name="oldPassword" id="oldPassword" required="required" />&nbsp;<span class="inputRequirement">*</span></td>
+                            </tr>
+                            <tr>
+                                <td bgcolor="#EEEEEE" class="fieldKey">New  Password : </td>
+                                <td class="fieldValue"><input type="text" name="new_password_str" id="new_password_str" required="required" />&nbsp;<span class="inputRequirement">*</span></td>
+                            </tr>
+                            <tr>
+                                <td class="fieldKey">Confirm  Password : </td>
+                                <td class="fieldValue"><input type="text" name="ConfirmPassword" id="ConfirmPassword" required="required" />&nbsp;<span class="inputRequirement">*</span></td>
+                            </tr>
+                        </table>
+                    </div>
+
+
+
+
+                    <div class="sixteen columns" id="" style=""><label id="ErrorMessage" style="color:red;"></label></div>
+
+
+
+
+
+                        <div class="buttonSet">
+                            <span class="buttonAction"><button class="unishop_button" type="submit">Update</button></span>
+                        </div>
+                    </div>
+            </form>
+
+        </div>
+       
+
+    </div>
+</div>
+
+<script src="~/Scripts/dashboard.js"></script>

@@ -1,0 +1,160 @@
+﻿@using PagedList.Mvc;
+@using DTShopping.Properties
+@model  DTShopping.Models.PagewiseProducts
+@{
+    ViewBag.Title = "ProductList";
+    string imageUrl = System.Configuration.ConfigurationManager.AppSettings["ImageUrl"];
+    var count = 0;
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+<style>
+    .ul.pagination {
+        display: inline-block;
+        padding: 0;
+        margin: 0;
+    }
+
+    ul.pagination li {
+        display: inline;
+    }
+
+        ul.pagination li a {
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+            transition: background-color .3s;
+        }
+
+            ul.pagination li a.active {
+                background-color: #4CAF50;
+                color: white;
+            }
+
+            ul.pagination li a:hover:not(.active) {
+                background-color: #ddd;
+            }
+</style>
+
+@*<div class="">
+        <div class="container">
+            <div class="sixteen columns">
+                <div class="breadcrumbs_box">
+                    <a href="#" class="headerNavigation1">Top</a><a href="" class="headerNavigation1">Catalog</a><a href="#" class="headerNavigation1">Women</a><span class="headerNavigation">Club Dresses</span>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+<div class="container">
+    <div class="sixteen columns">
+        <div id="bodyContent" class="sixteen columns omega main_part_wrapper">
+            <!-- subcategory view -->
+            <h1>@ViewBag.CategoryName</h1>
+            <!-- subcategory view -->
+
+
+            <script>
+
+                $(document).ready(function () {
+                    $("#advan_btn").click(function () {
+                        $("#searchform").slideToggle("slow");
+                    });
+                });
+            </script>
+
+
+
+            <div class="contentContainer">
+                <div class="contentText contConteiner_listing">
+                    <div class="infoBoxContainer">
+                        <div class="infoBoxHeading1 padding_pages_2 margin_bottom_1">
+                            <table class="table_style productListingHeader1">
+                                <tr>
+                                    <td class="padding0">
+                                        Sort by :
+                                        <a href="/Home/GetAllDealProducts?page=1&Deal=@Model.SearchString&SortBy=points&Order=desc" class="SortProduct" data-SortBy="Points" data-SortOrder="DESC">High Points</a> |
+                                        <a href="/Home/GetAllDealProducts?page=1&Deal=@Model.SearchString&SortBy=points&Order=asc" class="SortProduct" data-SortBy="Points" data-SortOrder="ASC">Low Points</a> |
+                                        <a href="/Home/GetAllDealProducts?page=1&Deal=@Model.SearchString&SortBy=price&Order=desc" class="SortProduct" data-SortBy="price" data-SortOrder="DESC">High Price </a> |
+                                        <a href="/Home/GetAllDealProducts?page=1&Deal=@Model.SearchString&SortBy=price&Order=asc" class="SortProduct" data-SortBy="price" data-SortOrder="ASC">Low Price </a>
+                                        <div></div>
+                                        @*<a id="anchorSearchForm" href="http://www.discounttadka.com/index.php?mod=product_search&srch_category_id=137#" onClick="javascript:$('#searchFormDiv').toggle('dropdown');return(false)"></a>*@
+                                    </td>
+                                </tr>
+                               
+
+                            </table>
+
+                        </div>
+                        
+                        @if (Model.ProductList.Count() > 0)
+                        {
+                            foreach (var product in Model.ProductList)
+                            {
+                                count = count + 1;
+                                if (count == 7)
+                                {
+                                    count = 1;
+                                }
+                                <div class="four columns product_wrapper count_3cols_col_@count count_2cols_col_1">
+                                    <div class="product">
+                                        <div class="img_border">
+                                            <div class="product-image-wrapper">
+                                                @*<span class="product_sticker sticker_onsale_top_left sticker_display">
+                                                        Save up <br>
+                                                        to 30%
+                                                    </span>*@<a class="product_img" href="~/Home/GetProductDetail?prodId=@product.id">
+                                                    <div><img src="@imageUrl/@product.large_image" alt="@product.title" title="@product.title" width="329" height="417" class="scale-with-grid" /></div>
+                                                    <div class="roll_over_img"><img src="@imageUrl/@product.large_image" alt="" width="329" height="417" class="scale-with-grid" /></div>
+                                                    <div class="product-image-wrapper-hover"></div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="wrapper-hover">
+                                            <div class="product-name"> <a href="~/Home/GetProductDetail?prodId=@product.id"> @product.title </a> </div>
+                                            <div class="clearfix">
+                                                <div class="icon_cart_title product-price">
+                                                    <span class="new_price">
+                                                        <s>Rs.@product.market_price</s><br>
+                                                        <span class="new-special-price">Rs.@product.offer_price</span>
+                                                    </span><br>
+                                                    <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
+                                                        <br>
+                                                        @Resources.EUPoints : @{var t = product.point_adjusted != null ? product.point_adjusted : 0;}@t
+                                                    </span>
+                                                </div>
+                                                <div class="icon_cart_rollover" onclick="AddProductInCart(@product.id, 1)"><a></a></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="Eight columns"><h2>No Products found</h2></div>
+                                                            }
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>        
+
+    </div>
+    Page@(Model.pagerCount.PageCount < Model.pagerCount.PageNumber ? 0 : Model.pagerCount.PageNumber) of @Model.pagerCount.PageCount
+
+
+    @Html.PagedListPager(Model.pagerCount, page => Url.Action("GetAllDealProducts", "Home", new { page, Deal = Model.SearchString, SortBy = Model.sortby, Order = Model.order }), new PagedListRenderOptions
+{
+    DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+    DisplayLinkToLastPage = PagedListDisplayMode.Never,
+    DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+    DisplayLinkToNextPage = PagedListDisplayMode.Always,
+    MaximumPageNumbersToDisplay = 3
+})
+</div>
+
+<script src="~/Scripts/dashboard.js"></script>
+

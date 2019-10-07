@@ -1,0 +1,72 @@
+﻿@using PagedList.Mvc;
+@model DTShopping.Models.PagedOrderList
+@{
+    ViewBag.Title = "Orders";
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+
+<div class="container">
+    <div class="sixteen columns">
+        <div id="bodyContent" class="sixteen columns omega main_part_wrapper">
+        
+            <h1>ORDER DETAILS</h1>
+@if (Model != null && Model.OrderList != null)
+{
+            <table width="100%" border="0" cellspacing="5" cellpadding="5" class="shoptable" style="width: 100%; border-top: 1px solid rgb(204, 204, 204);">
+                <tr>
+                    <td width="13%" bgcolor="#E9E9E9"><h3>product code </h3></td>
+                    <td width="14%" bgcolor="#E9E9E9"><h3>product name</h3></td>
+                    <td width="11%" bgcolor="#E9E9E9"><h3>QUANTITY</h3></td>
+                    <td width="10%" bgcolor="#E9E9E9"><h3>PRICE</h3></td>
+                    <td width="13%" bgcolor="#E9E9E9"><h3>POINTS USED</h3></td>
+                    <td width="16%" bgcolor="#E9E9E9"><h3>SHIPPING CHARGES</h3></td>
+                    <td width="12%" bgcolor="#E9E9E9"><h3>NET PRICE</h3></td>
+                    <td width="11%" bgcolor="#E9E9E9"><h3>DISPACTH</h3></td>
+                </tr>
+                 @foreach (var order in Model.OrderList)
+                 {
+                <tr>
+                    <td class="bordertop">@order.ProductCode</td>
+                    <td class="bordertop">@order.ProductName</td>
+                    <td valign="middle" class="bordertop">@order.quantity</td>
+                    <td valign="middle" class="bordertop">@order.OfferPrice</td>
+                    <td valign="middle" class="bordertop">@order.point_adjusted</td>
+                    <td valign="middle" class="bordertop">@order.shipping_charge</td>
+                    <td valign="middle" class="bordertop">@order.OfferPrice</td>
+                    <td valign="middle" class="bordertop">@order.status</td>
+                </tr>
+                 }
+                
+            </table>
+}
+else
+{
+    
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="shoptable" style="margin-bottom:20px">
+                <tr>
+                    <td width="51%">Total 0 records available.</td>
+                    <td width="49%">&nbsp;</td>
+                </tr>
+            </table>
+}
+
+        </div>
+
+
+    </div>
+
+    @if(Model != null)
+    { 
+        <span>Page @(Model.pagerCount.PageCount < Model.pagerCount.PageNumber ? 0 : Model.pagerCount.PageNumber) of @Model.pagerCount.PageCount</span>
+        @Html.PagedListPager(Model.pagerCount, page => Url.Action("Orders", "Home", new { page}), new PagedListRenderOptions
+        {
+            DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+            DisplayLinkToLastPage = PagedListDisplayMode.Never,
+            DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+            DisplayLinkToNextPage = PagedListDisplayMode.Always,
+            MaximumPageNumbersToDisplay = 3
+        })
+    }
+
+</div>
+

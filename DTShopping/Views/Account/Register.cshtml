@@ -1,0 +1,100 @@
+﻿@using DTShopping.Properties
+@model DTShopping.Models.Dashboard
+@*<div class="">
+        <div class="container">
+            <div class="sixteen columns">
+                <div class="breadcrumbs_box">
+                    <a href="http://www.ethemeuk.com" class="headerNavigation1">Top</a><a href="index.php" class="headerNavigation1">Catalog</a><span class="headerNavigation">Create an Account</span>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+<div class="container">
+    <div class="sixteen columns">
+        <div id="bodyContent" class="twelve columns omega main_part_wrapper loginbg">
+            <script type="text/javascript">
+            </script>
+            <h1>SIGN-UP HERE</h1>
+            <form data-parsley-validate class="validateForm form-horizontal form-style" id="addForm" onsubmit="return SaveDetailForm();">
+                <input type="hidden" name="formid" value="e77a43c4c12f4fbfe82280d444af171e" /><input type="hidden" name="action" value="process" />
+                <div class="contentContainer">
+                    <div class="contentText">
+                        <table border="0" cellspacing="2" cellpadding="2" width="100%">
+                            <tr>
+                                <td class="fieldKey">First Name  : </td>
+                                <td class="fieldValue">
+                                    @Html.TextBoxFor(m => m.User.first_name, new { @type = "text", @id = "firstname", @required = "required", @placeholder = "" })
+                                    <span class="inputRequirement">*</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fieldKey">Last Name :</td>
+                                <td class="fieldValue">
+                                    @Html.TextBoxFor(m => m.User.last_name, new { @type = "text", @id = "lastname", @required = "required", @placeholder = "" })
+                                    <span class="inputRequirement">*</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fieldKey">User Name :</td>
+                                <td class="fieldValue">
+                                    @Html.TextBoxFor(m => m.User.username, new { @type = "text", @id = "username", @required = "required", @placeholder = "" })
+                                    <span class="inputRequirement">*</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fieldKey">E-Mail ID : </td>
+                                <td class="fieldValue">
+                                    @Html.TextBoxFor(m => m.User.email, new { @type = "email", @id = "email", @required = "required", @placeholder = "" })
+                                    <span class="inputRequirement">*</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fieldKey">Mobile No. : </td>
+                                <td class="fieldValue">
+                                    @Html.TextBoxFor(m => m.User.phone, new { @type = "number", @id = "mobile", @required = "required", @placeholder = "" })
+                                    <span class="inputRequirement">*</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fieldKey">State : </td>
+                                <td class="fieldValue">
+                                    @Html.DropDownListFor(m => m.User.StateId, new SelectList(Model.States, "Id", "Name"), new { @required = "0", id = "stateList", @class = "form-control" })
+                                    <span class="inputRequirement">*</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fieldKey">City : </td>
+                                <td class="fieldValue">
+                                    @Html.DropDownListFor(m => m.User.CityId, new SelectList(Model.Cities, "cityID", "cityName"), new { @required = "0", id = "cityList", @class = "form-control" })
+                                    <span class="inputRequirement">*</span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="fieldKey">Password : </td>
+                                <td class="fieldValue">
+                                    @Html.TextBoxFor(m => m.User.passwordDetail, new { @type = "password", @id = "password", @required = "required", @placeholder = "" })
+                                    <span class="inputRequirement">*</span>
+                                </td>
+                            </tr>
+
+
+                        </table>
+                    </div>
+                    <label id="loginError" style="color:red;"></label>
+                    <div class="buttonSet"> <span class="buttonAction"><button class="unishop_button" type="submit">SignUp</button></span>  </div>
+                    @*<a class="btn btn-primary btn-block cancelBtn" href="@Url.Action("GetListView", "Dashboard", new { pageName = Resources.Companies })">@Resources.Cancel</a>}*@
+                </div>
+            </form>
+
+
+        </div>
+
+    </div>
+</div>
+@*<script src="~/vendor/jquery/jquery.min.js"></script>
+<script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>*@
+<!-- Core plugin JavaScript-->
+@*<script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>*@
+<script src="~/Scripts/dashboard.js"></script>

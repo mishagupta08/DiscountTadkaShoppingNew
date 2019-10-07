@@ -1,0 +1,598 @@
+﻿@using PagedList.Mvc;
+@using DTShopping.Properties
+@model  DTShopping.Models.PagewiseProducts
+@{
+    ViewBag.Title = "ProductList";
+    string imageUrl = System.Configuration.ConfigurationManager.AppSettings["ImageUrl"];
+    var count = 0;
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+<style>
+    .ul.pagination {
+        display: inline-block;
+        padding: 0;
+        margin: 0;
+    }
+
+    ul.pagination li {
+        display: inline;
+    }
+
+        ul.pagination li a {
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+            transition: background-color .3s;
+        }
+
+            ul.pagination li a.active {
+                background-color: #4CAF50;
+                color: white;
+            }
+
+            ul.pagination li a:hover:not(.active) {
+                background-color: #ddd;
+            }
+</style>
+    
+    @*<div class="">
+        <div class="container">
+            <div class="sixteen columns">
+                <div class="breadcrumbs_box">
+                    <a href="#" class="headerNavigation1">Top</a><a href="" class="headerNavigation1">Catalog</a><a href="#" class="headerNavigation1">Women</a><span class="headerNavigation">Club Dresses</span>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+    <div class="container">
+    <div class="sixteen columns">
+        <div id="bodyContent" class="twelve columns omega main_part_wrapper">
+            <!-- subcategory view -->
+            <h1>@ViewBag.CategoryName</h1>
+            <!-- subcategory view -->
+
+
+            <script>
+
+                $(document).ready(function () {
+                    $("#advan_btn").click(function () {
+                        $("#searchform").slideToggle("slow");
+                    });
+                });
+            </script>
+
+
+
+            <div class="contentContainer">
+                <div class="contentText contConteiner_listing">
+                    <div class="infoBoxContainer">
+                        <div class="infoBoxHeading1 padding_pages_2 margin_bottom_1">
+                            <table class="table_style productListingHeader1">
+                                <tr>
+                                    <td class="padding0">
+                                        Sort by :
+                                        <a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&SortBy=points&Order=desc" class="SortProduct" data-SortBy="Points" data-SortOrder="DESC">High Points</a> |
+                                        <a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&SortBy=points&Order=asc" class="SortProduct" data-SortBy="Points" data-SortOrder="ASC">Low Points</a> |
+                                        <a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&SortBy=price&Order=desc" class="SortProduct" data-SortBy="price" data-SortOrder="DESC">High Price </a> |
+                                        <a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&SortBy=price&Order=asc" class="SortProduct" data-SortBy="price" data-SortOrder="ASC">Low Price </a>
+                                        <div></div>
+                                        @*<a id="anchorSearchForm" href="http://www.discounttadka.com/index.php?mod=product_search&srch_category_id=137#" onClick="javascript:$('#searchFormDiv').toggle('dropdown');return(false)"></a>*@
+                                    </td>
+                                </tr>
+                                @*<tr>
+                                        <td>
+                                            <span class="advancedsearch"> <a href="#" id="advan_btn">Advanced Search</a> </span>
+                                        </td>
+                                    </tr>*@
+
+                            </table>
+
+                        </div>
+                        @*<div id="searchform">
+                                <form name="create_account" action="#" method="post" onSubmit="return check_form(create_account)">
+                                    <input type="hidden" name="formid" value="e77a43c4c12f4fbfe82280d444af171e" /><input type="hidden" name="action" value="process" />
+                                    <div class="contentContainer">
+                                        <div>
+
+                                            <h2>Fill in values you are searching for, in appropriate fields</h2>
+                                        </div>
+
+                                        <div class="contentText">
+                                            <table border="0" cellspacing="4" cellpadding="4" width="100%">
+
+
+
+                                                <tr>
+                                                    <td class="fieldKey">MRP upto:</td>
+                                                    <td class="fieldValue">
+                                                        <input type="text" name="firstname" />
+                                                        &nbsp;
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fieldKey">Price upto:</td>
+                                                    <td class="fieldValue">
+                                                        <input type="text" name="lastname" />
+                                                        &nbsp;
+                                                    </td>
+                                                </tr>
+
+
+                                                <tr>
+                                                    <td class="fieldKey">Points Adjusted upto:</td>
+                                                    <td class="fieldValue">
+                                                        <input type="text" name="dob" id="dob" />
+                                                        &nbsp;
+                                                    </td>
+                                                </tr>
+
+
+                                                <tr>
+                                                    <td class="fieldKey">Shipping Charges upto:</td>
+                                                    <td class="fieldValue">
+                                                        <input type="text" name="email_address" />
+                                                        &nbsp;
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fieldKey">Brand : </td>
+                                                    <td class="fieldValue">
+                                                        <select id="s_brand_id" name="s_brand_id">
+                                                            <option value="1">Sony</option>
+                                                            <option value="2">Samsung</option>
+                                                            <option value="3">Inalsa</option>
+                                                            <option value="4">Associate Brands</option>
+                                                            <option value="5">Foce</option>
+                                                            <option value="6">MOTOROLA</option>
+                                                            <option value="12">WIPRO</option>
+                                                            <option value="8">Spice</option>
+                                                            <option value="9">Micromax</option>
+                                                            <option value="10">LG</option>
+                                                            <option value="11">Philips</option>
+                                                            <option value="13">EPSON</option>
+                                                            <option value="14">GODREJ</option>
+                                                            <option value="15">HCL</option>
+                                                            <option value="18">IFB</option>
+                                                            <option value="19">Toshiba</option>
+                                                            <option value="20">Videocon</option>
+                                                            <option value="22">Dell</option>
+                                                            <option value="23">Whirlpool</option>
+                                                            <option value="24">Nokia</option>
+                                                            <option value="25">ZEN</option>
+                                                            <option value="26">BYOND</option>
+                                                            <option value="27">LAVA</option>
+                                                            <option value="28">Nikon</option>
+                                                            <option value="29">Siyaram</option>
+                                                            <option value="30">KARBONN</option>
+                                                            <option value="31">RAGE</option>
+                                                            <option value="32">TECH COM</option>
+                                                            <option value="33">UCB</option>
+                                                            <option value="34">Blackberry</option>
+                                                            <option value="35">HTC</option>
+                                                            <option value="36">Reebok</option>
+                                                            <option value="37">HP</option>
+                                                            <option value="38">SanDisk</option>
+                                                            <option value="39">Kingston</option>
+                                                            <option value="40">Frontech</option>
+                                                            <option value="41">Logitech</option>
+                                                            <option value="42">I-Ball</option>
+                                                            <option value="43">Panasonic</option>
+                                                            <option value="44">Intex</option>
+                                                            <option value="45">Lenono</option>
+                                                            <option value="46">I-Look</option>
+                                                            <option value="47">Microsoft</option>
+                                                            <option value="48">Smart</option>
+                                                            <option value="49">SEAGATE</option>
+                                                            <option value="50">BUFFALO</option>
+                                                            <option value="51">Beetel</option>
+                                                            <option value="52">Belmonte</option>
+                                                            <option value="53">Cogent</option>
+                                                            <option value="54">Gwalior</option>
+                                                            <option value="55">Haier</option>
+                                                            <option value="56">Kodak</option>
+                                                            <option value="57">Mayur</option>
+                                                            <option value="58">Polo</option>
+                                                            <option value="59">Ray Ben</option>
+                                                            <option value="60">Reid &amp; Tailor</option>
+                                                            <option value="61">Jaipan</option>
+                                                            <option value="62">Orpat</option>
+                                                            <option value="63">Prestige</option>
+                                                            <option value="64">Bajaj</option>
+                                                            <option value="65">Pigeon</option>
+                                                            <option value="66">Nivea</option>
+                                                            <option value="67">Puma</option>
+                                                            <option value="68">Adidas</option>
+                                                            <option value="69">Allen Cooper</option>
+                                                            <option value="70">Levi's</option>
+                                                            <option value="71">Mufti</option>
+                                                            <option value="72">Peter England</option>
+                                                            <option value="73">John Players</option>
+                                                            <option value="74">Lee</option>
+                                                            <option value="75">Pepe Jeans</option>
+                                                            <option value="76">Canon</option>
+                                                            <option value="77">Parker</option>
+                                                            <option value="78">Pierre Cardin</option>
+                                                            <option value="79">Zovi</option>
+                                                            <option value="80">Transcend</option>
+                                                            <option value="81">Moserbaer</option>
+                                                            <option value="82">PNY</option>
+                                                            <option value="83">Strontium</option>
+                                                            <option value="84">Silicon</option>
+                                                            <option value="85">Fabiano</option>
+                                                            <option value="86">Mitashi</option>
+                                                            <option value="87">Nike</option>
+                                                            <option value="88">Allen Solly</option>
+                                                            <option value="89">Fastrack</option>
+                                                            <option value="90">Killer</option>
+                                                            <option value="91">Bergner</option>
+                                                            <option value="92">Cello</option>
+                                                            <option value="93">Fujifilm</option>
+                                                            <option value="94">Lloyd</option>
+                                                            <option value="95">Titan</option>
+                                                            <option value="96">Sonata</option>
+                                                            <option value="97">Arrow</option>
+                                                            <option value="98">Jhon Philip</option>
+                                                            <option selected="selected" value="">--Please Select--</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fieldKey">Category :</td>
+                                                    <td class="fieldValue">
+                                                        <select id="srch_category_id" name="srch_category_id">
+                                                            <option value="1">Electronics</option>
+                                                            <option value="82">Sports</option>
+                                                            <option value="116">Bio Products</option>
+                                                            <option value="84">Health Products</option>
+                                                            <option value="85">Cloth Dryer</option>
+                                                            <option value="81">Solar &amp; Rechargable</option>
+                                                            <option value="95">Mobile Phones</option>
+                                                            <option value="5">Computers</option>
+                                                            <option value="6">Home &amp; Kitchen</option>
+                                                            <option value="92">Shoes</option>
+                                                            <option value="93">Apparels</option>
+                                                            <option value="91">Handy Cam</option>
+                                                            <option value="98">Astrology</option>
+                                                            <option value="154">Plazma TV</option>
+                                                            <option value="12">Coffee Maker</option>
+                                                            <option value="13">Iron</option>
+                                                            <option value="14">Electric  Kettle</option>
+                                                            <option value="15">Emergency Light</option>
+                                                            <option value="16">Food Processor</option>
+                                                            <option value="97">Anti Radiation</option>
+                                                            <option value="18">Water Geyser</option>
+                                                            <option value="19">Hair Dryer</option>
+                                                            <option value="20">Hand Blender</option>
+                                                            <option value="101">Basketball</option>
+                                                            <option value="22">Juicer Mixer Grinder</option>
+                                                            <option value="100">.Kitchen Appliances</option>
+                                                            <option value="24">Oven Toaster Griller</option>
+                                                            <option value="25">Electric Cooker</option>
+                                                            <option value="99">Home Appliances</option>
+                                                            <option value="29">Vacuum Cleaner</option>
+                                                            <option value="102">Football Stitched</option>
+                                                            <option value="31">LCD TVs</option>
+                                                            <option value="87">Projector</option>
+                                                            <option value="34">Home Theater</option>
+                                                            <option value="35">DVD / Portable Players</option>
+                                                            <option value="36">LED TVs</option>
+                                                            <option value="37">Headphones</option>
+                                                            <option value="38">Keyboard</option>
+                                                            <option value="41">Microwave Oven</option>
+                                                            <option value="42">Washing Machine</option>
+                                                            <option value="43">Watches</option>
+                                                            <option value="44">Spice Mobiles</option>
+                                                            <option value="48">Hot Products</option>
+                                                            <option value="90">Digital Cameras</option>
+                                                            <option value="52">Fitness</option>
+                                                            <option value="53">Speaker</option>
+                                                            <option value="86">Laptop</option>
+                                                            <option value="58">Water Purifier &amp; R.O.</option>
+                                                            <option value="72">Imaging</option>
+                                                            <option value="63">Life Style</option>
+                                                            <option value="94">Sunglasses</option>
+                                                            <option value="65">Refrigerator</option>
+                                                            <option value="66">Air Conditioners</option>
+                                                            <option value="77">Dish Washer</option>
+                                                            <option value="88">Web Cam</option>
+                                                            <option value="79">Induction Cooker</option>
+                                                            <option value="89">Desktop</option>
+                                                            <option value="103">Pen Drive</option>
+                                                            <option value="155">Ear Phones</option>
+                                                            <option value="105">Samsung Mobiles</option>
+                                                            <option value="106">Carrom</option>
+                                                            <option value="107">Volleyball</option>
+                                                            <option value="108">Mouse</option>
+                                                            <option value="109">USB Hard Disks</option>
+                                                            <option value="110">Snakes and Ladders</option>
+                                                            <option value="111">Karbonn Mobiles</option>
+                                                            <option value="112">Computer Accessories</option>
+                                                            <option value="117">Simple Mobiles</option>
+                                                            <option value="114">Bags</option>
+                                                            <option value="118">Fragrances</option>
+                                                            <option value="119">Deodorant Spray</option>
+                                                            <option value="120">Celebrity Perfumes</option>
+                                                            <option value="121">Office Stationery</option>
+                                                            <option value="122">Calculator</option>
+                                                            <option value="123">Desk Accessories</option>
+                                                            <option value="124">Badminton</option>
+                                                            <option value="125">Perfumes For Men</option>
+                                                            <option value="126">Files And Folder</option>
+                                                            <option value="127">Glue Stick</option>
+                                                            <option value="128">Perfumes For Women</option>
+                                                            <option value="129">ORGANISER AND PLANNER</option>
+                                                            <option value="130">Tape Dispenser</option>
+                                                            <option value="131">Stapler</option>
+                                                            <option value="132">Pens And Penset</option>
+                                                            <option value="134">Car Accessories</option>
+                                                            <option value="135">Perfumes Gift Sets</option>
+                                                            <option value="136">Backpack</option>
+                                                            <option selected="selected" value="137">Books &amp; Magazines</option>
+                                                            <option value="138">Book &amp; Stationery</option>
+                                                            <option value="139">Clothing</option>
+                                                            <option value="140">Wallet &amp; Belt</option>
+                                                            <option value="141">Communication</option>
+                                                            <option value="142">Mobile Accessory</option>
+                                                            <option value="143">Tablets</option>
+                                                            <option value="144">Dictionaries &amp; Language</option>
+                                                            <option value="145">Men Shoes.</option>
+                                                            <option value="146">Women's Shoes</option>
+                                                            <option value="147">Kid's Shoes</option>
+                                                            <option value="148">Shirts Mens</option>
+                                                            <option value="149">T-Shirts Mens</option>
+                                                            <option value="150">Tablet</option>
+                                                            <option value="151">I Pad</option>
+                                                            <option value="152">Mobile Pouch</option>
+                                                            <option value="153">Memory Card</option>
+                                                            <option value="156">Bluetooth</option>
+                                                            <option value="157">Festival Offer</option>
+                                                            <option value="158">CDMA Mobiles</option>
+                                                            <option value="159">Micromax Mobiles</option>
+                                                            <option value="162">Zen Mobile</option>
+                                                            <option value="161">Rage Mobile</option>
+                                                            <option value="163">Nokia Mobile</option>
+                                                            <option value="164">Ceilling Fan</option>
+                                                            <option value="165">Video</option>
+                                                            <option value="166">Audio</option>
+                                                            <option value="167">Fashion Accessory</option>
+                                                            <option value="168">Combo Offers</option>
+                                                            <option value="169">Videocon Mobiles</option>
+                                                            <option value="170">Mixer Grinder</option>
+                                                            <option value="171">Mobiles</option>
+                                                            <option value="172">Multi Sim Mobiles</option>
+                                                            <option value="173">Immersion Rod</option>
+                                                            <option value="176">Men's Clothes</option>
+                                                            <option value="175">Personal Care</option>
+                                                            <option value="174">Women's Clothes</option>
+                                                            <option value="177">Flat &amp; Ultra TV</option>
+                                                            <option value="178">IT Products</option>
+                                                            <option value="179">Suit Length</option>
+                                                            <option value="180">Hair Remover Machine</option>
+                                                            <option value="181">Kid's Clothes</option>
+                                                            <option value="182">Jeans Mens</option>
+                                                            <option value="183">Tops</option>
+                                                            <option value="184">Shirts</option>
+                                                            <option value="185">Shirts Kid's</option>
+                                                            <option value="186">T-Shirts Kid's</option>
+                                                            <option value="187">Jeans Kids</option>
+                                                            <option value="188">Jeans</option>
+                                                            <option value="189">Motivational Books</option>
+                                                            <option value="190">English Spoken</option>
+                                                            <option value="191">General Knowledge</option>
+                                                            <option value="192">Childrens Books</option>
+                                                            <option value="193">Printers</option>
+                                                            <option value="194">Scanners</option>
+                                                            <option value="195">UPS</option>
+                                                            <option value="196">New Home Appliances</option>
+                                                            <option value="197">Daily Deals</option>
+                                                            <option value="198">New Life Style Products</option>
+                                                            <option value="199">Special Combo Offer 0500-0999</option>
+                                                            <option value="200">Combo Offer 1000-1999</option>
+                                                            <option value="201">Combo Offer 2000-2999</option>
+                                                            <option value="202">Combo Offer 3000-3999</option>
+                                                            <option value="203">Combo Offer 4000-4999</option>
+                                                            <option value="204">Diaries</option>
+                                                            <option value="205">Hot Offer</option>
+                                                            <option value="206">Travel Offer</option>
+                                                            <option value="207">Necklace &amp; Earing</option>
+                                                            <option value="208">Jewellery</option>
+                                                            <option value="209">Rings</option>
+                                                            <option value="210">Holiday Offers</option>
+                                                            <option value="211">Beach Hotels</option>
+                                                            <option value="212">Desert Hotels</option>
+                                                            <option value="213">Hill-station Hotels</option>
+                                                            <option value="214">National park Hotels</option>
+                                                            <option value="215">Pilgrim Hotels</option>
+                                                            <option value="216">T-Shirt</option>
+                                                            <option value="217">Dresses</option>
+                                                            <option value="218">Leggings</option>
+                                                            <option value="219">Trousers</option>
+                                                            <option value="220">ARL Products</option>
+                                                            <option value="221">Lifestyle Accessories</option>
+                                                            <option value="222">Men's range</option>
+                                                            <option value="223">Women's range</option>
+                                                            <option value="224">Cosmetics Products</option>
+                                                            <option value="225">GAMES</option>
+                                                            <option value="226">E-Pin</option>
+                                                            <option value="227">Laptop &amp; Tablets</option>
+                                                            <option value="228">Combo Offer 5100-6000</option>
+                                                            <option value="244">Bangles &amp; Bracelets</option>
+                                                            <option value="229">Gas Stove</option>
+                                                            <option value="230">Chimney</option>
+                                                            <option value="231">Gas Geyser</option>
+                                                            <option value="232">Electric Kettles</option>
+                                                            <option value="233">Toasters &amp; Sandwich Makers</option>
+                                                            <option value="234">Steam Irons</option>
+                                                            <option value="235">Rice Cookers</option>
+                                                            <option value="236">Roti Maker</option>
+                                                            <option value="237">Induction Base Pressure Cooker</option>
+                                                            <option value="238">Induction cookers</option>
+                                                            <option value="239">RO Purifier</option>
+                                                            <option value="240">U V Water Purifier</option>
+                                                            <option value="241">Heat Convector &amp; Halogen Heater</option>
+                                                            <option value="242">Bassline</option>
+                                                            <option value="243">MP3 Player</option>
+                                                            <option value="245">Pendant Set</option>
+                                                            <option value="246">Jacket</option>
+                                                            <option value="247">Kurta &amp; Kurti</option>
+                                                            <option value="248">Accessories</option>
+                                                            <option value="249">Cameras</option>
+                                                            <option value="250">Speakers</option>
+                                                            <option value="251">Trousers Mens</option>
+                                                            <option value="252">Head Phones</option>
+                                                            <option value="253">Belts Mens</option>
+                                                            <option value="254">Pen Drive &amp; Card Reader</option>
+                                                            <option value="255">Fry Pan</option>
+                                                            <option value="256">Law</option>
+                                                            <option value="257">Professional Development</option>
+                                                            <option value="258">Computers &amp; Technology</option>
+                                                            <option value="259">General</option>
+                                                            <option value="260">South Asian Novelists in English</option>
+                                                            <option value="261">Hispanic American Studies</option>
+                                                            <option value="262">Leadership</option>
+                                                            <option value="263">GENE</option>
+                                                            <option value="264">Pants and Capris</option>
+                                                            <option value="265">Shorts</option>
+                                                            <option value="266">Personalized Gifts</option>
+                                                            <option value="267">Personalized Pillows</option>
+                                                            <option value="268">Personalized Wall Clocks</option>
+                                                            <option value="269">Personalized Scroll</option>
+                                                            <option value="270">Personalized Soft Toys</option>
+                                                            <option value="271">Personalized Key Chains</option>
+                                                            <option value="272">Personalized Mirrors</option>
+                                                            <option value="273">Personalized Mugs</option>
+                                                            <option value="274">Personalized Name Plates</option>
+                                                            <option value="275">Personalized Frames</option>
+                                                            <option value="276">Personalized Crystal Gifts</option>
+                                                            <option value="277">E-Services</option>
+                                                            <option value="278">Biz Profile</option>
+                                                            <option value="279">E-Marketing</option>
+                                                            <option value="280">Insurance</option>
+                                                            <option value="281">Jobs</option>
+                                                            <option value="282">Loans</option>
+                                                            <option value="283">Utility</option>
+                                                            <option value="284">Utility Packages</option>
+                                                            <option value="285">Vivaah</option>
+                                                            <option value="286">Vivaah Packages</option>
+                                                            <option value="287">Vivaah Products</option>
+                                                            <option value="288">Points</option>
+                                                            <option value="289">Play Point</option>
+                                                            <option value="290">Call &amp; Consult Points</option>
+                                                            <option value="291">IT Packages</option>
+                                                            <option value="292">Event Packages</option>
+                                                            <option value="293">E-Shopping</option>
+                                                            <option value="">--Please Select--</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fieldKey">Product Code :</td>
+                                                    <td class="fieldValue"><input type="text" name="email_address2" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fieldKey">Title </td>
+                                                    <td class="fieldValue"><input type="text" name="email_address3" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fieldKey">&nbsp;</td>
+                                                    <td class="fieldValue">
+                                                        <select id="max_records" name="max_records">
+                                                            <option value="10">10 Records Per Page</option>
+                                                            <option value="20">20 Records Per Page</option>
+                                                            <option value="50">50 Records Per Page</option>
+                                                            <option value="100">100 Records Per Page</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="fieldKey">&nbsp;</td>
+                                                    <td class="fieldValue">
+                                                        <div class="buttonSet">
+                                                            <span class="buttonAction">
+                                                                <button class="unishop_button" type="submit">Continue</button>
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+
+
+
+                                    </div>
+                                </form>
+                            </div>*@
+                        @if (Model.ProductList.Count() > 0)
+                        {
+                            foreach (var product in Model.ProductList)
+                            {
+                                count = count + 1;
+                                if (count == 5)
+                                {
+                                    count = 1;
+                                }
+                                <div class="four columns product_wrapper count_3cols_col_@count count_2cols_col_1">
+                                    <div class="product">
+                                        <div class="img_border">
+                                            <div class="product-image-wrapper">
+                                                @*<span class="product_sticker sticker_onsale_top_left sticker_display">
+                                                        Save up <br>
+                                                        to 30%
+                                                    </span>*@<a class="product_img" href="~/Home/GetProductDetail?prodId=@product.id">
+                                                    <div><img src="@imageUrl/@product.large_image" alt="@product.title" title="@product.title" width="329" height="417" class="scale-with-grid" /></div>
+                                                    <div class="roll_over_img"><img src="@imageUrl/@product.large_image" alt="" width="329" height="417" class="scale-with-grid" /></div>
+                                                    <div class="product-image-wrapper-hover"></div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="wrapper-hover">
+                                            <div class="product-name"> <a href="~/Home/GetProductDetail?prodId=@product.id"> @product.title </a> </div>
+                                            <div class="clearfix">
+                                                <div class="icon_cart_title product-price">
+                                                    <span class="new_price">
+                                                        <s>Rs.@product.market_price</s><br>
+                                                        <span class="new-special-price">Rs.@product.offer_price</span>
+                                                    </span><br>
+                                                    <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
+                                                        <br>
+                                                        @Resources.EUPoints : @{var t = product.point_adjusted != null ? product.point_adjusted : 0;}@t
+                                                    </span>
+                                                </div>
+                                                <div class="icon_cart_rollover" onclick="AddProductInCart(@product.id, 1)"><a></a></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="Eight columns"><h2>No Products found</h2></div>
+                                                            }
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        @Html.Action("getCatHeirarchy", "Home", new { Cat = ViewBag.ParentId, subCat = ViewBag.category, brandId = ViewBag.brand })
+
+    </div>
+    Page@(Model.pagerCount.PageCount < Model.pagerCount.PageNumber ? 0 : Model.pagerCount.PageNumber) of @Model.pagerCount.PageCount
+
+
+@Html.PagedListPager(Model.pagerCount, page => Url.Action("ProductList", "Home", new { page, SearchString = Model.SearchString, SortBy = Model.sortby, Order = Model.order, cat = ViewBag.category , BrandId = ViewBag.brand , root = ViewBag.ParentId  }), new PagedListRenderOptions
+{
+    DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+    DisplayLinkToLastPage = PagedListDisplayMode.Never,
+    DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+    DisplayLinkToNextPage = PagedListDisplayMode.Always,
+    MaximumPageNumbersToDisplay = 3
+})
+    </div>
+
+<script src="~/Scripts/dashboard.js"></script>
+

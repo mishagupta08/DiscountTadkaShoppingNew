@@ -1,0 +1,116 @@
+﻿@using DTShopping.Properties
+@model DTShopping.Models.Dashboard
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string imageUrl = System.Configuration.ConfigurationManager.AppSettings["ImageUrl"];
+}
+
+            @*<div class="">
+                    <div class="container">
+                        <div class="sixteen columns">
+                            <div class="breadcrumbs_box">
+                                <a href="~/http://www.ethemeuk.com" class="headerNavigation1">Top</a><a href="~/index.php" class="headerNavigation1">Catalog</a><a href="~/index.php?cPath=1" class="headerNavigation1">Women</a><span class="headerNavigation">MSINTKB</span>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+            <div class="product-info-nostyle">
+                <div class="product-info-nostyle">
+                    <div id="bodyContent" class="product_info_page_central">
+                        <div class="container">
+                            <div class="sixteen columns">
+                                <div class="contentContainer">
+                                    <div itemscope itemtype="http://data-vocabulary.org/Product" class="clearfix contentText product_page">
+                                        <div class="product_img_wrapper">
+                                            @****Product Image here****@
+                                            <div class="cloudzoom_gallery">
+                                                <div class="gallery_bigimg">
+                                                    @*<a href="~/images/24_2.jpg" class="cloud-zoom" id="zoom1"
+                                                        rel="adjustX:-4, adjustY:-4, softFocus:true"><img src="~/@Model.ProductDetail.large_image" alt="" itemprop="image" /></a>*@
+                                                    <a href="@imageUrl/@Model.ProductDetail.large_image" class="cloud-zoom" id="zoom1"
+                                                       rel="adjustX:-4, adjustY:-4, softFocus:true"><img src="@imageUrl/@Model.ProductDetail.large_image" alt="" itemprop="image" /></a>
+
+                                                </div>
+                                                <div class="gallery_note">Roll over the image to view it</div>
+                                                <div class="clearfix gallery_smallimg_wrapper">
+                                                    <div class="gallery_smallimg">
+                                                        <a href="@imageUrl/@Model.ProductDetail.small_image" class="cloud-zoom-gallery"
+                                                           rel="useZoom:'zoom1', smallImage: '@imageUrl/@Model.ProductDetail.small_image' "><img src="@imageUrl/@Model.ProductDetail.small_image" alt="" /></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @***Product detail here ****@
+                                        <div class="product_info_wrapper">
+                                            <div class="clearfix" style="overflow: hidden;">
+                                                <div class="left_info">
+                                                    <form name="cart_quantity" action="#" method="post">
+                                                        <div class="prod_info_name_price">
+                                                            <div class="prod_info_name">
+                                                                <h1 itemprop="name">
+                                                                    @Model.ProductDetail.title<br />
+                                                                    @*<span class="smallText">[MSINTKB]</span>*@
+                                                                </h1>
+                                                            </div>
+                                                            @if (Model.ProductDetail.instock == 1)
+                                                            {
+                                                                <p class="availability">@Resources.Availability :<strong itemprop="availability"> @Resources.InStockText </strong> </p>
+                                                            }
+                                                            else
+                                                            {
+                                                                <p class="availability">@Resources.Availability :<strong itemprop="availability"> @Resources.OutOfStock </strong> </p>
+                                                            }
+
+                                                            <div itemprop="offerDetails" itemscope class="prod_info_price">
+                                                                <p class="old_price_box"><span class="old_price_label">@Resources.Vendor :</span> Rs. @Model.ProductDetail.VendorName</p>
+                                                                <p class="old_price_box"><span class="old_price_label">@Resources.MarketPrice :</span><s> Rs. @Model.ProductDetail.market_price</s></p>
+                                                                <p class="new_price_box">
+                                                                    <span class="special_price_label"> @Resources.OfferPrice :</span> <span itemprop="price" class="new-special-price">
+                                                                        Rs. @Model.ProductDetail.offer_price<br>
+                                                                    </span><span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
+                                                                        <strong>@Resources.EUPoints : @{var t = @Model.ProductDetail.point_adjusted != null ? @Model.ProductDetail.point_adjusted : 0;}@t</strong><br>
+                                                                        <strong>@Resources.Size : @Model.ProductDetail.product_size</strong><br>
+                                                                    </span>
+                                                                </p>
+                                                                <div class="clear"></div>
+                                                            </div>
+
+
+                                                        </div>
+                                                        <div class="clearfix add-to-cart-box">
+                                                            <div class="add-to-cart-button">
+                                                                <input type="hidden" id="product_id" name="product_id" value="@Model.ProductDetail.id" />
+                                                                <select name="ProductDetail.vendor_qty" id = "quantity" class="form-control" style="height: 25px!important;width: 40px;">
+                                                                    <option value="1">1</option>
+                                                                    <option value="2">2</option>
+                                                                    <option value="3">3</option>
+                                                                    <option value="4">4</option>
+                                                                    <option value="5">5</option>
+                                                                 </select>
+                                                                <br />
+                                                                <button class="unishop_button" id="addToCart" type="button">@Resources.AddtoCart</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <div class="orderpolicy">
+                                                        <strong>@Html.Raw(Resources.TAndC)</strong> :
+                                                        @Resources.TandCText
+                                                    </div>
+                                                    <div class="product_description">
+                                                        <h1>@Resources.ProductDescription</h1>
+                                                        @Html.Raw(Model.ProductDetail.short_description)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- bodyContent //-->
+                </div>
+            </div>
+        
+<script src="~/Scripts/dashboard.js?v=1"></script>

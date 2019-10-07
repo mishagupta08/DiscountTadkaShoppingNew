@@ -1,0 +1,252 @@
+﻿@{
+    ViewBag.Title = "Contact";
+    
+
+}
+
+<div class="">
+    <div class="container">
+        <div class="sixteen columns">
+            <div class="breadcrumbs_box">
+                <a href="http://www.ethemeuk.com" class="headerNavigation1">Top</a><a href="index.php" class="headerNavigation1">Catalog</a><span class="headerNavigation">Create an Account</span>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="sixteen columns">
+        <div id="bodyContent" class="twelve columns omega main_part_wrapper contactbg">
+            <script type="text/javascript">
+/*
+var form = "";
+var submitted = false;
+var error = false;
+var error_message = "";
+
+function check_input(field_name, field_size, message) {
+  if (form.elements[field_name] && (form.elements[field_name].type != "hidden")) {
+    var field_value = form.elements[field_name].value;
+
+    if (field_value.length < field_size) {
+      error_message = error_message + "* " + message + "\n";
+      error = true;
+    }
+  }
+}
+
+function check_radio(field_name, message) {
+  var isChecked = false;
+
+  if (form.elements[field_name] && (form.elements[field_name].type != "hidden")) {
+    var radio = form.elements[field_name];
+
+    for (var i=0; i<radio.length; i++) {
+      if (radio[i].checked == true) {
+        isChecked = true;
+        break;
+      }
+    }
+
+    if (isChecked == false) {
+      error_message = error_message + "* " + message + "\n";
+      error = true;
+    }
+  }
+}
+
+function check_select(field_name, field_default, message) {
+  if (form.elements[field_name] && (form.elements[field_name].type != "hidden")) {
+    var field_value = form.elements[field_name].value;
+
+    if (field_value == field_default) {
+      error_message = error_message + "* " + message + "\n";
+      error = true;
+    }
+  }
+}
+
+function check_password(field_name_1, field_name_2, field_size, message_1, message_2) {
+  if (form.elements[field_name_1] && (form.elements[field_name_1].type != "hidden")) {
+    var password = form.elements[field_name_1].value;
+    var confirmation = form.elements[field_name_2].value;
+
+    if (password.length < field_size) {
+      error_message = error_message + "* " + message_1 + "\n";
+      error = true;
+    } else if (password != confirmation) {
+      error_message = error_message + "* " + message_2 + "\n";
+      error = true;
+    }
+  }
+}
+
+function check_form(form_name) {
+  if (submitted == true) {
+    alert("This form has already been submitted. Please press Ok and wait for this process to be completed.");
+    return false;
+  }
+
+  error = false;
+  form = form_name;
+  error_message = "Errors have occured during the process of your form.\n\nPlease make the following corrections:\n\n";
+
+  check_radio("gender", "Please select your Gender.");
+
+  check_input("firstname", 2, "Your First Name must contain a minimum of 2 characters.");
+  check_input("lastname", 2, "Your Last Name must contain a minimum of 2 characters.");
+
+  check_input("dob", 10, "Your Date of Birth must be in this format: MM/DD/YYYY (eg 05/21/1970)");
+
+  check_input("email_address", 6, "Your E-Mail Address must contain a minimum of 6 characters.");
+  check_input("street_address", 5, "Your Street Address must contain a minimum of 5 characters.");
+  check_input("postcode", 4, "Your Post Code must contain a minimum of 4 characters.");
+  check_input("city", 3, "Your City must contain a minimum of 3 characters.");
+
+  check_input("state", 2, "Your State must contain a minimum of 2 characters.");
+
+  check_select("country", "", "You must select a country from the Countries pull down menu.");
+
+  check_input("telephone", 3, "Your Telephone Number must contain a minimum of 3 characters.");
+
+  check_password("password", "confirmation", 5, "Your Password must contain a minimum of 5 characters.", "The Password Confirmation must match your Password.");
+  check_password("password_new", "password_confirmation", 5, "Your new Password must contain a minimum of 5 characters.", "The Password Confirmation must match your new Password.");
+
+  if (error == true) {
+    alert(error_message);
+    return false;
+  } else {
+    submitted = true;
+    return true;
+  }
+}
+*/</script>
+            <h1>CONTACT US</h1>
+
+
+            <form name="create_account" action="create_account.php" method="post" onSubmit="return check_form(create_account);">
+                <input type="hidden" name="formid" value="e77a43c4c12f4fbfe82280d444af171e" /><input type="hidden" name="action" value="process" />
+                <div class="contentContainer">
+
+
+                    <div class="contentText">
+                        <table border="0" cellspacing="2" cellpadding="2" width="50%">
+
+                            <tr>
+                                <td colspan="2">
+                                    <p>Discount Tadka</p>
+                                    <p>B - 1 to 13, Amba Ji Textile Market Ajmer Road, </p>
+                                    <p>Bhilwara 311001 , Rajasthan, India</p>
+                                    <p>Call Us : +918875286682</p>
+                                    <p>Email Us : info@discounttadka.com</p>
+                            </tr>
+                            <tr>
+                                <td>
+                                    &nbsp;
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td class="fieldKey">Your Name : </td>
+                                <td class="fieldValue"><input type="text" name="yourname" placeholder="Full Name" />&nbsp;<span class="inputRequirement">*</span></td>
+                            </tr>
+                            <tr>
+                                <td class="fieldKey">Your E-Mail :</td>
+                                <td class="fieldValue"><input type="text" placeholder="E-Mail" />&nbsp;<span class="inputRequirement">*</span></td>
+                            </tr>
+
+
+                            <tr>
+                                <td class="fieldKey">Mobile : </td>
+                                <td class="fieldValue"><input type="text" name="mobile" id= value="" placeholder="Mobile No." />&nbsp;<span class="inputRequirement">*</span></td>
+                            </tr>
+                            <tr>
+                                <td class="fieldKey">Subject : </td>
+                                <td class="fieldValue">
+                                    <input type="text" name="subject" placeholder="Subject" />
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fieldKey">Message : </td>
+                                <td class="fieldValue"><textarea name="message" rows="8" class="messageBox" placeholder="Enter your Detailed Query"></textarea>          &nbsp;<span class="inputRequirement">*</span></td>
+                            </tr>
+                        </table>
+                    </div>
+
+
+                    <div class="buttonSet">
+                        <span class="buttonAction"><button class="unishop_button" type="submit">Login</button></span>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <!-- bodyContent //--><div id="columnLeft" style="float: left;" class="product_info_page_left four columns alpha">
+            <div class="infoBox infoBoxCategory">
+                <div class="infoBoxHeading">
+                    <p class="icon_box_category">&nbsp;</p>
+                    Category
+                </div>
+                <div class="infoBoxContents">
+                    <div class="cat_parent"><a href="#">Book &amp; Stationary</a></div>
+                    <div class="clear"></div>
+                    <div class="cat_parent"><a href="#">Clothing</a></div>
+                    <div class="clear"></div>
+                    <div class="cat_parent"><a href="#">Electronics</a></div>
+                    <div class="clear"></div>
+                    <div class="cat_parent"><a href="#">Home &amp; Kitchen</a></div>
+                    <div class="clear"></div>
+                    <div class="cat_parent"><a href="#">IT Products</a></div>
+                    <div class="clear"></div>
+                    <div class="cat_parent"><a href="#">Lifestyle</a></div>
+                    <div class="clear"></div>
+                    <div class="cat_parent"><a href="#">Shoes</a></div>
+                    <div class="clear"></div>
+                    <div class="cat_parent"><a href="#">Daily Deals</a></div>
+                    <div class="clear"></div>
+                    <div class="cat_parent"><a href="#">Combo Offers</a></div>
+
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="infoBox infoBoxWhatsNew">
+                <div class="infoBoxHeading">
+                    <p class="icon_box_new">&nbsp;</p>
+                    <a href="">What's New?</a>
+                </div>
+                <div class="product">
+                    <div class="img_border">
+                        <div class="product-image-wrapper">
+                            <span class="product_sticker sticker_onsale_top_left sticker_display">
+                                Save up <br>
+                                to 30%
+                            </span><a class="product_img" href="product_info.php?products_id=25">
+                                <div><img src="~/images/29_1.jpg" alt="A.L.C - Gerry Dress" title="A.L.C - Gerry Dress" width="329" height="417" class="scale-with-grid" /></div>
+                                <div class="roll_over_img"><img src="~/images/29_2.jpg" alt="" width="329" height="417" class="scale-with-grid" /></div>
+                                <div class="product-image-wrapper-hover"></div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="wrapper-hover">
+                        <div class="product-name"> <a href="product_info.php?products_id=25"> Azrouel Dress </a> </div>
+                        <div class="clearfix">
+                            <div class="icon_cart_title product-price">
+                                <span class="new_price">
+                                    <s>Rs.1600</s><br>
+                                    <span class="new-special-price">Rs.1100.00</span>
+                                </span><br>
+                                <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
+                                    Discount Points : 0.00<br>
+                                    Point Value : 300.00
+                                </span>
+                            </div>
+                            <div class="icon_cart_rollover"><a href="index.php?cPath=1_17&amp;sort=2a&amp;action=buy_now&amp;products_id=25"></a> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

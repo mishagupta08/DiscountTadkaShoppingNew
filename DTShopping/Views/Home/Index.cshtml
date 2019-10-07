@@ -1,0 +1,338 @@
+﻿@model DTShopping.Models.Dashboard
+@using DTShopping.Properties
+@{
+    ViewBag.Title = "Home Page";
+    string imageUrl = System.Configuration.ConfigurationManager.AppSettings["ImageUrl"];
+    if (imageUrl.EndsWith("/"))
+    {
+        imageUrl = imageUrl.Substring(0, imageUrl.LastIndexOf("/"));
+    }
+}
+<div class="display_none">
+    <div class="container">
+        <div class="sixteen columns">
+            <div class="breadcrumbs_box">
+                <a href="http://www.discounttadka.com" class="headerNavigation1">Top</a><span class="headerNavigation">Catalog</span>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mainpage-nostyle">
+    <div class="mainpage-nostyle">
+        <div id="bodyContent" class="normal">
+            <div id="slider_top">
+                <ul id="slider1" class="rslides rslides1">
+                    @{ int i = 0;}
+                    @if (Model.Banners != null && Model.Banners.Count > 0)
+                    {
+                        foreach (var banner in Model.Banners)
+                        {
+                            string ids = "rslides1_s" + i;
+                            i = i = 1;
+                            <li id="@ids" style="display: block; float: none; position: absolute; opacity: 0; z-index: 1; transition: opacity 800ms ease-in-out 0s;" class="">
+                                <a href="index.php?cPath=1_17"><img alt="" src="@(imageUrl + "/" + banner.banner_image)"></a>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <li id="rslides1_s0" style="display: block; float: none; position: absolute; opacity: 0; z-index: 1; transition: opacity 800ms ease-in-out 0s;" class=""><a href="index.php?cPath=1_17"><img alt="" src="images/slider-simple/slide-1.jpg"></a></li>
+                        <li id="rslides1_s1" style="float: none; position: absolute; opacity: 0; z-index: 1; display: list-item; transition: opacity 800ms ease-in-out 0s;" class=""><a href="index.php?cPath=1_8"><img alt="" src="images/slider-simple/slide-2.jpg"></a></li>
+                        <li id="rslides1_s2" style="float: left; position: relative; opacity: 1; z-index: 2; display: list-item; transition: opacity 800ms ease-in-out 0s;" class="rslides1_on"><a href="index.php?cPath=1_9"><img alt="" src="images/slider-simple/slide-3.jpg"></a></li>                       
+                    }
+
+                </ul>
+                <a class="rslides_nav rslides1_nav prev" href="#">Previous</a><a class="rslides_nav rslides1_nav next" href="#">Next</a>
+            </div>
+           
+
+            @if (Model.FontpageSections != null && Model.FontpageSections.SpeacialSegment != null && Model.FontpageSections.SpeacialSegment.Count > 0)
+            {
+                <div class="container">
+                    <div class="sixteen columns">
+                        <h1 id="bestsellers_title"><span class="icon_bestsellers">&nbsp;</span>Special Segment</h1>
+                    
+                       <a href="/Home/GetAllDealProducts?Deal=SpecialSegment&page=1">(View All)</a>
+                    </div>
+                </div>
+            }
+            <div class="carousel_bestsellers_outer">
+                <div class="container">
+                    <div id="carousel_bestsellers" class="es-carousel-wrapper">
+                        <div class="es-carousel-inner">
+                            <ul>
+                                @if (Model.FontpageSections != null && Model.FontpageSections.SpeacialSegment != null && Model.FontpageSections.SpeacialSegment.Count > 0)
+                                {
+                                    foreach (var segment in Model.FontpageSections.SpeacialSegment)
+                                    {
+                                        <li class="four columns product">
+                                            <div class="img_border">
+                                                <div class="product-image-wrapper">
+                                                    <span class="product_sticker sticker_new_top_right sticker_display_none"></span> <a onclick="callDetailPage('@segment.id')" href="~/Home/GetProductDetail?prodId=@segment.id">
+                                                        <div><img src="@imageUrl/@segment.large_image" alt="@segment.title" title="@segment.title" width="180" height="180" class="scale-with-grid" /></div>
+                                                        <div class="roll_over_img"><img src="@imageUrl/@segment.large_image" alt="" width="329" height="417" class="scale-with-grid" /></div>
+                                                        <div class="product-image-wrapper-hover"></div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="wrapper-hover">
+                                                <div class="product-name"> <a onclick="callDetailPage('@segment.id')" href="~/Home/GetProductDetail?prodId=@segment.id"> @segment.title </a> </div>
+                                                <div class="clearfix">
+                                                    <div class="icon_cart_title product-price">
+                                                        <span class="new_price">
+                                                            <s>@segment.cost_price</s><br>
+                                                            <span class="new-special-price">@Html.Raw(segment.offer_price)</span>
+                                                        </span><br>
+                                                        <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
+
+                                                            @Resources.EUPoints : @Html.Raw(segment.point_adjusted )
+                                                        </span>
+                                                    </div>
+                                                    <div class="icon_cart_rollover"> <a onclick="AddProductInCart(@segment.id, 1)"></a> </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            @if (Model.FontpageSections != null && Model.FontpageSections.SpeacialSegment != null && Model.FontpageSections.DealOfDay.Count > 0)
+            {
+                <div class="container">
+                    <div class="sixteen columns">
+                        <h1 id="bestsellers_title"><span class="icon_bestsellers">&nbsp;</span>Deal Of Day</h1>
+                    
+                        <a href="/Home/GetAllDealProducts?Deal=DealOfDay&page=1">(View All)</a>
+                    </div>
+                </div>
+            }
+            <div class="carousel_bestsellers_outer">
+                <div class="container">
+                    <div id="carousel_hotselling" class="es-carousel-wrapper">
+                        <div class="es-carousel-inner">
+                            <ul>
+                                @if (Model.FontpageSections != null && Model.FontpageSections.DealOfDay != null && Model.FontpageSections.DealOfDay.Count > 0)
+                                {
+                                    foreach (var segment in Model.FontpageSections.DealOfDay)
+                                    {
+                                        <li class="four columns product">
+                                            <div class="img_border">
+                                                <div class="product-image-wrapper">
+                                                    <span class="product_sticker sticker_new_top_right sticker_display_none"></span> <a onclick="callDetailPage('@segment.id')" href="~/Home/GetProductDetail?prodId=@segment.id">
+                                                        <div><img src="@imageUrl/@segment.large_image" alt="@segment.title" title="@segment.title" width="180" height="180" class="scale-with-grid" /></div>
+                                                        <div class="roll_over_img"><img src="@imageUrl/@segment.large_image" alt="" width="329" height="417" class="scale-with-grid" /></div>
+                                                        <div class="product-image-wrapper-hover"></div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="wrapper-hover">
+                                                <div class="product-name"> <a onclick="callDetailPage('@segment.id')" href="~/Home/GetProductDetail?prodId=@segment.id">@segment.title</a> </div>
+                                                <div class="clearfix">
+                                                    <div class="icon_cart_title product-price">
+                                                        <span class="new_price">
+                                                            <s>@segment.cost_price</s><br>
+                                                            <span class="new-special-price">@Html.Raw(segment.offer_price)</span>
+                                                        </span><br>
+                                                        <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
+                                                            <br>
+                                                            @Resources.EUPoints : @Html.Raw(segment.point_adjusted)
+                                                        </span>
+                                                    </div>
+                                                    <div class="icon_cart_rollover"> <a onclick="AddProductInCart(@segment.id, 1)"></a> </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            @if (Model.FontpageSections != null && Model.FontpageSections.SevenDaySaver != null)
+            {
+                <div class="container">                   
+                    <div class="sixteen columns">
+                        <h1 id="bestsellers_title"><span class="icon_bestsellers">&nbsp;</span>Seven Day Saver Deal</h1>
+                  
+                        <a href="/Home/GetAllDealProducts?Deal=Saver&page=1">(View All)</a>
+                    </div>
+                </div>
+            }
+            <div class="carousel_bestsellers_outer">
+                <div class="container">
+                    <div id="carousel_sevensaver" class="es-carousel-wrapper">
+                        <div class="es-carousel-inner">
+                            <ul>
+                                @if (Model.FontpageSections != null && Model.FontpageSections.SevenDaySaver != null && Model.FontpageSections.SevenDaySaver.Count > 0)
+                                {
+                                    foreach (var segment in Model.FontpageSections.SevenDaySaver)
+                                    {
+                                        <li class="four columns product">
+                                            <div class="img_border">
+                                                <div class="product-image-wrapper">
+                                                    <span class="product_sticker sticker_new_top_right sticker_display_none"></span> <a onclick="callDetailPage('@segment.id')" href="~/Home/GetProductDetail?prodId=@segment.id">
+                                                        <div><img src="@imageUrl/@segment.large_image" alt="@segment.title" title="@segment.title" width="180" height="180" class="scale-with-grid" /></div>
+                                                        <div class="roll_over_img"><img src="@imageUrl/@segment.large_image" alt="" width="329" height="417" class="scale-with-grid" /></div>
+                                                        <div class="product-image-wrapper-hover"></div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="wrapper-hover">
+                                                <div class="product-name"> <a onclick="callDetailPage('@segment.id')" href="~/Home/GetProductDetail?prodId=@segment.id">@segment.title</a> </div>
+                                                <div class="clearfix">
+                                                    <div class="icon_cart_title product-price">
+                                                        <span class="new_price">
+                                                            <s>@segment.cost_price</s><br>
+                                                            <span class="new-special-price">@Html.Raw(segment.offer_price)</span>
+                                                        </span><br>
+                                                        <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
+                                                            <br>
+                                                            @Resources.EUPoints : @Html.Raw(segment.point_adjusted)                                                        </span>
+                                                    </div>
+                                                    <div class="icon_cart_rollover"> <a onclick="AddProductInCart(@segment.id, 1)"></a> </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            @if (Model.FontpageSections != null && Model.FontpageSections.FashionProdList != null && Model.FontpageSections.FashionProdList.Count > 0)
+            {
+                <div class="container">
+                    <div class="sixteen columns">
+                        <h1 id="bestsellers_title"><span class="icon_bestsellers">&nbsp;</span>Faishon</h1>
+                    
+                        <a href="/Home/GetAllDealProducts?Deal=Faishon&page=1">(View All)</a>
+                    </div>
+                </div>
+            }
+            <div class="carousel_bestsellers_outer">
+                <div class="container">
+                    <div id="carousel_fashion" class="es-carousel-wrapper">
+                        <div class="es-carousel-inner">
+                            <ul>
+                                @if (Model.FontpageSections != null && Model.FontpageSections.FashionProdList != null)
+                                {
+                                    foreach (var segment in Model.FontpageSections.FashionProdList)
+                                    {
+                                        <li class="four columns product">
+                                            <div class="img_border">
+                                                <div class="product-image-wrapper">
+                                                    <span class="product_sticker sticker_new_top_right sticker_display_none"></span> <a onclick="callDetailPage('@segment.id')" href="~/Home/GetProductDetail?prodId=@segment.id">
+                                                        <div><img src="@imageUrl/@segment.large_image" alt="@segment.title" title="@segment.title" width="180" height="180" class="scale-with-grid" /></div>
+                                                        <div class="roll_over_img"><img src="@imageUrl/@segment.large_image" alt="" width="329" height="417" class="scale-with-grid" /></div>
+                                                        <div class="product-image-wrapper-hover"></div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="wrapper-hover">
+                                                <div class="product-name"> <a onclick="callDetailPage('@segment.id')" href="~/Home/GetProductDetail?prodId=@segment.id">@segment.title</a> </div>
+                                                <div class="clearfix">
+                                                    <div class="icon_cart_title product-price">
+                                                        <span class="new_price">
+                                                            <s>@segment.cost_price</s><br>
+                                                            <span class="new-special-price">@Html.Raw(segment.offer_price)</span>
+                                                        </span><br>
+                                                        <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
+                                                            <br>
+                                                            @Resources.EUPoints : @Html.Raw(segment.point_adjusted)
+                                                        </span>
+                                                    </div>
+                                                    <div class="icon_cart_rollover"> <a onclick="AddProductInCart(@segment.id, 1)"></a> </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            @if (Model.FontpageSections != null && Model.FontpageSections.ElectronicProdList != null && Model.FontpageSections.ElectronicProdList.Count > 0)
+            {
+
+                <div class="container">
+                    <div class="sixteen columns">
+                        <h1 id="bestsellers_title"><span class="icon_bestsellers">&nbsp;</span>Electronics</h1>
+                        <a href="/Home/GetAllDealProducts?Deal=Electronics&page=1">(View All)</a>
+                    </div>
+                </div>
+            }
+            <div class="carousel_bestsellers_outer">
+                <div class="container">
+                    <div id="carousel_electronics" class="es-carousel-wrapper">
+                        <div class="es-carousel-inner">
+                            <ul>
+                                @if (Model.FontpageSections != null && Model.FontpageSections.ElectronicProdList != null)
+                                {
+                                    foreach (var segment in Model.FontpageSections.ElectronicProdList)
+                                    {
+                                        <li class="four columns product">
+                                            <div class="img_border">
+                                                <div class="product-image-wrapper">
+                                                    <span class="product_sticker sticker_new_top_right sticker_display_none"></span> <a onclick="callDetailPage('@segment.id')" href="~/Home/GetProductDetail?prodId=@segment.id">
+                                                        <div><img src="@imageUrl/@segment.large_image" alt="@segment.title" title="@segment.title" width="180" height="180" class="scale-with-grid" /></div>
+                                                        <div class="roll_over_img"><img src="@imageUrl/@segment.large_image" alt="" width="329" height="417" class="scale-with-grid" /></div>
+                                                        <div class="product-image-wrapper-hover"></div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="wrapper-hover">
+                                                <div class="product-name"> <a onclick="callDetailPage('@segment.id')" href="~/Home/GetProductDetail?prodId=@segment.id">@segment.title</a> </div>
+                                                <div class="clearfix">
+                                                    <div class="icon_cart_title product-price">
+                                                        <span class="new_price">
+                                                            <s>@segment.cost_price</s><br>
+                                                            <span class="new-special-price">@Html.Raw(segment.offer_price)</span>
+                                                        </span><br>
+                                                        <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
+                                                            <br>
+                                                            @Resources.EUPoints : @Html.Raw(segment.point_adjusted)
+                                                        </span>
+                                                    </div>
+                                                    <div class="icon_cart_rollover"> <a onClick="AddProductInCart(@segment.id, 1)"></a> </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(".preloader").hide();
+
+    });
+
+    function callDetailPage(productID)
+    {
+        window.location.href = "/Home/GetProductDetail?prodId=" + productID;
+    }
+
+</script>
+
+
