@@ -19,6 +19,7 @@ namespace DTShopping.Models
         public DateTime modified { get; set; }
         public string parentCategoryName { get; set; }
         public List<Category> Childern { get; set; }
+        public int CompanyId { get; set; }
     }
 
     public class Banners
