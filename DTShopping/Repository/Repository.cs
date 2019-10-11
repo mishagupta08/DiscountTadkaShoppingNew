@@ -45,7 +45,8 @@ namespace DTShopping.Repository
 
         public async Task<List<Category>> GetMenuList()
         {
-            var cat = new Category { CompanyId = CompanyId };
+            var cat = new List<Category>();
+            cat.Add(new Category { CompanyId = CompanyId });
             var detail = JsonConvert.SerializeObject(cat);
             var result = await CallPostFunction(detail, "ManageCategories/List");
             if (result == null || !result.Status)
