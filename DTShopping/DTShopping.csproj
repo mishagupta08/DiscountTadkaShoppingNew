@@ -210,6 +210,7 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CartFilter.cs" />
+    <Compile Include="Models\company.cs" />
     <Compile Include="Models\Containers.cs" />
     <Compile Include="Models\Dashboard.cs" />
     <Compile Include="Models\discount_coupons.cs" />
@@ -316,6 +317,7 @@
     <Content Include="images\slider\slide-bg-3.jpg" />
     <Content Include="images\slider\slide-bg-4.jpg" />
     <Content Include="images\thanku.jpg" />
+    <Content Include="images\Under-Contruction.jpg" />
     <Content Include="images\wheel.gif" />
     <Content Include="images\ws_01 %2822%29.jpg" />
     <Content Include="images\ws_01 %2823%29.jpg" />
@@ -426,7 +428,7 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Home\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />

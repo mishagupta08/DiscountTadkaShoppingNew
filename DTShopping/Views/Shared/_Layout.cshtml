@@ -1,6 +1,7 @@
 ﻿@using DTShopping.Models
 @{
     UserDetails current_user = (Session["UserDetail"] != null) ? Session["UserDetail"] as UserDetails : null;
+    company current_cmpny = (Session["Company"] != null) ? Session["Company"] as company : null;
     string username = current_user != null ? current_user.username : "";
     double? points = current_user != null ? current_user.balance_point??0.0 : 0.0;
     string imageUrl = System.Configuration.ConfigurationManager.AppSettings["ImageUrl"];
@@ -70,7 +71,7 @@
                 <div class="row">
                     <div class="row phone offset-by-eleven five columns" style="margin-top:0px;font-size:12px;">
 
-                        <span>Call us:(91) 8875286682 </span>&nbsp;&nbsp;<span>Email Us:ccareutility@gmail.com </span>
+                        <span>Call us:(91) @current_cmpny.company_landline_no </span>&nbsp;&nbsp;<span>Email @current_cmpny.contact_email </span>
                     </div>
                     <div class="row">
                         <div id="logo" class="five columns">

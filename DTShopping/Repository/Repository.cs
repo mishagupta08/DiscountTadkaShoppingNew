@@ -30,6 +30,8 @@ namespace DTShopping.Repository
 
         private string ManageCartAction = "ManageCart/";
 
+        private string ManageCompaniesAction = "ManageCompany/";
+
         private string ManageShoppingProductsListWithFilter = "ManageShoppingProductsListWithFilter/";
 
         private string ManageCategory = "CategoryDetail/";
@@ -42,13 +44,12 @@ namespace DTShopping.Repository
 
         private string ManagePointLedgerAction = "ManagePointsLedger/";
 
-
         public async Task<List<Category>> GetMenuList()
         {
             var cat = new List<Category>();
             cat.Add(new Category { CompanyId = CompanyId });
             var detail = JsonConvert.SerializeObject(cat);
-            var result = await CallPostFunction(detail, "ManageCategories/List");
+            var result = await CallPostFunction(detail, "ManageCategories/CompanyCategoryList");
             if (result == null || !result.Status)
             {
                 return null;
@@ -65,6 +66,21 @@ namespace DTShopping.Repository
 
                 }
                 return null;
+            }
+        }
+
+        public async Task<company> GetCompanyById(List<company> companies)
+        {
+            var companyData = JsonConvert.SerializeObject(companies);
+            var result = await CallPostFunction(companyData, ManageCompaniesAction + "ById");
+            if (result == null)
+            {
+                return null;
+            }
+            else
+            {
+                var detail = JsonConvert.DeserializeObject<company>(result.ResponseValue);
+                return detail;
             }
         }
 

@@ -21,14 +21,29 @@ namespace DTShopping.Controllers
             string companyId = System.Configuration.ConfigurationManager.AppSettings["CompanyId"];
             try
             {
-                objDashboardDetails.Banners = new List<Banners>();
-                objDashboardDetails.Banners = await objRepository.GetBannerImageList(companyId);
+                var dt = new List<company>();
+                dt.Add(new company
+                {
+                    id = Convert.ToInt32(companyId)
+                });
 
-                objDashboardDetails.FontpageSections = new ShoppingPortalFrontPageProdList();
-                objDashboardDetails.FontpageSections = await objRepository.GetShoppingPortalFrontPageProdList(companyId);
+                var companyDetail = await objRepository.GetCompanyById(dt);
+                if (companyDetail == null || companyDetail.default_flag == 0)
+                {
+                    return View("Error");
+                }
+                else
+                {
+                    objDashboardDetails.Banners = new List<Banners>();
+                    objDashboardDetails.Banners = await objRepository.GetBannerImageList(companyId);
+                    
+                    objDashboardDetails.FontpageSections = new ShoppingPortalFrontPageProdList();
+                    objDashboardDetails.FontpageSections = await objRepository.GetShoppingPortalFrontPageProdList(companyId);
 
-                Session["LatestProduct"] = objDashboardDetails.FontpageSections.SpeacialSegment;
-                Session["Brands"] = objDashboardDetails.FontpageSections.brandlist;
+                    Session["LatestProduct"] = objDashboardDetails.FontpageSections.SpeacialSegment;
+                    Session["Brands"] = objDashboardDetails.FontpageSections.brandlist;
+                    Session["Company"] = companyDetail;
+                }
             }
             catch (Exception ex)
             {
@@ -96,7 +111,7 @@ namespace DTShopping.Controllers
             return View();
         }
 
-        public async Task<ActionResult> ProductList(string cat,string BrandId, string root, int? page, string SortBy, string Order, string FilterFromPoint, string FilterToPoint, string searchString)
+        public async Task<ActionResult> ProductList(string cat, string BrandId, string root, int? page, string SortBy, string Order, string FilterFromPoint, string FilterToPoint, string searchString)
         {
             Filters c = new Filters();
             if (!string.IsNullOrEmpty(cat))
@@ -212,7 +227,7 @@ namespace DTShopping.Controllers
             return PartialView("Category", list);
         }
 
-        public ActionResult getCatHeirarchy(string Cat, string subCat,string brandId)
+        public ActionResult getCatHeirarchy(string Cat, string subCat, string brandId)
         {
             SideBar objsidebar = new SideBar();
             var CategoryList = new List<Category>();
@@ -477,7 +492,7 @@ namespace DTShopping.Controllers
         public async Task<ActionResult> getCartCount()
         {
             UserDetails userDetail = new UserDetails();
-            Response userResponse = new Response();           
+            Response userResponse = new Response();
             try
             {
                 if (Session["UserDetail"] == null)
@@ -504,7 +519,7 @@ namespace DTShopping.Controllers
             }
             return Json(userResponse, JsonRequestBehavior.AllowGet);
         }
-               
+
         [HttpPost]
         public async Task<ActionResult> CreateOrder(order objorder)
         {

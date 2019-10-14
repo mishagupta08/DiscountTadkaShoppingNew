@@ -41,7 +41,7 @@ namespace DTShopping.Models
         public Nullable<System.DateTime> created { get; set; }
         public Nullable<System.DateTime> modified { get; set; }
         public Nullable<int> vendor_id { get; set; }
-        public int no_units { get; set; }
+        public Nullable<int> no_units { get; set; }
         public Nullable<int> vendor_qty { get; set; }
         public string vendor_offer { get; set; }
         public string VendorName { get; set; }
