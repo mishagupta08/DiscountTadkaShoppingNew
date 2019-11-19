@@ -88,6 +88,24 @@ namespace DTShopping.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Confirm OTP.
+        /// </summary>
+        public static string ConfirmOTP {
+            get {
+                return ResourceManager.GetString("ConfirmOTP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm Password.
+        /// </summary>
+        public static string ConfirmPassword {
+            get {
+                return ResourceManager.GetString("ConfirmPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do You Want To Use Current Available Points.
         /// </summary>
         public static string CurrentAvailablePoints {

@@ -20,6 +20,7 @@ namespace DTShopping.Models
         public order OrderDetail { get; set; }
         public List<Containers> PaymentModeList { get; set; }
         public ShoppingPortalFrontPageProdList FontpageSections{get;set;}
+        public double Amount { get; set; }
 
         public void AssignPaymentModes()
         {

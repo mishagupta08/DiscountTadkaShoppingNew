@@ -5,6 +5,7 @@
     string imageUrl = System.Configuration.ConfigurationManager.AppSettings["ImageUrl"];
 }
 
+
 <div class="container">
     @if (Model.Products == null || Model.Products.Count() == 0)
     {
@@ -58,7 +59,7 @@
                     </tbody>
                 </table>
                 <p>&nbsp;</p>
-                <table width="97%" border="0" cellspacing="0" cellpadding="0" class="shoptable">
+                @*<table width="97%" border="0" cellspacing="0" cellpadding="0" class="shoptable">
 
                     <tr>
                         <td width="25%" height="29"><strong>@Resources.CurrentAvailablePoints</strong></td>
@@ -78,7 +79,7 @@
                         <td colspan="2">&nbsp;</td>
                         <td align="right">&nbsp;</td>
                     </tr>
-                </table>
+                </table>*@
                 <p>&nbsp;</p>
                 <table width="97%" border="0" cellspacing="5" cellpadding="5">
                     <tr>
@@ -183,7 +184,7 @@
                                         </label>
                                     </div>
                                     <div style="display:inline-block; width:30%;">
-                                        @Html.TextBoxFor(m => m.OrderDetail.payment_ref_amount, new { @readonly = "readnoly", @type = "number", @id = "paymentrefno", @required = "required", @class = "form-control", @placeholder = "" })
+                                        @Html.TextBoxFor(m => m.OrderDetail.payment_ref_amount, new {@type = "number", @id = "paymentrefno", @required = "required", @class = "form-control", @placeholder = "" })
                                     </div>
                                 </div>
 
@@ -196,14 +197,14 @@
                         </form>
                     </div>
                     <div id="dtcard">
-                        <form data-parsley-validate class="validateForm form-horizontal form-style" id="addForm1" onsubmit="return SaveDetailFormOtp();">
-                            @Html.HiddenFor(m => m.OrderDetail.point_adjusted, new { name = "pointAdjusted2", id = "pointAdjusted2" })
+                        <form data-parsley-validate class="validateForm form-horizontal form-style" id="addForm1" onsubmit="return false;">
+                            @Html.Hidden("Amount",Model.NetPayment)
                             <table class="checkout" align="center" width="97%" cellpadding="7" cellspacing="0">
                                 <tbody>
                                     <tr>
                                         <td colspan="2" style="background:#efefef;font-size:large;">Shopping Wallet Process</td>
                                     </tr>
-                                    <tr class="feRow">
+                                    @*<tr class="feRow">
                                         <td class="feLabel" style="width: 30%;">One Time Password (OTP)<br><span id="err_otp_password" class="error"></span></td>
                                         <td class="feWidget">
                                             @Html.TextBoxFor(m => m.User.OtpCode, new { @type = "text", @id = "paymentrefno", @required = "required", @class = "form-control", @placeholder = "" })
@@ -211,7 +212,7 @@
                                             <br />
                                             <label id="otpMessage" style="color:red;"></label>
                                         </td>
-                                    </tr>
+                                    </tr>*@
 
                                     <tr class="feRow">
                                         <td class="feLabel" style="width: 30%;">User ID<br><span id="err_ewallet_account_number" class="error"></span></td>
@@ -229,8 +230,8 @@
                                         <td colspan="2" style="text-align: center;">
                                             <label id="loginError1" style="color:red;"></label>
                                             <br />
-                                            <button class="btn btn-primary btn-block saveBtn" type="submit">
-                                                @Resources.Save
+                                            <button class="btn btn-primary btn-block saveBtn" id="ConfirmPassword" type="submit">
+                                                @Resources.ConfirmPassword
                                             </button>
                                         </td>
                                     </tr>
@@ -238,8 +239,54 @@
                             </table>
                         </form>
                     </div>
+
+
+                    <div id="dtcardOTP" style="display:none;">
+                        <form data-parsley-validate class="validateForm form-horizontal form-style" id="addFormOTP" onsubmit="return SaveDetailFormOtp();">
+                            @Html.HiddenFor(m => m.OrderDetail.point_adjusted, new { name = "pointAdjusted2", id = "pointAdjusted2" })
+                            @Html.Hidden("Amount", Model.NetPayment)
+
+                            <table class="checkout" align="center" width="97%" cellpadding="7" cellspacing="0">
+                                <tbody>
+                                    <tr>
+                                        <td colspan="2" style="background:#efefef;font-size:large;">Shopping Wallet Process</td>
+                                    </tr>
+                                    
+                                    <tr class="feRow">
+                                        <td class="feLabel" style="width: 30%;">User ID<br><span id="err_ewallet_account_number" class="error"></span></td>
+                                        <td class="feWidget">@Model.User.username</td>
+                                        @Html.HiddenFor(m=>m.User.password_str)
+                                    </tr>
+
+                                    <tr class="feRow">
+                                        <td class="feLabel" style="width: 30%;">One Time Password (OTP)<br><span id="err_otp_password" class="error"></span></td>
+                                        <td class="feWidget">
+                                            @Html.TextBoxFor(m => m.User.OtpCode, new { @type = "text", @id = "paymentrefno", @required = "required", @class = "form-control", @placeholder = "" })
+                                            <a class="generateotp" id="lnkOtp">Click here to Generate OTP</a>
+                                            <br />
+                                            <label id="otpMessage" style="color:red;"></label>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="feRow">
+                                        <td colspan="2" style="text-align: center;">
+                                            <label id="loginError2" style="color:red;"></label>
+                                            <br />
+                                            <button class="btn btn-primary btn-block saveBtn" type="submit">
+                                                @Resources.ConfirmOTP
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+
                 </div>
             </div>
         </div>
-                                    }
+     
+    }
 </div>
+
+<script src="~/Scripts/shopping.js?v=1"></script>

@@ -39,5 +39,25 @@ namespace DTShopping.Models
         public string BankName { get; set; }
         public string OtpCode { get; set; }
         public string IfscCode { get; set; }
+        public double Amount { get; set; }
+        public string Voucher { get; set; }
+    }
+
+    public class WalletDetails
+    {
+        public string loginid { get; set; }
+        public string response { get; set; }
+        public double wallet { get; set; }
+        public string msg { get; set; }
+    }
+
+
+    public class WalletDeduction
+    {
+        public string loginid { get; set; }
+        public string response { get; set; }
+        public double deductamount { get; set; }
+        public string voucherno { get; set; }
+        public string msg { get; set; }
     }
 }

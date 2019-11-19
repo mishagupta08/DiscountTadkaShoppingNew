@@ -186,4 +186,10 @@
   <data name="Vendor" xml:space="preserve">
     <value>Vendor</value>
   </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+  <data name="ConfirmOTP" xml:space="preserve">
+    <value>Confirm OTP</value>
+  </data>
 </root>

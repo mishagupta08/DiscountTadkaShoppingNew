@@ -21,6 +21,11 @@
         SaveOrderDetailWithPoint();
     });
 
+    $('#ConfirmPassword').click(function (e) {
+        ConfirmPassword();
+    });
+    
+
     //$('input[name=paymentmethod]').unbind();
     //$('input[name=paymentmethod]').click(function (e) {
     //    LoadPaymentPage(this);
@@ -30,6 +35,8 @@
         var value = $(this).val();
         $("#offline").hide();
         $("#dtcard").hide();
+        $("#dtcardOTP").hide();
+        
         $("#" + value).show();
     });
 
@@ -78,7 +85,7 @@ function GenerateOtp(thisvar) {
 
 function SaveDetailFormOtp() {
     $("#loginError").html("");
-    var loginDetail = $('#addForm1').serialize();
+    var loginDetail = $('#addFormOTP').serialize();
     $(".preloader").show();
     $.ajax({
         url: '/Manage/SaveDetailFormOtp',
@@ -86,7 +93,12 @@ function SaveDetailFormOtp() {
         datatype: 'Json',
         data: loginDetail
     }).done(function (result) {
-        $("#loginError1").html(result);
+        if (result == "ok") {
+            window.location = "/Manage/thankYouPage";
+        }
+        else {
+            $("#loginError2").html(result);
+        }
         $(".preloader").hide();
 
     }).fail(function (error) {
@@ -96,6 +108,45 @@ function SaveDetailFormOtp() {
 
     return false;
 }
+
+
+function ConfirmPassword() {
+    $("#loginError").html("");    
+    var loginDetail = $('#addForm1').serialize();
+    $(".preloader").show();
+    $.ajax({
+        url: '/Manage/ConfirmPassword',
+        type: 'Post',
+        async:false,
+        datatype: 'Json',
+        data: loginDetail
+    }).done(function (result) {        
+        if (result == "Not Found")
+        {
+            $("#loginError1").html("Password does not match.");
+        }
+        else if (result == "Sufficient")
+        {
+            $("#dtcard").hide();
+            $("#dtcardOTP").show();
+        }
+        else if (result == "InSufficient") {
+            $("#loginError1").html("User Exists but does not have sufficient balance in wallet.");
+        }
+        else {
+            $("#loginError1").html(result);
+        }
+       
+        $(".preloader").hide();
+
+    }).fail(function (error) {
+        $("#loginError1").html(error.statusText);
+        $(".preloader").hide();
+    });
+
+    return false;
+}
+
 
 
 function SaveOrderDetailWithPoint() {

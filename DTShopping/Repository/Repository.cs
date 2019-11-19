@@ -405,7 +405,41 @@ namespace DTShopping.Repository
             return result;
         }
 
+        public async Task<Response> CheckUserExistance(UserDetails user)
+        {
+            user.role_id = RoleId;
+            user.company_id = CompanyId;
+            var detail = JsonConvert.SerializeObject(user);
+            var result = await CallPostFunction(detail, "ManageVendor/IsExists");
+            return result;
+        }
 
+        public async Task<Response> CheckWalletBalance(UserDetails user)
+        {
+            
+            user.company_id = CompanyId;
+            var detail = JsonConvert.SerializeObject(user);
+            var result = await CallPostFunction(detail, "CheckWalletAPI");
+            return result;
+        }
+
+        public async Task<Response> DeductWalletBalnce(UserDetails user)
+        {
+
+            user.company_id = CompanyId;
+            var detail = JsonConvert.SerializeObject(user);
+            var result = await CallPostFunction(detail, "WalletDeductionAPI");
+            return result;
+        }
+
+        public async Task<Response> WalletConfirmationAPI(UserDetails user)
+        {
+
+            user.company_id = CompanyId;
+            var detail = JsonConvert.SerializeObject(user);
+            var result = await CallPostFunction(detail, "WalletConfirmationAPI");
+            return result;
+        }
 
     }
 }

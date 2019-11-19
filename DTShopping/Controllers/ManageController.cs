@@ -37,7 +37,9 @@ namespace DTShopping.Controllers
             var result = new Response();
 
             var detail = (UserDetails)(Session["UserDetail"]);
-            detail.password_str = detailModel.User.password_str;
+            //detail.username = detailModel.User.username;
+            //detail.password_str = detailModel.User.password_str;
+            detail.Amount = detailModel.Amount;
             detail.OtpCode = detailModel.User.OtpCode;
             result = await this.objRepository.MangeOtpFunctions(detail, "ValidateOtp");
             if (result == null)
@@ -50,25 +52,58 @@ namespace DTShopping.Controllers
             }
             else
             {
-                detailModel.OrderDetail = new order();
-                detailModel.OrderDetail.id = Session["OrderId"] != null ? Convert.ToInt32(Session["OrderId"]) : 0;
-                result = await objRepository.CreateOrder(detailModel.OrderDetail, "EditWithOtp");
-            }
+                var deductWallet = await objRepository.DeductWalletBalnce(detail);
+                if (deductWallet.Status)
+                {
+                    var Wallet = JsonConvert.DeserializeObject<WalletDeduction>(deductWallet.ResponseValue);
+                    if (Wallet.response.ToLower() == "ok")
+                    {
+                        detail.Voucher = Wallet.voucherno;
+                        var Walletconfirm = await objRepository.WalletConfirmationAPI(detail);
+                        if (Walletconfirm.Status)
+                        {
+                            var ConfirmWallet = JsonConvert.DeserializeObject<WalletDetails>(Walletconfirm.ResponseValue);
+                            if (ConfirmWallet.response.ToLower() == "ok")
+                            {
+                                detailModel.OrderDetail = new order();
+                                detailModel.OrderDetail.id = Session["OrderId"] != null ? Convert.ToInt32(Session["OrderId"]) : 0;
+                                detailModel.OrderDetail.payment_ref_no = Wallet.voucherno;
+                                detailModel.OrderDetail.payment_ref_amount = detailModel.Amount.ToString();
+                                result = await objRepository.CreateOrder(detailModel.OrderDetail, "EditWithOtp");
+                                if (result == null)
+                                {
+                                    return Json(Resources.ErrorMessage);
+                                }
+                                else if (!result.Status)
+                                {
+                                    return Json(result.ResponseValue);
+                                }
+                                else
+                                {
+                                    return Json("ok");
+                                }
+                                
+                            }
+                            else
+                            {
+                                return Json("Something went wrong");
+                            }
+                        }
+                        else
+                        {
+                            return Json(Walletconfirm.ResponseValue);
+                        }
+                    }
+                    else
+                    {
+                        return Json(Wallet.response);
+                    }
 
-            if (result == null)
-            {
-                return Json(Resources.ErrorMessage);
-            }
-            else if (!result.Status)
-            {
-                return Json(result.ResponseValue);
-            }
-            else
-            {
-                //redirct to thank you page
-                //return Json(result.ResponseValue);
-
-                return RedirectToAction("thankYouPage", "Manage");
+                }
+                else
+                {
+                    return Json(deductWallet.ResponseValue);
+                }
             }
         }
 
@@ -148,6 +183,88 @@ namespace DTShopping.Controllers
             }
 
             return View("productDetailPage", this.model);
+        }
+
+        public async Task<ActionResult> ConfirmPassword(Dashboard detailModel)
+        {
+        this.model = new Dashboard();
+        objRepository = new APIRepository();
+        var result = new Response();
+
+        var detail = (UserDetails)(Session["UserDetail"]);
+        detail.password_str = detailModel.User.password_str;
+            detail.Amount = detailModel.Amount;
+            result = await this.objRepository.CheckUserExistance(detail);
+            if (result == null)
+            {
+              return Json(Resources.ErrorMessage);
+            }
+            else if (!result.Status)
+            {
+              return Json("Not Found");
+            }
+            else
+            {
+                result = await this.objRepository.CheckWalletBalance(detail);
+                if (result.Status)
+                {
+                    var Wallet = JsonConvert.DeserializeObject<WalletDetails>(result.ResponseValue);
+
+                    if (0 <= Wallet.wallet)
+                    {
+                        return Json("Sufficient");
+                    }
+                    else
+                    {
+                        return Json("InSufficient");
+                    }
+                }
+                else
+                {
+                    return Json("No Wallet Balance Found");
+                }
+            }          
+        }
+
+        public async Task<ActionResult> DeductWallet(Dashboard detailModel)
+        {
+            this.model = new Dashboard();
+            objRepository = new APIRepository();
+            var result = new Response();
+
+            var detail = (UserDetails)(Session["UserDetail"]);
+            detail.password_str = detailModel.User.password_str;
+
+            result = await this.objRepository.CheckUserExistance(detail);
+            if (result == null)
+            {
+                return Json(Resources.ErrorMessage);
+            }
+            else if (!result.Status)
+            {
+                return Json(result.ResponseValue);
+            }
+            else
+            {
+                result = await this.objRepository.CheckWalletBalance(detail);
+                if (result.Status)
+                {
+                    var Wallet = JsonConvert.DeserializeObject<WalletDetails>(result.ResponseValue);
+
+                    if (this.model.Amount <= Wallet.wallet)
+                    {
+                        return Json("Sufficient");
+                    }
+                    else
+                    {
+                        return Json("InSufficient");
+                    }
+                }
+                else
+                {
+                    return Json("No Wallet Balance Found");
+                }
+            }
         }
 
         [HttpGet]
@@ -335,7 +452,8 @@ namespace DTShopping.Controllers
                 {
                     this.model = new Dashboard();
                 }
-
+                
+                
                 return PartialView("cartPaymentDetailView", this.model);
             }
             else

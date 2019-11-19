@@ -1,7 +1,7 @@
 ﻿@using DTShopping.Models
 @{
     UserDetails current_user = (Session["UserDetail"] != null) ? Session["UserDetail"] as UserDetails : null;
-    company current_cmpny = (Session["Company"] != null) ? Session["Company"] as company : null;
+    company current_cmpny = (Session["Company"] != null) ? Session["Company"] as company : new company();
     string username = current_user != null ? current_user.username : "";
     double? points = current_user != null ? current_user.balance_point??0.0 : 0.0;
     string imageUrl = System.Configuration.ConfigurationManager.AppSettings["ImageUrl"];
@@ -386,4 +386,3 @@
         return false;
     }
 </script>
-<script src="~/Scripts/shopping.js"></script>
