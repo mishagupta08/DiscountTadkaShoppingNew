@@ -197,8 +197,13 @@ function SaveDetailForm() {
         datatype: 'Json',
         data: loginDetail
     }).done(function (result) {
-        $("#loginError").html(result);
-        $(".preloader").hide();
+        if (result == "ok") {
+            window.location = "/Manage/thankYouPage";
+        }
+        else {
+            $("#loginError").html(result);
+            $(".preloader").hide();
+        }
 
     }).fail(function (error) {
         $("#loginError").html(error.statusText);

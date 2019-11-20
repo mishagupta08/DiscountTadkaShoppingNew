@@ -159,7 +159,20 @@
                                     @Html.DropDownListFor(m => m.OrderDetail.payment_mode, new SelectList(Model.PaymentModeList, "value", "value"), new { @required = "0", id = "PaymodeDropDown", @class = "form-control" })
                                 </div>
                                 <br />
-                                <div  id="Bank">
+
+                                <div id="Paytm" style="display:none;">
+
+                                    <img src="@imageUrl/@Company.PaytmQrCode" alt="PaytmQRCode" title="PaytmQRCode" width="50" height="50" class="scale-with-grid" />
+
+                                </div>
+                                <div id="phonePay" style="display:none;">
+
+                                    <img src="@imageUrl/@Company.PhonePeQrCode" alt="PhonePeQRCode" title="PhonePeQRCode" width="50" height="50" class="scale-with-grid" />
+
+                                </div>
+                                <br/>
+
+                                <div  class="Common">
                                 <div style="display:inline-block; width:30%;">
                                     <label for="email">
                                         @Resources.PaymentRefNo
@@ -175,54 +188,49 @@
                                     </label>
                                 </div>
                                 <div style="display:inline-block; width:30%;">
-                                    @Html.TextBoxFor(m => m.OrderDetail.dt_payment_ref_date, new { @type = "text", @id = "paymentrefno", @required = "required", @class = "form-control", @placeholder = "" })
+                                    @Html.TextBoxFor(m => m.OrderDetail.dt_payment_ref_date, new { @type = "text", @id = "RefDate", @required = "required", @class = "form-control", @placeholder = "MM-DD-YYYY" })
                                 </div>
                                 <br />
-                                <div style="display:inline-block; width:30%;">
-                                    <label for="email">
-                                        @Resources.PaymentRefBank
-                                    </label>
-                                </div>
-                                <div style="display:inline-block; width:30%;">
-                                    @Html.TextBoxFor(m => m.OrderDetail.payment_ref_bank, new { @type = "text", @id = "paymentrefno", @required = "required", @class = "form-control", @placeholder = "" })
-                                </div>
-                                <br />
-                                <div style="display:inline-block; width:30%;">
-                                    <label for="email">
-                                        @Resources.PaymentRefBranch
-                                    </label>
-                                </div>
-                                <div style="display:inline-block; width:30%;">
-                                    @Html.TextBoxFor(m => m.OrderDetail.payment_ref_branch, new { @type = "text", @id = "paymentrefno", @required = "required", @class = "form-control", @placeholder = "" })
-                                </div>
-                                <br />
-                                <div class="col-md-6">
+                                    </div>
+                                <div id="Bank">
                                     <div style="display:inline-block; width:30%;">
                                         <label for="email">
-                                            @Resources.PaymentRefAmount
+                                            @Resources.PaymentRefBank
                                         </label>
                                     </div>
                                     <div style="display:inline-block; width:30%;">
-                                        @Html.TextBoxFor(m => m.OrderDetail.payment_ref_amount, new {@type = "number", @id = "paymentrefno", @required = "required", @class = "form-control", @placeholder = "" })
+                                        @Html.TextBoxFor(m => m.OrderDetail.payment_ref_bank, new { @type = "text", @id = "paymentrefno", @class = "form-control", @placeholder = "" })
                                     </div>
+                                    <br />
+                                    <div style="display:inline-block; width:30%;">
+                                        <label for="email">
+                                            @Resources.PaymentRefBranch
+                                        </label>
+                                    </div>
+                                    <div style="display:inline-block; width:30%;">
+                                        @Html.TextBoxFor(m => m.OrderDetail.payment_ref_branch, new { @type = "text", @id = "paymentrefno", @class = "form-control", @placeholder = "" })
+                                    </div>
+                                    <br />
                                 </div>
 
-                                <label id="loginError" style="color:red;"></label>
-                                <br />
-                                <button class="btn btn-primary btn-block saveBtn" type="submit">
-                                    @Resources.Save
-                                </button>
-                            </div>
-                                <div id="Paytm" style="display:none;">
-                                   
-                                       <img src="@imageUrl/@Company.PaytmQrCode" alt="PaytmQRCode" title="PaytmQRCode" width="50" height="50" class="scale-with-grid" />
-                                    
+                                <div class="Common">
+                                    <div class="col-md-6">
+                                        <div style="display:inline-block; width:30%;">
+                                            <label for="email">
+                                                @Resources.PaymentRefAmount
+                                            </label>
+                                        </div>
+                                        <div style="display:inline-block; width:30%;">
+                                            @Html.TextBoxFor(m => m.OrderDetail.payment_ref_amount, new { @type = "number", @id = "paymentrefno", @required = "required", @class = "form-control", @placeholder = "" })
+                                        </div>
+                                    </div>
+                                    <label id="loginError" style="color:red;"></label>
+                                    <br />
+                                    <button class="btn btn-primary btn-block saveBtn" type="submit">
+                                        @Resources.Save
+                                    </button>
                                 </div>
-                                <div id="phonePay" style="display:none;">
-                                    
-                                       <img src="@imageUrl/@Company.PhonePeQrCode" alt="PhonePeQRCode" title="PhonePeQRCode" width="50" height="50" class="scale-with-grid" />
-                                    
-                                </div>
+                                
                              </div>
                         </form>
                     </div>

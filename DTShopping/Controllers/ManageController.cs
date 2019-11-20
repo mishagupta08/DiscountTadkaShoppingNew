@@ -147,18 +147,15 @@ namespace DTShopping.Controllers
 
             if (result == null)
             {
-                return Json(Resources.ErrorMessage);
+                return Json(Resources.ErrorMessage,JsonRequestBehavior.AllowGet);
             }
             else if (!result.Status)
             {
-                return Json(result.ResponseValue);
+                return Json(result.ResponseValue, JsonRequestBehavior.AllowGet);
             }
             else
             {
-                //redirct to thank you page
-                //return Json(result.ResponseValue);
-
-                return RedirectToAction("thankYouPage", "Manage");
+                return Json("ok", JsonRequestBehavior.AllowGet);
             }
         }
 

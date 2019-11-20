@@ -32,8 +32,7 @@ namespace DTShopping.Models
             this.PaymentModeList.Add(new Containers { value = "RTGS" });
             this.PaymentModeList.Add(new Containers { value = "IMPS" });
             this.PaymentModeList.Add(new Containers { value = "Paytm" });
-            this.PaymentModeList.Add(new Containers { value = "PhonePe" });
-            this.PaymentModeList.Add(new Containers { value = "DD" });
+            this.PaymentModeList.Add(new Containers { value = "PhonePe" });            
             
         }
     }
