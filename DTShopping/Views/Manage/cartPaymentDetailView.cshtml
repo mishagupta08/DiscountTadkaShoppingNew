@@ -1,8 +1,14 @@
 ﻿@using DTShopping.Properties
+@using DTShopping.Models
 @model DTShopping.Models.Dashboard
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+   var Company = Session["Company"] as company;
     string imageUrl = System.Configuration.ConfigurationManager.AppSettings["ImageUrl"];
+    if (imageUrl.EndsWith("/"))
+    {
+        imageUrl = imageUrl.Substring(0, imageUrl.LastIndexOf("/"));
+    }
 }
 
 
@@ -134,13 +140,26 @@
                             <div style="padding-left: 26%;padding-top: 3%;">
                                 @Html.HiddenFor(m => m.NetPayment, new { name = "NetPayment", id = "NetPayment" })
                                 @Html.HiddenFor(m => m.OrderDetail.point_adjusted, new { name = "pointAdjusted1", id = "pointAdjusted1" })
+                                
+                                <div class="sixteen columns" style="display:inline-block;">
+                                    <h3 for="username">Supplier Bank Details :-</h3><br/>
+                                    <h5>@Resources.AccountName &nbsp; : &nbsp; @Company.CompanyAccountNumber </h5>
+                                    <h5>@Resources.Bank_Name &nbsp; : &nbsp; @Company.CompanyBankName </h5>
+                                    <h5>@Resources.AccountType &nbsp; : &nbsp; @Company.CompanyAccountType </h5>
+                                    <h5>@Resources.AccountNo &nbsp; : &nbsp; @Company.CompanyAccountNumber </h5>
+                                    <h5>@Resources.IFSCCode &nbsp; : &nbsp; @Company.CompanyIFSCCode </h5><br/>
+                                </div>
+
+                                
+                                
                                 <div style="display:inline-block; width:30%;">
                                     <label for="username">@Resources.PaymentMode</label>
                                 </div>
                                 <div style="display:inline-block; width:30%;">
-                                    @Html.DropDownListFor(m => m.OrderDetail.payment_mode, new SelectList(Model.PaymentModeList, "value", "value"), new { @required = "0", id = "brandDropDown", @class = "form-control" })
+                                    @Html.DropDownListFor(m => m.OrderDetail.payment_mode, new SelectList(Model.PaymentModeList, "value", "value"), new { @required = "0", id = "PaymodeDropDown", @class = "form-control" })
                                 </div>
                                 <br />
+                                <div  id="Bank">
                                 <div style="display:inline-block; width:30%;">
                                     <label for="email">
                                         @Resources.PaymentRefNo
@@ -194,6 +213,17 @@
                                     @Resources.Save
                                 </button>
                             </div>
+                                <div id="Paytm" style="display:none;">
+                                   
+                                       <img src="@imageUrl/@Company.PaytmQrCode" alt="PaytmQRCode" title="PaytmQRCode" width="50" height="50" class="scale-with-grid" />
+                                    
+                                </div>
+                                <div id="phonePay" style="display:none;">
+                                    
+                                       <img src="@imageUrl/@Company.PhonePeQrCode" alt="PhonePeQRCode" title="PhonePeQRCode" width="50" height="50" class="scale-with-grid" />
+                                    
+                                </div>
+                             </div>
                         </form>
                     </div>
                     <div id="dtcard">

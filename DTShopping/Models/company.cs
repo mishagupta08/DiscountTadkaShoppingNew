@@ -39,5 +39,12 @@ namespace DTShopping.Models
         public bool globleProductDisplay { get; set; }
         public bool globlePrice { get; set; }
         public Nullable<System.DateTime> created { get; set; }
+        public string CompanyAccountName { get; set; }
+        public string CompanyBankName { get; set; }
+        public string CompanyAccountType { get; set; }
+        public string CompanyAccountNumber { get; set; }
+        public string CompanyIFSCCode { get; set; }
+        public string PhonePeQrCode { get; set; }
+        public string PaytmQrCode { get; set; }
     }
 }

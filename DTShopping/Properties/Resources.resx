@@ -192,4 +192,19 @@
   <data name="ConfirmOTP" xml:space="preserve">
     <value>Confirm OTP</value>
   </data>
+  <data name="AccountName" xml:space="preserve">
+    <value>Account Name</value>
+  </data>
+  <data name="AccountNo" xml:space="preserve">
+    <value>Account Number</value>
+  </data>
+  <data name="AccountType" xml:space="preserve">
+    <value>Account Type</value>
+  </data>
+  <data name="Bank Name" xml:space="preserve">
+    <value>Bank Name</value>
+  </data>
+  <data name="IFSCCode" xml:space="preserve">
+    <value>IFSC Code</value>
+  </data>
 </root>

@@ -17,6 +17,23 @@
         GenerateOtp(this);
     });
 
+    $('#PaymodeDropDown').change(function (e) {
+        $("#Paytm").hide();
+        $("#phonePay").hide();
+        $("#Bank").hide();
+        var paymode = $(this).val();
+        if (paymode == "Paytm")
+        {
+            $("#Paytm").show();
+        }
+        else if (paymode == "PhonePe") {
+            $("#phonePay").show();
+        }
+        else {
+            $("#Bank").show();
+        }
+    });
+
     $('#pointSaveBtn').click(function (e) {
         SaveOrderDetailWithPoint();
     });

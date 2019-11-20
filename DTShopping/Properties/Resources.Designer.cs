@@ -61,6 +61,33 @@ namespace DTShopping.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account Name.
+        /// </summary>
+        public static string AccountName {
+            get {
+                return ResourceManager.GetString("AccountName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account Number.
+        /// </summary>
+        public static string AccountNo {
+            get {
+                return ResourceManager.GetString("AccountNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account Type.
+        /// </summary>
+        public static string AccountType {
+            get {
+                return ResourceManager.GetString("AccountType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add to Cart.
         /// </summary>
         public static string AddtoCart {
@@ -75,6 +102,15 @@ namespace DTShopping.Properties {
         public static string Availability {
             get {
                 return ResourceManager.GetString("Availability", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bank Name.
+        /// </summary>
+        public static string Bank_Name {
+            get {
+                return ResourceManager.GetString("Bank Name", resourceCulture);
             }
         }
         
@@ -129,6 +165,15 @@ namespace DTShopping.Properties {
         public static string EUPoints {
             get {
                 return ResourceManager.GetString("EUPoints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IFSC Code.
+        /// </summary>
+        public static string IFSCCode {
+            get {
+                return ResourceManager.GetString("IFSCCode", resourceCulture);
             }
         }
         
