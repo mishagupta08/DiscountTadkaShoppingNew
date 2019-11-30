@@ -336,6 +336,19 @@ namespace DTShopping.Repository
             }
         }
 
+        public async Task<order> GetUserOrder(order orderDetail)
+        {
+            var productData = JsonConvert.SerializeObject(orderDetail);
+            var result = await CallPostFunction(productData, "ManageOrder/UserOpenOrder");
+            if (result == null)
+            {
+                return null;
+            }
+            else
+            {
+                return JsonConvert.DeserializeObject<order>(result.ResponseValue);
+            }
+        }
 
         public async Task<Response> CreateOrder(order orderDetail, string action)
         {
