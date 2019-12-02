@@ -461,10 +461,9 @@ namespace DTShopping.Controllers
             return View(UserOrderList);
         }
 
-        public ActionResult Checkout()
+        public async Task<ActionResult> Checkout()
         {
             order objUserOrder = new order();
-
             try
             {
                 if (Session["UserDetail"] == null)
@@ -472,14 +471,24 @@ namespace DTShopping.Controllers
                     return RedirectToAction("Login", "Account");
                 }
                 else
-                {
+                {                    
                     var userDetail = Session["UserDetail"] as UserDetails;
-                    objUserOrder.billing_city = userDetail.CityName;
-                    objUserOrder.billing_state = userDetail.StateName;
-                    objUserOrder.billing_phone = userDetail.phone;
                     objUserOrder.user_id = userDetail.id;
-                    objUserOrder.billing_first_name = userDetail.first_name;
-                    objUserOrder.billing_last_name = userDetail.last_name;
+                    var result = await objRepository.GetUserOrder(objUserOrder);
+                    if (result != null)
+                    {
+                        objUserOrder = result;
+                    }
+                    else
+                    { 
+                        objUserOrder.billing_city = userDetail.CityName;
+                        objUserOrder.billing_state = userDetail.StateName;
+                        objUserOrder.billing_phone = userDetail.phone;
+                        objUserOrder.user_id = userDetail.id;
+                        objUserOrder.billing_first_name = userDetail.first_name;
+                        objUserOrder.billing_last_name = userDetail.last_name;
+                    }
+
                 }
             }
             catch (Exception ex)
