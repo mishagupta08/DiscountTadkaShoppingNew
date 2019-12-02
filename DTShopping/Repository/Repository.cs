@@ -416,7 +416,7 @@ namespace DTShopping.Repository
 
         public async Task<Response> CheckWalletBalance(UserDetails user)
         {
-            
+
             user.company_id = CompanyId;
             var detail = JsonConvert.SerializeObject(user);
             var result = await CallPostFunction(detail, "CheckWalletAPI");

@@ -7,6 +7,8 @@ namespace DTShopping.Models
 {
     public class Containers
     {
+        public int Id { get; set; }
+
         public string value { get; set; }
     }
 }

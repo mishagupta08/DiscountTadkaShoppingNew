@@ -408,7 +408,13 @@ namespace DTShopping.Controllers
                         this.model.UsersPoints = response.Points;
                         this.model.User = new UserDetails();
                         this.model.User.username = detail.username;
-                        this.model.AssignPaymentModes();
+                        //this.model.AssignPaymentModes();
+                        //call here 
+                        var resp = await objRepository.CreateOrder(new order(), "ListPaymentModes");
+                        if (resp.Status == true)
+                        {
+                            this.model.PaymentModeList = JsonConvert.DeserializeObject<List<Containers>>(resp.ResponseValue);
+                        }
                         if (this.model.Products != null)
                         {
                             this.model.NetPayment = 0;

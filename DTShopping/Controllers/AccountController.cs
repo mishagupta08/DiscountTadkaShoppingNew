@@ -44,8 +44,8 @@ namespace DTShopping
             try
             {
                 var companyId = System.Configuration.ConfigurationManager.AppSettings["CompanyId"];
-                if(!string.IsNullOrEmpty(companyId))
-                User.company_id = Convert.ToInt16(companyId);
+                if (!string.IsNullOrEmpty(companyId))
+                    User.company_id = Convert.ToInt16(companyId);
                 User.role_id = 1;
                 _APIManager = new APIRepository();
                 var result = await _APIManager.Login(User);
@@ -53,8 +53,8 @@ namespace DTShopping
                 if (result != null)
                 {
                     if (result.Status == true)
-                    {                        
-                        UserDetails user = JsonConvert.DeserializeObject<UserDetails>(result.ResponseValue); 
+                    {
+                        UserDetails user = JsonConvert.DeserializeObject<UserDetails>(result.ResponseValue);
                         FormsAuthentication.SetAuthCookie(user.username, false);
                         Session["UserDetail"] = user;
                         return Json("Success", JsonRequestBehavior.AllowGet);
@@ -72,7 +72,7 @@ namespace DTShopping
             catch (Exception ex)
             {
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
-            }            
+            }
         }
 
         // GET: /Account/Register
@@ -181,7 +181,7 @@ namespace DTShopping
             return Json(cityList);
         }
 
-        
+
 
 
     }

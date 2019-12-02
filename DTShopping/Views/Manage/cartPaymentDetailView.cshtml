@@ -156,7 +156,7 @@
                                     <label for="username">@Resources.PaymentMode</label>
                                 </div>
                                 <div style="display:inline-block; width:30%;">
-                                    @Html.DropDownListFor(m => m.OrderDetail.payment_mode, new SelectList(Model.PaymentModeList, "value", "value"), new { @required = "0", id = "PaymodeDropDown", @class = "form-control" })
+                                    @Html.DropDownListFor(m => m.OrderDetail.payment_mode, new SelectList(Model.PaymentModeList, "Id", "value"), new { @required = "0", id = "PaymodeDropDown", @class = "form-control" })
                                 </div>
                                 <br />
 

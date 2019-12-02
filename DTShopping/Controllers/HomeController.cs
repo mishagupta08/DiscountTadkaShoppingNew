@@ -37,6 +37,7 @@ namespace DTShopping.Controllers
                     objDashboardDetails.Banners = new List<Banners>();
                     objDashboardDetails.Banners = await objRepository.GetBannerImageList(companyId);
                     
+
                     objDashboardDetails.FontpageSections = new ShoppingPortalFrontPageProdList();
                     objDashboardDetails.FontpageSections = await objRepository.GetShoppingPortalFrontPageProdList(companyId);
 
