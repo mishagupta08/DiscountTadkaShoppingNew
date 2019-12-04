@@ -267,7 +267,19 @@ namespace DTShopping.Controllers
         [HttpGet]
         public async Task<ActionResult> thankYouPage()
         {
-            return View();
+
+            Dashboard data = new Dashboard();
+            data.OrderDetail = new order();
+            data.OrderDetail.id = Session["OrderId"] != null ? Convert.ToInt32(Session["OrderId"]) : 0;
+            if (data.OrderDetail.id != 0)
+            {
+                var result = await this.objRepository.GetUserOrder(data.OrderDetail);
+                if (result!= null)
+                {
+                    data.OrderDetail = result;
+                }
+                }
+            return View(data);
         }
 
         [HttpPost]

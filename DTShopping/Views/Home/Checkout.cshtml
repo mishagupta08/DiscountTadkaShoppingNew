@@ -44,6 +44,7 @@
                                             <td height="30" align="right"><strong>Business Name</strong></td>
                                             <td height="30">
                                                 @Html.HiddenFor(m=>m.user_id)
+                                                @Html.HiddenFor(m => m.id)
                                                 @Html.TextBoxFor(m => m.companyName, new { @type = "text", @id = "companyName", @required = "required", @placeholder = "" })
                                             </td>
                                         </tr>

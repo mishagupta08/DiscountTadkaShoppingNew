@@ -474,7 +474,7 @@ namespace DTShopping.Controllers
                 {                    
                     var userDetail = Session["UserDetail"] as UserDetails;
                     objUserOrder.user_id = userDetail.id;
-                    var result = await objRepository.GetUserOrder(objUserOrder);
+                    var result = await objRepository.GetUserOpenOrder(objUserOrder);
                     if (result != null)
                     {
                         objUserOrder = result;
@@ -539,8 +539,15 @@ namespace DTShopping.Controllers
                 objorder.created = DateTime.Now;
                 objorder.status = 2;
                 objorder.company_id = Convert.ToInt16(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
-
-                var response = await objRepository.CreateOrder(objorder, "Add");
+                Response response = new Response();
+                if (objorder.id == 0)
+                {
+                    response = await objRepository.CreateOrder(objorder, "Add");
+                }
+                else
+                {
+                    response = await objRepository.CreateOrder(objorder, "EditAddress");
+                }
                 if (response.Status == true)
                 {
                     Session["OrderId"] = response.ResponseValue;
