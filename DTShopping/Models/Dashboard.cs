@@ -18,6 +18,8 @@ namespace DTShopping.Models
         public double TotalProductPoints { get; set; }
         public Product ProductDetail { get; set; }
         public order OrderDetail { get; set; }
+
+        public List<order_products> OrderProducts { get; set; }
         public List<Containers> PaymentModeList { get; set; }
         public ShoppingPortalFrontPageProdList FontpageSections{get;set;}
         public double Amount { get; set; }

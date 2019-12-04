@@ -276,7 +276,8 @@ namespace DTShopping.Controllers
                 var result = await this.objRepository.GetUserOrder(data.OrderDetail);
                 if (result!= null)
                 {
-                    data.OrderDetail = result;
+                    data.OrderDetail = result.OrderDetail;
+                    data.OrderProducts = result.OrderProducts;
                 }
                 }
             return View(data);
