@@ -475,7 +475,7 @@ namespace DTShopping.Controllers
                     var userDetail = Session["UserDetail"] as UserDetails;
                     objUserOrder.user_id = userDetail.id;
                     var result = await objRepository.GetUserOrder(objUserOrder);
-                    if (result != null)
+                                        if (result != null)
                     {
                         objUserOrder = result;
                     }
@@ -495,7 +495,11 @@ namespace DTShopping.Controllers
             {
 
             }
-            return View(objUserOrder);
+
+            var viewModel = new Dashboard();
+            viewModel.OrderDetail = objUserOrder;
+            viewModel.deliveryTypeList = await objRepository.DeliveryTypeList();
+            return View(viewModel);
         }
 
         [HttpGet]

@@ -216,6 +216,7 @@
     <Compile Include="Models\discount_coupons.cs" />
     <Compile Include="Models\Filters.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\KeyValue.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MenuItems.cs" />
     <Compile Include="Models\order.cs" />

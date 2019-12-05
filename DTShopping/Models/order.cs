@@ -56,6 +56,7 @@ namespace DTShopping.Models
         public string market_price { get; set; }
         public string OfferPrice { get; set; }
         public int point_adjusted { get; set; }
+        public string DeliveryType { get; set; }
     }
 
     public class PagedOrderList 

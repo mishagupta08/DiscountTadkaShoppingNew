@@ -20,6 +20,8 @@ namespace DTShopping.Repository
 
         private string ManageListWithFilterAction = "ManageListWithFilter";
 
+        private string DeliveryTypeListAction = "DeliveryTypeList";
+
         private string ManageProductsAction = "ManageProducts/";
 
         private string MangeOtpFunctionsAction = "MangeOtpFunctions/";
@@ -43,6 +45,20 @@ namespace DTShopping.Repository
         private string ManageOrder = "ManageOrder/";
 
         private string ManagePointLedgerAction = "ManagePointsLedger/";
+
+        public async Task<List<KeyValue>> DeliveryTypeList()
+        {
+            var result = await CallPostFunction(string.Empty, DeliveryTypeListAction);
+            if (result == null || !result.Status)
+            {
+                return null;
+            }
+            else
+            {
+                var list = JsonConvert.DeserializeObject<List<KeyValue>>(result.ResponseValue);
+                return list;
+            }
+        }
 
         public async Task<List<Category>> GetMenuList()
         {
