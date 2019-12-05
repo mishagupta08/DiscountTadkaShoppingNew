@@ -32,16 +32,16 @@
                                         <tr>
                                             <td height="30" align="right"><strong>Delivery Type</strong></td>
                                             <td height="30">
-                                              @Html.DropDownListFor(m => m.OrderDetail.DeliveryType, new SelectList(Model.deliveryTypeList, "Id", "Value"), new { @required = "0", id = "brandDropDown", @class = "form-control" })
+                                              @Html.DropDownListFor(m =>Model.OrderDetail.delievryType, new SelectList(Model.deliveryTypeList, "Id", "Value"), new { @required = "0", id = "brandDropDown", @class = "form-control" })
                                             </td>
                                         </tr>
 
                                         <tr>
                                             <td height="30" align="right"><strong>Business Name</strong></td>
                                             <td height="30">
-                                                @Html.HiddenFor(m=>m.user_id)
-                                                @Html.HiddenFor(m => m.id)
-                                                @Html.TextBoxFor(m => m.companyName, new { @type = "text", @id = "companyName", @required = "required", @placeholder = "" })
+                                                @Html.HiddenFor(m=>m.OrderDetail.user_id)
+                                                @Html.HiddenFor(m => m.OrderDetail.id)
+                                                @Html.TextBoxFor(m => m.OrderDetail.companyName, new { @type = "text", @id = "companyName", @required = "required", @placeholder = "" })
                                             </td>
                                         </tr>
 

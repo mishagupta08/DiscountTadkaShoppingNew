@@ -78,6 +78,7 @@ namespace DTShopping.Models
         public Nullable<decimal> price { get; set; }
         public Nullable<decimal> RBV_Points { get; set; }
         public Nullable<decimal> Amt { get; set; }
+        public Nullable<int> delievryType { get; set; }
     }
 
     public class PagedOrderList 
