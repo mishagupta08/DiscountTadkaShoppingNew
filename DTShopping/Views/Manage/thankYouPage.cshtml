@@ -1,19 +1,83 @@
 ﻿@using DTShopping.Properties
 @model DTShopping.Models.Dashboard
+@using DTShopping.Models
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    company current_cmpny = (Session["Company"] != null) ? Session["Company"] as company : new company();
 }
 
 <div class="container">
-    <table width="100%" border="0" cellspacing="3" cellpadding="3" class="shoptable">
+    <table width="100%" border="1" cellspacing="3" cellpadding="3" class="shoptable">
         <tr>
-            <td width="18%"><img src="~/images/thanku.jpg" alt="Thank You" style="padding-left: 70%; padding-top: 10%;"></td>
-            <td width="57%"  style="padding-left: 5%;" valign="middle">
+            <td width="20%"><img src="~/images/thanku.jpg" alt="Thank You" style="padding-left: 70%; padding-top: 10%;"></td>
+            <td width="60%" style="padding-left: 5%;" valign="middle">
                 Thanks for placing your order with us here at (Discount Tadka). <br>
                 Please find your order status in the "Orders" section in your account.                                             <br>
                 Your order has been placed successfully.
             </td>
+            <td width="20%" style="padding-left: 5%;" valign="middle">
+                <h3>Need More Support</h3>
+                <label>Call us:- &nbsp; (91) @current_cmpny.company_landline_no</label>
+                <label>Email us:- &nbsp; @current_cmpny.contact_email</label>
+            </td>
         </tr>
     </table>
+    <br>
+    <h3>Your Order Details :-</h3>
+    <table width="100%" border="1" cellspacing="3" cellpadding="3" class="shoptable">
+        <tr>
+            <td>
+                <table width="100%" border="1" cellspacing="3" cellpadding="3" class="shoptable">
+                    <tr>
+                        
+                        <th>Item Details</th>
+                        <th>Particulars</th>
+                        <th>Delivery Status</th>
+                        
+                    </tr>
+                    @{ var count = 1;}
+                    @foreach (var product in Model.OrderProducts)
+                    {
+                        <tr>
+                            <td>@count</td>
+                            <td>
+                                Product :- @product.productName <br />
+                                Code :- @product.product_id<br />
+                                Offer Price :- @product.amount<br />
+                                Discount Points :- @product.RBV_Points<br />
+                                Shipping Charges :- @product.shipping_charge<br />
+                                Net Amount :- @product.price<br />
+                            </td>
+                            <td>Pending</td>
+                        </tr>
+                        count = count + 1;
+                    }
+
+
+
+                </table>
+            </td>
+        
+            <td>
+                <table width="100%" border="1" cellspacing="3" cellpadding="3" class="shoptable">
+                    <tr>
+                        <th>Order Details</th>
+
+                    </tr>
+
+                    <tr>
+                        <td>
+                            Order Number :- @Model.OrderDetail.id <br />
+                            Order Value :- @Model.OrderDetail.TotalPrice <br />
+                            Order Date :- @Model.OrderDetail.created.ToShortDateString()<br />
+                            Payment Mode :- @Model.OrderDetail.payment_mode<br />
+                            <b>Payment Status :- Pending</b>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        </table>
+
 </div>
 <script src="~/Scripts/shopping.js"></script>

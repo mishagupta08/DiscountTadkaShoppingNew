@@ -56,7 +56,28 @@ namespace DTShopping.Models
         public string market_price { get; set; }
         public string OfferPrice { get; set; }
         public int point_adjusted { get; set; }
-        public string DeliveryType { get; set; }
+        public Nullable<decimal> TotalRBV { get; set; }
+        public Nullable<decimal> TotalShipping { get; set; }
+        public Nullable<decimal> TotalAmount { get; set; }
+        public Nullable<decimal> TotalPrice { get; set; }
+        public List<order_products> OrderProducts { get; set; }
+    }
+
+    public class order_products
+    {
+        public string productName { get; set; }
+        public int id { get; set; }
+        public int order_id { get; set; }
+        public int product_id { get; set; }
+        public int quantity { get; set; }
+        public double amount { get; set; }
+        public System.DateTime created { get; set; }
+        public System.DateTime modified { get; set; }
+        public Nullable<decimal> RBV { get; set; }
+        public Nullable<decimal> shipping_charge { get; set; }
+        public Nullable<decimal> price { get; set; }
+        public Nullable<decimal> RBV_Points { get; set; }
+        public Nullable<decimal> Amt { get; set; }
     }
 
     public class PagedOrderList 

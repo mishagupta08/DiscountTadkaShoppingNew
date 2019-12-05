@@ -22,11 +22,11 @@
         $("#phonePay").hide();
         $("#Bank").hide();
         var paymode = $(this).val();
-        if (paymode == "Paytm")
+        if (paymode == "7")
         {
             $("#Paytm").show();
         }
-        else if (paymode == "PhonePe") {
+        else if (paymode == "8") {
             $("#phonePay").show();
         }
         else {

@@ -351,8 +351,7 @@ namespace DTShopping.Repository
                 return result;
             }
         }
-
-        public async Task<order> GetUserOrder(order orderDetail)
+        public async Task<order> GetUserOpenOrder(order orderDetail)
         {
             var productData = JsonConvert.SerializeObject(orderDetail);
             var result = await CallPostFunction(productData, "ManageOrder/UserOpenOrder");
@@ -363,6 +362,20 @@ namespace DTShopping.Repository
             else
             {
                 return JsonConvert.DeserializeObject<order>(result.ResponseValue);
+            }
+        }
+
+        public async Task<Dashboard> GetUserOrder(order orderDetail)
+        {
+            var productData = JsonConvert.SerializeObject(orderDetail);
+            var result = await CallPostFunction(productData, "ManageOrder/ById");
+            if (result == null)
+            {
+                return null;
+            }
+            else
+            {
+                return JsonConvert.DeserializeObject<Dashboard>(result.ResponseValue);
             }
         }
 
