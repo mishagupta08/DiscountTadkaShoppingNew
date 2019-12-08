@@ -60,7 +60,8 @@ namespace DTShopping.Models
         public Nullable<decimal> TotalShipping { get; set; }
         public Nullable<decimal> TotalAmount { get; set; }
         public Nullable<decimal> TotalPrice { get; set; }
-        public List<order_products> OrderProducts { get; set; }
+        public List<order_products> OrderProducts { get; set; }        
+        public string DeliveryType { get; set; }
     }
 
     public class order_products
@@ -79,6 +80,9 @@ namespace DTShopping.Models
         public Nullable<decimal> RBV_Points { get; set; }
         public Nullable<decimal> Amt { get; set; }
         public Nullable<int> delievryType { get; set; }
+        public string small_image { get; set; }
+        public string medium_image { get; set; }
+        public string large_image { get; set; }
     }
 
     public class PagedOrderList 

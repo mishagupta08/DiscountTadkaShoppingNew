@@ -535,9 +535,10 @@ namespace DTShopping.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateOrder(order objorder)
+        public async Task<ActionResult> CreateOrder(Dashboard obj)
         {
             var orderstatus = string.Empty;
+            order objorder = obj.OrderDetail;
             try
             {
                 objorder.created = DateTime.Now;

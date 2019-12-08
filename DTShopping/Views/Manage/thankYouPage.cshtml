@@ -4,6 +4,7 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     company current_cmpny = (Session["Company"] != null) ? Session["Company"] as company : new company();
+    string imageUrl = System.Configuration.ConfigurationManager.AppSettings["ImageUrl"];
 }
 
 <div class="container">
@@ -39,7 +40,7 @@
                     @foreach (var product in Model.OrderProducts)
                     {
                         <tr>
-                            <td>@count</td>
+                            <td><img src="@imageUrl/@product.small_image" height="50" width="50" alt="" itemprop="image" /></td>
                             <td>
                                 Product :- @product.productName <br />
                                 Code :- @product.product_id<br />

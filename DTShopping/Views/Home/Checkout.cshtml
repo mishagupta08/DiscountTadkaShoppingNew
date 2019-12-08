@@ -32,7 +32,7 @@
                                         <tr>
                                             <td height="30" align="right"><strong>Delivery Type</strong></td>
                                             <td height="30">
-                                              @Html.DropDownListFor(m =>Model.OrderDetail.delievryType, new SelectList(Model.deliveryTypeList, "Id", "Value"), new { @required = "0", id = "brandDropDown", @class = "form-control" })
+                                              @Html.DropDownListFor(m =>Model.OrderDetail.DeliveryType, new SelectList(Model.deliveryTypeList, "Id", "Value"), new { @required = "0", id = "brandDropDown", @class = "form-control" })
                                             </td>
                                         </tr>
 
@@ -134,13 +134,13 @@
     function SaveOrderForm()
     {
         $(".preloader").show();        
-        var orderDetail = $('#addorderForm').serialize();
+        var objorder = $('#addorderForm').serialize();
         
         $.ajax({
             url: '/Home/CreateOrder',
             type: 'Post',
             datatype: 'Json',
-            data: orderDetail
+            data: objorder
         }).done(function (result) {
             $(".preloader").hide();
             if (result == "Success")

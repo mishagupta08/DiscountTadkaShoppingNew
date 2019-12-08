@@ -142,7 +142,7 @@ namespace DTShopping.Controllers
             var result = new Response();
 
             detailModel.OrderDetail.id = Session["OrderId"] != null ? Convert.ToInt32(Session["OrderId"]) : 0;
-
+            detailModel.OrderDetail.user_id = Session["UserDetail"] != null ? (Session["UserDetail"] as UserDetails).id : 0;
             result = await objRepository.CreateOrder(detailModel.OrderDetail, "Edit");
 
             if (result == null)
