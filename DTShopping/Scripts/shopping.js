@@ -217,8 +217,9 @@ function UpdateQuantityDetail(thisVar) {
 
     $(".preloader").show();
     var idVal = $(thisVar).attr("data-id");
-    var qty = $("#productQuantity").val();
-
+    var id = "#productQuantity_" + idVal;
+    var qty = $(id).val();
+    
     $.ajax({
         url: '/Manage/UpdateProductQuantityDetail',
         type: 'Post',
