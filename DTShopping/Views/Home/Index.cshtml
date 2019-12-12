@@ -81,8 +81,16 @@
                                                 <div class="clearfix">
                                                     <div class="icon_cart_title product-price">
                                                         <span class="new_price">
-                                                            <s>@segment.cost_price</s><br>
-                                                            <span class="new-special-price">@Html.Raw(segment.offer_price)</span>
+                                                           @if (Convert.ToDouble(string.IsNullOrEmpty(segment.market_price) ? "0" : segment.market_price) > Convert.ToDouble(string.IsNullOrEmpty(segment.offer_price) ? "0" : segment.offer_price))
+                                                           {
+                                                            <s>Rs.@segment.market_price</s><br>
+                                                            <span class="new-special-price">Rs.@segment.offer_price</span>
+                                                           }
+                                                           else
+                                                           {
+                                                            <span>Rs.@segment.market_price</span><br>
+                                                            <span class="new-special-price"></span>
+                                                           }
                                                         </span><br>
                                                         <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
 
@@ -135,8 +143,16 @@
                                                 <div class="clearfix">
                                                     <div class="icon_cart_title product-price">
                                                         <span class="new_price">
-                                                            <s>@segment.cost_price</s><br>
-                                                            <span class="new-special-price">@Html.Raw(segment.offer_price)</span>
+                                                          @if (Convert.ToDouble(string.IsNullOrEmpty(segment.market_price) ? "0" : segment.market_price) > Convert.ToDouble(string.IsNullOrEmpty(segment.offer_price) ? "0" : segment.offer_price))
+                                                          {
+                                                            <s>Rs.@segment.market_price</s><br>
+                                                            <span class="new-special-price">Rs.@segment.offer_price</span>
+                                                          }
+                                                          else
+                                                          {
+                                                            <span>Rs.@segment.market_price</span><br>
+                                                            <span class="new-special-price"></span>
+                                                          }
                                                         </span><br>
                                                         <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
                                                             <br>
@@ -190,8 +206,16 @@
                                                 <div class="clearfix">
                                                     <div class="icon_cart_title product-price">
                                                         <span class="new_price">
-                                                            <s>@segment.cost_price</s><br>
-                                                            <span class="new-special-price">@Html.Raw(segment.offer_price)</span>
+                                                           @if (Convert.ToDouble(string.IsNullOrEmpty(segment.market_price) ? "0" : segment.market_price) > Convert.ToDouble(string.IsNullOrEmpty(segment.offer_price) ? "0" : segment.offer_price))
+                                                           {
+                                                            <s>Rs.@segment.market_price</s><br>
+                                                            <span class="new-special-price">Rs.@segment.offer_price</span>
+                                                           }
+                                                           else
+                                                           {
+                                                            <span>Rs.@segment.market_price</span><br>
+                                                            <span class="new-special-price"></span>
+                                                           }
                                                         </span><br>
                                                         <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
                                                             <br>
@@ -243,8 +267,16 @@
                                                 <div class="clearfix">
                                                     <div class="icon_cart_title product-price">
                                                         <span class="new_price">
-                                                            <s>@segment.cost_price</s><br>
-                                                            <span class="new-special-price">@Html.Raw(segment.offer_price)</span>
+                                                         @if (Convert.ToDouble(string.IsNullOrEmpty(segment.market_price) ? "0" : segment.market_price) > Convert.ToDouble(string.IsNullOrEmpty(segment.offer_price) ? "0" : segment.offer_price))
+                                                         {
+                                                            <s>Rs.@segment.market_price</s><br>
+                                                            <span class="new-special-price">Rs.@segment.offer_price</span>
+                                                         }
+                                                         else
+                                                         {
+                                                            <span>Rs.@segment.market_price</span><br>
+                                                            <span class="new-special-price"></span>
+                                                         }
                                                         </span><br>
                                                         <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
                                                             <br>
@@ -297,8 +329,16 @@
                                                 <div class="clearfix">
                                                     <div class="icon_cart_title product-price">
                                                         <span class="new_price">
-                                                            <s>@segment.cost_price</s><br>
-                                                            <span class="new-special-price">@Html.Raw(segment.offer_price)</span>
+                                                            @if (Convert.ToDouble(string.IsNullOrEmpty(segment.market_price) ? "0" : segment.market_price) > Convert.ToDouble(string.IsNullOrEmpty(segment.offer_price) ? "0" : segment.offer_price))
+                                                            {
+                                                                <s>Rs.@segment.market_price</s><br>
+                                                                <span class="new-special-price">Rs.@segment.offer_price</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>Rs.@segment.market_price</span><br>
+                                                                <span class="new-special-price"></span>
+                                                            }
                                                         </span><br>
                                                         <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
                                                             <br>

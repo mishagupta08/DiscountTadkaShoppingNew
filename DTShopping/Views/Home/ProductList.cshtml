@@ -552,8 +552,16 @@
                                             <div class="clearfix">
                                                 <div class="icon_cart_title product-price">
                                                     <span class="new_price">
+                                                    @if (Convert.ToDouble(string.IsNullOrEmpty(product.market_price)?"0": product.market_price) > Convert.ToDouble(string.IsNullOrEmpty(product.offer_price) ? "0" : product.offer_price))
+                                                    {
                                                         <s>Rs.@product.market_price</s><br>
                                                         <span class="new-special-price">Rs.@product.offer_price</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>Rs.@product.market_price</span><br>
+                                                        <span class="new-special-price"></span>
+                                                    }
                                                     </span><br>
                                                     <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
                                                         <br>

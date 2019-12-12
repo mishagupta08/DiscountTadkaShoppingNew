@@ -64,11 +64,29 @@
 
                                                             <div itemprop="offerDetails" itemscope class="prod_info_price">
                                                                 <p class="old_price_box"><span class="old_price_label">@Resources.Vendor :</span> Rs. @Model.ProductDetail.VendorName</p>
+@if (Convert.ToDouble(string.IsNullOrEmpty(Model.ProductDetail.market_price) ? "0" : Model.ProductDetail.market_price) > Convert.ToDouble(string.IsNullOrEmpty(Model.ProductDetail.offer_price) ? "0" : Model.ProductDetail.offer_price))
+{
                                                                 <p class="old_price_box"><span class="old_price_label">@Resources.MarketPrice :</span><s> Rs. @Model.ProductDetail.market_price</s></p>
                                                                 <p class="new_price_box">
-                                                                    <span class="special_price_label"> @Resources.OfferPrice :</span> <span itemprop="price" class="new-special-price">
+                                                                    <span class="special_price_label"> @Resources.OfferPrice :</span>
+
+                                                                    <span itemprop="price" class="new-special-price">
                                                                         Rs. @Model.ProductDetail.offer_price<br>
-                                                                    </span><span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
+                                                                    </span>
+                                                                </p>
+}
+else
+{
+    <p class="new_price_box">
+        <span class="special_price_label"> Price :</span>
+
+        <span itemprop="price" class="new-special-price">
+            Rs. @Model.ProductDetail.offer_price<br>
+        </span>
+    </p>
+}
+                                                                <p>
+                                                                    <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
                                                                         <strong>@Resources.EUPoints : @{var t = @Model.ProductDetail.point_adjusted != null ? @Model.ProductDetail.point_adjusted : 0;}@t</strong><br>
                                                                         <strong>@Resources.Size : @Model.ProductDetail.product_size</strong><br>
                                                                     </span>
