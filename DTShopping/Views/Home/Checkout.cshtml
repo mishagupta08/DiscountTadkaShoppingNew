@@ -99,6 +99,12 @@
                                                 @Html.TextBoxFor(m => m.OrderDetail.billing_phone, new { @type = "text", @id = "billing_phone", @required = "required", @placeholder = "" })
                                             </td>
                                         </tr>
+                                        <tr>
+                                            <td height="30" align="right"><strong>Email</strong></td>
+                                            <td height="30">
+                                                @Html.TextBoxFor(m => m.OrderDetail.billing_email, new { @type = "email", @id = "billing_email", @required = "required", @placeholder = "" })
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </td>
