@@ -35,7 +35,7 @@ namespace DTShopping.Controllers
             this.model = new Dashboard();
             objRepository = new APIRepository();
             var result = new Response();
-
+            var CompanyId = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
             var detail = (UserDetails)(Session["UserDetail"]);
             //detail.username = detailModel.User.username;
             //detail.password_str = detailModel.User.password_str;
@@ -52,59 +52,80 @@ namespace DTShopping.Controllers
             }
             else
             {
-                var deductWallet = await objRepository.DeductWalletBalnce(detail);
-                if (deductWallet.Status)
+                if (CompanyId == 17)
                 {
-                    var Wallet = JsonConvert.DeserializeObject<WalletDeduction>(deductWallet.ResponseValue);
-                    if (Wallet.response.ToLower() == "ok")
+                    detailModel.OrderDetail = new order();
+                    detailModel.OrderDetail.id = Session["OrderId"] != null ? Convert.ToInt32(Session["OrderId"]) : 0;
+                    result = await objRepository.CreateOrder(detailModel.OrderDetail, "EditWithOtp");
+                    if (result == null)
                     {
-                        detail.Voucher = Wallet.voucherno;
-                        var Walletconfirm = await objRepository.WalletConfirmationAPI(detail);
-                        if (Walletconfirm.Status)
+                        return Json(Resources.ErrorMessage);
+                    }
+                    else if (!result.Status)
+                    {
+                        return Json(result.ResponseValue);
+                    }
+                    else
+                    {
+                        return Json("ok");
+                    }
+                }
+                else if(CompanyId == 28) {                    
+                    var deductWallet = await objRepository.DeductWalletBalnce(detail);
+                    if (deductWallet.Status)
+                    {
+                        var Wallet = JsonConvert.DeserializeObject<WalletDeduction>(deductWallet.ResponseValue);
+                        if (Wallet.response.ToLower() == "ok")
                         {
-                            var ConfirmWallet = JsonConvert.DeserializeObject<WalletDetails>(Walletconfirm.ResponseValue);
-                            if (ConfirmWallet.response.ToLower() == "ok")
+                            detail.Voucher = Wallet.voucherno;
+                            var Walletconfirm = await objRepository.WalletConfirmationAPI(detail);
+                            if (Walletconfirm.Status)
                             {
-                                detailModel.OrderDetail = new order();
-                                detailModel.OrderDetail.id = Session["OrderId"] != null ? Convert.ToInt32(Session["OrderId"]) : 0;
-                                detailModel.OrderDetail.payment_ref_no = Wallet.voucherno;
-                                detailModel.OrderDetail.payment_ref_amount = detailModel.Amount.ToString();
-                                result = await objRepository.CreateOrder(detailModel.OrderDetail, "EditWithOtp");
-                                if (result == null)
+                                var ConfirmWallet = JsonConvert.DeserializeObject<WalletDetails>(Walletconfirm.ResponseValue);
+                                if (ConfirmWallet.response.ToLower() == "ok")
                                 {
-                                    return Json(Resources.ErrorMessage);
-                                }
-                                else if (!result.Status)
-                                {
-                                    return Json(result.ResponseValue);
+                                    detailModel.OrderDetail = new order();
+                                    detailModel.OrderDetail.id = Session["OrderId"] != null ? Convert.ToInt32(Session["OrderId"]) : 0;
+                                    detailModel.OrderDetail.payment_ref_no = Wallet.voucherno;
+                                    detailModel.OrderDetail.payment_ref_amount = detailModel.Amount.ToString();
+                                    result = await objRepository.CreateOrder(detailModel.OrderDetail, "EditWithOtp");
+                                    if (result == null)
+                                    {
+                                        return Json(Resources.ErrorMessage);
+                                    }
+                                    else if (!result.Status)
+                                    {
+                                        return Json(result.ResponseValue);
+                                    }
+                                    else
+                                    {
+                                        return Json("ok");
+                                    }
+
                                 }
                                 else
                                 {
-                                    return Json("ok");
+                                    return Json("Something went wrong");
                                 }
-                                
                             }
                             else
                             {
-                                return Json("Something went wrong");
+                                return Json(Walletconfirm.ResponseValue);
                             }
                         }
                         else
                         {
-                            return Json(Walletconfirm.ResponseValue);
+                            return Json(Wallet.response);
                         }
+
                     }
                     else
                     {
-                        return Json(Wallet.response);
+                        return Json(deductWallet.ResponseValue);
                     }
-
-                }
-                else
-                {
-                    return Json(deductWallet.ResponseValue);
                 }
             }
+            return Json("Something went wrong");
         }
 
         public async Task<ActionResult> SaveOrderDetailWithPoints(Dashboard detailModel)
