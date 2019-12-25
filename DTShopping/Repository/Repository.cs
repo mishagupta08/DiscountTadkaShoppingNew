@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -245,6 +246,7 @@ namespace DTShopping.Repository
 
         public async Task<Product> GetProductDetailById(List<Product> products)
         {
+            products.FirstOrDefault().companyId = CompanyId;
             var productData = JsonConvert.SerializeObject(products);
             var result = await CallPostFunction(productData, ManageProductsAction + "ById");
             if (result == null || !result.Status)

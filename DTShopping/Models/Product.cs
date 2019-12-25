@@ -11,6 +11,7 @@ namespace DTShopping.Models
         public int id { get; set; }
         public Nullable<int> brand_id { get; set; }
         public Nullable<int> category_id { get; set; }
+        public Nullable<int> companyId { get; set; }
         public string product_code { get; set; }
         public string slug { get; set; }
         public string title { get; set; }

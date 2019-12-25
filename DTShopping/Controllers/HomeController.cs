@@ -86,7 +86,8 @@ namespace DTShopping.Controllers
             try
             {
                 var prodList = new List<Product>();
-                prodList.Add(new Product { id = prodId });
+                
+                prodList.Add(new Product { id = prodId});
                 dashboard.ProductDetail = await objRepository.GetProductDetailById(prodList);
                 if (dashboard.ProductDetail != null)
                 {
