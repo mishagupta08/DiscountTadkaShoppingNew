@@ -71,7 +71,7 @@
                 <div class="row">
                     <div class="row phone offset-by-eleven five columns" style="margin-top:0px;font-size:12px;">
 
-                        <span>Call us:(91) @current_cmpny.company_landline_no </span>&nbsp;&nbsp;<span>Email @current_cmpny.contact_email </span>
+                        <span>Call us:(91) @current_cmpny.company_landline_no </span>&nbsp;&nbsp;<span>Email: @current_cmpny.contact_email </span>
                     </div>
                     <div class="row">
                         <div id="logo" class="five columns">
@@ -295,6 +295,10 @@
         $('#et_categ_box_scroll .3sub-cat-name').hover(
             function () { $('.drop-box-4subcat', this).toggle() }
         );
+
+        $('#menu_block_head').click(function () {
+            $('.menu_block_dropdown').toggleClass('visible_on');
+        });
 
         $("#et_quick_find").submit(function () {
             var searchString = $("#search_input").val();
