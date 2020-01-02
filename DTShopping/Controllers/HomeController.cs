@@ -428,7 +428,7 @@ namespace DTShopping.Controllers
             return View();
         }
 
-        public async Task<ActionResult> Orders(int? pageNo)
+        public async Task<ActionResult> Orders(int? page)
         {
             var userID = 0;
             var companyID = 0;
@@ -441,14 +441,14 @@ namespace DTShopping.Controllers
 
                 objFilter.CompanyId = companyID;
                 objFilter.VendorId = userID;
-                objFilter.pageNo = pageNo;
-
+                objFilter.pageNo = page;
+                objFilter.pageName = "VendorOrderProductList";
                 var result = await objRepository.GetUserOrderList(objFilter);
                 double totalcount = 0;
                 if (result.Status == true && result.ResponseValue != null)
                 {
                     totalcount = result.TotalRecords;
-                    UserOrderList.OrderList = JsonConvert.DeserializeObject<List<order>>(result.ResponseValue);
+                    UserOrderList.OrderProductList = JsonConvert.DeserializeObject<List<order_products>>(result.ResponseValue);
                 }
 
                 var list = new List<int>();
@@ -456,7 +456,7 @@ namespace DTShopping.Controllers
                 {
                     list.Add(i);
                 }
-                UserOrderList.pagerCount = list.ToPagedList(Convert.ToInt32(pageNo ?? 1), 10);
+                UserOrderList.pagerCount = list.ToPagedList(Convert.ToInt32(page ?? 1), 10);
 
             }
             return View(UserOrderList);
