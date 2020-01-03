@@ -39,7 +39,11 @@
                             <td valign="middle" class="bordertop">@order.Amt</td>
                             <td valign="middle" class="bordertop">@order.DispatchStatusStr</td>
                             <td valign="middle" class="bordertop">@order.PaymentMode</td>
-                            <td valign="middle" class="bordertop">@order.PaymentStatus</td>
+                            <td valign="middle" class="bordertop">
+                                @order.PaymentStatus
+                                <br />
+                                @order.PaymentDate
+                            </td>
                         </tr>
                     }
 
