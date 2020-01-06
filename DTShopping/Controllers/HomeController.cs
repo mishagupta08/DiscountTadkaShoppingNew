@@ -15,6 +15,7 @@ namespace DTShopping.Controllers
     public class HomeController : Controller
     {
         APIRepository objRepository = new APIRepository();
+        Dashboard model = new Dashboard();
         public async Task<ActionResult> Index()
         {
             Dashboard objDashboardDetails = new Dashboard();
@@ -36,7 +37,7 @@ namespace DTShopping.Controllers
                 {
                     objDashboardDetails.Banners = new List<Banners>();
                     objDashboardDetails.Banners = await objRepository.GetBannerImageList(companyId);
-                    
+
 
                     objDashboardDetails.FontpageSections = new ShoppingPortalFrontPageProdList();
                     objDashboardDetails.FontpageSections = await objRepository.GetShoppingPortalFrontPageProdList(companyId);
@@ -86,8 +87,8 @@ namespace DTShopping.Controllers
             try
             {
                 var prodList = new List<Product>();
-                
-                prodList.Add(new Product { id = prodId});
+
+                prodList.Add(new Product { id = prodId });
                 dashboard.ProductDetail = await objRepository.GetProductDetailById(prodList);
                 if (dashboard.ProductDetail != null)
                 {
@@ -462,7 +463,7 @@ namespace DTShopping.Controllers
             return View(UserOrderList);
         }
 
-        public async Task<ActionResult> Checkout()
+        public async Task<ActionResult> Checkout(int deliveryType)
         {
             order objUserOrder = new order();
             try
@@ -472,7 +473,7 @@ namespace DTShopping.Controllers
                     return RedirectToAction("Login", "Account");
                 }
                 else
-                {                    
+                {
                     var userDetail = Session["UserDetail"] as UserDetails;
                     objUserOrder.user_id = userDetail.id;
                     var result = await objRepository.GetUserOpenOrder(objUserOrder);
@@ -481,7 +482,7 @@ namespace DTShopping.Controllers
                         objUserOrder = result;
                     }
                     else
-                    { 
+                    {
                         objUserOrder.billing_city = userDetail.CityName;
                         objUserOrder.billing_state = userDetail.StateName;
                         objUserOrder.billing_phone = userDetail.phone;
@@ -490,6 +491,11 @@ namespace DTShopping.Controllers
                         objUserOrder.billing_last_name = userDetail.last_name;
                     }
 
+                    this.model = new Dashboard();
+                    this.model.OrderDetail = objUserOrder;
+                    this.model.OrderDetail.DeliveryType =Convert.ToString(deliveryType);
+                    //this.model.deliveryTypeList = await objRepository.DeliveryTypeList();
+                    await AssignStateCityList();
                 }
             }
             catch (Exception ex)
@@ -497,10 +503,7 @@ namespace DTShopping.Controllers
 
             }
 
-            var viewModel = new Dashboard();
-            viewModel.OrderDetail = objUserOrder;
-            viewModel.deliveryTypeList = await objRepository.DeliveryTypeList();
-            return View(viewModel);
+            return View(this.model);
         }
 
         [HttpGet]
@@ -594,6 +597,66 @@ namespace DTShopping.Controllers
                 orderstatus = "Fail";
             }
             return Json(orderstatus, JsonRequestBehavior.AllowGet);
+        }
+
+        private async Task AssignStateCityList()
+        {
+
+            this.model.States = await this.objRepository.GetStateList();
+            if (this.model.States == null)
+            {
+                this.model.States = new List<R_StateMaster>();
+                this.model.States.Add(new R_StateMaster
+                {
+                    Id = 0,
+                    Name = "-Not Available-"
+                });
+            }
+
+            //if (this.model.RetailerDetail != null)
+            //{
+            //    this.model.CityList = await this.repository.GetCityList(this.model.RetailerDetail.StateId);
+            //}
+
+            if (this.model.Cities == null)
+            {
+                this.model.Cities = new List<R_CityMaster>();
+                this.model.Cities.Add(new R_CityMaster
+                {
+                    cityID = 0,
+                    cityName = "-Not Available-"
+                });
+            }
+        }
+
+        public async Task<ActionResult> GetCityListByState(string Id)
+        {
+            var cityList = new List<R_CityMaster>();
+            this.objRepository = new APIRepository();
+            this.model = new Dashboard();
+            if (string.IsNullOrEmpty(Id))
+            {
+                return null;
+            }
+            else
+            {
+                cityList = await this.objRepository.GetCityListById(Id);
+            }
+
+            if (cityList == null || cityList.Count == 0)
+            {
+                cityList = new List<R_CityMaster>();
+                if (this.model.Cities == null)
+                {
+                    this.model.Cities = new List<R_CityMaster>();
+                    this.model.Cities.Add(new R_CityMaster
+                    {
+                        cityID = 0,
+                        cityName = "-Not Available-"
+                    });
+                }
+            }
+            return Json(cityList);
         }
 
     }

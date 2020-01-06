@@ -41,7 +41,7 @@
                                     <span>@product.title</span> <br>&nbsp;
                                 </td>
                                 <td bgcolor="#C5C5C5">
-                                    @Html.TextBoxFor(m => product.vendor_qty, new { @min=1, @type = "number", @id = quantityID, @required = "required", @class = "form-control", @placeholder = "" })
+                                    @Html.TextBoxFor(m => product.vendor_qty, new { @min = 1, @type = "number", @id = quantityID, @required = "required", @class = "form-control", @placeholder = "" })
                                     <br />
                                     <a href="#" name="updateQuantity" data-id="@product.id" class="btn btn-style text-uppercase">Update</a>
                                 </td>
@@ -51,9 +51,9 @@
 
                                 <td bgcolor="#C5C5C5">@product.offer_price</td>
 
-                                <td bgcolor="#C5C5C5">@(product.point_adjusted??0)</td>
+                                <td bgcolor="#C5C5C5">@(product.point_adjusted ?? 0)</td>
 
-                                <td bgcolor="#C5C5C5">@(product.shippng_charge??0)</td>
+                                <td bgcolor="#C5C5C5"><span name="actualAmount">@(product.shippng_charge ?? 0)</span><span name = "zeroAMount">0</span></td>
 
                                 <td bgcolor="#C5C5C5">@product.amount</td>
                             </tr>
@@ -67,20 +67,20 @@
                 <p>&nbsp;</p>
                 @*<table width="97%" border="0" cellspacing="0" cellpadding="0" class="shoptable">
 
-                    <tr>
-                        <td width="15%" height="29"><strong>@Resources.CurrentAvailablePoints</strong></td>
-                        <td width="54%">
-                            <span class="fieldValue">
-                                <input type="radio" value="usePoints" name="usePoints" id="Pay1">
-                                @Model.UsersPoints
-                        </td>
-                        <td align="right"><h2><a href="~/#">Apply Voucher</a></h2></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">&nbsp;</td>
-                        <td align="right">&nbsp;</td>
-                    </tr>
-                </table>*@
+                        <tr>
+                            <td width="15%" height="29"><strong>@Resources.CurrentAvailablePoints</strong></td>
+                            <td width="54%">
+                                <span class="fieldValue">
+                                    <input type="radio" value="usePoints" name="usePoints" id="Pay1">
+                                    @Model.UsersPoints
+                            </td>
+                            <td align="right"><h2><a href="~/#">Apply Voucher</a></h2></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">&nbsp;</td>
+                            <td align="right">&nbsp;</td>
+                        </tr>
+                    </table>*@
                 <p>&nbsp;</p>
                 <table width="97%" border="0" cellspacing="5" cellpadding="5">
                     <tr>
@@ -96,42 +96,30 @@
                 </table>
                 <p>&nbsp;</p>
                 <p>&nbsp;</p>
-                @*<table width="97%" border="0" cellspacing="5" cellpadding="5" class="shoptable" style="border:1px solid #CCCCCC;">
+                <table width="97%" border="0" cellspacing="5" cellpadding="5" class="shoptable" style="border:1px solid #CCCCCC;">
                     <tr>
-                        <td width="53%"><h2>Payment Options</h2></td>
+                        <td width="53%"><h2>Delivery Type3 </h2></td>
                         <td width="47%">&nbsp;</td>
                     </tr>
-                    <tr bgcolor="#EBC6AD">
-                        <td>
-                            <div class="Paymenttd">
-                                <ul>
-                                    <li>
-                                        <input type="radio" value="offline" name="paymentmethod" id="Pay1">
-                                        <b>Cheque / DD / Cash / NEFT / RTGS</b><br>
-                                    </li>
-                                </ul>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="Paymenttd">
-                                <ul>
-                                    <li>
-                                        <input type="radio" value="dtcard" name="paymentmethod" id="Pay3">
-                                        <b>e-Wallet Payment</b>
-                                    </li>
-                                </ul>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>You can Deposit a cheque / DD / Cash /NEFT /RTGS </td>
-                        <td>Prepaid Card /e-Wallet Card. </td>
-                    </tr>
-                </table>*@
+                    @foreach (var payOp in Model.deliveryTypeList)
+                    {
+                        <tr bgcolor="#EBC6AD">
+                            <td colspan="5">
+                                <div class="Paymenttd">
+                                    <ul>
+                                        <li>
+                                            @Html.RadioButtonFor(m => Model.OrderDetail.DeliveryType, payOp.Id) <span>@payOp.Value</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </table>
 
                 <p>
                     <div class="buttonSet">
-                        <span class="buttonAction"><a class="unishop_submit" href="/Home/Checkout">Continue</a></span>
+                        <span class="buttonAction"><a class="unishop_submit" id="continueUrl" href="/Home/Checkout">Continue</a></span>
                     </div>
                 </p>
 
@@ -144,3 +132,24 @@
     }
 </div>
 <script src="~/Scripts/shopping.js"></script>
+<script>
+    $(document).ready(function () {
+        //$('input[type=radio]').live('change', function () {
+        //    var url = "/Home/Checkout?deliveryType=" + $(this).val();
+        //    document.getElementById("continueUrl").href = url;
+        //});
+
+        $('#continueUrl').click(function (e) {
+            var radioVal = $("input[type=radio]:checked").val();
+            if (radioVal == null || radioVal == "") {
+                alert("Please select delivery type.");
+            }
+            else {
+                var url = "/Home/Checkout?deliveryType=" + $("input[type=radio]:checked").val();
+                document.getElementById("continueUrl").href = url;
+            }
+        });
+
+    });
+
+</script>-

@@ -133,7 +133,7 @@
     <value>Something went wrong, Please try again later.</value>
   </data>
   <data name="EUPoints" xml:space="preserve">
-    <value>EU Points</value>
+    <value>Discount Points</value>
   </data>
   <data name="InStockText" xml:space="preserve">
     <value>In stock-Shipping with in 7-15 Working Days</value>

@@ -9,14 +9,12 @@
     $('#addToCart').click(function (e) {
         var prodId = $("#product_id").val();
         var quantity = $("#quantity").val();
-        
+
         AddProductInCart(prodId, quantity);
     });
 
-    
-    });
 
-
+});
 
 function GetCityByState() {
     var id = $("#stateList").val();
@@ -31,7 +29,6 @@ function GetCityByState() {
             $("#error").html(result);
         }
         else {
-
             $("#cityList").html("");
             $.each(result, function (key, value) {
                 $("#cityList").append($("<option></option>").val(value.cityID).html(value.cityName));
@@ -67,14 +64,13 @@ function SaveDetailForm() {
     return false;
 }
 
-function UpdateAccount(){
+function UpdateAccount() {
     $("#loginError").html("");
     var oldPassword = $("#oldPassword").val();
     var password_str = $("#password_str").val();
     var validateOldPassword = true;
     $("#ErrorMessage").html("");
-    if (oldPassword != password_str)
-    {
+    if (oldPassword != password_str) {
         validateOldPassword = false;
         $("#ErrorMessage").html("<br/><br/>Old password is not correct.");
     }
@@ -87,7 +83,7 @@ function UpdateAccount(){
             $("#ErrorMessage").html("<br/><br/>New password and Confirm password do not match.");
         }
         else {
-            
+
             $("#password_str").val(newPassword);
             var loginDetail = $('#update_account').serialize();
             $(".preloader").show();
@@ -120,7 +116,7 @@ function Login_Account() {
         datatype: 'Json',
         data: loginDetail
     }).done(function (result) {
-        if (result =="Success") {
+        if (result == "Success") {
             window.location.href = "/Home/Index";
         }
         else {

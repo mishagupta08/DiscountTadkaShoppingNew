@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace DTShopping.Models
+namespace DTShopping
 {
     public class order
     {
+        public string PaymentStatus { get; set; }
         public int id { get; set; }
         public Nullable<int> payment_type { get; set; }
         public Nullable<int> payment_method { get; set; }
@@ -60,7 +61,7 @@ namespace DTShopping.Models
         public Nullable<decimal> TotalShipping { get; set; }
         public Nullable<decimal> TotalAmount { get; set; }
         public Nullable<decimal> TotalPrice { get; set; }
-        public List<order_products> OrderProducts { get; set; }        
+        public List<order_products> OrderProducts { get; set; }
         public string DeliveryType { get; set; }
     }
 
@@ -87,11 +88,10 @@ namespace DTShopping.Models
         public string DispatchStatusStr { get; set; }
         public Nullable<int> DispatchStatus { get; set; }
         public string PaymentMode { get; set; }
-        public string PaymentStatus { get; set; }
-        public string PaymentDate { get; set; }        
+        public string PaymentDate { get; set; }
     }
 
-    public class PagedOrderList 
+    public class PagedOrderList
     {
         public List<order> OrderList { get; set; }
         public List<order_products> OrderProductList { get; set; }

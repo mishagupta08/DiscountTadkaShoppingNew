@@ -70,7 +70,8 @@ namespace DTShopping.Controllers
                         return Json("ok");
                     }
                 }
-                else if(CompanyId == 28) {                    
+                else if (CompanyId == 28)
+                {
                     var deductWallet = await objRepository.DeductWalletBalnce(detail);
                     if (deductWallet.Status)
                     {
@@ -168,7 +169,7 @@ namespace DTShopping.Controllers
 
             if (result == null)
             {
-                return Json(Resources.ErrorMessage,JsonRequestBehavior.AllowGet);
+                return Json(Resources.ErrorMessage, JsonRequestBehavior.AllowGet);
             }
             else if (!result.Status)
             {
@@ -205,21 +206,21 @@ namespace DTShopping.Controllers
 
         public async Task<ActionResult> ConfirmPassword(Dashboard detailModel)
         {
-        this.model = new Dashboard();
-        objRepository = new APIRepository();
-        var result = new Response();
+            this.model = new Dashboard();
+            objRepository = new APIRepository();
+            var result = new Response();
 
-        var detail = (UserDetails)(Session["UserDetail"]);
-        detail.password_str = detailModel.User.password_str;
+            var detail = (UserDetails)(Session["UserDetail"]);
+            detail.password_str = detailModel.User.password_str;
             detail.Amount = detailModel.Amount;
             result = await this.objRepository.CheckUserExistance(detail);
             if (result == null)
             {
-              return Json(Resources.ErrorMessage);
+                return Json(Resources.ErrorMessage);
             }
             else if (!result.Status)
             {
-              return Json("Not Found");
+                return Json("Not Found");
             }
             else
             {
@@ -241,7 +242,7 @@ namespace DTShopping.Controllers
                 {
                     return Json("No Wallet Balance Found");
                 }
-            }          
+            }
         }
 
         public async Task<ActionResult> DeductWallet(Dashboard detailModel)
@@ -295,12 +296,12 @@ namespace DTShopping.Controllers
             if (data.OrderDetail.id != 0)
             {
                 var result = await this.objRepository.GetUserOrder(data.OrderDetail);
-                if (result!= null)
+                if (result != null)
                 {
                     data.OrderDetail = result.OrderDetail;
                     data.OrderProducts = result.OrderProducts;
                 }
-                }
+            }
             return View(data);
         }
 
@@ -425,11 +426,12 @@ namespace DTShopping.Controllers
         {
             this.model = new Dashboard();
             this.objRepository = new APIRepository();
+
             if (CheckLoginUserStatus())
             {
                 try
                 {
-
+                    this.model.deliveryTypeList = await objRepository.DeliveryTypeList();
                     var cart = new CartFilter();
                     var detail = (UserDetails)(Session["UserDetail"]);
                     cart.username = detail.username;
@@ -464,6 +466,8 @@ namespace DTShopping.Controllers
                                     prodPrice = Convert.ToDouble(prod.offer_price);
                                 }
 
+                                prod.shippng_charge = (prod.vendor_qty ?? 1) * (prod.shippng_charge ?? 0);
+
                                 //prod.TotalPayment = prodPrice * (prod.vendor_qty ?? 1) + (prod.shippng_charge ?? 0);
                                 //this.model.TotalProductPoints += (prod.RBV ?? 0) * (prod.vendor_qty ?? 1);
                                 //this.model.NetPayment += prod.TotalPayment;
@@ -481,7 +485,7 @@ namespace DTShopping.Controllers
             else
             {
                 return RedirectToAction("Login", "Account");
-            }
+            }            
 
             if (isWithPayment)
             {
@@ -489,8 +493,7 @@ namespace DTShopping.Controllers
                 {
                     this.model = new Dashboard();
                 }
-                
-                
+
                 return PartialView("cartPaymentDetailView", this.model);
             }
             else
@@ -524,7 +527,7 @@ namespace DTShopping.Controllers
                     cart.productId = ProductId;
                     cart.quantity = Quantity;
                     cart.companyId = Convert.ToInt16(companyId);
-                    
+
                     var detail = (UserDetails)(Session["UserDetail"]);
                     cart.username = detail.username;
                     cart.password = detail.password_str;
