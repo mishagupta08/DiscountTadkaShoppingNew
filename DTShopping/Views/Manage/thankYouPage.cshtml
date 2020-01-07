@@ -30,11 +30,11 @@
             <td>
                 <table width="100%" border="1" cellspacing="3" cellpadding="3" class="shoptable">
                     <tr>
-                        
+
                         <th>Item Details</th>
                         <th>Particulars</th>
                         <th>Delivery Status</th>
-                        
+
                     </tr>
                     @{ var count = 1;}
                     @foreach (var product in Model.OrderProducts)
@@ -49,7 +49,7 @@
                                 Shipping Charges :- @product.shipping_charge<br />
                                 Net Amount :- @product.Amt<br />
                             </td>
-                            <td>Pending</td>
+                            <td>@product.DispatchStatusStr</td>
                         </tr>
                         count = count + 1;
                     }
@@ -58,12 +58,11 @@
 
                 </table>
             </td>
-        
+
             <td>
                 <table width="100%" border="1" cellspacing="3" cellpadding="3" class="shoptable">
                     <tr>
                         <th>Order Details</th>
-
                     </tr>
 
                     <tr>
@@ -72,13 +71,13 @@
                             Order Value :- @Model.OrderDetail.TotalAmount <br />
                             Order Date :- @Model.OrderDetail.created.ToShortDateString()<br />
                             Payment Mode :- @Model.OrderDetail.payment_mode<br />
-                            <b>Payment Status :- Pending</b>
+                            <b>Payment Status :- @Model.OrderDetail.PaymentStatus</b>
                         </td>
                     </tr>
                 </table>
             </td>
         </tr>
-        </table>
+    </table>
 
 </div>
 <script src="~/Scripts/shopping.js"></script>

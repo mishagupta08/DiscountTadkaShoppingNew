@@ -160,7 +160,7 @@ namespace DTShopping.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to EU Points.
+        ///   Looks up a localized string similar to Discount Points.
         /// </summary>
         public static string EUPoints {
             get {

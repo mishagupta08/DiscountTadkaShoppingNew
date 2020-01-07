@@ -85,12 +85,12 @@
                                         @*<a id="anchorSearchForm" href="http://www.discounttadka.com/index.php?mod=product_search&srch_category_id=137#" onClick="javascript:$('#searchFormDiv').toggle('dropdown');return(false)"></a>*@
                                     </td>
                                 </tr>
-                               
+
 
                             </table>
 
                         </div>
-                        
+
                         @if (Model.ProductList.Count() > 0)
                         {
                             foreach (var product in Model.ProductList)
@@ -144,7 +144,7 @@
                 </div>
             </div>
 
-        </div>        
+        </div>
 
     </div>
   <span class="page-link">  Page@(Model.pagerCount.PageCount < Model.pagerCount.PageNumber ? 0 : Model.pagerCount.PageNumber) of @Model.pagerCount.PageCount</span>

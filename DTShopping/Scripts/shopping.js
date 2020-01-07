@@ -3,6 +3,11 @@
     $("#dtcard").hide();
     $(".preloader").hide();
 
+    $('#stateList').unbind();
+    $('#stateList').change(function (e) {
+        GetCityByState();
+    });
+
     $('a[name=deleteFunction]').unbind();
     $('a[name=deleteFunction]').click(function (e) {
         DeleteDetail(this);
@@ -22,8 +27,7 @@
         $("#phonePay").hide();
         $(".Bank").hide();
         var paymode = $(this).val();
-        if (paymode == "7")
-        {
+        if (paymode == "7") {
             $("#Paytm").show();
         }
         else if (paymode == "8") {
@@ -41,7 +45,7 @@
     $('#ConfirmPassword').click(function (e) {
         ConfirmPassword();
     });
-    
+
 
     //$('input[name=paymentmethod]').unbind();
     //$('input[name=paymentmethod]').click(function (e) {
@@ -53,7 +57,7 @@
         $("#offline").hide();
         $("#dtcard").hide();
         $("#dtcardOTP").hide();
-        
+
         $("#" + value).show();
     });
 
@@ -128,22 +132,20 @@ function SaveDetailFormOtp() {
 
 
 function ConfirmPassword() {
-    $("#loginError").html("");    
+    $("#loginError").html("");
     var loginDetail = $('#addForm1').serialize();
     $(".preloader").show();
     $.ajax({
         url: '/Manage/ConfirmPassword',
         type: 'Post',
-        async:false,
+        async: false,
         datatype: 'Json',
         data: loginDetail
-    }).done(function (result) {        
-        if (result == "Not Found")
-        {
+    }).done(function (result) {
+        if (result == "Not Found") {
             $("#loginError1").html("Password does not match.");
         }
-        else if (result == "Sufficient")
-        {
+        else if (result == "Sufficient") {
             $("#dtcard").hide();
             $("#dtcardOTP").show();
         }
@@ -153,7 +155,7 @@ function ConfirmPassword() {
         else {
             $("#loginError1").html(result);
         }
-       
+
         $(".preloader").hide();
 
     }).fail(function (error) {
@@ -219,7 +221,7 @@ function UpdateQuantityDetail(thisVar) {
     var idVal = $(thisVar).attr("data-id");
     var id = "#productQuantity_" + idVal;
     var qty = $(id).val();
-    
+
     $.ajax({
         url: '/Manage/UpdateProductQuantityDetail',
         type: 'Post',
@@ -236,6 +238,31 @@ function UpdateQuantityDetail(thisVar) {
 
     return false;
 }
+
+function GetCityByState() {
+    var id = $("#stateList").val();
+    $(".preloader").show();
+    $.ajax({
+        url: '/Home/GetCityListByState',
+        type: 'Post',
+        datatype: 'Json',
+        data: { Id: id }
+    }).done(function (result) {
+        if (result == null || result == undefined || result == "") {
+            $("#error").html(result);
+        }
+        else {
+
+            $("#cityList").html("");
+            $.each(result, function (key, value) {
+                $("#cityList").append($("<option></option>").val(value.cityID).html(value.cityName));
+            });
+        }
+
+        $(".preloader").hide();
+    });
+}
+
 
 function DeleteDetail(thisVar) {
 

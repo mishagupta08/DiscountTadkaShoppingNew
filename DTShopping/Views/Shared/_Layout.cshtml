@@ -151,7 +151,7 @@
                                             }
                                             @if (Session["UserDetail"] != null)
                                             {
-                                                <li class="last"><a href="/Home/Claims">Claims</a></li>
+                                                @*<li class="last"><a href="/Home/Claims">Claims</a></li>*@
                                                 <li class="last"><a href="/Account/LogOff">Logout</a></li>
                                             }
                                         </ul>
@@ -211,14 +211,14 @@
                     <div class="four columns footer-block footer-copyright">
 
                         <div id="copyright">
-                            <a class="logo_footer" href="index.php"><img src="~/images/light/store_logo.png" alt="unishop" title="unishop" width="177" height="46" class="scale-with-grid" /></a> &copy; 2013 dicounttadka. All Rights Reserved.
+                            <a class="logo_footer" href="~/Home/Index"><img src="~/images/light/store_logo.png" alt="unishop" title="unishop" width="177" height="46" class="scale-with-grid" /></a> &copy; 2013 dicounttadka. All Rights Reserved.
                         </div>
                     </div>
                     <div class="four columns footer-block footer_information">
                         <h2>Information</h2>
                         <nav>
                             <ul>
-                                <li><a href="http://www.discounttadka.com" target="_blank">About Us</a></li>
+                                <li><a href="~/Home/About" target="_blank">About Us</a></li>
                                 <li><a href="~/Home/PrivacyPolicy">Privacy Policy</a></li>
                                 <li><a href="~/Home/TermsAndConditions">Terms &amp; Conditions</a></li>
                             </ul>
@@ -229,7 +229,7 @@
                         <nav>
                             <ul>
                                 <li><a href="~/Home/Contact">Contact us</a></li>
-                                <li><a href="shipping.php">Shipping &amp; Returns</a></li>
+                                @*<li><a href="shipping.php">Shipping &amp; Returns</a></li>*@
                                 <li><a href="~/Home/Index">New Products</a></li>
                             </ul>
                         </nav>

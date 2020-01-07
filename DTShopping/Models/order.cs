@@ -8,6 +8,7 @@ namespace DTShopping.Models
 {
     public class order
     {
+        public string PaymentStatus { get; set; }
         public int id { get; set; }
         public Nullable<int> payment_type { get; set; }
         public Nullable<int> payment_method { get; set; }
@@ -60,7 +61,7 @@ namespace DTShopping.Models
         public Nullable<decimal> TotalShipping { get; set; }
         public Nullable<decimal> TotalAmount { get; set; }
         public Nullable<decimal> TotalPrice { get; set; }
-        public List<order_products> OrderProducts { get; set; }        
+        public List<order_products> OrderProducts { get; set; }
         public string DeliveryType { get; set; }
     }
 
@@ -70,6 +71,7 @@ namespace DTShopping.Models
         public int id { get; set; }
         public int order_id { get; set; }
         public int product_id { get; set; }
+        public string productCode { get; set; }
         public int quantity { get; set; }
         public double amount { get; set; }
         public System.DateTime created { get; set; }
@@ -83,11 +85,16 @@ namespace DTShopping.Models
         public string small_image { get; set; }
         public string medium_image { get; set; }
         public string large_image { get; set; }
+        public string DispatchStatusStr { get; set; }
+        public Nullable<int> DispatchStatus { get; set; }
+        public string PaymentMode { get; set; }
+        public string PaymentDate { get; set; }
     }
 
-    public class PagedOrderList 
+    public class PagedOrderList
     {
         public List<order> OrderList { get; set; }
+        public List<order_products> OrderProductList { get; set; }
         public IPagedList<int> pagerCount { get; set; }
     }
 }
