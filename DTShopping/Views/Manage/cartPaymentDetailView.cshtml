@@ -40,21 +40,21 @@
                         @foreach (var product in Model.Products)
                         {
                             <tr align="left" class="dgrdcell">
-                                <td bgcolor="#C5C5C5">
+                                <td>
                                     <img src="@imageUrl/@product.small_image" alt="@product.title" title="@product.title" width="50" height="50" class="scale-with-grid" />
                                     <span>@product.title</span> <br>&nbsp;
                                 </td>
-                                <td bgcolor="#C5C5C5">@product.vendor_qty</td>
+                                <td>@product.vendor_qty</td>
 
-                                <td bgcolor="#C5C5C5">@product.market_price</td>
+                                <td >@product.market_price</td>
 
-                                <td bgcolor="#C5C5C5">@product.offer_price</td>
+                                <td>@product.offer_price</td>
 
-                                <td bgcolor="#C5C5C5">@product.point_adjusted</td>
+                                <td>@product.point_adjusted</td>
 
-                                <td bgcolor="#C5C5C5">@product.shippng_charge</td>
+                                <td>@product.shippng_charge</td>
 
-                                <td bgcolor="#C5C5C5">@product.amount</td>
+                                <td>@product.amount</td>
                             </tr>
                                     }
                         <tr align="left" class="dgrdcell" bgcolor="#EBC6AD">
@@ -137,187 +137,172 @@
 
                     <div id="offline">
                         <form data-parsley-validate class="validateForm form-horizontal form-style" id="addForm" onsubmit="return SaveDetailForm();">
-                            <div style="padding-left: 26%;padding-top: 3%;">
-                                @Html.HiddenFor(m => m.NetPayment, new { name = "NetPayment", id = "NetPayment" })
-                                @Html.HiddenFor(m => m.OrderDetail.point_adjusted, new { name = "pointAdjusted1", id = "pointAdjusted1" })
-                                
-                                <div class="sixteen columns" style="display:inline-block;">
-                                    <h3 for="username">Supplier Bank Details :-</h3><br/>
-                                    <h5>@Resources.AccountName &nbsp; : &nbsp; @Company.CompanyAccountNumber </h5>
-                                    <h5>@Resources.Bank_Name &nbsp; : &nbsp; @Company.CompanyBankName </h5>
-                                    <h5>@Resources.AccountType &nbsp; : &nbsp; @Company.CompanyAccountType </h5>
-                                    <h5>@Resources.AccountNo &nbsp; : &nbsp; @Company.CompanyAccountNumber </h5>
-                                    <h5>@Resources.IFSCCode &nbsp; : &nbsp; @Company.CompanyIFSCCode </h5><br/>
-                                </div>
+                            <div class="contentContainer">
+                                <div class="contentText">
+                                    @Html.HiddenFor(m => m.NetPayment, new { name = "NetPayment", id = "NetPayment" })
+                                    @Html.HiddenFor(m => m.OrderDetail.point_adjusted, new { name = "pointAdjusted1", id = "pointAdjusted1" })
 
-                                
-                                
-                                <div style="display:inline-block; width:30%;">
-                                    <label for="username">@Resources.PaymentMode</label>
-                                </div>
-                                <div style="display:inline-block; width:30%;">
-                                    @Html.DropDownListFor(m => m.OrderDetail.payment_mode, new SelectList(Model.PaymentModeList, "Id", "value"), new { @required = "0", id = "PaymodeDropDown", @class = "form-control" })
-                                </div>
-                                <br />
 
-                                <div id="Paytm" style="display:none;">
+                                    <table  border="0" width="97%" cellspacing="0" cellpadding="2">
+                                        <tr>
+                                            <td colspan="2" style="background:#efefef;">
+                                            <h3 style="font-family:'Oswald';font-size:16px;">Supplier Bank Details</h3>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fieldKey"><label for="username">@Resources.AccountName</label> : </td>
+                                            <td class="fieldValue">@Company.CompanyAccountNumber</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fieldKey"><label for="username">@Resources.Bank_Name</label> : </td>
+                                            <td class="fieldValue">@Company.CompanyBankName</td>
+                                        </tr> 
+                                        <tr>
+                                            <td class="fieldKey"><label for="username">@Resources.AccountType</label> : </td>
+                                            <td class="fieldValue">@Company.CompanyAccountType</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fieldKey"><label for="username">@Resources.AccountNo</label> : </td>
+                                            <td class="fieldValue">@Company.CompanyAccountNumber</td>
+                                        </tr> 
+                                        <tr>
+                                            <td class="fieldKey"><label for="username">@Resources.IFSCCode</label> : </td>
+                                            <td class="fieldValue">@Company.CompanyIFSCCode</td>
+                                        </tr>                                        
+                                        
+                                        <tr>
+                                            <td colspan="2">&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fieldKey"><label for="username">@Resources.PaymentMode</label> : </td>
+                                            <td class="fieldValue">@Html.DropDownListFor(m => m.OrderDetail.payment_mode, new SelectList(Model.PaymentModeList, "Id", "value"), new { @required = "0", id = "PaymodeDropDown", @class = "form-control", @style = "width: 156px;height: 22px;" })</td>
+                                                                                                </tr>
+                                        
 
-                                    <img src="@imageUrl/@Company.PaytmQrCode" alt="PaytmQRCode" title="PaytmQRCode" width="100" height="100" class="scale-with-grid" />
+                                                                                <tr>
+                                        
+                                                                                    <td class="fieldKey" colspan="2">
+                                                <div id="Paytm" style="display:none;">
 
-                                </div>
-                                <div id="phonePay" style="display:none;">
+                                                    <img src="@imageUrl/@Company.PaytmQrCode" alt="PaytmQRCode" title="PaytmQRCode" width="100" height="100" class="scale-with-grid" />
 
-                                    <img src="@imageUrl/@Company.PhonePeQrCode" alt="PhonePeQRCode" title="PhonePeQRCode" width="100" height="100" class="scale-with-grid" />
+                                                </div>
+                                                <div id="phonePay" style="display:none;">
 
-                                </div>
-                                <br/>
+                                                    <img src="@imageUrl/@Company.PhonePeQrCode" alt="PhonePeQRCode" title="PhonePeQRCode" width="100" height="100" class="scale-with-grid" />
 
-                                <div  class="Common">
-                                <div style="display:inline-block; width:30%;">
-                                    <label for="email">
-                                        @Resources.PaymentRefNo
-                                    </label>
-                                </div>
-                                <div style="display:inline-block; width:30%;">
-                                    @Html.TextBoxFor(m => m.OrderDetail.payment_ref_no, new { @type = "text", @id = "paymentrefno", @required = "required", @class = "form-control", @placeholder = "" })
-                                </div>
-                                <br />
-                                <div style="display:inline-block; width:30%;">
-                                    <label for="email">
-                                        @Resources.PaymentRefDate
-                                    </label>
-                                </div>
-                                <div style="display:inline-block; width:30%;">
-                                    @Html.TextBoxFor(m => m.OrderDetail.dt_payment_ref_date, new { @type = "text", @id = "RefDate", @required = "required", @class = "form-control", @placeholder = "MM-DD-YYYY" })
-                                </div>
-                                <br />
-                                    </div>
-                                <div id="Bank">
-                                    <div style="display:inline-block; width:30%;">
-                                        <label for="email">
-                                            @Resources.PaymentRefBank
-                                        </label>
-                                    </div>
-                                    <div style="display:inline-block; width:30%;">
-                                        @Html.TextBoxFor(m => m.OrderDetail.payment_ref_bank, new { @type = "text", @id = "paymentrefno", @class = "form-control", @placeholder = "" })
-                                    </div>
-                                    <br />
-                                    <div style="display:inline-block; width:30%;">
-                                        <label for="email">
-                                            @Resources.PaymentRefBranch
-                                        </label>
-                                    </div>
-                                    <div style="display:inline-block; width:30%;">
-                                        @Html.TextBoxFor(m => m.OrderDetail.payment_ref_branch, new { @type = "text", @id = "paymentrefno", @class = "form-control", @placeholder = "" })
-                                    </div>
-                                    <br />
-                                </div>
-
-                                <div class="Common">
-                                    <div class="col-md-6">
-                                        <div style="display:inline-block; width:30%;">
-                                            <label for="email">
-                                                @Resources.PaymentRefAmount
-                                            </label>
+                                                </div>
+                                            </td>
+                                            
+                                        </tr>
+                                        <tr class="Common">
+                                            <td class="fieldKey"><label for="username">@Resources.PaymentRefNo</label> : </td>
+                                            <td class="fieldValue">@Html.TextBoxFor(m => m.OrderDetail.payment_ref_no, new { @type = "text", @id = "paymentrefno", @required = "required", @class = "form-control", @placeholder = "" })</td>
+                                        </tr>
+                                        <tr class="Common">
+                                            <td class="fieldKey"><label for="username">@Resources.PaymentRefDate</label> : </td>
+                                            <td class="fieldValue">@Html.TextBoxFor(m => m.OrderDetail.dt_payment_ref_date, new { @type = "text", @id = "RefDate", @required = "required", @class = "form-control", @placeholder = "MM-DD-YYYY" })</td>
+                                        </tr>
+                                        <tr class="Bank">
+                                            <td class="fieldKey"><label for="username">@Resources.PaymentRefBank</label> : </td>
+                                            <td class="fieldValue">@Html.TextBoxFor(m => m.OrderDetail.payment_ref_bank, new { @type = "text", @id = "paymentrefno", @required = "required", @class = "form-control", @placeholder = "" })</td>
+                                        </tr>
+                                        <tr class="Bank">
+                                            <td class="fieldKey"><label for="username">@Resources.PaymentRefBranch</label> : </td>
+                                            <td class="fieldValue">@Html.TextBoxFor(m => m.OrderDetail.payment_ref_branch, new { @type = "text", @id = "paymentrefBranch", @required = "required", @class = "form-control", @placeholder = "" })</td>
+                                        </tr>
+                                        <tr class="Common">
+                                            <td class="fieldKey"><label for="username">@Resources.PaymentRefAmount</label> : </td>
+                                            <td class="fieldValue">@Html.TextBoxFor(m => m.OrderDetail.payment_ref_amount, new { @type = "number", @id = "amount", @required = "required", @class = "form-control", @placeholder = "" })</td>
+                                        </tr>                                        
+                                    
+                                    </table>
                                         </div>
-                                        <div style="display:inline-block; width:30%;">
-                                            @Html.TextBoxFor(m => m.OrderDetail.payment_ref_amount, new { @type = "number", @id = "paymentrefno", @required = "required", @class = "form-control", @placeholder = "" })
-                                        </div>
-                                    </div>
-                                    <label id="loginError" style="color:red;"></label>
-                                    <br />
-                                    <button class="btn btn-primary btn-block saveBtn" type="submit">
-                                        @Resources.Save
-                                    </button>
+                                <label id="loginError" style="color:red;"></label>
+                                <div class="buttonSet">
+                                    <span class="buttonAction"><button class="unishop_button" type="submit">@Resources.Save</button></span>                                    
                                 </div>
-                                
-                             </div>
+                                </div>
+                                                                                                                              
                         </form>
                     </div>
                     <div id="dtcard">
                         <form data-parsley-validate class="validateForm form-horizontal form-style" id="addForm1" onsubmit="return false;">
-                            @Html.Hidden("Amount",Model.NetPayment)
-                            <table class="checkout" align="center" width="97%" cellpadding="7" cellspacing="0">
-                                <tbody>
-                                    <tr>
-                                        <td colspan="2" style="background:#efefef;font-size:large;">Shopping Wallet Process</td>
-                                    </tr>
-                                    @*<tr class="feRow">
-                                        <td class="feLabel" style="width: 30%;">One Time Password (OTP)<br><span id="err_otp_password" class="error"></span></td>
-                                        <td class="feWidget">
-                                            @Html.TextBoxFor(m => m.User.OtpCode, new { @type = "text", @id = "paymentrefno", @required = "required", @class = "form-control", @placeholder = "" })
-                                            <a class="generateotp" id="lnkOtp">Click here to Generate OTP</a>
-                                            <br />
-                                            <label id="otpMessage" style="color:red;"></label>
-                                        </td>
-                                    </tr>*@
+                            <div class="contentContainer">
+                                <div class="contentText">
+                                    @Html.Hidden("Amount", Model.NetPayment)
 
-                                    <tr class="feRow">
-                                        <td class="feLabel" style="width: 30%;">User ID<br><span id="err_ewallet_account_number" class="error"></span></td>
-                                        <td class="feWidget">@Model.User.username</td>
-                                    </tr>
-
-                                    <tr class="feRow">
-                                        <td class="feLabel">Password<br><span id="err_ewallet_password" class="error"></span></td>
-                                        <td class="feWidget">
-                                            @Html.TextBoxFor(m => m.User.password_str, new { @type = "password", @id = "paymentPassword", @required = "required", @class = "form-control", @placeholder = "" })
-                                        </td>
-                                    </tr>
-
-                                    <tr class="feRow">
-                                        <td colspan="2" style="text-align: center;">
-                                            <label id="loginError1" style="color:red;"></label>
-                                            <br />
-                                            <button class="btn btn-primary btn-block saveBtn" id="ConfirmPassword" type="submit">
-                                                @Resources.ConfirmPassword
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                    <table border="0" width="97%" cellspacing="0" cellpadding="2">
+                                        <tr>
+                                            <td colspan="2" style="background:#efefef;">
+                                                <h3 style="font-family:'Oswald';font-size:16px;">Shopping Wallet Process</h3>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fieldKey"><label for="username">User ID</label> : </td>
+                                            <td class="fieldValue">@Model.User.username</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fieldKey"><label for="username">Password</label> : </td>
+                                            <td class="fieldValue">@Html.TextBoxFor(m => m.User.password_str, new { @type = "password", @id = "paymentPassword", @required = "required", @class = "form-control", @placeholder = "" })</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <label id="loginError1" style="color:red;"></label>
+                                <div class="buttonSet">
+                                    <span class="buttonAction">
+                                        <button class="unishop_button" id="ConfirmPassword" type="submit">
+                                            @Resources.ConfirmPassword
+                                        </button>
+                                    </span>
+                                </div>
+                                </div>
                         </form>
-                    </div>
-
+                    </div>                   
 
                     <div id="dtcardOTP" style="display:none;">
                         <form data-parsley-validate class="validateForm form-horizontal form-style" id="addFormOTP" onsubmit="return SaveDetailFormOtp();">
-                            @Html.HiddenFor(m => m.OrderDetail.point_adjusted, new { name = "pointAdjusted2", id = "pointAdjusted2" })
-                            @Html.Hidden("Amount", Model.NetPayment)
+                            <div class="contentContainer">
+                                <div class="contentText">
+                                    @Html.HiddenFor(m => m.OrderDetail.point_adjusted, new { name = "pointAdjusted2", id = "pointAdjusted2" })
+                                    @Html.Hidden("Amount", Model.NetPayment)
 
-                            <table class="checkout" align="center" width="97%" cellpadding="7" cellspacing="0">
-                                <tbody>
-                                    <tr>
-                                        <td colspan="2" style="background:#efefef;font-size:large;">Shopping Wallet Process</td>
-                                    </tr>
-                                    
-                                    <tr class="feRow">
-                                        <td class="feLabel" style="width: 30%;">User ID<br><span id="err_ewallet_account_number" class="error"></span></td>
-                                        <td class="feWidget">@Model.User.username</td>
-                                        @Html.HiddenFor(m=>m.User.password_str)
-                                    </tr>
+                                    <table border="0" width="97%" cellspacing="0" cellpadding="2">
+                                        <tr>
+                                            <td colspan="2" style="background:#efefef;">
+                                                <h3 style="font-family:'Oswald';font-size:16px;">Shopping Wallet Process</h3>
+                                            </td>
+                                        </tr>
 
-                                    <tr class="feRow">
-                                        <td class="feLabel" style="width: 30%;">One Time Password (OTP)<br><span id="err_otp_password" class="error"></span></td>
-                                        <td class="feWidget">
-                                            @Html.TextBoxFor(m => m.User.OtpCode, new { @type = "text", @id = "paymentrefno", @required = "required", @class = "form-control", @placeholder = "" })
-                                            <a class="generateotp" id="lnkOtp">Click here to Generate OTP</a>
-                                            <br />
-                                            <label id="otpMessage" style="color:red;"></label>
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <td class="fieldKey"><label for="username">User ID</label>:</td>
+                                            <td class="feWidget">@Model.User.username</td>
+                                            @Html.HiddenFor(m => m.User.password_str)
+                                        </tr>
 
-                                    <tr class="feRow">
-                                        <td colspan="2" style="text-align: center;">
-                                            <label id="loginError2" style="color:red;"></label>
-                                            <br />
-                                            <button class="btn btn-primary btn-block saveBtn" type="submit">
-                                                @Resources.ConfirmOTP
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                        <tr>
+                                            <td class="fieldKey"><label for="username">One Time Password (OTP)</label>:</td>
+                                            <td>
+                                                @Html.TextBoxFor(m => m.User.OtpCode, new { @type = "text", @id = "paymentrefno", @required = "required", @class = "form-control", @placeholder = "" })
+                                                <a class="generateotp" id="lnkOtp">Click here to Generate OTP</a>
+                                                <br />
+                                                <label id="otpMessage" style="color:red;"></label>
+                                            </td>
+                                        </tr>                                        
+
+                                    </table>
+                                </div>
+                                <label id="loginError2" style="color:red;"></label>
+                                <div class="buttonSet">
+                                    <span class="buttonAction">
+                                        <button class="unishop_button" type="submit">
+                                            @Resources.ConfirmOTP
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
                         </form>
+                        
                     </div>
 
                 </div>

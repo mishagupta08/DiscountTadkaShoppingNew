@@ -13,7 +13,11 @@
         padding: 0;
         margin: 0;
     }
-
+    .page-link {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size:12px;
+        color:black;
+    }
     ul.pagination li {
         display: inline;
     }
@@ -98,14 +102,34 @@
                                         </div>
                                     </div>
                                 </div>
-                                                                }
+                                                            }
+                                                            <div class="sixteen columns" style="padding-top:20px;">
+                                                                <center>
+                                                                    <span class="page-link">Page@(Model.pagerCount.PageCount < Model.pagerCount.PageNumber ? 0 : Model.pagerCount.PageNumber) of @Model.pagerCount.PageCount</span>
+
+
+                                                                    @Html.PagedListPager(Model.pagerCount, page => Url.Action("ProductList", "Home", new { page, SearchString = Model.SearchString, SortBy = Model.sortby, Order = Model.order, cat = ViewBag.category, BrandId = ViewBag.brand, root = ViewBag.ParentId }),
+
+    new PagedListRenderOptions
+    {
+        DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+        DisplayLinkToLastPage = PagedListDisplayMode.Never,
+        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+        MaximumPageNumbersToDisplay = 3
+
+    }
+    )
+                                                                </center>
+
+                                                            </div>
                                                             }
                                                             else
                                                             {
                                                                 <div class="Eight columns"><h2>No Products found</h2></div>
                                                             }
 
-
+                        
 
                     </div>
                 </div>
@@ -118,17 +142,8 @@
 
         </div>
 
-        Page@(Model.pagerCount.PageCount < Model.pagerCount.PageNumber ? 0 : Model.pagerCount.PageNumber) of @Model.pagerCount.PageCount
+        
     </div>
-
-    @Html.PagedListPager(Model.pagerCount, page => Url.Action("SearchProductList", "Home", new {page,SearchString = Model.SearchString, SortBy = Model.sortby, Order = Model.order }), new PagedListRenderOptions
-{
-    DisplayLinkToFirstPage = PagedListDisplayMode.Never,
-    DisplayLinkToLastPage = PagedListDisplayMode.Never,
-    DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
-    DisplayLinkToNextPage = PagedListDisplayMode.Always,
-    MaximumPageNumbersToDisplay = 3
-})
 </div>
 
 <script src="~/Scripts/dashboard.js"></script>

@@ -16,122 +16,126 @@
 <div class="container">
     <div class="sixteen columns">
         <div id="bodyContent" class="twelve columns omega main_part_wrapper">
-       
+
             <h1>Checkout</h1>
             <form data-parsley-validate class="validateForm form-horizontal form-style" id="addorderForm" onsubmit="return SaveOrderForm();">
-                <table width="98%" cellspacing="0" cellpadding="10" border="0">
-                    <tbody>
-                        <tr>
-                            <td>
-                                <table width="100%" cellspacing="1" cellpadding="5" style="border:1px solid #CCCCCC;" class="shoptable">
-                                    <tbody>
-                                        <tr>
-                                            <td colspan="2" bgcolor="#CCCCCC"><h2>Shipping  Address</h2></td>
-                                        </tr>
+                <div class="contentContainer">
+                    <div class="contentText">
+                        @Html.HiddenFor(m => m.OrderDetail.point_adjusted, new { name = "pointAdjusted2", id = "pointAdjusted2" })
+                        @Html.Hidden("Amount", Model.NetPayment)
 
-                                        <tr>
-                                            <td height="30" align="right"><strong>Delivery Type</strong></td>
-                                            <td height="30">
-                                              @Html.DropDownListFor(m =>Model.OrderDetail.DeliveryType, new SelectList(Model.deliveryTypeList, "Id", "Value"), new { @required = "0", id = "brandDropDown", @class = "form-control" })
-                                            </td>
-                                        </tr>
+                        <table border="0" width="97%" cellspacing="0" cellpadding="2">
+                            <tr>
+                                <td colspan="2" style="background:#efefef;">
+                                    <h3 style="font-family:'Oswald';font-size:16px;">Shipping  Address</h3>
+                                </td>
+                            </tr>
 
-                                        <tr>
-                                            <td height="30" align="right"><strong>Business Name</strong></td>
-                                            <td height="30">
-                                                @Html.HiddenFor(m=>m.OrderDetail.user_id)
-                                                @Html.HiddenFor(m => m.OrderDetail.id)
-                                                @Html.TextBoxFor(m => m.OrderDetail.companyName, new { @type = "text", @id = "companyName", @required = "required", @placeholder = "" })
-                                            </td>
-                                        </tr>
+                            <tr>
+                                <td class="fieldKey"><label for="username">Delivery Type</label>:</td>
+                                <td class="feWidget">@Html.DropDownListFor(m => Model.OrderDetail.DeliveryType, new SelectList(Model.deliveryTypeList, "Id", "Value"), new { @required = "0", id = "brandDropDown", @class = "form-control" })</td>
 
-                                        <tr>
-                                            <td height="30" align="right"><strong>Retailer First Name</strong></td>
-                                            <td height="30">
-                                                @Html.TextBoxFor(m => m.OrderDetail.billing_first_name, new { @type = "text", @id = "first_name", @required = "required", @placeholder = "" })
-                                            </td>
-                                        </tr>
+                            </tr>
 
-                                        <tr>
-                                            <td height="30" align="right"><strong>Retailer Last Name</strong></td>
-                                            <td height="30">
-                                                @Html.TextBoxFor(m => m.OrderDetail.billing_last_name, new { @type = "text", @id = "billing_last_name", @required = "required", @placeholder = "" })
-                                            </td>
-                                        </tr>
+                            <tr>
+                                <td class="fieldKey"><label for="username">Business Name</label>:</td>
+                                <td class="feWidget">
+                                    @Html.HiddenFor(m => m.OrderDetail.user_id)
+                                    @Html.HiddenFor(m => m.OrderDetail.id)
+                                    @Html.TextBoxFor(m => m.OrderDetail.companyName, new { @type = "text", @id = "companyName", @required = "required", @placeholder = "" })
+                                </td>
 
-                                        <tr>
-                                            <td height="30" align="right"><strong>Address 1</strong></td>
-                                            <td height="30">
-                                                @Html.TextBoxFor(m => m.OrderDetail.billing_address_1, new { @type = "text", @id = "billing_address_1", @required = "required", @placeholder = "" })
-                                            </td>
-                                        </tr>
-                                        @*<tr>
-                                            <td height="30" align="right"><strong>Address 2</strong></td>
-                                            <td height="30">
-                                                @Html.TextBoxFor(m => m.billing_address_2, new { @type = "text", @id = "billing_address_2", @required = "required", @placeholder = "" })
-                                            </td>
-                                        </tr>*@
-                                        
-                                        <tr>
-                                            <td height="30" align="right"><strong>City</strong></td>
-                                            <td height="30">
-                                                @Html.TextBoxFor(m => m.OrderDetail.billing_city, new { @type = "text", @id = "billing_city", @required = "required", @placeholder = "" })
-                                            </td>
-                                        </tr>
+                            </tr>
 
-                                        <tr>
-                                            <td height="30" align="right"><strong>State</strong></td>
-                                            <td height="30">
-                                                @Html.TextBoxFor(m => m.OrderDetail.billing_state, new { @type = "text", @id = "billing_state", @required = "required", @placeholder = "" })
-                                            </td>
-                                        </tr>
+                            <tr>
+                                <td class="fieldKey"><label for="username">Retailer First Name</label>:</td>
+                                <td class="feWidget">
+                                    @Html.HiddenFor(m => m.OrderDetail.user_id)
+                                    @Html.HiddenFor(m => m.OrderDetail.id)
+                                    @Html.TextBoxFor(m => m.OrderDetail.companyName, new { @type = "text", @id = "companyName", @required = "required", @placeholder = "" })
+                                </td>
 
-                                        <tr>
-                                            <td height="30" align="right"><strong>Zip/Postal Code</strong></td>
-                                            <td height="30">
-                                                @Html.TextBoxFor(m => m.OrderDetail.billing_postcode, new { @type = "text", @id = "billing_postcode", @required = "required", @placeholder = "" })
-                                            </td>
-                                        </tr>
+                            </tr>
 
-                                        <tr>
-                                            <td height="30" align="right"><strong>Phone</strong></td>
-                                            <td height="30">
-                                                @Html.TextBoxFor(m => m.OrderDetail.billing_phone, new { @type = "text", @id = "billing_phone", @required = "required", @placeholder = "" })
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td height="30" align="right"><strong>Email</strong></td>
-                                            <td height="30">
-                                                @Html.TextBoxFor(m => m.OrderDetail.billing_email, new { @type = "email", @id = "billing_email", @required = "required", @placeholder = "" })
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" align="center">
-                                <table width="11%" border="0" cellspacing="0" cellpadding="0">
-                                    <tr>
-                                        <td>
-                                            <div class="buttonSet">
-                                                <span class="buttonAction">
-                                                    <button class="unishop_button" type="submit">Submit</button>
-                                                </span>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">&nbsp;</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
+                            <tr>
+                                <td class="fieldKey"><label for="username">Retailer First Name</label>:</td>
+                                <td class="feWidget">
+                                    @Html.TextBoxFor(m => m.OrderDetail.billing_first_name, new { @type = "text", @id = "first_name", @required = "required", @placeholder = "" })
+                                </td>
 
-</div>       
+                            </tr>
+
+
+
+
+
+                            <tr>
+
+
+                                <td class="fieldKey"><label for="username">Retailer Last Name</label>:</td>
+                                <td class="feWidget">
+                                    @Html.TextBoxFor(m => m.OrderDetail.billing_last_name, new { @type = "text", @id = "billing_last_name", @required = "required", @placeholder = "" })
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="fieldKey"><label for="username">Address 1</label>:</td>
+                                <td class="feWidget">
+                                    @Html.TextBoxFor(m => m.OrderDetail.billing_address_1, new { @type = "text", @id = "billing_address_1", @required = "required", @placeholder = "" })
+                                </td>
+                            </tr>
+                            @*<tr>
+                                <td height="30" align="right"><strong>Address 2</strong></td>
+                                <td height="30">
+                                    @Html.TextBoxFor(m => m.billing_address_2, new { @type = "text", @id = "billing_address_2", @required = "required", @placeholder = "" })
+                                </td>
+                            </tr>*@
+
+                            <tr>
+                                <td class="fieldKey"><label for="username">City</label>:</td>
+                                <td class="feWidget">
+                                    @Html.TextBoxFor(m => m.OrderDetail.billing_city, new { @type = "text", @id = "billing_city", @required = "required", @placeholder = "" })
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="fieldKey"><label for="username">State</label>:</td>
+                                <td class="feWidget">
+                                    @Html.TextBoxFor(m => m.OrderDetail.billing_state, new { @type = "text", @id = "billing_state", @required = "required", @placeholder = "" })
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="fieldKey"><label for="username">Zip/Postal Code</label>:</td>
+                                <td class="feWidget">
+                                    @Html.TextBoxFor(m => m.OrderDetail.billing_postcode, new { @type = "text", @id = "billing_postcode", @required = "required", @placeholder = "" })
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="fieldKey"><label for="username">Phone</label>:</td>
+                                <td class="feWidget">
+                                    @Html.TextBoxFor(m => m.OrderDetail.billing_phone, new { @type = "text", @id = "billing_phone", @required = "required", @placeholder = "" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fieldKey"><label for="username">Email</label>:</td>
+                                <td class="feWidget">
+                                    @Html.TextBoxFor(m => m.OrderDetail.billing_email, new { @type = "email", @id = "billing_email", @required = "required", @placeholder = "" })
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>
+                    <label id="loginError1" style="color:red;"></label>
+                    <div class="buttonSet">
+                        <span class="buttonAction">
+                            <button class="unishop_button" id="ConfirmPassword" type="submit">Submit</button>
+                        </span>
+                    </div>
+                </div>  
+                </form>         
+        </div>       
 @Html.Action("getCatHeirarchy", "Home", new { Cat = ViewBag.ParentId, subCat = ViewBag.category })
     </div>
 </div>

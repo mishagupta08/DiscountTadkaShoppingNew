@@ -65,18 +65,10 @@ jQuery(document).ready(function () {
     jQuery('#nav_block_head').click(function() {
         jQuery('.nav_block_dropdown').toggleClass('visible_on');
     });
-
    
-
-
     jQuery('#nav_block_head1').click(function() {
         jQuery('.nav_block_dropdown1').toggleClass('visible_on');
     });
-
-
-
-
-
 
     jQuery("#back-top").hide();
     jQuery(window).scroll(function () {
