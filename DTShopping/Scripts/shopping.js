@@ -215,18 +215,41 @@ function SaveDetailForm() {
     return false;
 }
 
+function UpdateShippingCharge(dlivryTpe) {
+
+    $(".preloader").show();
+    window.location.href = "/Manage/GetCartProductList?isWithPayment=false&deliveryType=" + dlivryTpe;
+    //$.ajax({
+    //    url: '/Manage/UpdateShippingChargeDetail',
+    //    type: 'Post',
+    //    datatype: 'Json',
+    //    data: { deliveryType: dlivryTpe }
+    //}).done(function (result) {
+    //    $(".preloader").hide();
+    //    //location.reload();
+    //    window.location.href = "/Manage/GetCartProductList?isWithPayment=false&deliveryType=" + dlivryTpe;
+
+    //}).fail(function (error) {
+    //    $("#error").html(error.statusText);
+    //    $(".preloader").hide();
+    //});
+
+    return false;
+}
+
 function UpdateQuantityDetail(thisVar) {
 
     $(".preloader").show();
     var idVal = $(thisVar).attr("data-id");
     var id = "#productQuantity_" + idVal;
+    var radioVal = $("input[type=radio]:checked").val();
     var qty = $(id).val();
 
     $.ajax({
         url: '/Manage/UpdateProductQuantityDetail',
         type: 'Post',
         datatype: 'Json',
-        data: { prodId: idVal, quantity: qty }
+        data: { prodId: idVal, quantity: qty, deliveryType: radioVal }
     }).done(function (result) {
         $(".preloader").hide();
         alert(result);

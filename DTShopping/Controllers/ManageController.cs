@@ -18,6 +18,7 @@ namespace DTShopping.Controllers
     public class ManageController : Controller
     {
         private const string AddAction = "Add";
+        private const int HOMEDELIVERYCODE = 3;
         private const string CartProductListAction = "CartProductList";
 
         private ApplicationSignInManager _signInManager;
@@ -336,10 +337,50 @@ namespace DTShopping.Controllers
             return Json(message);
         }
 
+        [HttpPost]
+        public async Task<ActionResult> UpdateShippingChargeDetail(int deliveryType)
+        {
+            this.model = new Dashboard();
+            var message = string.Empty;
+            this.objRepository = new APIRepository();
+            string companyId = System.Configuration.ConfigurationManager.AppSettings["CompanyId"];
+            try
+            {
+                if (CheckLoginUserStatus())
+                {
+                    var detail = (UserDetails)(Session["UserDetail"]);
+                    var filter = new CartFilter();
+                    filter.username = detail.username;
+                    filter.password = detail.password_str;
+                    filter.companyId = Convert.ToInt16(companyId);
+                    filter.deliveryType = deliveryType;
+                    filter.userId = detail.id;
+                    var res = await objRepository.ManageCart(filter, "UpdateShippingCharge");
+                    
+                    if (res == null)
+                    {
+                        message = "Something went wrong. Please try again later.";
+                    }
+                    else
+                    {
+                        message = res.ResponseValue;
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+            }
+            catch (Exception ex)
+            {
+                message = ex.Message;
+            }
 
+            return Json(message);
+        }
 
         [HttpPost]
-        public async Task<ActionResult> UpdateProductQuantityDetail(int prodId, int quantity)
+        public async Task<ActionResult> UpdateProductQuantityDetail(int prodId, int quantity, int deliveryType)
         {
             this.model = new Dashboard();
             var message = string.Empty;
@@ -357,6 +398,7 @@ namespace DTShopping.Controllers
                     filter.userId = detail.id;
                     filter.companyId = Convert.ToInt16(companyId);
                     filter.quantity = quantity;
+                    filter.deliveryType = deliveryType;
                     var res = await objRepository.ManageCart(filter, "UpdateQuantity");
                     if (res == null)
                     {
@@ -422,7 +464,7 @@ namespace DTShopping.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetCartProductList(bool isWithPayment)
+        public async Task<ActionResult> GetCartProductList(bool isWithPayment, int deliveryType)
         {
             this.model = new Dashboard();
             this.objRepository = new APIRepository();
@@ -431,12 +473,18 @@ namespace DTShopping.Controllers
             {
                 try
                 {
+                    string companyId = System.Configuration.ConfigurationManager.AppSettings["CompanyId"];
                     this.model.deliveryTypeList = await objRepository.DeliveryTypeList();
                     var cart = new CartFilter();
                     var detail = (UserDetails)(Session["UserDetail"]);
                     cart.username = detail.username;
                     cart.password = detail.password_str;
                     cart.userId = detail.id;
+                    cart.companyId = Convert.ToInt16(companyId);
+                    cart.deliveryType = deliveryType;
+                  
+                    
+                        var res = await objRepository.ManageCart(cart, "UpdateShippingCharge");
                     var response = await objRepository.ManageCart(cart, CartProductListAction);
                     if (response != null && response.Status)
                     {
@@ -467,7 +515,6 @@ namespace DTShopping.Controllers
                                 }
 
                                 prod.shippng_charge = (prod.vendor_qty ?? 1) * (prod.shippng_charge ?? 0);
-
                                 //prod.TotalPayment = prodPrice * (prod.vendor_qty ?? 1) + (prod.shippng_charge ?? 0);
                                 //this.model.TotalProductPoints += (prod.RBV ?? 0) * (prod.vendor_qty ?? 1);
                                 //this.model.NetPayment += prod.TotalPayment;
@@ -485,15 +532,31 @@ namespace DTShopping.Controllers
             else
             {
                 return RedirectToAction("Login", "Account");
-            }            
+            }
+
+
+            if (this.model == null)
+            {
+                this.model = new Dashboard();
+            }
+
+            if (this.model.OrderDetail == null)
+            {
+                this.model.OrderDetail = new order();
+            }
+
+            if (deliveryType == 0)
+            {
+                this.model.OrderDetail.DeliveryType = HOMEDELIVERYCODE.ToString();
+            }
+            else
+            {
+                this.model.OrderDetail.DeliveryType = deliveryType.ToString();
+            }
+
 
             if (isWithPayment)
             {
-                if (this.model == null)
-                {
-                    this.model = new Dashboard();
-                }
-
                 return PartialView("cartPaymentDetailView", this.model);
             }
             else

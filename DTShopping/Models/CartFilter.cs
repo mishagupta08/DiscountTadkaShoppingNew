@@ -18,5 +18,7 @@ namespace DTShopping.Models
         public int productId { get; set; }
 
         public int quantity { get; set; }
+
+        public int deliveryType { get; set; }
     }
 }

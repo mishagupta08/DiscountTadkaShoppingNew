@@ -104,8 +104,8 @@
                                             <div class="clearfix">
                                                 @if (Session["UserDetail"] != null)
                                                 {
-                                                    <p class="img_cart"> <a href="/Manage/GetCartProductList?isWithPayment=false"></a> </p>
-                                                    <div class="open"> <a href="/Manage/GetCartProductList?isWithPayment=false"><span> Cart (<span id="cartCount"></span>)</span></a></div>
+                                                    <p class="img_cart"> <a href="/Manage/GetCartProductList?isWithPayment=false&deliveryType=0"></a> </p>
+                                                    <div class="open"> <a href="/Manage/GetCartProductList?isWithPayment=false&&deliveryType=0"><span> Cart (<span id="cartCount"></span>)</span></a></div>
                                                     @*<a class="cart_link" href="checkout_shipping.php">Checkout</a>*@
                                                 }
                                             </div>
@@ -141,7 +141,7 @@
 
                                             @if (Session["UserDetail"] != null)
                                             {
-                                                <li><a href="/Manage/GetCartProductList?isWithPayment=false">Shopping Cart</a></li>
+                                                <li><a href="/Manage/GetCartProductList?isWithPayment=false&deliveryType=0">Shopping Cart</a></li>
                                                 <li><a href="/Home/MyAccount">My Account</a></li>
                                             }
                                             else
@@ -244,7 +244,7 @@
                                 @if (Session["UserDetail"] != null)
                                 {
                                     <li><a href="/Home/MyAccount">My Account</a></li>
-                                    <li><a href="/Manage/GetCartProductList?isWithPayment=false">My Shopping Cart</a></li>
+                                    <li><a href="/Manage/GetCartProductList?isWithPayment=false&deliveryType=0">My Shopping Cart</a></li>
                                     <li><a href="account_history.php">Order history</a></li>
                                     <li><a href="/Account/LogOff">Log Out</a></li>
                                 }

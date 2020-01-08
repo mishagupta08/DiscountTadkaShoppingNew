@@ -53,7 +53,7 @@
 
                                 <td bgcolor="#C5C5C5">@(product.point_adjusted ?? 0)</td>
 
-                                <td bgcolor="#C5C5C5"><span name="actualAmount">@(product.shippng_charge ?? 0)</span><span name = "zeroAMount">0</span></td>
+                                <td bgcolor="#C5C5C5"><span name="actualAmount">@(product.shippng_charge ?? 0)</span></td>
 
                                 <td bgcolor="#C5C5C5">@product.amount</td>
                             </tr>
@@ -98,7 +98,7 @@
                 <p>&nbsp;</p>
                 <table width="97%" border="0" cellspacing="5" cellpadding="5" class="shoptable" style="border:1px solid #CCCCCC;">
                     <tr>
-                        <td width="53%"><h2>Delivery Type3 </h2></td>
+                        <td width="53%"><h2>Delivery Type</h2></td>
                         <td width="47%">&nbsp;</td>
                     </tr>
                     @foreach (var payOp in Model.deliveryTypeList)
@@ -134,13 +134,15 @@
 <script src="~/Scripts/shopping.js"></script>
 <script>
     $(document).ready(function () {
-        //$('input[type=radio]').live('change', function () {
-        //    var url = "/Home/Checkout?deliveryType=" + $(this).val();
-        //    document.getElementById("continueUrl").href = url;
-        //});
+        showHideShippingCharge();
+        $('input[type=radio]').live('change', function () {
+            showHideShippingCharge();
+            var radioVal = $("input[type=radio]:checked").val();
+            UpdateShippingCharge(radioVal);
+        });
 
         $('#continueUrl').click(function (e) {
-            var radioVal = $("input[type=radio]:checked").val();
+            showHideShippingCharge();
             if (radioVal == null || radioVal == "") {
                 alert("Please select delivery type.");
             }
@@ -152,4 +154,19 @@
 
     });
 
-</script>-
+    function showHideShippingCharge() {
+        //var radioVal = $("input[type=radio]:checked").val();
+        //if (radioVal == null || radioVal == "") {
+        //    $("span[name=actualAmount]").show();
+        //    $("span[name=zeroAMount]").hide();
+        //}
+        //else if (radioVal == "3") {
+        //    $("span[name=actualAmount]").show();
+        //    $("span[name=zeroAMount]").hide();
+        //}
+        //else {
+        //    $("span[name=actualAmount]").hide();
+        //    $("span[name=zeroAMount]").show();
+        //}
+    }
+</script>
