@@ -1138,7 +1138,7 @@ INPUT{  margin-right:8px;}
 .breadcrumbs_box{
     font-size:12px;
     line-height:1.25;
-    padding:0 0 16px;
+    padding:16px 0 16px;
     font-family: arial;
     text-transform: uppercase;
 }

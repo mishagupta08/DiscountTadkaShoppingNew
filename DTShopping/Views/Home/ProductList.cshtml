@@ -14,6 +14,12 @@
         margin: 0;
     }
 
+    .page-link {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size:12px;
+        color:black;
+    }
+
     ul.pagination li {
         display: inline;
     }
@@ -35,8 +41,8 @@
                 background-color: #ddd;
             }
 </style>
-    
-    @*<div class="">
+
+@*<div class="">
         <div class="container">
             <div class="sixteen columns">
                 <div class="breadcrumbs_box">
@@ -46,7 +52,7 @@
             </div>
         </div>
     </div>*@
-    <div class="container">
+<div class="container">
     <div class="sixteen columns">
         <div id="bodyContent" class="twelve columns omega main_part_wrapper">
             <!-- subcategory view -->
@@ -552,16 +558,16 @@
                                             <div class="clearfix">
                                                 <div class="icon_cart_title product-price">
                                                     <span class="new_price">
-                                                    @if (Convert.ToDouble(string.IsNullOrEmpty(product.market_price)?"0": product.market_price) > Convert.ToDouble(string.IsNullOrEmpty(product.offer_price) ? "0" : product.offer_price))
-                                                    {
-                                                        <s>Rs.@product.market_price</s><br>
-                                                        <span class="new-special-price">Rs.@product.offer_price</span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <span>Rs.@product.market_price</span><br>
-                                                        <span class="new-special-price"></span>
-                                                    }
+                                                        @if (Convert.ToDouble(string.IsNullOrEmpty(product.market_price) ? "0" : product.market_price) > Convert.ToDouble(string.IsNullOrEmpty(product.offer_price) ? "0" : product.offer_price))
+                                                        {
+                                                            <s>Rs.@product.market_price</s><br>
+                                                            <span class="new-special-price">Rs.@product.offer_price</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>Rs.@product.market_price</span><br>
+                                                            <span class="new-special-price"></span>
+                                                        }
                                                     </span><br>
                                                     <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
                                                         <br>
@@ -573,34 +579,47 @@
                                         </div>
                                     </div>
                                 </div>
-                                                                }
+                                                            }
+                                                            <div class="twelve columns" style="padding-top:20px;">
+                                                                <center>
+                                                                    <span class="page-link">Page@(Model.pagerCount.PageCount < Model.pagerCount.PageNumber ? 0 : Model.pagerCount.PageNumber) of @Model.pagerCount.PageCount</span>
+
+
+                                                                    @Html.PagedListPager(Model.pagerCount, page => Url.Action("ProductList", "Home", new { page, SearchString = Model.SearchString, SortBy = Model.sortby, Order = Model.order, cat = ViewBag.category, BrandId = ViewBag.brand, root = ViewBag.ParentId }),
+
+    new PagedListRenderOptions
+    {
+        DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+        DisplayLinkToLastPage = PagedListDisplayMode.Never,
+        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+        MaximumPageNumbersToDisplay = 3
+
+    }
+    )
+                                                                </center>
+
+                                                            </div>
                                                             }
                                                             else
                                                             {
                                                                 <div class="Eight columns"><h2>No Products found</h2></div>
                                                             }
 
-
+                        
                     </div>
                 </div>
             </div>
 
         </div>
+
+
+
         @Html.Action("getCatHeirarchy", "Home", new { Cat = ViewBag.ParentId, subCat = ViewBag.category, brandId = ViewBag.brand })
 
     </div>
-    Page@(Model.pagerCount.PageCount < Model.pagerCount.PageNumber ? 0 : Model.pagerCount.PageNumber) of @Model.pagerCount.PageCount
 
-
-@Html.PagedListPager(Model.pagerCount, page => Url.Action("ProductList", "Home", new { page, SearchString = Model.SearchString, SortBy = Model.sortby, Order = Model.order, cat = ViewBag.category , BrandId = ViewBag.brand , root = ViewBag.ParentId  }), new PagedListRenderOptions
-{
-    DisplayLinkToFirstPage = PagedListDisplayMode.Never,
-    DisplayLinkToLastPage = PagedListDisplayMode.Never,
-    DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
-    DisplayLinkToNextPage = PagedListDisplayMode.Always,
-    MaximumPageNumbersToDisplay = 3
-})
-    </div>
+</div>
 
 <script src="~/Scripts/dashboard.js"></script>
 

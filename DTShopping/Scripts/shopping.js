@@ -25,7 +25,7 @@
     $('#PaymodeDropDown').change(function (e) {
         $("#Paytm").hide();
         $("#phonePay").hide();
-        $("#Bank").hide();
+        $(".Bank").hide();
         var paymode = $(this).val();
         if (paymode == "7") {
             $("#Paytm").show();
@@ -34,7 +34,7 @@
             $("#phonePay").show();
         }
         else {
-            $("#Bank").show();
+            $(".Bank").show();
         }
     });
 

@@ -49,7 +49,7 @@ namespace DTShopping.Controllers
             }
             else if (!result.Status)
             {
-                return Json(result.ResponseValue);
+                return Json("Invald OTP.");
             }
             else
             {

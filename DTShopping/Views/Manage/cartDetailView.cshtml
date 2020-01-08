@@ -36,26 +36,26 @@
                             var quantityID = "productQuantity_" + product.id;
                             <tr align="left" class="dgrdcell">
                                 <td><a href="#" name="deleteFunction" data-id="@product.id" class="btn btn-style text-uppercase"><img src="~/images/delete.png" height="20" width="20"</a></td>
-                                <td bgcolor="#C5C5C5">
+                                <td>
                                     <img src="@imageUrl/@product.small_image" alt="@product.title" title="@product.title" width="50" height="50" class="scale-with-grid" />
                                     <span>@product.title</span> <br>&nbsp;
                                 </td>
-                                <td bgcolor="#C5C5C5">
-                                    @Html.TextBoxFor(m => product.vendor_qty, new { @min = 1, @type = "number", @id = quantityID, @required = "required", @class = "form-control", @placeholder = "" })
+                                <td>
+                                    @Html.TextBoxFor(m => product.vendor_qty, new { @min=1, @type = "number", @id = quantityID, @required = "required", @class = "form-control", @placeholder = "" })
                                     <br />
                                     <a href="#" name="updateQuantity" data-id="@product.id" class="btn btn-style text-uppercase">Update</a>
                                 </td>
 
 
-                                <td bgcolor="#C5C5C5">@product.market_price</td>
+                                <td>@product.market_price</td>
 
-                                <td bgcolor="#C5C5C5">@product.offer_price</td>
+                                <td>@product.offer_price</td>
 
-                                <td bgcolor="#C5C5C5">@(product.point_adjusted ?? 0)</td>
+                                <td>@(product.point_adjusted??0)</td>
 
                                 <td bgcolor="#C5C5C5"><span name="actualAmount">@(product.shippng_charge ?? 0)</span></td>
 
-                                <td bgcolor="#C5C5C5">@product.amount</td>
+                                <td>@product.amount</td>
                             </tr>
                         }
                         <tr align="left" class="dgrdcell" bgcolor="#EBC6AD">

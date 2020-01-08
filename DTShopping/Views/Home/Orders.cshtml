@@ -1,15 +1,51 @@
 ﻿@using PagedList.Mvc;
-@model DTShopping.Models.PagedOrderList
+@model DTShopping.Models.PagedOrderList;
 @{
     ViewBag.Title = "Orders";
 }
 <link href="~/Content/PagedList.css" rel="stylesheet" />
+<style>
+    .ul.pagination {
+        display: inline-block;
+        padding: 0;
+        margin: 0;
+    }
+    .page-link {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size:12px;
+        color:black;
+    }
+
+
+    ul.pagination li {
+        display: inline;
+    }
+
+        ul.pagination li a {
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+            transition: background-color .3s;
+        }
+
+            ul.pagination li a.active {
+                background-color: #4CAF50;
+                color: white;
+            }
+
+            ul.pagination li a:hover:not(.active) {
+                background-color: #ddd;
+            }
+</style>
+
 
 <div class="container">
     <div class="sixteen columns">
         <div id="bodyContent" class="sixteen columns omega main_part_wrapper">
 
             <h1>ORDER DETAILS</h1>
+
             @if (Model != null && Model.OrderProductList != null)
             {
                 <table width="100%" border="0" cellspacing="5" cellpadding="5" class="shoptable" style="width: 100%; border-top: 1px solid rgb(204, 204, 204);">
@@ -65,17 +101,17 @@
 
     </div>
 
-    @if (Model != null)
+    @if(Model != null)
     {
-        <span>Page @(Model.pagerCount.PageCount < Model.pagerCount.PageNumber ? 0 : Model.pagerCount.PageNumber) of @Model.pagerCount.PageCount</span>
-        @Html.PagedListPager(Model.pagerCount, page => Url.Action("Orders", "Home", new { page }), new PagedListRenderOptions
-   {
-       DisplayLinkToFirstPage = PagedListDisplayMode.Never,
-       DisplayLinkToLastPage = PagedListDisplayMode.Never,
-       DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
-       DisplayLinkToNextPage = PagedListDisplayMode.Always,
-       MaximumPageNumbersToDisplay = 3
-   })
+        <span class="page-link">Page @(Model.pagerCount.PageCount < Model.pagerCount.PageNumber ? 0 : Model.pagerCount.PageNumber) of @Model.pagerCount.PageCount</span>
+        @Html.PagedListPager(Model.pagerCount, page => Url.Action("Orders", "Home", new { page}), new PagedListRenderOptions
+        {
+            DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+            DisplayLinkToLastPage = PagedListDisplayMode.Never,
+            DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+            DisplayLinkToNextPage = PagedListDisplayMode.Always,
+            MaximumPageNumbersToDisplay = 3
+        })
     }
 
 </div>
