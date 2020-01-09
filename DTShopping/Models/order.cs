@@ -62,7 +62,7 @@ namespace DTShopping.Models
         public Nullable<decimal> TotalAmount { get; set; }
         public Nullable<decimal> TotalPrice { get; set; }
         public List<order_products> OrderProducts { get; set; }
-        public string DeliveryType { get; set; }
+        public Nullable<int> delievryType { get; set; }
     }
 
     public class order_products

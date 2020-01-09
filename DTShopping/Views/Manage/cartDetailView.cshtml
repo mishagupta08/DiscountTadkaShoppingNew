@@ -3,6 +3,7 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     string imageUrl = System.Configuration.ConfigurationManager.AppSettings["ImageUrl"];
+    string url = "";
 }
 
 <div class="container">
@@ -41,7 +42,7 @@
                                     <span>@product.title</span> <br>&nbsp;
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(m => product.vendor_qty, new { @min=1, @type = "number", @id = quantityID, @required = "required", @class = "form-control", @placeholder = "" })
+                                    @Html.TextBoxFor(m => product.vendor_qty, new { @min = 1, @type = "number", @id = quantityID, @required = "required", @class = "form-control", @placeholder = "" })
                                     <br />
                                     <a href="#" name="updateQuantity" data-id="@product.id" class="btn btn-style text-uppercase">Update</a>
                                 </td>
@@ -51,9 +52,9 @@
 
                                 <td>@product.offer_price</td>
 
-                                <td>@(product.point_adjusted??0)</td>
+                                <td>@(product.point_adjusted ?? 0)</td>
 
-                                <td bgcolor="#C5C5C5"><span name="actualAmount">@(product.shippng_charge ?? 0)</span></td>
+                                <td><span name="actualAmount">@(product.shippng_charge ?? 0)</span></td>
 
                                 <td>@product.amount</td>
                             </tr>
@@ -108,7 +109,7 @@
                                 <div class="Paymenttd">
                                     <ul>
                                         <li>
-                                            @Html.RadioButtonFor(m => Model.OrderDetail.DeliveryType, payOp.Id) <span>@payOp.Value</span>
+                                            @Html.RadioButtonFor(m => Model.OrderDetail.delievryType, payOp.Id) <span>@payOp.Value</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -119,7 +120,8 @@
 
                 <p>
                     <div class="buttonSet">
-                        <span class="buttonAction"><a class="unishop_submit" id="continueUrl" href="/Home/Checkout">Continue</a></span>
+                        @{ url = "/Home/Checkout?deliveryType=" + @Model.OrderDetail.delievryType;}
+                        <span class="buttonAction"><a class="unishop_submit" id="continueUrl" href=@url>Continue</a></span>
                     </div>
                 </p>
 
@@ -129,7 +131,7 @@
 
             @Html.Action("getCatHeirarchy", "Home", new { Cat = ViewBag.ParentId, subCat = ViewBag.category })
         </div>
-    }
+                            }
 </div>
 <script src="~/Scripts/shopping.js"></script>
 <script>

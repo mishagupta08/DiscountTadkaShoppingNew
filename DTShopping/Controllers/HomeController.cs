@@ -493,7 +493,7 @@ namespace DTShopping.Controllers
 
                     this.model = new Dashboard();
                     this.model.OrderDetail = objUserOrder;
-                    this.model.OrderDetail.DeliveryType =Convert.ToString(deliveryType);
+                    this.model.OrderDetail.delievryType =(deliveryType);
                     //this.model.deliveryTypeList = await objRepository.DeliveryTypeList();
                     await AssignStateCityList();
                 }

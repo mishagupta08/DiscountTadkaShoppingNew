@@ -547,11 +547,11 @@ namespace DTShopping.Controllers
 
             if (deliveryType == 0)
             {
-                this.model.OrderDetail.DeliveryType = HOMEDELIVERYCODE.ToString();
+                this.model.OrderDetail.delievryType = HOMEDELIVERYCODE;
             }
             else
             {
-                this.model.OrderDetail.DeliveryType = deliveryType.ToString();
+                this.model.OrderDetail.delievryType = deliveryType;
             }
 
 
