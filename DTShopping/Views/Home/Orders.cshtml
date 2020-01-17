@@ -1,5 +1,5 @@
 ﻿@using PagedList.Mvc;
-@model DTShopping.Models.PagedOrderList;
+@model  DTShopping.Models.PagedOrderList
 @{
     ViewBag.Title = "Orders";
 }
@@ -46,7 +46,7 @@
 
             <h1>ORDER DETAILS</h1>
 
-            @if (Model != null && Model.OrderProductList != null)
+            @if (Model != null && Model.OrderProductList != null && Model.OrderProductList.Count > 0)
             {
                 <table width="100%" border="0" cellspacing="5" cellpadding="5" class="shoptable" style="width: 100%; border-top: 1px solid rgb(204, 204, 204);">
                     <tr>
@@ -64,23 +64,23 @@
                     </tr>
                     @foreach (var order in Model.OrderProductList)
                     {
-                        <tr>
-                            <td class="bordertop">@order.order_id</td>
-                            <td class="bordertop">@order.productCode</td>
-                            <td class="bordertop">@order.productName</td>
-                            <td valign="middle" class="bordertop">@order.quantity</td>
-                            <td valign="middle" class="bordertop">@order.price</td>
-                            <td valign="middle" class="bordertop">@order.RBV_Points</td>
-                            <td valign="middle" class="bordertop">@order.shipping_charge</td>
-                            <td valign="middle" class="bordertop">@order.Amt</td>
-                            <td valign="middle" class="bordertop">@order.DispatchStatusStr</td>
-                            <td valign="middle" class="bordertop">@order.PaymentMode</td>
-                            <td valign="middle" class="bordertop">
-                                @order.PaymentStatus
-                                <br />
-                                @order.PaymentDate
-                            </td>
-                        </tr>
+                    <tr>
+                        <td class="bordertop">@order.order_id</td>
+                        <td class="bordertop">@order.productCode</td>
+                        <td class="bordertop">@order.productName</td>
+                        <td valign="middle" class="bordertop">@order.quantity</td>
+                        <td valign="middle" class="bordertop">@order.price</td>
+                        <td valign="middle" class="bordertop">@order.RBV_Points</td>
+                        <td valign="middle" class="bordertop">@order.shipping_charge</td>
+                        <td valign="middle" class="bordertop">@order.Amt</td>
+                        <td valign="middle" class="bordertop">@order.DispatchStatusStr</td>
+                        <td valign="middle" class="bordertop">@order.PaymentMode</td>
+                        <td valign="middle" class="bordertop">
+                            @order.PaymentStatus
+                            <br />
+                            @order.PaymentDate
+                        </td>
+                    </tr>
                     }
 
                 </table>
@@ -101,17 +101,17 @@
 
     </div>
 
-    @if(Model != null)
+    @if (Model != null && Model.OrderProductList != null && Model.OrderProductList.Count > 0)
     {
         <span class="page-link">Page @(Model.pagerCount.PageCount < Model.pagerCount.PageNumber ? 0 : Model.pagerCount.PageNumber) of @Model.pagerCount.PageCount</span>
-        @Html.PagedListPager(Model.pagerCount, page => Url.Action("Orders", "Home", new { page}), new PagedListRenderOptions
-        {
-            DisplayLinkToFirstPage = PagedListDisplayMode.Never,
-            DisplayLinkToLastPage = PagedListDisplayMode.Never,
-            DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
-            DisplayLinkToNextPage = PagedListDisplayMode.Always,
-            MaximumPageNumbersToDisplay = 3
-        })
+        @Html.PagedListPager(Model.pagerCount, page => Url.Action("Orders", "Home", new { page }), new PagedListRenderOptions
+   {
+       DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+       DisplayLinkToLastPage = PagedListDisplayMode.Never,
+       DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+       DisplayLinkToNextPage = PagedListDisplayMode.Always,
+       MaximumPageNumbersToDisplay = 3
+   })
     }
 
 </div>

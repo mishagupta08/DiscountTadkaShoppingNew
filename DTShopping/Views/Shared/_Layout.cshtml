@@ -3,20 +3,20 @@
     UserDetails current_user = (Session["UserDetail"] != null) ? Session["UserDetail"] as UserDetails : null;
     company current_cmpny = (Session["Company"] != null) ? Session["Company"] as company : new company();
     string username = current_user != null ? current_user.username : "";
-    double? points = current_user != null ? current_user.balance_point??0.0 : 0.0;
+    double? points = current_user != null ? current_user.balance_point ?? 0.0 : 0.0;
     string imageUrl = System.Configuration.ConfigurationManager.AppSettings["ImageUrl"];
+    string copyright = System.Configuration.ConfigurationManager.AppSettings["CopyrightText"];
     if (imageUrl.EndsWith("/"))
     {
         imageUrl = imageUrl.Substring(0, imageUrl.LastIndexOf("/"));
     }
-
 }
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Welcome to Discount Tadka</title>
+    <title>Welcome to Sunvis Tradenet</title>
     <!-- Mobile Specific Metas
        ================================================== -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -41,7 +41,11 @@
     <link rel="stylesheet" type="text/css" href="~/unishop_theme/unishop_styles/effects.css" />
     <link rel="stylesheet" type="text/css" href="~/unishop_theme/unishop_styles/light-theme.css" />
     <link rel="stylesheet" type="text/css" href="~/unishop_theme/unishop_styles/light-theme.css" />
-
+    <style>
+        .cat-name {
+            font-size: 82% !important;
+        }
+    </style>
     <script type="text/javascript" src="~/unishop_theme/unishop_js/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="~/unishop_theme/unishop_js/jquery-ui.js"></script>
     <script>
@@ -59,6 +63,7 @@
     <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
 
 </head>
+
 <body>
     <!-- Preloader -->
     <div class="preloader">
@@ -74,7 +79,7 @@
                         <span>Call us:(91) @current_cmpny.company_landline_no </span>&nbsp;&nbsp;<span>Email: @current_cmpny.contact_email </span>
                     </div>
                     <div class="row">
-                        <div id="logo" class="five columns">
+                        <div id="logo" style="margin-top: -50px;" class="five columns">
 
                             <div id="storeLogo"> <a class="logo_inner" href="~/Home/Index"><img src="~/images/light/store_logo.png" alt="unishop" title="unishop" width="177" height="46" class="scale-with-grid" /></a></div>
                         </div>
@@ -112,10 +117,10 @@
                                         </div>
                                     </div>
                                     @*<div id="shopping_cart_mini" >
-                                        <div class="inner-wrapper">
-                                            <p class="empty">You have no items in your shopping cart.</p>
-                                        </div>
-                                    </div>*@
+                                            <div class="inner-wrapper">
+                                                <p class="empty">You have no items in your shopping cart.</p>
+                                            </div>
+                                        </div>*@
                                 </div>
                                 @if (Session["UserDetail"] != null)
                                 {
@@ -183,10 +188,10 @@
         <div class="footer_bg_color">
             <div id="back-top"><a href="#top"></a></div>
             <div id="footer">
-                @if (Session["Brands"]!= null )
-            {
+                @if (Session["Brands"] != null)
+                {
                     <div class="container" style="margin-bottom:50px;">
-                        <div class="sixteen columns">                            
+                        <div class="sixteen columns">
                             <marquee behavior="scroll" direction="left" onMouseMove="stop()" onMouseOut="start()">
                                 <table align="center" cellpadding="0" cellspacing="0">
                                     <tbody>
@@ -203,7 +208,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                            </marquee>                                                     
+                            </marquee>
                         </div>
                     </div>
                 }
@@ -211,7 +216,7 @@
                     <div class="four columns footer-block footer-copyright">
 
                         <div id="copyright">
-                            <a class="logo_footer" href="~/Home/Index"><img src="~/images/light/store_logo.png" alt="unishop" title="unishop" width="177" height="46" class="scale-with-grid" /></a> &copy; 2013 dicounttadka. All Rights Reserved.
+                            <a class="logo_footer" href="~/Home/Index"><img src="~/images/light/store_logo.png" alt="unishop" title="unishop" width="177" height="46" class="scale-with-grid" /></a> &copy; @copyright
                         </div>
                     </div>
                     <div class="four columns footer-block footer_information">
@@ -268,7 +273,7 @@
 </body>
 </html>
 <script>
-    $(document).ready(function () {        
+    $(document).ready(function () {
 
         $.ajax({
             type: "GET",
@@ -313,12 +318,12 @@
         $('.brandLink').click(
             function () {
                 var brandid = $(this).attr("data-branId");
-                window.location.href = "/Home/ProductList?BrandId="+brandid;
+                window.location.href = "/Home/ProductList?BrandId=" + brandid;
             }
         );
 
         getCartCount();
-       
+
     });
 
 

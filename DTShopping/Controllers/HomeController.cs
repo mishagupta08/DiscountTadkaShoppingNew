@@ -35,16 +35,16 @@ namespace DTShopping.Controllers
                 }
                 else
                 {
+                    Session["Company"] = companyDetail;
                     objDashboardDetails.Banners = new List<Banners>();
                     objDashboardDetails.Banners = await objRepository.GetBannerImageList(companyId);
-
 
                     objDashboardDetails.FontpageSections = new ShoppingPortalFrontPageProdList();
                     objDashboardDetails.FontpageSections = await objRepository.GetShoppingPortalFrontPageProdList(companyId);
 
                     Session["LatestProduct"] = objDashboardDetails.FontpageSections.SpeacialSegment;
                     Session["Brands"] = objDashboardDetails.FontpageSections.brandlist;
-                    Session["Company"] = companyDetail;
+
                 }
             }
             catch (Exception ex)
@@ -109,9 +109,23 @@ namespace DTShopping.Controllers
             return View();
         }
 
-        public ActionResult Contact()
+        public async Task<ActionResult> Contact()
         {
-            return View();
+            var dt = new List<company>();
+            string companyId = System.Configuration.ConfigurationManager.AppSettings["CompanyId"];
+            dt.Add(new company
+            {
+                id = Convert.ToInt32(companyId)
+            });
+
+            var companyDetail = await objRepository.GetCompanyById(dt);
+            if (companyDetail == null || companyDetail.default_flag == 0)
+            {
+                return View("Error");
+            }
+            this.model = new Dashboard();
+            this.model.CompanyDetail = companyDetail;
+            return View(this.model);
         }
 
         public async Task<ActionResult> ProductList(string cat, string BrandId, string root, int? page, string SortBy, string Order, string FilterFromPoint, string FilterToPoint, string searchString)
@@ -227,6 +241,7 @@ namespace DTShopping.Controllers
             {
 
             }
+
             return PartialView("Category", list);
         }
 
@@ -493,7 +508,7 @@ namespace DTShopping.Controllers
 
                     this.model = new Dashboard();
                     this.model.OrderDetail = objUserOrder;
-                    this.model.OrderDetail.delievryType =(deliveryType);
+                    this.model.OrderDetail.delievryType = (deliveryType);
                     //this.model.deliveryTypeList = await objRepository.DeliveryTypeList();
                     await AssignStateCityList();
                 }

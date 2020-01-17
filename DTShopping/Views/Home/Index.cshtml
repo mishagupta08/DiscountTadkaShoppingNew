@@ -12,7 +12,7 @@
     <div class="container">
         <div class="sixteen columns">
             <div class="breadcrumbs_box">
-                <a href="http://www.discounttadka.com" class="headerNavigation1">Top</a><span class="headerNavigation">Catalog</span>
+                <a href="http://gv.mysunvis.com" class="headerNavigation1">Top</a><span class="headerNavigation">Catalog</span>
                 <div class="clear"></div>
             </div>
         </div>
@@ -172,7 +172,7 @@
                 </div>
             </div>
 
-            @if (Model.FontpageSections != null && Model.FontpageSections.SevenDaySaver != null)
+            @if (Model.FontpageSections != null && Model.FontpageSections.SevenDaySaver != null && Model.FontpageSections.SevenDaySaver.Count > 0)
             {
                 <div class="container">                   
                     <div class="sixteen columns">
@@ -181,7 +181,7 @@
                         <a href="/Home/GetAllDealProducts?Deal=Saver&page=1">(View All)</a>
                     </div>
                 </div>
-            }
+
             <div class="carousel_bestsellers_outer">
                 <div class="container">
                     <div id="carousel_sevensaver" class="es-carousel-wrapper">
@@ -233,6 +233,7 @@
 
                 </div>
             </div>
+            }
             @if (Model.FontpageSections != null && Model.FontpageSections.FashionProdList != null && Model.FontpageSections.FashionProdList.Count > 0)
             {
                 <div class="container">

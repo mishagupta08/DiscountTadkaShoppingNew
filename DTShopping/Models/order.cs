@@ -89,6 +89,7 @@ namespace DTShopping.Models
         public Nullable<int> DispatchStatus { get; set; }
         public string PaymentMode { get; set; }
         public string PaymentDate { get; set; }
+        public string PaymentStatus { get; set; }
     }
 
     public class PagedOrderList

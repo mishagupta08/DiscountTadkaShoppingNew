@@ -71,7 +71,7 @@ namespace DTShopping.Controllers
                         return Json("ok");
                     }
                 }
-                else if (CompanyId == 28)
+                else if (CompanyId == 28 || CompanyId == 29)
                 {
                     var deductWallet = await objRepository.DeductWalletBalnce(detail);
                     if (deductWallet.Status)
