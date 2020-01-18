@@ -207,4 +207,10 @@
   <data name="IFSCCode" xml:space="preserve">
     <value>IFSC Code</value>
   </data>
+  <data name="HideDeliveryTypeCompanyId" xml:space="preserve">
+    <value>29</value>
+  </data>
+  <data name="CouponDeliveryText" xml:space="preserve">
+    <value>In Stock - Delivery within 5-6 working hours.</value>
+  </data>
 </root>

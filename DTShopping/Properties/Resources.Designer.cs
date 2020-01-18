@@ -142,6 +142,15 @@ namespace DTShopping.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to In Stock - Delivery within 5-6 working hours..
+        /// </summary>
+        public static string CouponDeliveryText {
+            get {
+                return ResourceManager.GetString("CouponDeliveryText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do You Want To Use Current Available Points.
         /// </summary>
         public static string CurrentAvailablePoints {
@@ -165,6 +174,15 @@ namespace DTShopping.Properties {
         public static string EUPoints {
             get {
                 return ResourceManager.GetString("EUPoints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 29.
+        /// </summary>
+        public static string HideDeliveryTypeCompanyId {
+            get {
+                return ResourceManager.GetString("HideDeliveryTypeCompanyId", resourceCulture);
             }
         }
         
@@ -300,15 +318,6 @@ namespace DTShopping.Properties {
         public static string Size {
             get {
                 return ResourceManager.GetString("Size", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        public static string String1 {
-            get {
-                return ResourceManager.GetString("String1", resourceCulture);
             }
         }
         

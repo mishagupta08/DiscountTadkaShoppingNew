@@ -10,7 +10,7 @@
         var prodId = $("#product_id").val();
         var quantity = $("#quantity").val();
 
-        AddProductInCart(prodId, quantity);
+        AddProductInCart(prodId, quantity, true);
     });
 
 

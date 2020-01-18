@@ -3,6 +3,7 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     string imageUrl = System.Configuration.ConfigurationManager.AppSettings["ImageUrl"];
+    string CompanyId = System.Configuration.ConfigurationManager.AppSettings["CompanyId"];
     string url = "";
 }
 
@@ -97,27 +98,33 @@
                 </table>
                 <p>&nbsp;</p>
                 <p>&nbsp;</p>
-                <table width="97%" border="0" cellspacing="5" cellpadding="5" class="shoptable" style="border:1px solid #CCCCCC;">
-                    <tr>
-                        <td width="53%"><h2>Delivery Type</h2></td>
-                        <td width="47%">&nbsp;</td>
-                    </tr>
-                    @foreach (var payOp in Model.deliveryTypeList)
-                    {
-                        <tr bgcolor="#EBC6AD">
-                            <td colspan="5">
-                                <div class="Paymenttd">
-                                    <ul>
-                                        <li>
-                                            @Html.RadioButtonFor(m => Model.OrderDetail.delievryType, payOp.Id) <span>@payOp.Value</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </td>
+                @if (CompanyId == Resources.HideDeliveryTypeCompanyId)
+                {
+                    Model.OrderDetail.delievryType = 1;
+                }
+                else
+                {
+                    <table width="97%" border="0" cellspacing="5" cellpadding="5" class="shoptable" style="border:1px solid #CCCCCC;">
+                        <tr>
+                            <td width="53%"><h2>Delivery Type</h2></td>
+                            <td width="47%">&nbsp;</td>
                         </tr>
+                        @foreach (var payOp in Model.deliveryTypeList)
+                    {
+                    <tr bgcolor="#EBC6AD">
+                        <td colspan="5">
+                            <div class="Paymenttd">
+                                <ul>
+                                    <li>
+                                        @Html.RadioButtonFor(m => Model.OrderDetail.delievryType, payOp.Id) <span>@payOp.Value</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
                     }
-                </table>
-
+                    </table>
+                }
                 <p>
                     <div class="buttonSet">
                         @{ url = "/Home/Checkout?deliveryType=" + @Model.OrderDetail.delievryType;}

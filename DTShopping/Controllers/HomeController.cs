@@ -510,7 +510,7 @@ namespace DTShopping.Controllers
                     this.model.OrderDetail = objUserOrder;
                     this.model.OrderDetail.delievryType = (deliveryType);
                     //this.model.deliveryTypeList = await objRepository.DeliveryTypeList();
-                    await AssignStateCityList();
+                    await AssignStateCityList(objUserOrder.billing_state);
                 }
             }
             catch (Exception ex)
@@ -614,7 +614,7 @@ namespace DTShopping.Controllers
             return Json(orderstatus, JsonRequestBehavior.AllowGet);
         }
 
-        private async Task AssignStateCityList()
+        private async Task AssignStateCityList(string biilingState)
         {
 
             this.model.States = await this.objRepository.GetStateList();
@@ -628,10 +628,10 @@ namespace DTShopping.Controllers
                 });
             }
 
-            //if (this.model.RetailerDetail != null)
-            //{
-            //    this.model.CityList = await this.repository.GetCityList(this.model.RetailerDetail.StateId);
-            //}
+            if (!string.IsNullOrEmpty(biilingState))
+            {
+                this.model.Cities = await this.objRepository.GetCityListById(biilingState);
+            }
 
             if (this.model.Cities == null)
             {

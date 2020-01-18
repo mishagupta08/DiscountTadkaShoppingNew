@@ -358,7 +358,7 @@
     //}
 
 
-    function AddProductInCart(prodId, quantity) {
+    function AddProductInCart(prodId, quantity, isDetailPage) {
         $(".preloader").show();
         if (quantity == null || quantity == "" || quantity == undefined) {
             quantity = 1;
@@ -381,9 +381,16 @@
                 }
             }
             else {
-                alert("Product added to cart.");
+
                 $("#cartCount").html(result.CartProductCount);
                 $("#ShowBalancePoint").html(result.Points);
+
+                if (isDetailPage == true) {
+                    window.location.href = "/Manage/GetCartProductList?isWithPayment=false&deliveryType=0";
+                }
+                else {
+                    alert("Product added to cart.");
+                }
             }
 
             $(".preloader").hide();
