@@ -2,6 +2,7 @@
 @{
     UserDetails current_user = (Session["UserDetail"] != null) ? Session["UserDetail"] as UserDetails : null;
     company current_cmpny = (Session["Company"] != null) ? Session["Company"] as company : new company();
+    
     string username = current_user != null ? current_user.username : "";
     double? points = current_user != null ? current_user.balance_point ?? 0.0 : 0.0;
     string imageUrl = System.Configuration.ConfigurationManager.AppSettings["ImageUrl"];
@@ -81,7 +82,7 @@
                     <div class="row">
                         <div id="logo" style="margin-top: -50px;" class="five columns">
 
-                            <div id="storeLogo"> <a class="logo_inner" href="~/Home/Index"><img src="~/images/light/store_logo.png" alt="unishop" title="unishop" width="177" height="46" class="scale-with-grid" /></a></div>
+                            <div id="storeLogo"> <a class="logo_inner" href="~/Home/Index"><img src="@imageUrl/@current_cmpny.logo" alt="unishop" title="unishop" width="177" height="46" class="scale-with-grid" /></a></div>
                         </div>
                         <div class="six columns">
 
@@ -216,7 +217,10 @@
                     <div class="four columns footer-block footer-copyright">
 
                         <div id="copyright">
-                            <a class="logo_footer" href="~/Home/Index"><img src="~/images/light/store_logo.png" alt="unishop" title="unishop" width="177" height="46" class="scale-with-grid" /></a> &copy; @copyright
+                            <a class="logo_footer" href="~/Home/Index">
+                            @*<img src="~/images/light/store_logo.png" alt="unishop" title="unishop" width="177" height="46" class="scale-with-grid" />*@
+                                <img src="@imageUrl/@current_cmpny.logo" alt="unishop" title="unishop" width="177" height="46" class="scale-with-grid" />
+                            </a> &copy; @copyright
                         </div>
                     </div>
                     <div class="four columns footer-block footer_information">

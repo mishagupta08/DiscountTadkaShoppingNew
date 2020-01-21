@@ -103,7 +103,6 @@ namespace DTShopping.Controllers
                                     {
                                         return Json("ok");
                                     }
-
                                 }
                                 else
                                 {
@@ -117,7 +116,7 @@ namespace DTShopping.Controllers
                         }
                         else
                         {
-                            return Json(Wallet.response);
+                            return Json(Wallet.msg);
                         }
 
                     }
@@ -356,7 +355,7 @@ namespace DTShopping.Controllers
                     filter.deliveryType = deliveryType;
                     filter.userId = detail.id;
                     var res = await objRepository.ManageCart(filter, "UpdateShippingCharge");
-                    
+
                     if (res == null)
                     {
                         message = "Something went wrong. Please try again later.";
@@ -482,9 +481,9 @@ namespace DTShopping.Controllers
                     cart.userId = detail.id;
                     cart.companyId = Convert.ToInt16(companyId);
                     cart.deliveryType = deliveryType;
-                  
-                    
-                        var res = await objRepository.ManageCart(cart, "UpdateShippingCharge");
+
+
+                    var res = await objRepository.ManageCart(cart, "UpdateShippingCharge");
                     var response = await objRepository.ManageCart(cart, CartProductListAction);
                     if (response != null && response.Status)
                     {
@@ -498,6 +497,8 @@ namespace DTShopping.Controllers
                         if (resp.Status == true)
                         {
                             this.model.PaymentModeList = JsonConvert.DeserializeObject<List<Containers>>(resp.ResponseValue);
+                            this.model.WalletPaymentModeList = this.model.PaymentModeList.Where(p => p.value.Contains("PhonePe") || p.value.Contains("PayTm")).ToList();
+                            this.model.PaymentModeList.RemoveAll(p => this.model.WalletPaymentModeList.Contains(p));
                         }
                         if (this.model.Products != null)
                         {

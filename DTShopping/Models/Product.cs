@@ -33,7 +33,7 @@ namespace DTShopping.Models
         public Nullable<byte> display { get; set; }
         public Nullable<byte> instock { get; set; }
         public Nullable<byte> latest { get; set; }
-        public Nullable<byte> font_display { get; set; }
+        public Nullable<byte> front_display { get; set; }
         public string product_type { get; set; }
         public string product_size { get; set; }
         public string product_varient { get; set; }

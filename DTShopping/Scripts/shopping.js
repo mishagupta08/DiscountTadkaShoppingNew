@@ -1,6 +1,8 @@
 ﻿$(document).ready(function () {
     $("#offline").hide();
     $("#dtcard").hide();
+    $("#walletPaymentModes").hide();
+
     $(".preloader").hide();
 
     $('#stateList').unbind();
@@ -22,7 +24,7 @@
         GenerateOtp(this);
     });
 
-    $('#PaymodeDropDown').change(function (e) {
+    $('#walletPaymodeDropDown').change(function (e) {
         $("#Paytm").hide();
         $("#phonePay").hide();
         $(".Bank").hide();
@@ -57,6 +59,7 @@
         $("#offline").hide();
         $("#dtcard").hide();
         $("#dtcardOTP").hide();
+        $("#walletPaymentModes").hide();
 
         $("#" + value).show();
     });
@@ -71,8 +74,8 @@
             }
             else {
 
-                $("#pointAdjusted1").val(userPoints);
-                $("#pointAdjusted2").val(userPoints);
+                $("input[name=pointAdjusted1]").val(userPoints);
+                $("input[name=pointAdjusted2]").val(userPoints);
                 $("#paymentOptions").show();
             }
         }
@@ -189,9 +192,14 @@ function SaveOrderDetailWithPoint() {
     return false;
 }
 
-function SaveDetailForm() {
+function SaveDetailForm(isTrue) {
     $("#loginError").html("");
     var loginDetail = $('#addForm').serialize();
+
+    if (isTrue) {
+        loginDetail = $('#addFormWallet').serialize();
+    }
+
     $(".preloader").show();
     $.ajax({
         url: '/Manage/UpdateOrderDetail',
@@ -203,7 +211,12 @@ function SaveDetailForm() {
             window.location = "/Manage/thankYouPage";
         }
         else {
-            $("#loginError").html(result);
+            if (isTrue) {
+                $("#loginErrorW").html(result);
+            }
+            else {
+                $("#loginError").html(result);
+            }
             $(".preloader").hide();
         }
 

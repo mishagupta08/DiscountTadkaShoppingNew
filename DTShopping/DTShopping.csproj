@@ -210,6 +210,7 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CartFilter.cs" />
+    <Compile Include="Models\CatProducts.cs" />
     <Compile Include="Models\company.cs" />
     <Compile Include="Models\Containers.cs" />
     <Compile Include="Models\Dashboard.cs" />
@@ -512,6 +513,15 @@
     <Content Include="Views\Manage\cartPaymentDetailView.cshtml" />
     <Content Include="Views\Home\Checkout.cshtml" />
     <Content Include="Views\Manage\thankYouPage.cshtml" />
+    <Content Include="WebCompanySettings.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="WebCompanySettings.Debug.config">
+      <DependentUpon>WebCompanySettings.config</DependentUpon>
+    </Content>
+    <Content Include="WebCompanySettings.Release.config">
+      <DependentUpon>WebCompanySettings.config</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

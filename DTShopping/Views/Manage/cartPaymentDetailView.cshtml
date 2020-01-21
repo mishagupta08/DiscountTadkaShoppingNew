@@ -3,7 +3,7 @@
 @model DTShopping.Models.Dashboard
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-   var Company = Session["Company"] as company;
+    var Company = Session["Company"] as company;
     string imageUrl = System.Configuration.ConfigurationManager.AppSettings["ImageUrl"];
     if (imageUrl.EndsWith("/"))
     {
@@ -46,7 +46,7 @@
                                 </td>
                                 <td>@product.vendor_qty</td>
 
-                                <td >@product.market_price</td>
+                                <td>@product.market_price</td>
 
                                 <td>@product.offer_price</td>
 
@@ -56,7 +56,7 @@
 
                                 <td>@product.amount</td>
                             </tr>
-                                    }
+                        }
                         <tr align="left" class="dgrdcell" bgcolor="#EBC6AD">
                             <td colspan="4">Your Cart Total</td>
                             <td colspan="4" align="right"><h3><span>Rs. @Model.NetPayment</span></h3></td>
@@ -67,25 +67,25 @@
                 <p>&nbsp;</p>
                 @*<table width="97%" border="0" cellspacing="0" cellpadding="0" class="shoptable">
 
-                    <tr>
-                        <td width="25%" height="29"><strong>@Resources.CurrentAvailablePoints</strong></td>
-                        <td width="54%">
-                            <span class="fieldValue">
-                                <input type="checkbox" value="usePoints" name="usePoints" id="Pay1">
-                                <span>@Model.UsersPoints</span>
-                                <input type="hidden" value="@Model.UsersPoints" id="userPoints" />
-                        </td>
-                        <td align="left">
-                            <button class="btn btn-primary btn-block saveBtn" id="pointSaveBtn" type="button">
-                                Pay
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">&nbsp;</td>
-                        <td align="right">&nbsp;</td>
-                    </tr>
-                </table>*@
+                        <tr>
+                            <td width="25%" height="29"><strong>@Resources.CurrentAvailablePoints</strong></td>
+                            <td width="54%">
+                                <span class="fieldValue">
+                                    <input type="checkbox" value="usePoints" name="usePoints" id="Pay1">
+                                    <span>@Model.UsersPoints</span>
+                                    <input type="hidden" value="@Model.UsersPoints" id="userPoints" />
+                            </td>
+                            <td align="left">
+                                <button class="btn btn-primary btn-block saveBtn" id="pointSaveBtn" type="button">
+                                    Pay
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">&nbsp;</td>
+                            <td align="right">&nbsp;</td>
+                        </tr>
+                    </table>*@
                 <p>&nbsp;</p>
                 <table width="97%" border="0" cellspacing="5" cellpadding="5">
                     <tr>
@@ -128,6 +128,16 @@
                                     </ul>
                                 </div>
                             </td>
+                            <td>
+                                <div class="Paymenttd" style="width:130px;">
+                                    <ul>
+                                        <li>
+                                            <input type="radio" value="walletPaymentModes" name="paymentmethod" id="Pay2">
+                                            <b>PhonePe/PayTm</b><br>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
                         </tr>
                         @*<tr>
                                 <td>You can Deposit a cheque / DD / Cash /NEFT /RTGS </td>
@@ -136,17 +146,17 @@
                     </table>
 
                     <div id="offline">
-                        <form data-parsley-validate class="validateForm form-horizontal form-style" id="addForm" onsubmit="return SaveDetailForm();">
+                        <form data-parsley-validate class="validateForm form-horizontal form-style" id="addForm" onsubmit="return SaveDetailForm(false);">
                             <div class="contentContainer">
                                 <div class="contentText">
                                     @Html.HiddenFor(m => m.NetPayment, new { name = "NetPayment", id = "NetPayment" })
                                     @Html.HiddenFor(m => m.OrderDetail.point_adjusted, new { name = "pointAdjusted1", id = "pointAdjusted1" })
 
 
-                                    <table  border="0" width="97%" cellspacing="0" cellpadding="2">
+                                    <table border="0" width="97%" cellspacing="0" cellpadding="2">
                                         <tr>
                                             <td colspan="2" style="background:#efefef;">
-                                            <h3 style="font-family:'Oswald';font-size:16px;">Supplier Bank Details</h3>
+                                                <h3 style="font-family:'Oswald';font-size:16px;">Supplier Bank Details</h3>
                                             </td>
                                         </tr>
                                         <tr>
@@ -156,7 +166,7 @@
                                         <tr>
                                             <td class="fieldKey"><label for="username">@Resources.Bank_Name</label> : </td>
                                             <td class="fieldValue">@Company.CompanyBankName</td>
-                                        </tr> 
+                                        </tr>
                                         <tr>
                                             <td class="fieldKey"><label for="username">@Resources.AccountType</label> : </td>
                                             <td class="fieldValue">@Company.CompanyAccountType</td>
@@ -164,25 +174,97 @@
                                         <tr>
                                             <td class="fieldKey"><label for="username">@Resources.AccountNo</label> : </td>
                                             <td class="fieldValue">@Company.CompanyAccountNumber</td>
-                                        </tr> 
+                                        </tr>
                                         <tr>
                                             <td class="fieldKey"><label for="username">@Resources.IFSCCode</label> : </td>
                                             <td class="fieldValue">@Company.CompanyIFSCCode</td>
-                                        </tr>                                        
-                                        
+                                        </tr>
+
                                         <tr>
                                             <td colspan="2">&nbsp;</td>
                                         </tr>
                                         <tr>
                                             <td class="fieldKey"><label for="username">@Resources.PaymentMode</label> : </td>
                                             <td class="fieldValue">@Html.DropDownListFor(m => m.OrderDetail.payment_mode, new SelectList(Model.PaymentModeList, "Id", "value"), new { @required = "0", id = "PaymodeDropDown", @class = "form-control", @style = "width: 156px;height: 22px;" })</td>
-                                                                                                </tr>
-                                        
+                                        </tr>
 
-                                                                                <tr>
-                                        
-                                                                                    <td class="fieldKey" colspan="2">
-                                                <div id="Paytm" style="display:none;">
+                                        <tr class="Common">
+                                            <td class="fieldKey"><label for="username">@Resources.PaymentRefNo</label> : </td>
+                                            <td class="fieldValue">@Html.TextBoxFor(m => m.OrderDetail.payment_ref_no, new { @type = "text", @id = "paymentrefno", @required = "required", @class = "form-control", @placeholder = "" })</td>
+                                        </tr>
+                                        <tr class="Common">
+                                            <td class="fieldKey"><label for="username">@Resources.PaymentRefDate</label> : </td>
+                                            <td class="fieldValue">@Html.TextBoxFor(m => m.OrderDetail.dt_payment_ref_date, new { @type = "text", @id = "RefDate", @required = "required", @class = "form-control", @placeholder = "MM-DD-YYYY" })</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fieldKey"><label for="username">@Resources.PaymentRefBank</label> : </td>
+                                            <td class="fieldValue">@Html.TextBoxFor(m => m.OrderDetail.payment_ref_bank, new { @type = "text", @id = "paymentrefno", @required = "required", @class = "form-control", @placeholder = "" })</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fieldKey"><label for="username">@Resources.PaymentRefBranch</label> : </td>
+                                            <td class="fieldValue">@Html.TextBoxFor(m => m.OrderDetail.payment_ref_branch, new { @type = "text", @id = "paymentrefBranch", @required = "required", @class = "form-control", @placeholder = "" })</td>
+                                        </tr>
+                                        <tr class="Common">
+                                            <td class="fieldKey"><label for="username">@Resources.PaymentRefAmount</label> : </td>
+                                            <td class="fieldValue">@Html.TextBoxFor(m => m.OrderDetail.payment_ref_amount, new { @type = "number", @id = "amount", @required = "required", @class = "form-control", @placeholder = "" })</td>
+                                        </tr>
+
+                                    </table>
+                                </div>
+                                <label id="loginError" style="color:red;"></label>
+                                <div class="buttonSet">
+                                    <span class="buttonAction"><button class="unishop_button" type="submit">@Resources.Save</button></span>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div id="walletPaymentModes">
+                        <form data-parsley-validate class="validateForm form-horizontal form-style" id="addFormWallet" onsubmit="return SaveDetailForm(true);">
+                            <div class="contentContainer">
+                                <div class="contentText">
+                                    @Html.HiddenFor(m => m.NetPayment, new { name = "NetPayment", id = "NetPayment" })
+                                    @Html.HiddenFor(m => m.OrderDetail.point_adjusted, new { name = "pointAdjusted1", id = "pointAdjusted1" })
+
+
+                                    <table border="0" width="97%" cellspacing="0" cellpadding="2">
+                                        <tr>
+                                            <td colspan="2" style="background:#efefef;">
+                                                <h3 style="font-family:'Oswald';font-size:16px;">Supplier Bank Details</h3>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fieldKey"><label for="username">@Resources.AccountName</label> : </td>
+                                            <td class="fieldValue">@Company.CompanyAccountNumber</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fieldKey"><label for="username">@Resources.Bank_Name</label> : </td>
+                                            <td class="fieldValue">@Company.CompanyBankName</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fieldKey"><label for="username">@Resources.AccountType</label> : </td>
+                                            <td class="fieldValue">@Company.CompanyAccountType</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fieldKey"><label for="username">@Resources.AccountNo</label> : </td>
+                                            <td class="fieldValue">@Company.CompanyAccountNumber</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fieldKey"><label for="username">@Resources.IFSCCode</label> : </td>
+                                            <td class="fieldValue">@Company.CompanyIFSCCode</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="2">&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fieldKey"><label for="username">@Resources.PaymentMode</label> : </td>
+                                            <td class="fieldValue">@Html.DropDownListFor(m => m.OrderDetail.payment_mode, new SelectList(Model.WalletPaymentModeList, "Id", "value"), new { @required = "0", id = "walletPaymodeDropDown", @class = "form-control", @style = "width: 156px;height: 22px;" })</td>
+                                        </tr>
+                                        <tr>
+
+                                            <td class="fieldKey" colspan="2">
+                                                <div id="Paytm" @*style="display:none;"*@>
 
                                                     <img src="@imageUrl/@Company.PaytmQrCode" alt="PaytmQRCode" title="PaytmQRCode" width="100" height="100" class="scale-with-grid" />
 
@@ -193,7 +275,7 @@
 
                                                 </div>
                                             </td>
-                                            
+
                                         </tr>
                                         <tr class="Common">
                                             <td class="fieldKey"><label for="username">@Resources.PaymentRefNo</label> : </td>
@@ -203,27 +285,27 @@
                                             <td class="fieldKey"><label for="username">@Resources.PaymentRefDate</label> : </td>
                                             <td class="fieldValue">@Html.TextBoxFor(m => m.OrderDetail.dt_payment_ref_date, new { @type = "text", @id = "RefDate", @required = "required", @class = "form-control", @placeholder = "MM-DD-YYYY" })</td>
                                         </tr>
-                                        <tr class="Bank">
-                                            <td class="fieldKey"><label for="username">@Resources.PaymentRefBank</label> : </td>
-                                            <td class="fieldValue">@Html.TextBoxFor(m => m.OrderDetail.payment_ref_bank, new { @type = "text", @id = "paymentrefno", @required = "required", @class = "form-control", @placeholder = "" })</td>
-                                        </tr>
-                                        <tr class="Bank">
-                                            <td class="fieldKey"><label for="username">@Resources.PaymentRefBranch</label> : </td>
-                                            <td class="fieldValue">@Html.TextBoxFor(m => m.OrderDetail.payment_ref_branch, new { @type = "text", @id = "paymentrefBranch", @required = "required", @class = "form-control", @placeholder = "" })</td>
-                                        </tr>
+                                        @*<tr class="Bank">
+                                                <td class="fieldKey"><label for="username">@Resources.PaymentRefBank</label> : </td>
+                                                <td class="fieldValue">@Html.TextBoxFor(m => m.OrderDetail.payment_ref_bank, new { @type = "text", @id = "paymentrefno", @required = "required", @class = "form-control", @placeholder = "" })</td>
+                                            </tr>
+                                            <tr class="Bank">
+                                                <td class="fieldKey"><label for="username">@Resources.PaymentRefBranch</label> : </td>
+                                                <td class="fieldValue">@Html.TextBoxFor(m => m.OrderDetail.payment_ref_branch, new { @type = "text", @id = "paymentrefBranch", @required = "required", @class = "form-control", @placeholder = "" })</td>
+                                            </tr>*@
                                         <tr class="Common">
                                             <td class="fieldKey"><label for="username">@Resources.PaymentRefAmount</label> : </td>
                                             <td class="fieldValue">@Html.TextBoxFor(m => m.OrderDetail.payment_ref_amount, new { @type = "number", @id = "amount", @required = "required", @class = "form-control", @placeholder = "" })</td>
-                                        </tr>                                        
-                                    
+                                        </tr>
+
                                     </table>
-                                        </div>
-                                <label id="loginError" style="color:red;"></label>
+                                </div>
+                                <label id="loginErrorW" style="color:red;"></label>
                                 <div class="buttonSet">
-                                    <span class="buttonAction"><button class="unishop_button" type="submit">@Resources.Save</button></span>                                    
+                                    <span class="buttonAction"><button class="unishop_button" type="submit">@Resources.Save</button></span>
                                 </div>
-                                </div>
-                                                                                                                              
+                            </div>
+
                         </form>
                     </div>
                     <div id="dtcard">
@@ -256,9 +338,9 @@
                                         </button>
                                     </span>
                                 </div>
-                                </div>
+                            </div>
                         </form>
-                    </div>                   
+                    </div>
 
                     <div id="dtcardOTP" style="display:none;">
                         <form data-parsley-validate class="validateForm form-horizontal form-style" id="addFormOTP" onsubmit="return SaveDetailFormOtp();">
@@ -288,7 +370,7 @@
                                                 <br />
                                                 <label id="otpMessage" style="color:red;"></label>
                                             </td>
-                                        </tr>                                        
+                                        </tr>
 
                                     </table>
                                 </div>
@@ -302,13 +384,13 @@
                                 </div>
                             </div>
                         </form>
-                        
+
                     </div>
 
                 </div>
             </div>
         </div>
-     
+
     }
 </div>
 

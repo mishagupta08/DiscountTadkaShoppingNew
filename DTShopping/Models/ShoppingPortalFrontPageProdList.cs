@@ -15,5 +15,6 @@ namespace DTShopping.Models
         public List<Product> FashionProdList { get; set; }
         public List<Product> ElectronicProdList { get; set; }
         public List<brand> brandlist { get; set; }
+        public List<CatProducts> CatProductsList { get; set; }
     }
 }

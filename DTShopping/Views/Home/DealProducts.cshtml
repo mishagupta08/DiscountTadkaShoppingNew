@@ -17,27 +17,29 @@
     ul.pagination li {
         display: inline;
     }
+
     .page-link {
         font-family: Arial, Helvetica, sans-serif;
-        font-size:12px;
-        color:black;
+        font-size: 12px;
+        color: black;
     }
-        ul.pagination li a {
-            color: black;
-            float: left;
-            padding: 8px 16px;
-            text-decoration: none;
-            transition: background-color .3s;
+
+    ul.pagination li a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        transition: background-color .3s;
+    }
+
+        ul.pagination li a.active {
+            background-color: #4CAF50;
+            color: white;
         }
 
-            ul.pagination li a.active {
-                background-color: #4CAF50;
-                color: white;
-            }
-
-            ul.pagination li a:hover:not(.active) {
-                background-color: #ddd;
-            }
+        ul.pagination li a:hover:not(.active) {
+            background-color: #ddd;
+        }
 </style>
 
 @*<div class="">
@@ -82,7 +84,6 @@
                                         <a href="/Home/GetAllDealProducts?page=1&Deal=@Model.SearchString&SortBy=price&Order=desc" class="SortProduct" data-SortBy="price" data-SortOrder="DESC">High Price </a> |
                                         <a href="/Home/GetAllDealProducts?page=1&Deal=@Model.SearchString&SortBy=price&Order=asc" class="SortProduct" data-SortBy="price" data-SortOrder="ASC">Low Price </a>
                                         <div></div>
-                                        @*<a id="anchorSearchForm" href="http://www.gv.mysunvis.com/index.php?mod=product_search&srch_category_id=137#" onClick="javascript:$('#searchFormDiv').toggle('dropdown');return(false)"></a>*@
                                     </td>
                                 </tr>
 
@@ -147,7 +148,7 @@
         </div>
 
     </div>
-  <span class="page-link">  Page@(Model.pagerCount.PageCount < Model.pagerCount.PageNumber ? 0 : Model.pagerCount.PageNumber) of @Model.pagerCount.PageCount</span>
+    <span class="page-link">  Page@(Model.pagerCount.PageCount < Model.pagerCount.PageNumber ? 0 : Model.pagerCount.PageNumber) of @Model.pagerCount.PageCount</span>
 
 
     @Html.PagedListPager(Model.pagerCount, page => Url.Action("GetAllDealProducts", "Home", new { page, Deal = Model.SearchString, SortBy = Model.sortby, Order = Model.order }), new PagedListRenderOptions

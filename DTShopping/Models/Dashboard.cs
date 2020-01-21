@@ -22,6 +22,7 @@ namespace DTShopping.Models
 
         public List<order_products> OrderProducts { get; set; }
         public List<Containers> PaymentModeList { get; set; }
+        public List<Containers> WalletPaymentModeList { get; set; }
         public List<KeyValue> deliveryTypeList { get; set; }
         public ShoppingPortalFrontPageProdList FontpageSections{get;set;}
         public double Amount { get; set; }
