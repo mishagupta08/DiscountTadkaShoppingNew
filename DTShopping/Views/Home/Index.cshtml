@@ -246,13 +246,13 @@
                         <div class="sixteen columns">
                             <h1 id="bestsellers_title"><span class="icon_bestsellers">&nbsp;</span>@catProd.CategoryName</h1>
 
-                            <a href="/Home/GetAllDealProducts?Deal=@catProd.CategoryId&page=1">(View All)</a>
+                            <a href="/Home/GetAllDealProducts?Deal=ByCategoryId&page=1&catId=@catProd.CategoryId">(View All)</a>
                         </div>
                     </div>
 
                     <div class="carousel_bestsellers_outer">
                         <div class="container">
-                            <div id="carousel_fashion" class="es-carousel-wrapper">
+                            <div id="carousel_fashion" class="es-carousel-wrapper catCarousel">
                                 <div class="es-carousel-inner">
                                     <ul>
                                         @if (catProd.ProductList != null && catProd.ProductList.Count > 0)

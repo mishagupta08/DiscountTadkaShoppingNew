@@ -128,6 +128,11 @@ jQuery('#carousel_electronics').elastislide({
     easing: 'easeInOutQuad',
     speed: 1200
 });
+jQuery('.catCarousel').elastislide({
+    easing: 'easeInOutQuad',
+    speed: 1200
+});
+
 
 
 

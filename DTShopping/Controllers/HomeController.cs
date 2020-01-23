@@ -358,7 +358,7 @@ namespace DTShopping.Controllers
             return View(finalprodlist);
         }
 
-        public async Task<ActionResult> GetAllDealProducts(string Deal, int? page, string SortBy, string Order)
+        public async Task<ActionResult> GetAllDealProducts(string Deal, int? page, string SortBy, string Order, int catId)
         {
             PagewiseProducts productlist = new PagewiseProducts();
             try
@@ -372,6 +372,7 @@ namespace DTShopping.Controllers
                 productlist.SearchString = Deal;
                 productlist.sortby = SortBy;
                 productlist.order = Order;
+                c.CategoryId = catId;
 
                 if (!string.IsNullOrEmpty(SortBy))
                 {
