@@ -6,6 +6,10 @@ using System.Collections.Generic;
 using System;
 using System.Web.Security;
 using Newtonsoft.Json;
+using System.Security.Cryptography;
+using System.IO;
+using System.Text;
+using System.Globalization;
 
 namespace DTShopping
 {
@@ -13,6 +17,9 @@ namespace DTShopping
     public class AccountController : Controller
     {
         private APIRepository _APIManager;
+
+        private static byte[] KeyByte = Encoding.ASCII.GetBytes("6b04d38748f94490a636cf1be3d82841");
+        private static byte[] IVByte = Encoding.ASCII.GetBytes("f8adbf3c94b7463d");
 
         public Dashboard model;
 
@@ -41,38 +48,50 @@ namespace DTShopping
         {
             try
             {
-                //dGVzdDEyM3wxMjM0NTZ8Mjk=
-                var base64EncodedBytes = System.Convert.FromBase64String(data);
-                var detail = System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+                //var dataStr = "test123|123456|29|" + DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+
+//                string encrypted = Encrypt(dataStr, KeyByte, IVByte);
+                var detail = Decrypt(data, KeyByte, IVByte);
+
+                //var base64EncodedBytes = System.Convert.FromBase64String(data);
+                //var detail = System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
                 if (detail != null && detail.Contains("|"))
                 {
                     var dataArray = detail.Split('|');
-                    if (dataArray.Length == 3)
+                    if (dataArray.Length == 4)
                     {
-                        var userDetail = new UserDetails();
-                        userDetail.username = dataArray[0];
-                        userDetail.passwordDetail = dataArray[1];
-                        userDetail.company_id = Convert.ToInt32(dataArray[2]);
+                        //check if request is within 1 min
+                        DateTime queryTime = DateTime.ParseExact(dataArray[3], "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                        var currenttimeStr = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                        DateTime currentTime = DateTime.ParseExact(currenttimeStr, "dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                        var span = currentTime.Subtract(queryTime);
+                        if (span.TotalMinutes <= 1)
+                        {
+                            var userDetail = new UserDetails();
+                            userDetail.username = dataArray[0];
+                            userDetail.passwordDetail = dataArray[1];
+                            userDetail.company_id = Convert.ToInt32(dataArray[2]);
 
-                        _APIManager = new APIRepository();
-                        var result = await _APIManager.Login(userDetail);
-                        Session["UserDetail"] = null;
-                        if (result == null)
-                        {
-                            return null;
-                        }
-                        else
-                        {
-                            if (result.Status == true)
+                            _APIManager = new APIRepository();
+                            var result = await _APIManager.Login(userDetail);
+                            Session["UserDetail"] = null;
+                            if (result == null)
                             {
-                                UserDetails user = JsonConvert.DeserializeObject<UserDetails>(result.ResponseValue);
-                                FormsAuthentication.SetAuthCookie(user.username, false);
-                                Session["UserDetail"] = user;
-                                return RedirectToAction("Index", "Home");
+                                return null;
                             }
                             else
                             {
-                                return null;
+                                if (result.Status == true)
+                                {
+                                    UserDetails user = JsonConvert.DeserializeObject<UserDetails>(result.ResponseValue);
+                                    FormsAuthentication.SetAuthCookie(user.username, false);
+                                    Session["UserDetail"] = user;
+                                    return RedirectToAction("Index", "Home");
+                                }
+                                else
+                                {
+                                    return null;
+                                }
                             }
                         }
                     }
@@ -235,6 +254,84 @@ namespace DTShopping
         }
 
 
+        /******Encrypt Functions*****/
+        static void EncryptAesManaged(string raw)
+        {
+            try
+            {
+                // Create Aes that generates a new key and initialization vector (IV).    
+                // Same key must be used in encryption and decryption    
+                // Encrypt string    
+
+                using (AesManaged aes = new AesManaged())
+                {
+                    string encrypted = Encrypt(raw, KeyByte, IVByte);
+                    // Decrypt the bytes to a string.    
+                    string decrypted = Decrypt(encrypted, KeyByte, IVByte);
+                }
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine(exp.Message);
+            }
+            Console.ReadKey();
+        }
+
+        static string Encrypt(string plainText, byte[] Key, byte[] IV)
+        {
+            byte[] encrypted;
+            // Create a new AesManaged.    
+            using (AesManaged aes = new AesManaged())
+            {
+                // Create encryptor    
+                ICryptoTransform encryptor = aes.CreateEncryptor(Key, IV);
+                // Create MemoryStream    
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    // Create crypto stream using the CryptoStream class. This class is the key to encryption    
+                    // and encrypts and decrypts data from any given stream. In this case, we will pass a memory stream    
+                    // to encrypt    
+                    using (CryptoStream cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
+                    {
+                        // Create StreamWriter and write data to a stream    
+                        using (StreamWriter sw = new StreamWriter(cs))
+                            sw.Write(plainText);
+                        encrypted = ms.ToArray();
+                    }
+                }
+            }
+            // Return encrypted data    
+            return Convert.ToBase64String(encrypted);
+        }
+
+        /*****END****/
+
+        /******Decrypt Functions*****/
+        static string Decrypt(string data, byte[] Key, byte[] IV)
+        {
+            byte[] cipherText = Convert.FromBase64String(data);
+            string plaintext = null;
+            // Create AesManaged    
+            using (AesManaged aes = new AesManaged())
+            {
+                // Create a decryptor    
+                ICryptoTransform decryptor = aes.CreateDecryptor(Key, IV);
+                // Create the streams used for decryption.    
+                using (MemoryStream ms = new MemoryStream(cipherText))
+                {
+                    // Create crypto stream    
+                    using (CryptoStream cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
+                    {
+                        // Read crypto stream    
+                        using (StreamReader reader = new StreamReader(cs))
+                            plaintext = reader.ReadToEnd();
+                    }
+                }
+            }
+            return plaintext;
+        }
+
+        /*****END****/
 
 
     }
