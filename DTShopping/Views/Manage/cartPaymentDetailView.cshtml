@@ -5,12 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var Company = Session["Company"] as company;
     string imageUrl = System.Configuration.ConfigurationManager.AppSettings["ImageUrl"];
+    int CompanyId = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
     if (imageUrl.EndsWith("/"))
     {
         imageUrl = imageUrl.Substring(0, imageUrl.LastIndexOf("/"));
     }
 }
-
 
 <div class="container">
     @if (Model.Products == null || Model.Products.Count() == 0)
@@ -113,7 +113,7 @@
                                     <ul>
                                         <li>
                                             <input type="radio" value="offline" name="paymentmethod" id="Pay1">
-                                            <b>Cheque / DD / Cash / NEFT / RTGS</b><br>
+                                            <b>Cheque / DD / NEFT / RTGS</b><br>
                                         </li>
                                     </ul>
                                 </div>
@@ -123,11 +123,27 @@
                                     <ul>
                                         <li>
                                             <input type="radio" value="dtcard" name="paymentmethod" id="Pay3">
-                                            <b>e-Wallet Payment</b>
+                                            <b>
+                                                @*for company sunvis*@
+                                                @if (CompanyId == 29)
+                                                {
+                                                    <span>My Sunvis Wallet ( Training & Main)</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>e-Wallet Payment</span>
+                                                }
+                                            </b>
+
+
                                         </li>
+
+
                                     </ul>
                                 </div>
                             </td>
+                        </tr>
+                        <tr bgcolor="#EBC6AD">
                             <td>
                                 <div class="Paymenttd" style="width:130px;">
                                     <ul>
@@ -138,11 +154,17 @@
                                     </ul>
                                 </div>
                             </td>
+                            <td>
+                                <div class="Paymenttd" style="width:235px;">
+                                    <ul>
+                                        <li>
+                                            <input type="radio" value="cardPaymentMode" name="paymentmethod" id="Pay4">
+                                            <b>Credit Card / Debit Card / Net Banking</b><br>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
                         </tr>
-                        @*<tr>
-                                <td>You can Deposit a cheque / DD / Cash /NEFT /RTGS </td>
-                                <td>Prepaid Card /e-Wallet Card. </td>
-                            </tr>*@
                     </table>
 
                     <div id="offline">
@@ -151,10 +173,8 @@
                                 <div class="contentText">
                                     @Html.HiddenFor(m => m.NetPayment, new { name = "NetPayment", id = "NetPayment" })
                                     @Html.HiddenFor(m => m.OrderDetail.point_adjusted, new { name = "pointAdjusted1", id = "pointAdjusted1" })
-
-
-                                    <table border="0" width="97%" cellspacing="0" cellpadding="2">
-                                        <tr>
+                                    <table style="display:inline-block;" border="0" width="50%" cellspacing="0" cellpadding="2">
+                                        <tr width="50%">
                                             <td colspan="2" style="background:#efefef;">
                                                 <h3 style="font-family:'Oswald';font-size:16px;">Supplier Bank Details</h3>
                                             </td>
@@ -194,7 +214,7 @@
                                         </tr>
                                         <tr class="Common">
                                             <td class="fieldKey"><label for="username">@Resources.PaymentRefDate</label> : </td>
-                                            <td class="fieldValue">@Html.TextBoxFor(m => m.OrderDetail.dt_payment_ref_date, new { @type = "text", @id = "RefDate", @required = "required", @class = "form-control", @placeholder = "MM-DD-YYYY" })</td>
+                                            <td class="fieldValue">@Html.TextBoxFor(m => m.OrderDetail.dt_payment_ref_date, new { @type = "text", @id = "RefDate", @required = "required", @class = "form-control datepicker", @placeholder = "MM-DD-YYYY" })</td>
                                         </tr>
                                         <tr>
                                             <td class="fieldKey"><label for="username">@Resources.PaymentRefBank</label> : </td>
@@ -209,6 +229,26 @@
                                             <td class="fieldValue">@Html.TextBoxFor(m => m.OrderDetail.payment_ref_amount, new { @type = "number", @id = "amount", @required = "required", @class = "form-control", @placeholder = "" })</td>
                                         </tr>
 
+                                    </table>
+                                    <table style="display:inline-block; float:right;margin-top:10%;" border="0" width="50%" cellspacing="0" cellpadding="2">
+                                        <tr style="margin-top:10px;">
+                                            <td> <h3 style="text-align:center;">Terms and Condition</h3></td>
+                                        </tr>
+                                        <tr style="margin-top:10px;">
+                                            <td>
+                                                1. The Customer making the payment through the selected mode shall be eligible to receive the utility coupons as selected within 24 working hours once the payment confirmation is done from the Bank.
+                                            </td>
+                                        </tr>
+                                        <tr style="margin-top:10px;">
+                                            <td>
+                                                2. upon submission of your request you shall receive a confirmation sms and email for the successful submission of your request.
+                                            </td>
+                                        </tr>
+                                        <tr style="margin-top:10px;">
+                                            <td>
+                                                3. The Customers shall be eligible to do the shopping at the respective outlet immediately after receiving the utility coupon at his / her email.
+                                            </td>
+                                        </tr>
                                     </table>
                                 </div>
                                 <label id="loginError" style="color:red;"></label>
@@ -226,8 +266,7 @@
                                     @Html.HiddenFor(m => m.NetPayment, new { name = "NetPayment", id = "NetPayment" })
                                     @Html.HiddenFor(m => m.OrderDetail.point_adjusted, new { name = "pointAdjusted1", id = "pointAdjusted1" })
 
-
-                                    <table border="0" width="97%" cellspacing="0" cellpadding="2">
+                                    <table border="0" width="50%" style="display:inline-block;" cellspacing="0" cellpadding="2">
                                         <tr>
                                             <td colspan="2" style="background:#efefef;">
                                                 <h3 style="font-family:'Oswald';font-size:16px;">Supplier Bank Details</h3>
@@ -283,7 +322,7 @@
                                         </tr>
                                         <tr class="Common">
                                             <td class="fieldKey"><label for="username">@Resources.PaymentRefDate</label> : </td>
-                                            <td class="fieldValue">@Html.TextBoxFor(m => m.OrderDetail.dt_payment_ref_date, new { @type = "text", @id = "RefDate", @required = "required", @class = "form-control", @placeholder = "MM-DD-YYYY" })</td>
+                                            <td class="fieldValue">@Html.TextBoxFor(m => m.OrderDetail.dt_payment_ref_date, new { @type = "text", @id = "RefDate1", @required = "required", @class = "form-control datepicker", @placeholder = "MM-DD-YYYY" })</td>
                                         </tr>
                                         @*<tr class="Bank">
                                                 <td class="fieldKey"><label for="username">@Resources.PaymentRefBank</label> : </td>
@@ -298,6 +337,17 @@
                                             <td class="fieldValue">@Html.TextBoxFor(m => m.OrderDetail.payment_ref_amount, new { @type = "number", @id = "amount", @required = "required", @class = "form-control", @placeholder = "" })</td>
                                         </tr>
 
+                                    </table>
+                                    <table style="display:inline-block; float:right;margin-top:10%;" border="0" width="50%" cellspacing="0" cellpadding="2">
+                                        <tr style="margin-top:10px;">
+                                            <td> <h3 style="text-align:center;">Terms and Condition</h3></td>
+                                        </tr>
+                                        <tr style="margin-top:10px;">
+                                            <td>
+                                            Dear Customer you have selected the payment option through a secured payment gateway and the transaction is being monitored through a secured SSL for the security of the transaction.
+                                            There shall be an additional convenience charge ( if any )to be charged by the payment gateway provider and the same shall be payable in addition by the customer.
+                                            </td>
+                                        </tr>
                                     </table>
                                 </div>
                                 <label id="loginErrorW" style="color:red;"></label>
@@ -341,14 +391,15 @@
                             </div>
                         </form>
                     </div>
-
                     <div id="dtcardOTP" style="display:none;">
                         <form data-parsley-validate class="validateForm form-horizontal form-style" id="addFormOTP" onsubmit="return SaveDetailFormOtp();">
                             <div class="contentContainer">
                                 <div class="contentText">
                                     @Html.HiddenFor(m => m.OrderDetail.point_adjusted, new { name = "pointAdjusted2", id = "pointAdjusted2" })
                                     @Html.Hidden("Amount", Model.NetPayment)
-
+                                    <br /><br />
+                                    <h2 style="font-family:'Oswald';font-size:16px;">Current Wallet Balance : <span id="walletAmount"></span></h2>
+                                    <br /><br />
                                     <table border="0" width="97%" cellspacing="0" cellpadding="2">
                                         <tr>
                                             <td colspan="2" style="background:#efefef;">
@@ -386,7 +437,35 @@
                         </form>
 
                     </div>
+                    <div id="cardPaymentMode">
+                        <form data-parsley-validate class="validateForm form-horizontal form-style" id="addForm" onsubmit="return SaveDetailForm(false);">
+                            <div class="contentContainer">
+                                <div class="contentText">
+                                    @Html.HiddenFor(m => m.NetPayment, new { name = "NetPayment", id = "NetPayment" })
+                                    @Html.HiddenFor(m => m.OrderDetail.point_adjusted, new { name = "pointAdjusted1", id = "pointAdjusted1" })
 
+
+                                    <table border="0" width="97%" cellspacing="0" cellpadding="2">
+                                        <tr style="margin-top:10px;">
+                                            <td> <h3 style="text-align:center;">Terms and Condition</h3></td>
+                                        </tr>
+                                        <tr class="Common">
+                                            <td>
+                                                Dear Customer you have selected the payment option through a secured payment gateway and the transaction is being monitored through a secured SSL for the security of the transaction.
+                                                There shall be an additional convenience charge ( if any )to be charged by the payment gateway provider and the same shall be payable in addition by the customer.
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                </div>
+                                <label id="loginError" style="color:red;"></label>
+                                @*<div class="buttonSet">
+                                    <span class="buttonAction"><button class="unishop_button" type="submit">Continue</button></span>
+                                </div>*@
+                            </div>
+
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -394,4 +473,18 @@
     }
 </div>
 
-<script src="~/Scripts/shopping.js?v=1"></script>
+
+<head>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/vendor/jquery/jquery.min.js"></script>
+    <script src="~/unishop_theme/unishop_js/jquery-ui.js"></script>
+    @*<script src="~/Scripts/jquery-ui.min.js"></script>*@
+    <script src="~/Scripts/shopping.js?v=1"></script>
+
+</head>
+<script>
+    var jq = $.noConflict();
+    jq(".preloader").hide();
+    jq('.datepicker').datepicker({
+    });
+</script>

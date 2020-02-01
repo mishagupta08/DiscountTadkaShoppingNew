@@ -39,6 +39,10 @@ namespace DTShopping.Repository
 
         private string ManageCategory = "CategoryDetail/";
 
+        private string ManageOrderAction = "ManageOrder/";
+
+        private string ManageCompanyProfileAction = "ManageCompanyProfile/";
+
         private string ManageDealProducts = "GetDealProductsFullList/";
 
         private string ManageOrderproducts = "ManageVendorProductOrderListWithFilter/";
@@ -211,7 +215,6 @@ namespace DTShopping.Repository
             }
         }
 
-
         public async Task<Response> ManagePointLedger(PointsLedger filter, string action)
         {
             var filterData = JsonConvert.SerializeObject(filter);
@@ -364,6 +367,20 @@ namespace DTShopping.Repository
             else
             {
                 return JsonConvert.DeserializeObject<order>(result.ResponseValue);
+            }
+        }
+
+        public async Task<OrderDetailContainer> ManageOrderWithProducts(order orderData)
+        {
+            var data = JsonConvert.SerializeObject(orderData);
+            var result = await CallPostFunction(data, ManageOrderAction + "ById");
+            if (result == null)
+            {
+                return null;
+            }
+            else
+            {
+                return JsonConvert.DeserializeObject<OrderDetailContainer>(result.ResponseValue);
             }
         }
 

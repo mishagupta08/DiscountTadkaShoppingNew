@@ -19,7 +19,7 @@ namespace DTShopping.Models
         public Product ProductDetail { get; set; }
         public order OrderDetail { get; set; }
         public company CompanyDetail { get; set; }
-
+        public OrderDetailContainer orderDetailContainer { get; set; }
         public List<order_products> OrderProducts { get; set; }
         public List<Containers> PaymentModeList { get; set; }
         public List<Containers> WalletPaymentModeList { get; set; }

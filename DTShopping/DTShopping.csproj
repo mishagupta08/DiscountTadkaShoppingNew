@@ -212,6 +212,7 @@
     <Compile Include="Models\CartFilter.cs" />
     <Compile Include="Models\CatProducts.cs" />
     <Compile Include="Models\company.cs" />
+    <Compile Include="Models\CompanyProfile.cs" />
     <Compile Include="Models\Containers.cs" />
     <Compile Include="Models\Dashboard.cs" />
     <Compile Include="Models\discount_coupons.cs" />
@@ -221,6 +222,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MenuItems.cs" />
     <Compile Include="Models\order.cs" />
+    <Compile Include="Models\OrderDetailContainer.cs" />
     <Compile Include="Models\Points.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\product_images.cs" />
@@ -307,6 +309,7 @@
     <Content Include="images\mopho_1_1%25209.jpg" />
     <Content Include="images\my_cart.jpg" />
     <Content Include="images\order_now.jpg" />
+    <Content Include="images\print.png" />
     <Content Include="images\remove_cart_item.gif" />
     <Content Include="images\sign_up.jpg" />
     <Content Include="images\slider-simple\slide-1.jpg" />
@@ -522,6 +525,7 @@
     <Content Include="WebCompanySettings.Release.config">
       <DependentUpon>WebCompanySettings.config</DependentUpon>
     </Content>
+    <Content Include="Views\Manage\orderDetailPrintPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

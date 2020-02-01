@@ -1006,12 +1006,12 @@
 #footer #copyright .logo_footer {
     display: block;
     clear: both;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
 }
 
     #footer #copyright .logo_footer img {
         width: 127px;
-        height: 33px;
+        height: 81px;
     }
 
 

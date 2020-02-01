@@ -1,0 +1,173 @@
+﻿@using DTShopping.Properties
+@using PagedList.Mvc;
+@model DTShopping.Models.Dashboard
+@{
+    ViewBag.Title = "Order Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int CompanyId = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
+}
+
+<link href="~/Content/style.css" rel="stylesheet" />
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<style>
+    #orderSummary td {
+        padding: 5px;
+    }
+</style>
+
+@if (Model.orderDetailContainer == null || Model.orderDetailContainer.OrderDetail == null || Model.orderDetailContainer.OrderProducts == null)
+{
+    <div>No Record Found</div>
+}
+else
+{
+    <input type="button" onclick="printDiv('PrintDiv')" value="Print" />
+    <div id="PrintDiv" style="width: 75%;font-size: small; margin: 0 auto;">
+        <h3 style="text-align: center;color: white;background: black;font-size: large;font-family: Poppins,sans-serif;padding: 6px;margin: 6px;">@Resources.Order</h3>
+        <div style="float:left; width:17%;">
+            <span>@Resources.Order</span> : <span>@Resources.ShippingDetail</span>
+            <br />
+            @****check for coupon Sunvis Company*****@
+            @if (CompanyId == 29)
+            {
+            <h5>
+                @Model.orderDetailContainer.OrderDetail.billing_address_1
+                <br />
+                @Model.orderDetailContainer.OrderDetail.billing_city , @Model.orderDetailContainer.OrderDetail.billing_country
+                <br />
+                @Model.orderDetailContainer.OrderDetail.billing_postcode<br />
+                <span style="font-weight:bold;">Contact Info:</span>
+                <br />
+                @Model.orderDetailContainer.OrderDetail.billing_email
+                <br />
+                @Model.orderDetailContainer.OrderDetail.billing_phone
+            </h5>
+            }
+            else
+            {
+            <h5>
+                @Model.orderDetailContainer.OrderDetail.billing_address_1
+                <br />
+                @Model.orderDetailContainer.OrderDetail.billing_city , @Model.orderDetailContainer.OrderDetail.billing_country
+                <br />
+                @Model.orderDetailContainer.OrderDetail.billing_postcode<br />
+                <span style="font-weight:bold;">Contact Info:</span>
+                <br />
+                @Model.orderDetailContainer.OrderDetail.billing_email
+                <br />
+                @Model.orderDetailContainer.OrderDetail.billing_phone
+            </h5>
+            }
+        </div>
+        <div style="float:right; width:25%;">
+            <h4 style="font-weight:bold;">
+                @Model.orderDetailContainer.OrderDetail.billing_first_name , @Model.orderDetailContainer.OrderDetail.billing_last_name (@Model.orderDetailContainer.OrderDetail.user_id)
+                <br />
+                (@Model.orderDetailContainer.OrderDetail.companyWebsite)
+            </h4>
+            <table style="font-size:small" class="table" id="orderSummary" border="1">
+                <tr>
+                    <td>
+                        @Resources.OrderId #
+                    </td>
+                    <td>
+                        @Model.orderDetailContainer.OrderDetail.id
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Resources.OrderDate
+                    </td>
+                    <td>
+                        @Model.orderDetailContainer.OrderDetail.created
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Resources.OrderAmount
+                    </td>
+                    <td>
+                        @Model.orderDetailContainer.OrderDetail.TotalAmount
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <br/>
+        <table style="font-size:small;width: 101%;margin-top: 17%;" class="table" border="1">
+            <tr>
+                <th>
+                    @Resources.ItemCode
+                </th>
+                <th>
+                    @Resources.ItemName
+                </th>
+                <th>
+                    @Resources.Qty
+                </th>
+                <th width="20px">
+                    @Resources.RegularPrice
+                </th>
+                <th>
+                    @Resources.Price
+                </th>
+                <th>
+                    @Resources.PointUsed
+                </th>
+                <th>
+                    @Resources.ShippingCharge
+                </th>
+                <th>
+                    @Resources.NetPrice
+                </th>
+                <th>
+                    @Resources.Remark
+                </th>
+            </tr>
+
+            @foreach (var item in Model.orderDetailContainer.OrderProducts)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(m => item.id)</td>
+                    <td>@Html.DisplayFor(m => item.productName)</td>
+                    <td>@Html.DisplayFor(m => item.quantity)</td>
+                    <td>@Html.DisplayFor(modelItem => item.MarketPrice)</td>
+                    <td>@Html.DisplayFor(modelItem => item.price)</td>
+                    <td>@Html.DisplayFor(modelItem => item.RBV_Points)</td>
+                    <td>@Html.DisplayFor(modelItem => item.shipping_charge)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Amt)</td>
+                    <td>@Html.DisplayFor(modelItem => @Model.orderDetailContainer.OrderDetail.status)</td>
+                </tr>
+            }
+        </table>
+        <br />
+        <table>
+            <tr>
+                <td>@Resources.PaymentMethod : &nbsp;</td>
+                <td width="20%">@Model.orderDetailContainer.OrderDetail.payment_mode</td>
+                <td>@Resources.PaymentStatus : &nbsp;</td>
+                <td width="20%">@Model.orderDetailContainer.OrderDetail.paymentStatus</td>
+                <td>@Resources.PaidAmount : &nbsp;</td>
+                <td width="20%">@Model.orderDetailContainer.OrderDetail.TotalAmount</td>
+            </tr>
+        </table>
+    </div>
+}
+
+<head>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/vendor/jquery/jquery.min.js"></script>
+    <script src="~/unishop_theme/unishop_js/jquery-ui.js"></script>
+    <script src="~/Scripts/dashboard.js"></script>
+</head>
+<script>
+    function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
+
+        document.body.innerHTML = printContents;
+
+        window.print();
+
+        document.body.innerHTML = originalContents;
+    }
+</script>

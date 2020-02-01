@@ -31,6 +31,35 @@ namespace DTShopping.Controllers
         {
         }
 
+        private bool CheckLoginUserStatus()
+        {
+            if (Session["UserDetail"] == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        public async Task<ActionResult> GetOrderDetailPage(int id)
+        {
+            if (CheckLoginUserStatus())
+            {
+                this.model = new Dashboard();
+                this.objRepository = new APIRepository();
+                var data = new order();
+                data.id = id;
+                this.model.orderDetailContainer = await this.objRepository.ManageOrderWithProducts(data);
+                return View("orderDetailPrintPage", this.model);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+        }
+
         public async Task<ActionResult> SaveDetailFormOtp(Dashboard detailModel)
         {
             this.model = new Dashboard();
@@ -229,13 +258,13 @@ namespace DTShopping.Controllers
                 {
                     var Wallet = JsonConvert.DeserializeObject<WalletDetails>(result.ResponseValue);
 
-                    if (0 <= Wallet.wallet)
+                    if (detail.Amount <= Wallet.wallet)
                     {
-                        return Json("Sufficient");
+                        return Json("Sufficient:" + Wallet.wallet);
                     }
                     else
                     {
-                        return Json("InSufficient");
+                        return Json("InSufficient:" + Wallet.wallet);
                     }
                 }
                 else
@@ -563,18 +592,6 @@ namespace DTShopping.Controllers
             else
             {
                 return PartialView("cartDetailView", this.model);
-            }
-        }
-
-        private bool CheckLoginUserStatus()
-        {
-            if (Session["UserDetail"] == null)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
             }
         }
 

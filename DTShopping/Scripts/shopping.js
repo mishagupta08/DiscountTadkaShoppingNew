@@ -2,6 +2,7 @@
     $("#offline").hide();
     $("#dtcard").hide();
     $("#walletPaymentModes").hide();
+    $("#cardPaymentMode").hide();
 
     $(".preloader").hide();
 
@@ -60,6 +61,7 @@
         $("#dtcard").hide();
         $("#dtcardOTP").hide();
         $("#walletPaymentModes").hide();
+        $("#cardPaymentMode").hide();
 
         $("#" + value).show();
     });
@@ -106,7 +108,6 @@ function GenerateOtp(thisvar) {
     return false;
 }
 
-
 function SaveDetailFormOtp() {
     $("#loginError").html("");
     var loginDetail = $('#addFormOTP').serialize();
@@ -145,6 +146,14 @@ function ConfirmPassword() {
         datatype: 'Json',
         data: loginDetail
     }).done(function (result) {
+        var walletAmount = 0;
+        if (result.indexOf(':') > 0) {
+            var dataArray = result.split(':');
+            walletAmount = dataArray[1];
+            result = dataArray[0];
+        }
+        
+        document.getElementById("walletAmount").innerHTML =walletAmount;
         if (result == "Not Found") {
             $("#loginError1").html("Password does not match.");
         }
@@ -153,7 +162,7 @@ function ConfirmPassword() {
             $("#dtcardOTP").show();
         }
         else if (result == "InSufficient") {
-            $("#loginError1").html("User Exists but does not have sufficient balance in wallet.");
+            $("#loginError1").html("User Exists but does not have sufficient balance in wallet.<br/> Current Wallet Balance : " + walletAmount);
         }
         else {
             $("#loginError1").html(result);

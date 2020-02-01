@@ -35,7 +35,60 @@ namespace DTShopping
             return View();
         }
 
-        //
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<ActionResult> LoginApiUser(string data)
+        {
+            try
+            {
+                //dGVzdDEyM3wxMjM0NTZ8Mjk=
+                var base64EncodedBytes = System.Convert.FromBase64String(data);
+                var detail = System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+                if (detail != null && detail.Contains("|"))
+                {
+                    var dataArray = detail.Split('|');
+                    if (dataArray.Length == 3)
+                    {
+                        var userDetail = new UserDetails();
+                        userDetail.username = dataArray[0];
+                        userDetail.passwordDetail = dataArray[1];
+                        userDetail.company_id = Convert.ToInt32(dataArray[2]);
+
+                        _APIManager = new APIRepository();
+                        var result = await _APIManager.Login(userDetail);
+                        Session["UserDetail"] = null;
+                        if (result == null)
+                        {
+                            return null;
+                        }
+                        else
+                        {
+                            if (result.Status == true)
+                            {
+                                UserDetails user = JsonConvert.DeserializeObject<UserDetails>(result.ResponseValue);
+                                FormsAuthentication.SetAuthCookie(user.username, false);
+                                Session["UserDetail"] = user;
+                                return RedirectToAction("Index", "Home");
+                            }
+                            else
+                            {
+                                return null;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+
+            return null;
+        }
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]

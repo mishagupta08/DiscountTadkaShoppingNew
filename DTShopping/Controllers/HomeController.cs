@@ -16,6 +16,7 @@ namespace DTShopping.Controllers
     {
         APIRepository objRepository = new APIRepository();
         Dashboard model = new Dashboard();
+        private const int SUNVISCOMPANYID = 29;
         public async Task<ActionResult> Index()
         {
             Dashboard objDashboardDetails = new Dashboard();
@@ -564,24 +565,33 @@ namespace DTShopping.Controllers
                 objorder.created = DateTime.Now;
                 objorder.status = 2;
                 objorder.company_id = Convert.ToInt16(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
-                Response response = new Response();
-                if (objorder.id == 0)
+                if (objorder.company_id == SUNVISCOMPANYID)
                 {
-                    response = await objRepository.CreateOrder(objorder, "Add");
-                }
-                else
-                {
-                    response = await objRepository.CreateOrder(objorder, "EditAddress");
-                }
-                if (response.Status == true)
-                {
-                    Session["OrderId"] = response.ResponseValue;
-                    orderstatus = "Success";
-                    //return RedirectToAction("GetCartProductList", "Manage", new { isWithPayment = true });
-                }
-                else
-                {
-                    orderstatus = "Fail";
+                    UserDetails current_user = (Session["UserDetail"] != null) ? Session["UserDetail"] as UserDetails : null;
+                    if (current_user != null)
+                    {
+                        objorder.billing_first_name = current_user.first_name;
+                        objorder.billing_last_name = current_user.last_name;
+                    }
+                    Response response = new Response();
+                    if (objorder.id == 0)
+                    {
+                        response = await objRepository.CreateOrder(objorder, "Add");
+                    }
+                    else
+                    {
+                        response = await objRepository.CreateOrder(objorder, "EditAddress");
+                    }
+                    if (response.Status == true)
+                    {
+                        Session["OrderId"] = response.ResponseValue;
+                        orderstatus = "Success";
+                        //return RedirectToAction("GetCartProductList", "Manage", new { isWithPayment = true });
+                    }
+                    else
+                    {
+                        orderstatus = "Fail";
+                    }
                 }
             }
             catch (Exception ex)
