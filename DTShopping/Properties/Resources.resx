@@ -264,4 +264,31 @@
   <data name="Remark" xml:space="preserve">
     <value>Remark</value>
   </data>
+  <data name="PointsLedger" xml:space="preserve">
+    <value>Points Ledger</value>
+  </data>
+  <data name="AvailableBalance" xml:space="preserve">
+    <value>Available Balance</value>
+  </data>
+  <data name="Company" xml:space="preserve">
+    <value>Company</value>
+  </data>
+  <data name="Credit" xml:space="preserve">
+    <value>Credit</value>
+  </data>
+  <data name="CreditValidUpTo" xml:space="preserve">
+    <value>Credit Valid UpTo</value>
+  </data>
+  <data name="Dabit" xml:space="preserve">
+    <value>Dabit</value>
+  </data>
+  <data name="Member" xml:space="preserve">
+    <value>Member</value>
+  </data>
+  <data name="RefNo" xml:space="preserve">
+    <value>RefNo</value>
+  </data>
+  <data name="UpdationDate" xml:space="preserve">
+    <value>Updation Date</value>
+  </data>
 </root>

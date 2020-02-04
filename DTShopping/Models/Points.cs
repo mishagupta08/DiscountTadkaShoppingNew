@@ -16,7 +16,8 @@ namespace DTShopping.Models
         public Nullable<decimal> Dabit { get; set; }
         public Nullable<decimal> AvailableBalance { get; set; }
         public string ReferenceNo { get; set; }
+        public string companyName { get; set; }
+        public string memberName { get; set; }
         public string Remark { get; set; }
-
     }
 }

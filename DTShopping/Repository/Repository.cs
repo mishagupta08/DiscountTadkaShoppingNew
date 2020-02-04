@@ -19,6 +19,8 @@ namespace DTShopping.Repository
 
         private string GetGetShoppingPortalAllFrontPageProductsListAction = "GetShoppingPortalAllFrontPageProductsList/";
 
+        private string ManagePointsLedgerAction = "ManagePointsLedger/";
+
         private string ManageListWithFilterAction = "ManageListWithFilter";
 
         private string DeliveryTypeListAction = "DeliveryTypeList";
@@ -499,6 +501,20 @@ namespace DTShopping.Repository
             var detail = JsonConvert.SerializeObject(user);
             var result = await CallPostFunction(detail, "WalletConfirmationAPI");
             return result;
+        }
+
+        public async Task<Response> ManagePoints(PointsLedger points, string action)
+        {
+            var data = JsonConvert.SerializeObject(points);
+            var result = await CallPostFunction(data, ManagePointsLedgerAction + action);
+            if (result == null)
+            {
+                return null;
+            }
+            else
+            {
+                return result;
+            }
         }
 
     }

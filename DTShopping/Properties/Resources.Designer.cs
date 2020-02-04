@@ -106,6 +106,15 @@ namespace DTShopping.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Available Balance.
+        /// </summary>
+        public static string AvailableBalance {
+            get {
+                return ResourceManager.GetString("AvailableBalance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bank Name.
         /// </summary>
         public static string Bank_Name {
@@ -120,6 +129,15 @@ namespace DTShopping.Properties {
         public static string Category {
             get {
                 return ResourceManager.GetString("Category", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Company.
+        /// </summary>
+        public static string Company {
+            get {
+                return ResourceManager.GetString("Company", resourceCulture);
             }
         }
         
@@ -151,11 +169,38 @@ namespace DTShopping.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Credit.
+        /// </summary>
+        public static string Credit {
+            get {
+                return ResourceManager.GetString("Credit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Credit Valid UpTo.
+        /// </summary>
+        public static string CreditValidUpTo {
+            get {
+                return ResourceManager.GetString("CreditValidUpTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do You Want To Use Current Available Points.
         /// </summary>
         public static string CurrentAvailablePoints {
             get {
                 return ResourceManager.GetString("CurrentAvailablePoints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dabit.
+        /// </summary>
+        public static string Dabit {
+            get {
+                return ResourceManager.GetString("Dabit", resourceCulture);
             }
         }
         
@@ -228,6 +273,15 @@ namespace DTShopping.Properties {
         public static string MarketPrice {
             get {
                 return ResourceManager.GetString("MarketPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Member.
+        /// </summary>
+        public static string Member {
+            get {
+                return ResourceManager.GetString("Member", resourceCulture);
             }
         }
         
@@ -376,6 +430,15 @@ namespace DTShopping.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Points Ledger.
+        /// </summary>
+        public static string PointsLedger {
+            get {
+                return ResourceManager.GetString("PointsLedger", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Point Used.
         /// </summary>
         public static string PointUsed {
@@ -417,6 +480,15 @@ namespace DTShopping.Properties {
         public static string Qty {
             get {
                 return ResourceManager.GetString("Qty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RefNo.
+        /// </summary>
+        public static string RefNo {
+            get {
+                return ResourceManager.GetString("RefNo", resourceCulture);
             }
         }
         
@@ -489,6 +561,15 @@ namespace DTShopping.Properties {
         public static string TandCText {
             get {
                 return ResourceManager.GetString("TandCText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Updation Date.
+        /// </summary>
+        public static string UpdationDate {
+            get {
+                return ResourceManager.GetString("UpdationDate", resourceCulture);
             }
         }
         

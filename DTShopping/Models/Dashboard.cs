@@ -7,6 +7,7 @@ namespace DTShopping.Models
 {
     public class Dashboard
     {
+        public List<PointsLedger> ledgerList { get; set; }
         public List<Category> MenuItems { get; set; }
         public List<Banners> Banners { get; set; }
         public List<R_StateMaster> States { get; set; }
@@ -26,6 +27,7 @@ namespace DTShopping.Models
         public List<KeyValue> deliveryTypeList { get; set; }
         public ShoppingPortalFrontPageProdList FontpageSections{get;set;}
         public double Amount { get; set; }
+        public Filters FilterDetail { get; set; }
 
         public void AssignPaymentModes()
         {

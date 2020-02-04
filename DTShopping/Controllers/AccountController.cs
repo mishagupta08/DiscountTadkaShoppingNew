@@ -50,7 +50,7 @@ namespace DTShopping
             {
                 //var dataStr = "test123|123456|29|" + DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
 
-//                string encrypted = Encrypt(dataStr, KeyByte, IVByte);
+                //                string encrypted = Encrypt(dataStr, KeyByte, IVByte);
                 var detail = Decrypt(data, KeyByte, IVByte);
 
                 //var base64EncodedBytes = System.Convert.FromBase64String(data);
@@ -253,8 +253,6 @@ namespace DTShopping
             return Json(cityList);
         }
 
-
-        /******Encrypt Functions*****/
         static void EncryptAesManaged(string raw)
         {
             try
@@ -266,7 +264,7 @@ namespace DTShopping
                 using (AesManaged aes = new AesManaged())
                 {
                     string encrypted = Encrypt(raw, KeyByte, IVByte);
-                    // Decrypt the bytes to a string.    
+                    // Decrypt. the bytes to a string.    
                     string decrypted = Decrypt(encrypted, KeyByte, IVByte);
                 }
             }
@@ -277,6 +275,7 @@ namespace DTShopping
             Console.ReadKey();
         }
 
+        /******Encrypt Functions*****/
         static string Encrypt(string plainText, byte[] Key, byte[] IV)
         {
             byte[] encrypted;
@@ -332,7 +331,5 @@ namespace DTShopping
         }
 
         /*****END****/
-
-
     }
 }

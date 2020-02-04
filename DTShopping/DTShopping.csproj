@@ -309,6 +309,7 @@
     <Content Include="images\mopho_1_1%25209.jpg" />
     <Content Include="images\my_cart.jpg" />
     <Content Include="images\order_now.jpg" />
+    <Content Include="images\pointsLedger.jpg" />
     <Content Include="images\print.png" />
     <Content Include="images\remove_cart_item.gif" />
     <Content Include="images\sign_up.jpg" />
@@ -526,6 +527,7 @@
       <DependentUpon>WebCompanySettings.config</DependentUpon>
     </Content>
     <Content Include="Views\Manage\orderDetailPrintPage.cshtml" />
+    <Content Include="Views\Manage\_retailerPointsPartialView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

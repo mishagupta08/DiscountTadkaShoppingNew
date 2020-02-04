@@ -19,6 +19,7 @@ namespace DTShopping.Controllers
     {
         private const string AddAction = "Add";
         private const int HOMEDELIVERYCODE = 3;
+        private const int PAGESIZE = 7;
         private const string CartProductListAction = "CartProductList";
 
         private ApplicationSignInManager _signInManager;
@@ -41,6 +42,35 @@ namespace DTShopping.Controllers
             {
                 return true;
             }
+        }
+
+        public async Task<ActionResult> GetUserPointsListView()
+        {
+            this.model = new Dashboard();
+            this.objRepository = new APIRepository();
+            var result = new Response();
+            if (CheckLoginUserStatus())
+            {
+                var point = new PointsLedger();
+                var detail = (UserDetails)(Session["UserDetail"]);
+                if (detail != null)
+                {
+                    point.UserId = detail.id;
+                }
+
+                result = await objRepository.ManagePoints(point, "ListByUserId");
+                if (result != null && result.Status)
+                {
+                    this.model.ledgerList = new List<PointsLedger>();
+                    this.model.ledgerList = JsonConvert.DeserializeObject<List<PointsLedger>>(result.ResponseValue);
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            return View("_retailerPointsPartialView", model);
         }
 
         public async Task<ActionResult> GetOrderDetailPage(int id)
