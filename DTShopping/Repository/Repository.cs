@@ -53,6 +53,20 @@ namespace DTShopping.Repository
 
         private string ManagePointLedgerAction = "ManagePointsLedger/";
 
+        public async Task<Response> ManageCompanyProfile(CompanyProfile orderData, string action)
+        {
+            var data = JsonConvert.SerializeObject(orderData);
+            var result = await CallPostFunction(data, ManageCompanyProfileAction + action);
+            if (result == null)
+            {
+                return null;
+            }
+            else
+            {
+                return result;
+            }
+        }
+
         public async Task<List<KeyValue>> DeliveryTypeList()
         {
             var result = await CallPostFunction(string.Empty, DeliveryTypeListAction);

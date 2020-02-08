@@ -311,6 +311,7 @@
     <Content Include="images\order_now.jpg" />
     <Content Include="images\pointsLedger.jpg" />
     <Content Include="images\print.png" />
+    <Content Include="images\questionMark.jpg" />
     <Content Include="images\remove_cart_item.gif" />
     <Content Include="images\sign_up.jpg" />
     <Content Include="images\slider-simple\slide-1.jpg" />

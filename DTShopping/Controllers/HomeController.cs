@@ -563,7 +563,7 @@ namespace DTShopping.Controllers
             try
             {
                 objorder.created = DateTime.Now;
-                objorder.status = 2;
+                //objorder.status = 2;
                 objorder.company_id = Convert.ToInt16(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
                 if (objorder.company_id == SUNVISCOMPANYID)
                 {

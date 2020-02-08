@@ -11,7 +11,21 @@
         imageUrl = imageUrl.Substring(0, imageUrl.LastIndexOf("/"));
     }
 }
+<style>
+    .tAndC {
+        background-image: url("~/images/questionMark.jpg");
+        height: 20px;
+        width: 20px;
+    }
 
+    .disabled {
+        background-color: lightgray;
+    }
+
+    .contentText .fieldValue input {
+        height: 29px !important;
+    }
+</style>
 <div class="container">
     @if (Model.Products == null || Model.Products.Count() == 0)
     {
@@ -42,6 +56,7 @@
                             <tr align="left" class="dgrdcell">
                                 <td>
                                     <img src="@imageUrl/@product.small_image" alt="@product.title" title="@product.title" width="50" height="50" class="scale-with-grid" />
+                                    <br />
                                     <span>@product.title</span> <br>&nbsp;
                                 </td>
                                 <td>@product.vendor_qty</td>
@@ -113,7 +128,7 @@
                                     <ul>
                                         <li>
                                             <input type="radio" value="offline" name="paymentmethod" id="Pay1">
-                                            <b>Cheque / DD / NEFT / RTGS</b><br>
+                                            <b>Cheque / NEFT / RTGS</b><br>
                                         </li>
                                     </ul>
                                 </div>
@@ -184,7 +199,7 @@
                                             <td class="fieldValue">@Company.CompanyAccountNumber</td>
                                         </tr>
                                         <tr>
-                                            <td class="fieldKey"><label for="username">@Resources.Bank_Name</label> : </td>
+                                            <td class="fieldKey"><label for="username">@Resources.BankName</label> : </td>
                                             <td class="fieldValue">@Company.CompanyBankName</td>
                                         </tr>
                                         <tr>
@@ -205,7 +220,7 @@
                                         </tr>
                                         <tr>
                                             <td class="fieldKey"><label for="username">@Resources.PaymentMode</label> : </td>
-                                            <td class="fieldValue">@Html.DropDownListFor(m => m.OrderDetail.payment_mode, new SelectList(Model.PaymentModeList, "Id", "value"), new { @required = "0", id = "PaymodeDropDown", @class = "form-control", @style = "width: 156px;height: 22px;" })</td>
+                                            <td class="fieldValue">@Html.DropDownListFor(m => m.OrderDetail.payment_mode, new SelectList(Model.PaymentModeList, "Id", "value"), new { @required = "0", id = "PaymodeDropDown", @class = "form-control", @style = "width: 156px;height: 30px;" })</td>
                                         </tr>
 
                                         <tr class="Common">
@@ -228,7 +243,15 @@
                                             <td class="fieldKey"><label for="username">@Resources.PaymentRefAmount</label> : </td>
                                             <td class="fieldValue">@Html.TextBoxFor(m => m.OrderDetail.payment_ref_amount, new { @type = "number", @id = "amount", @required = "required", @class = "form-control", @placeholder = "" })</td>
                                         </tr>
-
+                                        <tr>
+                                            <td class="fieldKey"><label for="username">One Time Password (OTP)</label>:</td>
+                                            <td>
+                                                @Html.TextBoxFor(m => m.OrderDetail.OtpCode, new { @type = "text", @id = "otpMessageBankTextBox", @required = "required", @class = "form-control", @placeholder = "" })
+                                                <a class="generateotp" data-value="otpMessageBank" name="lnkOtp">Click here to Generate OTP</a>
+                                                <br />
+                                                <label id="otpMessageBank" style="color:red;"></label>
+                                            </td>
+                                        </tr>
                                     </table>
                                     <table style="display:inline-block; float:right;margin-top:10%;" border="0" width="50%" cellspacing="0" cellpadding="2">
                                         <tr style="margin-top:10px;">
@@ -251,9 +274,11 @@
                                         </tr>
                                     </table>
                                 </div>
+
+                                <input type="checkbox" name="termsCondition" value="tnc1" /><button type="button" class="btn" data-toggle="modal" data-target="#myModal">Terms And Condition</button>
                                 <label id="loginError" style="color:red;"></label>
                                 <div class="buttonSet">
-                                    <span class="buttonAction"><button class="unishop_button" type="submit">@Resources.Save</button></span>
+                                    <span class="buttonAction"><button class="unishop_button" id="tnc1" name="saveButton" type="submit">@Resources.Save</button></span>
                                 </div>
                             </div>
 
@@ -277,7 +302,7 @@
                                             <td class="fieldValue">@Company.CompanyAccountNumber</td>
                                         </tr>
                                         <tr>
-                                            <td class="fieldKey"><label for="username">@Resources.Bank_Name</label> : </td>
+                                            <td class="fieldKey"><label for="username">@Resources.BankName</label> : </td>
                                             <td class="fieldValue">@Company.CompanyBankName</td>
                                         </tr>
                                         <tr>
@@ -298,12 +323,12 @@
                                         </tr>
                                         <tr>
                                             <td class="fieldKey"><label for="username">@Resources.PaymentMode</label> : </td>
-                                            <td class="fieldValue">@Html.DropDownListFor(m => m.OrderDetail.payment_mode, new SelectList(Model.WalletPaymentModeList, "Id", "value"), new { @required = "0", id = "walletPaymodeDropDown", @class = "form-control", @style = "width: 156px;height: 22px;" })</td>
+                                            <td class="fieldValue">@Html.DropDownListFor(m => m.OrderDetail.payment_mode, new SelectList(Model.WalletPaymentModeList, "Id", "value"), new { @required = "0", id = "walletPaymodeDropDown", @class = "form-control", @style = "width: 156px;height: 30px;" })</td>
                                         </tr>
                                         <tr>
 
                                             <td class="fieldKey" colspan="2">
-                                                <div id="Paytm" @*style="display:none;"*@>
+                                                <div id="Paytm" @*style="display:none;" *@>
 
                                                     <img src="@imageUrl/@Company.PaytmQrCode" alt="PaytmQRCode" title="PaytmQRCode" width="100" height="100" class="scale-with-grid" />
 
@@ -324,7 +349,8 @@
                                             <td class="fieldKey"><label for="username">@Resources.PaymentRefDate</label> : </td>
                                             <td class="fieldValue">@Html.TextBoxFor(m => m.OrderDetail.dt_payment_ref_date, new { @type = "text", @id = "RefDate1", @required = "required", @class = "form-control datepicker", @placeholder = "MM-DD-YYYY" })</td>
                                         </tr>
-                                        @*<tr class="Bank">
+                                        @*
+                                            <tr class="Bank">
                                                 <td class="fieldKey"><label for="username">@Resources.PaymentRefBank</label> : </td>
                                                 <td class="fieldValue">@Html.TextBoxFor(m => m.OrderDetail.payment_ref_bank, new { @type = "text", @id = "paymentrefno", @required = "required", @class = "form-control", @placeholder = "" })</td>
                                             </tr>
@@ -336,7 +362,15 @@
                                             <td class="fieldKey"><label for="username">@Resources.PaymentRefAmount</label> : </td>
                                             <td class="fieldValue">@Html.TextBoxFor(m => m.OrderDetail.payment_ref_amount, new { @type = "number", @id = "amount", @required = "required", @class = "form-control", @placeholder = "" })</td>
                                         </tr>
-
+                                        <tr>
+                                            <td class="fieldKey"><label for="username">One Time Password (OTP)</label>:</td>
+                                            <td>
+                                                @Html.TextBoxFor(m => m.OrderDetail.OtpCode, new { @type = "text", @id = "otpMessageWalletTextBox", @required = "required", @class = "form-control", @placeholder = "" })
+                                                <a class="generateotp" data-value="otpMessageWallet" name="lnkOtp">Click here to Generate OTP</a>
+                                                <br />
+                                                <label id="otpMessageWallet" style="color:red;"></label>
+                                            </td>
+                                        </tr>
                                     </table>
                                     <table style="display:inline-block; float:right;margin-top:10%;" border="0" width="50%" cellspacing="0" cellpadding="2">
                                         <tr style="margin-top:10px;">
@@ -344,15 +378,16 @@
                                         </tr>
                                         <tr style="margin-top:10px;">
                                             <td>
-                                            Dear Customer you have selected the payment option through a secured payment gateway and the transaction is being monitored through a secured SSL for the security of the transaction.
-                                            There shall be an additional convenience charge ( if any )to be charged by the payment gateway provider and the same shall be payable in addition by the customer.
+                                                Dear Customer you have selected the payment option through a secured payment gateway and the transaction is being monitored through a secured SSL for the security of the transaction.
+                                                There shall be an additional convenience charge ( if any )to be charged by the payment gateway provider and the same shall be payable in addition by the customer.
                                             </td>
                                         </tr>
                                     </table>
                                 </div>
                                 <label id="loginErrorW" style="color:red;"></label>
+                                <input type="checkbox" name="termsCondition" value="tnc2" data-value="otpMessageWallet" /><button type="button" class="btn" data-toggle="modal" data-target="#myModal">Terms And Condition</button>
                                 <div class="buttonSet">
-                                    <span class="buttonAction"><button class="unishop_button" type="submit">@Resources.Save</button></span>
+                                    <span class="buttonAction"><button class="unishop_button" id="tnc2" name="saveButton" type="submit">@Resources.Save</button></span>
                                 </div>
                             </div>
 
@@ -460,8 +495,8 @@
                                 </div>
                                 <label id="loginError" style="color:red;"></label>
                                 @*<div class="buttonSet">
-                                    <span class="buttonAction"><button class="unishop_button" type="submit">Continue</button></span>
-                                </div>*@
+                                        <span class="buttonAction"><button class="unishop_button" type="submit">Continue</button></span>
+                                    </div>*@
                             </div>
 
                         </form>
@@ -473,13 +508,37 @@
     }
 </div>
 
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                @if (Model.CompanyProfileDetail != null)
+                {
+                    <p> @Html.Raw(Model.CompanyProfileDetail.TermsAndCondition) </p>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 <head>
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/vendor/jquery/jquery.min.js"></script>
     <script src="~/unishop_theme/unishop_js/jquery-ui.js"></script>
-    @*<script src="~/Scripts/jquery-ui.min.js"></script>*@
+    @*
+        <script src="~/Scripts/jquery-ui.min.js"></script>*@
     <script src="~/Scripts/shopping.js?v=1"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
 
 </head>
 <script>

@@ -12,8 +12,6 @@
 
         AddProductInCart(prodId, quantity, true);
     });
-
-
 });
 
 function GetCityByState() {

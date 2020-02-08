@@ -40,14 +40,20 @@
                                 <td><a href="#" name="deleteFunction" data-id="@product.id" class="btn btn-style text-uppercase"><img src="~/images/delete.png" height="20" width="20"</a></td>
                                 <td>
                                     <img src="@imageUrl/@product.small_image" alt="@product.title" title="@product.title" width="50" height="50" class="scale-with-grid" />
-                                    <span>@product.title</span> <br>&nbsp;
+                                    <br /><span>@product.title</span> <br>&nbsp;
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(m => product.vendor_qty, new { @min = 1, @type = "number", @id = quantityID, @required = "required", @class = "form-control", @placeholder = "" })
+                                    <span>@product.vendor_qty</span>
+                                    @Html.HiddenFor(m => product.vendor_qty)
                                     <br />
-                                    <a href="#" name="updateQuantity" data-id="@product.id" class="btn btn-style text-uppercase">Update</a>
                                 </td>
-
+                                @*/***uncomment this td towork with quantity****/*@
+                                @*<td>
+                                        @Html.TextBoxFor(m => product.vendor_qty, new { @min = 1, @type = "number", @id = quantityID, @required = "required", @class = "form-control", @placeholder = "" })
+                                        <br />
+                                        <a href="#" name="updateQuantity" data-id="@product.id" class="btn btn-style text-uppercase">Update</a>
+                                    </td>*@
+                                @*/**End**/*@
 
                                 <td>@product.market_price</td>
 
@@ -111,18 +117,18 @@
                         </tr>
                         @foreach (var payOp in Model.deliveryTypeList)
                     {
-                    <tr bgcolor="#EBC6AD">
-                        <td colspan="5">
-                            <div class="Paymenttd">
-                                <ul>
-                                    <li>
-                                        @Html.RadioButtonFor(m => Model.OrderDetail.delievryType, payOp.Id) <span>@payOp.Value</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </td>
-                    </tr>
-                    }
+                            <tr bgcolor="#EBC6AD">
+                                <td colspan="5">
+                                    <div class="Paymenttd">
+                                        <ul>
+                                            <li>
+                                                @Html.RadioButtonFor(m => Model.OrderDetail.delievryType, payOp.Id) <span>@payOp.Value</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
                     </table>
                 }
                 <p>

@@ -27,7 +27,7 @@ namespace DTShopping.Models
         public string billing_email { get; set; }
         public string billing_phone { get; set; }
         public string payment_mode { get; set; }
-        public string paymentStatus { get; set; }
+        public string PaymentStatus { get; set; }
         public string payment_ref_no { get; set; }
         public System.DateTime dt_payment_ref_date { get; set; }
         public string payment_ref_bank { get; set; }
@@ -69,6 +69,7 @@ namespace DTShopping.Models
         public string delievryTypeStr { get; set; }
         public string DispatchStatusStr { get; set; }
         public string companyWebsite { get; set; }
+        public string OtpCode { get; set; }
     }
 
     public class order_products
@@ -103,7 +104,6 @@ namespace DTShopping.Models
         public string ProductDeliveryTypeStr { get; set; }
         public string PaymentDate { get; set; }
     }
-
 
     public class PagedOrderList
     {

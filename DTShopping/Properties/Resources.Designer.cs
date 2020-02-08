@@ -117,9 +117,9 @@ namespace DTShopping.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Bank Name.
         /// </summary>
-        public static string Bank_Name {
+        public static string BankName {
             get {
-                return ResourceManager.GetString("Bank Name", resourceCulture);
+                return ResourceManager.GetString("BankName", resourceCulture);
             }
         }
         

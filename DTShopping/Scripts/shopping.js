@@ -5,6 +5,8 @@
     $("#cardPaymentMode").hide();
 
     $(".preloader").hide();
+    $("button[name=saveButton]").attr("disabled", true);
+    $("button[name=saveButton]").addClass("disabled");
 
     $('#stateList').unbind();
     $('#stateList').change(function (e) {
@@ -16,6 +18,16 @@
         DeleteDetail(this);
     });
 
+    $('input[name=termsCondition]').change(function () {
+        $("button[name=saveButton]").attr("disabled", true);
+        $("button[name=saveButton]").addClass("disabled");
+        if ($(this).is(":checked")) {
+            var btnId = $(this).val();
+            $("#" + btnId).attr("disabled", false);
+            $("#" + btnId).removeClass("disabled");
+        }
+    });
+
     $('a[name=updateQuantity]').unbind();
     $('a[name=updateQuantity]').click(function (e) {
         UpdateQuantityDetail(this);
@@ -23,6 +35,9 @@
 
     $('#lnkOtp').click(function (e) {
         GenerateOtp(this);
+    });
+    $('a[name=lnkOtp]').click(function (e) {
+        GenerateOtpCommonFunction(this);
     });
 
     $('#walletPaymodeDropDown').change(function (e) {
@@ -86,6 +101,28 @@
         }
     });
 });
+
+function GenerateOtpCommonFunction(thisvar) {
+    $("#loginError").html("");
+    //var passwordDetail = $('#lnkOtp').val();
+    var elementId = $(thisvar).attr("data-value");
+    $(".preloader").show();
+    $.ajax({
+        url: '/Manage/GenerateOtpDetail',
+        type: 'Post',
+        datatype: 'Json',
+        data: {}
+    }).done(function (result) {
+        $("#" + elementId).html(result);
+        $(".preloader").hide();
+
+    }).fail(function (error) {
+        $("#loginError").html(error.statusText);
+        $(".preloader").hide();
+    });
+
+    return false;
+}
 
 function GenerateOtp(thisvar) {
     $("#loginError").html("");
@@ -152,8 +189,8 @@ function ConfirmPassword() {
             walletAmount = dataArray[1];
             result = dataArray[0];
         }
-        
-        document.getElementById("walletAmount").innerHTML =walletAmount;
+
+        document.getElementById("walletAmount").innerHTML = walletAmount;
         if (result == "Not Found") {
             $("#loginError1").html("Password does not match.");
         }

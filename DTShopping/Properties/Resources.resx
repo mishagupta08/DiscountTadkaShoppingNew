@@ -201,7 +201,7 @@
   <data name="AccountType" xml:space="preserve">
     <value>Account Type</value>
   </data>
-  <data name="Bank Name" xml:space="preserve">
+  <data name="BankName" xml:space="preserve">
     <value>Bank Name</value>
   </data>
   <data name="IFSCCode" xml:space="preserve">

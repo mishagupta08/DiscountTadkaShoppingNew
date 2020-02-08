@@ -218,25 +218,50 @@ namespace DTShopping.Controllers
 
         public async Task<ActionResult> UpdateOrderDetail(Dashboard detailModel)
         {
-            this.model = new Dashboard();
-            objRepository = new APIRepository();
-            var result = new Response();
-
-            detailModel.OrderDetail.id = Session["OrderId"] != null ? Convert.ToInt32(Session["OrderId"]) : 0;
-            detailModel.OrderDetail.user_id = Session["UserDetail"] != null ? (Session["UserDetail"] as UserDetails).id : 0;
-            result = await objRepository.CreateOrder(detailModel.OrderDetail, "Edit");
-
-            if (result == null)
+            if (detailModel == null || detailModel.OrderDetail == null)
             {
                 return Json(Resources.ErrorMessage, JsonRequestBehavior.AllowGet);
             }
-            else if (!result.Status)
+            else if (string.IsNullOrEmpty(detailModel.OrderDetail.OtpCode))
             {
-                return Json(result.ResponseValue, JsonRequestBehavior.AllowGet);
+                return Json("Please enter valid OTP", JsonRequestBehavior.AllowGet);
             }
             else
             {
-                return Json("ok", JsonRequestBehavior.AllowGet);
+                this.model = new Dashboard();
+                objRepository = new APIRepository();
+                var result = new Response();
+
+                var detail = (UserDetails)(Session["UserDetail"]);
+                detail.OtpCode = detailModel.OrderDetail.OtpCode;
+                result = await this.objRepository.MangeOtpFunctions(detail, "ValidateOtp");
+                if (result == null)
+                {
+                    return Json(Resources.ErrorMessage);
+                }
+                else if (!result.Status)
+                {
+                    return Json("Invald OTP.");
+                }
+                else
+                {
+                    detailModel.OrderDetail.id = Session["OrderId"] != null ? Convert.ToInt32(Session["OrderId"]) : 0;
+                    detailModel.OrderDetail.user_id = Session["UserDetail"] != null ? (Session["UserDetail"] as UserDetails).id : 0;
+                    result = await objRepository.CreateOrder(detailModel.OrderDetail, "Edit");
+
+                    if (result == null)
+                    {
+                        return Json(Resources.ErrorMessage, JsonRequestBehavior.AllowGet);
+                    }
+                    else if (!result.Status)
+                    {
+                        return Json(result.ResponseValue, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        return Json("ok", JsonRequestBehavior.AllowGet);
+                    }
+                }
             }
         }
 
@@ -541,7 +566,6 @@ namespace DTShopping.Controllers
                     cart.companyId = Convert.ToInt16(companyId);
                     cart.deliveryType = deliveryType;
 
-
                     var res = await objRepository.ManageCart(cart, "UpdateShippingCharge");
                     var response = await objRepository.ManageCart(cart, CartProductListAction);
                     if (response != null && response.Status)
@@ -617,6 +641,15 @@ namespace DTShopping.Controllers
 
             if (isWithPayment)
             {
+                var CompanyId = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
+                var profile = new CompanyProfile { CompanyId = CompanyId };
+                //get companyProfileDetail
+                var result = await objRepository.ManageCompanyProfile(profile, "ByCompanyId");
+                if (!(result == null || result.Status == false))
+                {
+                    this.model.CompanyProfileDetail = JsonConvert.DeserializeObject<CompanyProfile>(result.ResponseValue);
+                }
+
                 return PartialView("cartPaymentDetailView", this.model);
             }
             else

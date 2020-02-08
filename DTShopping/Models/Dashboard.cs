@@ -28,6 +28,7 @@ namespace DTShopping.Models
         public ShoppingPortalFrontPageProdList FontpageSections{get;set;}
         public double Amount { get; set; }
         public Filters FilterDetail { get; set; }
+        public CompanyProfile CompanyProfileDetail { get; set; }
 
         public void AssignPaymentModes()
         {
