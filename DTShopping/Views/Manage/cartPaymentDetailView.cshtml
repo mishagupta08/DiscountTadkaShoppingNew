@@ -253,26 +253,30 @@
                                             </td>
                                         </tr>
                                     </table>
-                                    <table style="display:inline-block; float:right;margin-top:10%;" border="0" width="50%" cellspacing="0" cellpadding="2">
-                                        <tr style="margin-top:10px;">
-                                            <td> <h3 style="text-align:center;">Terms and Condition</h3></td>
-                                        </tr>
-                                        <tr style="margin-top:10px;">
-                                            <td>
-                                                1. The Customer making the payment through the selected mode shall be eligible to receive the utility coupons as selected within 24 working hours once the payment confirmation is done from the Bank.
-                                            </td>
-                                        </tr>
-                                        <tr style="margin-top:10px;">
-                                            <td>
-                                                2. upon submission of your request you shall receive a confirmation sms and email for the successful submission of your request.
-                                            </td>
-                                        </tr>
-                                        <tr style="margin-top:10px;">
-                                            <td>
-                                                3. The Customers shall be eligible to do the shopping at the respective outlet immediately after receiving the utility coupon at his / her email.
-                                            </td>
-                                        </tr>
-                                    </table>
+                                    @*for company sunvis*@
+                                    @if (CompanyId == 29)
+                                    {
+                                        <table style="display:inline-block; float:right;margin-top:10%;" border="0" width="50%" cellspacing="0" cellpadding="2">
+                                            <tr style="margin-top:10px;">
+                                                <td> <h3 style="text-align:center;">Terms and Condition</h3></td>
+                                            </tr>
+                                            <tr style="margin-top:10px;">
+                                                <td>
+                                                    1. The Customer making the payment through the selected mode shall be eligible to receive the utility coupons as selected within 24 working hours once the payment confirmation is done from the Bank.
+                                                </td>
+                                            </tr>
+                                            <tr style="margin-top:10px;">
+                                                <td>
+                                                    2. upon submission of your request you shall receive a confirmation sms and email for the successful submission of your request.
+                                                </td>
+                                            </tr>
+                                            <tr style="margin-top:10px;">
+                                                <td>
+                                                    3. The Customers shall be eligible to do the shopping at the respective outlet immediately after receiving the utility coupon at his / her email.
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    }
                                 </div>
 
                                 <input type="checkbox" name="termsCondition" value="tnc1" /><button type="button" class="btn" data-toggle="modal" data-target="#myModal">Terms And Condition</button>
@@ -372,17 +376,21 @@
                                             </td>
                                         </tr>
                                     </table>
-                                    <table style="display:inline-block; float:right;margin-top:10%;" border="0" width="50%" cellspacing="0" cellpadding="2">
-                                        <tr style="margin-top:10px;">
-                                            <td> <h3 style="text-align:center;">Terms and Condition</h3></td>
-                                        </tr>
-                                        <tr style="margin-top:10px;">
-                                            <td>
-                                                Dear Customer you have selected the payment option through a secured payment gateway and the transaction is being monitored through a secured SSL for the security of the transaction.
-                                                There shall be an additional convenience charge ( if any )to be charged by the payment gateway provider and the same shall be payable in addition by the customer.
-                                            </td>
-                                        </tr>
-                                    </table>
+                                    @*for company sunvis*@
+                                    @if (CompanyId == 29)
+                                    {
+                                        <table style="display:inline-block; float:right;margin-top:10%;" border="0" width="50%" cellspacing="0" cellpadding="2">
+                                            <tr style="margin-top:10px;">
+                                                <td> <h3 style="text-align:center;">Terms and Condition</h3></td>
+                                            </tr>
+                                            <tr style="margin-top:10px;">
+                                                <td>
+                                                    Dear Customer you have selected the payment option through a secured payment gateway and the transaction is being monitored through a secured SSL for the security of the transaction.
+                                                    There shall be an additional convenience charge ( if any )to be charged by the payment gateway provider and the same shall be payable in addition by the customer.
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    }
                                 </div>
                                 <label id="loginErrorW" style="color:red;"></label>
                                 <input type="checkbox" name="termsCondition" value="tnc2" data-value="otpMessageWallet" /><button type="button" class="btn" data-toggle="modal" data-target="#myModal">Terms And Condition</button>
@@ -479,19 +487,22 @@
                                     @Html.HiddenFor(m => m.NetPayment, new { name = "NetPayment", id = "NetPayment" })
                                     @Html.HiddenFor(m => m.OrderDetail.point_adjusted, new { name = "pointAdjusted1", id = "pointAdjusted1" })
 
+                                    @*for company sunvis*@
+                                    @if (CompanyId == 29)
+                                    {
+                                        <table border="0" width="97%" cellspacing="0" cellpadding="2">
+                                            <tr style="margin-top:10px;">
+                                                <td> <h3 style="text-align:center;">Terms and Condition</h3></td>
+                                            </tr>
+                                            <tr class="Common">
+                                                <td>
+                                                    Dear Customer you have selected the payment option through a secured payment gateway and the transaction is being monitored through a secured SSL for the security of the transaction.
+                                                    There shall be an additional convenience charge ( if any )to be charged by the payment gateway provider and the same shall be payable in addition by the customer.
+                                                </td>
+                                            </tr>
 
-                                    <table border="0" width="97%" cellspacing="0" cellpadding="2">
-                                        <tr style="margin-top:10px;">
-                                            <td> <h3 style="text-align:center;">Terms and Condition</h3></td>
-                                        </tr>
-                                        <tr class="Common">
-                                            <td>
-                                                Dear Customer you have selected the payment option through a secured payment gateway and the transaction is being monitored through a secured SSL for the security of the transaction.
-                                                There shall be an additional convenience charge ( if any )to be charged by the payment gateway provider and the same shall be payable in addition by the customer.
-                                            </td>
-                                        </tr>
-
-                                    </table>
+                                        </table>
+                                    }
                                 </div>
                                 <label id="loginError" style="color:red;"></label>
                                 @*<div class="buttonSet">

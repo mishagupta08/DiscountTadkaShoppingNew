@@ -2,7 +2,7 @@
 @{
     UserDetails current_user = (Session["UserDetail"] != null) ? Session["UserDetail"] as UserDetails : null;
     company current_cmpny = (Session["Company"] != null) ? Session["Company"] as company : new company();
-    
+
     string username = current_user != null ? current_user.username : "";
     double? points = current_user != null ? current_user.balance_point ?? 0.0 : 0.0;
     string imageUrl = System.Configuration.ConfigurationManager.AppSettings["ImageUrl"];
@@ -17,7 +17,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Welcome to Sunvis Tradenet</title>
+    <title>Welcome to @current_cmpny.company_name</title>
     <!-- Mobile Specific Metas
        ================================================== -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -43,7 +43,7 @@
     <link rel="stylesheet" type="text/css" href="~/unishop_theme/unishop_styles/effects.css" />
     <link rel="stylesheet" type="text/css" href="~/unishop_theme/unishop_styles/light-theme.css" />
     <link rel="stylesheet" type="text/css" href="~/unishop_theme/unishop_styles/light-theme.css" />
-   
+
     <style>
         .cat-name {
             font-size: 82% !important;
@@ -82,10 +82,19 @@
                         <span>Call us:(91) @current_cmpny.company_landline_no </span>&nbsp;&nbsp;<span>Email: @current_cmpny.contact_email </span>
                     </div>
                     <div class="row">
-                        <div id="logo" style="margin-top: -50px;" class="five columns">
+                        @if (current_cmpny.id == 29)
+                        {
+                            <div id="logo" style="margin-top:-50px;" class="five columns">
+
+                                <div id="storeLogo"> <a class="logo_inner" href="~/Home/Index"><img src="@imageUrl/@current_cmpny.logo" alt="unishop" title="unishop" width="177" height="46" class="scale-with-grid" /></a></div>
+                            </div>
+                        }
+                        else
+                        {   <div id="logo" class="five columns">
 
                             <div id="storeLogo"> <a class="logo_inner" href="~/Home/Index"><img src="@imageUrl/@current_cmpny.logo" alt="unishop" title="unishop" width="177" height="46" class="scale-with-grid" /></a></div>
-                        </div>
+                        </div>}
+
                         <div class="six columns">
 
                             <div id="top_search">
@@ -119,7 +128,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @*<div id="shopping_cart_mini" >
+                                    @*<div id="shopping_cart_mini">
                                             <div class="inner-wrapper">
                                                 <p class="empty">You have no items in your shopping cart.</p>
                                             </div>
@@ -159,7 +168,8 @@
                                             }
                                             @if (Session["UserDetail"] != null)
                                             {
-                                                @*<li class="last"><a href="/Home/Claims">Claims</a></li>*@
+                                                @*
+                                                    <li class="last"><a href="/Home/Claims">Claims</a></li>*@
                                                 <li class="last"><a href="/Account/LogOff">Logout</a></li>
                                             }
                                         </ul>
@@ -199,7 +209,9 @@
                                 <table align="center" cellpadding="0" cellspacing="0">
                                     <tbody>
                                         <tr>
-                                            @foreach (var brand in Session["Brands"] as List<brand>)
+                                            @foreach (var brand in Session["Brands"] as List
+            <brand>
+                )
                                             {
                                                 if (!string.IsNullOrEmpty(brand.logo))
                                                 {
@@ -220,7 +232,7 @@
 
                         <div id="copyright">
                             <a class="logo_footer" href="~/Home/Index">
-                            @*<img src="~/images/light/store_logo.png" alt="unishop" title="unishop" width="177" height="46" class="scale-with-grid" />*@
+                                @*<img src="~/images/light/store_logo.png" alt="unishop" title="unishop" width="177" height="46" class="scale-with-grid" />*@
                                 <img src="@imageUrl/@current_cmpny.logo" alt="unishop" title="unishop" width="177" height="46" class="scale-with-grid" />
                             </a> &copy; @copyright
                         </div>
@@ -240,7 +252,8 @@
                         <nav>
                             <ul>
                                 <li><a href="#">(91) @current_cmpny.company_landline_no</a></li>
-                                @*<li><a href="shipping.php">Shipping &amp; Returns</a></li>*@
+                                @*
+                                    <li><a href="shipping.php">Shipping &amp; Returns</a></li>*@
                                 <li><a href="#">@current_cmpny.contact_email</a></li>
                             </ul>
                         </nav>

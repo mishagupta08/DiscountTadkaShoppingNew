@@ -326,7 +326,7 @@ namespace DTShopping.Repository
         public async Task<Response> GetDealProductsFullList(Filters FilterDetails, string Deal)
         {
             var productData = JsonConvert.SerializeObject(FilterDetails);
-            var result = await CallPostFunction(productData, ManageDealProducts + Deal);
+            var result = await  CallPostFunction(productData, ManageDealProducts + Deal);
             if (result == null)
             {
                 return null;

@@ -359,7 +359,7 @@ namespace DTShopping.Controllers
             return View(finalprodlist);
         }
 
-        public async Task<ActionResult> GetAllDealProducts(string Deal, int? page, string SortBy, string Order, int catId)
+        public async Task<ActionResult> GetAllDealProducts(string Deal, int? page, string SortBy, string Order, int? catId)
         {
             PagewiseProducts productlist = new PagewiseProducts();
             try
@@ -573,25 +573,25 @@ namespace DTShopping.Controllers
                         objorder.billing_first_name = current_user.first_name;
                         objorder.billing_last_name = current_user.last_name;
                     }
-                    Response response = new Response();
-                    if (objorder.id == 0)
-                    {
-                        response = await objRepository.CreateOrder(objorder, "Add");
-                    }
-                    else
-                    {
-                        response = await objRepository.CreateOrder(objorder, "EditAddress");
-                    }
-                    if (response.Status == true)
-                    {
-                        Session["OrderId"] = response.ResponseValue;
-                        orderstatus = "Success";
-                        //return RedirectToAction("GetCartProductList", "Manage", new { isWithPayment = true });
-                    }
-                    else
-                    {
-                        orderstatus = "Fail";
-                    }
+                }
+                Response response = new Response();
+                if (objorder.id == 0)
+                {
+                    response = await objRepository.CreateOrder(objorder, "Add");
+                }
+                else
+                {
+                    response = await objRepository.CreateOrder(objorder, "EditAddress");
+                }
+                if (response.Status == true)
+                {
+                    Session["OrderId"] = response.ResponseValue;
+                    orderstatus = "Success";
+                    //return RedirectToAction("GetCartProductList", "Manage", new { isWithPayment = true });
+                }
+                else
+                {
+                    orderstatus = "Fail";
                 }
             }
             catch (Exception ex)

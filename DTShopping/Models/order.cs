@@ -29,7 +29,7 @@ namespace DTShopping.Models
         public string payment_mode { get; set; }
         public string PaymentStatus { get; set; }
         public string payment_ref_no { get; set; }
-        public System.DateTime dt_payment_ref_date { get; set; }
+        public Nullable<System.DateTime> dt_payment_ref_date { get; set; }
         public string payment_ref_bank { get; set; }
         public string payment_ref_branch { get; set; }
         public string payment_ref_amount { get; set; }
