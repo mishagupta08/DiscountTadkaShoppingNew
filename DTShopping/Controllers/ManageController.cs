@@ -278,6 +278,14 @@ namespace DTShopping.Controllers
                 if (this.model.ProductDetail != null)
                 {
                     this.model.ProductDetail.description_detail = this.model.ProductDetail.description_detail.Replace("\r\n\r\n", "");
+                    if(string.IsNullOrEmpty(this.model.ProductDetail.product_size))
+                    {
+                        this.model.ProductDetail.sizeList = this.model.ProductDetail.product_size.Split(',').ToList();
+                    }
+                    if (string.IsNullOrEmpty(this.model.ProductDetail.Color))
+                    {
+                        this.model.ProductDetail.colorList = this.model.ProductDetail.Color.Split(',').ToList();
+                    }
                 }
             }
             catch (Exception ex)
@@ -658,14 +666,14 @@ namespace DTShopping.Controllers
             }
         }
 
-        public async Task<ActionResult> AddProductInToCart(int ProductId, int Quantity)
+        public async Task<ActionResult> AddProductInToCart(int ProductId, int Quantity, string size, string color)
         {
             this.model = new Dashboard();
             this.objRepository = new APIRepository();
             string companyId = System.Configuration.ConfigurationManager.AppSettings["CompanyId"];
             try
             {
-                if (CheckLoginUserStatus())
+                if (CheckLoginUserStatus()) 
                 {
                     var cart = new CartFilter();
                     cart.productId = ProductId;
@@ -676,6 +684,9 @@ namespace DTShopping.Controllers
                     cart.username = detail.username;
                     cart.password = detail.password_str;
                     cart.userId = Convert.ToInt16(detail.id);
+                    cart.Size = size;
+                    cart.Color = color;
+
                     var response = await objRepository.ManageCart(cart, AddAction);
                     return Json(response);
                 }

@@ -92,7 +92,7 @@ else
                 </tr>
             </table>
         </div>
-        <br/>
+        <br />
         <table style="font-size:small;width: 101%;margin-top: 17%;" class="table" border="1">
             <tr>
                 <th>
@@ -128,15 +128,25 @@ else
             {
                 <tr>
                     <td>@Html.DisplayFor(m => item.id)</td>
-                    <td>@Html.DisplayFor(m => item.productName)</td>
-                    <td>@Html.DisplayFor(m => item.quantity)</td>
-                    <td>@Html.DisplayFor(modelItem => item.MarketPrice)</td>
-                    <td>@Html.DisplayFor(modelItem => item.price)</td>
-                    <td>@Html.DisplayFor(modelItem => item.RBV_Points)</td>
-                    <td>@Html.DisplayFor(modelItem => item.shipping_charge)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Amt)</td>
-                    <td>@Html.DisplayFor(modelItem => @Model.orderDetailContainer.OrderDetail.status)</td>
-                </tr>
+                    <td>
+                        @Html.DisplayFor(m => item.productName)
+                    <br />@if (!string.IsNullOrEmpty(item.Size))
+                    {
+                        <span>Size : @item.Size</span>
+                    }
+                    @if (!string.IsNullOrEmpty(item.Color))
+                    {
+                        <span>Color : @item.Color</span>
+                    }
+                </td>
+                <td>@Html.DisplayFor(m => item.quantity)</td>
+                <td>@Html.DisplayFor(modelItem => item.MarketPrice)</td>
+                <td>@Html.DisplayFor(modelItem => item.price)</td>
+                <td>@Html.DisplayFor(modelItem => item.RBV_Points)</td>
+                <td>@Html.DisplayFor(modelItem => item.shipping_charge)</td>
+                <td>@Html.DisplayFor(modelItem => item.Amt)</td>
+                <td>@Html.DisplayFor(modelItem => @Model.orderDetailContainer.OrderDetail.status)</td>
+            </tr>
             }
         </table>
         <br />
@@ -145,7 +155,7 @@ else
                 <td>@Resources.PaymentMethod : &nbsp;</td>
                 <td width="20%">@Model.orderDetailContainer.OrderDetail.payment_mode</td>
                 <td>@Resources.PaymentStatus : &nbsp;</td>
-                <td width="20%">@Model.orderDetailContainer.OrderDetail.paymentStatus</td>
+                <td width="20%">@Model.orderDetailContainer.OrderDetail.PaymentStatus</td>
                 <td>@Resources.PaidAmount : &nbsp;</td>
                 <td width="20%">@Model.orderDetailContainer.OrderDetail.TotalAmount</td>
             </tr>

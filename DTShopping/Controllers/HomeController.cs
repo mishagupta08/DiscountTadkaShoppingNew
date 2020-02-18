@@ -93,7 +93,18 @@ namespace DTShopping.Controllers
                 dashboard.ProductDetail = await objRepository.GetProductDetailById(prodList);
                 if (dashboard.ProductDetail != null)
                 {
-                    dashboard.ProductDetail.description_detail = dashboard.ProductDetail.description_detail.Replace("\r\n\r\n", "");
+                    if (!string.IsNullOrEmpty(dashboard.ProductDetail.description_detail))
+                    {
+                        dashboard.ProductDetail.description_detail = dashboard.ProductDetail.description_detail.Replace("\r\n\r\n", "");
+                    }
+                    if (!string.IsNullOrEmpty(dashboard.ProductDetail.product_size))
+                    {
+                        dashboard.ProductDetail.sizeList = dashboard.ProductDetail.product_size.Split(',').ToList();
+                    }
+                    if (!string.IsNullOrEmpty(dashboard.ProductDetail.Color))
+                    {
+                        dashboard.ProductDetail.colorList = dashboard.ProductDetail.Color.Split(',').ToList();
+                    }
                 }
             }
             catch (Exception ex)
@@ -448,36 +459,43 @@ namespace DTShopping.Controllers
 
         public async Task<ActionResult> Orders(int? page)
         {
-            var userID = 0;
-            var companyID = 0;
-            Filters objFilter = new Filters();
-            PagedOrderList UserOrderList = new PagedOrderList();
-            if (Session["UserDetail"] != null)
+            if (Session["UserDetail"] == null)
             {
-                userID = (Session["UserDetail"] as UserDetails).id;
-                companyID = Convert.ToInt16(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
-
-                objFilter.CompanyId = companyID;
-                objFilter.VendorId = userID;
-                objFilter.pageNo = page;
-                objFilter.pageName = "VendorOrderProductList";
-                var result = await objRepository.GetUserOrderList(objFilter);
-                double totalcount = 0;
-                if (result.Status == true && result.ResponseValue != null)
-                {
-                    totalcount = result.TotalRecords;
-                    UserOrderList.OrderProductList = JsonConvert.DeserializeObject<List<order_products>>(result.ResponseValue);
-                }
-
-                var list = new List<int>();
-                for (var i = 1; i <= totalcount; i++)
-                {
-                    list.Add(i);
-                }
-                UserOrderList.pagerCount = list.ToPagedList(Convert.ToInt32(page ?? 1), 10);
-
+                return RedirectToAction("Login", "Account");
             }
-            return View(UserOrderList);
+            else
+            {
+                var userID = 0;
+                var companyID = 0;
+                Filters objFilter = new Filters();
+                PagedOrderList UserOrderList = new PagedOrderList();
+                if (Session["UserDetail"] != null)
+                {
+                    userID = (Session["UserDetail"] as UserDetails).id;
+                    companyID = Convert.ToInt16(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
+
+                    objFilter.CompanyId = companyID;
+                    objFilter.VendorId = userID;
+                    objFilter.pageNo = page;
+                    objFilter.pageName = "VendorOrderProductList";
+                    var result = await objRepository.GetUserOrderList(objFilter);
+                    double totalcount = 0;
+                    if (result.Status == true && result.ResponseValue != null)
+                    {
+                        totalcount = result.TotalRecords;
+                        UserOrderList.OrderProductList = JsonConvert.DeserializeObject<List<order_products>>(result.ResponseValue);
+                    }
+
+                    var list = new List<int>();
+                    for (var i = 1; i <= totalcount; i++)
+                    {
+                        list.Add(i);
+                    }
+                    UserOrderList.pagerCount = list.ToPagedList(Convert.ToInt32(page ?? 1), 10);
+
+                }
+                return View(UserOrderList);
+            }
         }
 
         public async Task<ActionResult> Checkout(int deliveryType)

@@ -291,4 +291,7 @@
   <data name="UpdationDate" xml:space="preserve">
     <value>Updation Date</value>
   </data>
+  <data name="Color" xml:space="preserve">
+    <value>Color</value>
+  </data>
 </root>

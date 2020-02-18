@@ -85,7 +85,6 @@
                                                         <p class="old_price_box"><span class="old_price_label">@Resources.MarketPrice :</span><s> Rs. @Model.ProductDetail.market_price</s></p>
                                                         <p class="new_price_box">
                                                             <span class="special_price_label"> @Resources.OfferPrice :</span>
-
                                                             <span itemprop="price" class="new-special-price">
                                                                 Rs. @Model.ProductDetail.offer_price<br>
                                                             </span>
@@ -104,7 +103,21 @@
                                                     <p>
                                                         <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
                                                             <strong>@Resources.EUPoints : @{var t = @Model.ProductDetail.point_adjusted != null ? @Model.ProductDetail.point_adjusted : 0;}@t</strong><br>
-                                                            <strong>@Resources.Size : @Model.ProductDetail.product_size</strong><br>
+                                                            
+                                                            @if (Model.ProductDetail.sizeList != null && Model.ProductDetail.sizeList.Count > 0)
+                                                            {
+                                                                <strong>
+                                                                    @Resources.Size :</strong>
+                                                                @Html.DropDownListFor(m => m.ProductDetail.product_size, new SelectList(Model.ProductDetail.sizeList), new { @required = "0", id = "sizeDropDown", @class = "form-control", @style = "width: 156px;height: 30px;" })
+                                                            }
+                                                        
+                                                            @if (Model.ProductDetail.colorList != null && Model.ProductDetail.sizeList.Count > 0)
+                                                            {
+                                                                <strong>
+                                                                    @Resources.Color :
+                                                                </strong>
+                                                                    @Html.DropDownListFor(m => m.ProductDetail.Color, new SelectList(Model.ProductDetail.colorList), new { @required = "0", id = "colorDropDown", @class = "form-control", @style = "width: 156px;height: 30px;" })
+                                                            }
                                                         </span>
                                                     </p>
                                                     <div class="clear"></div>
@@ -115,13 +128,13 @@
                                             <div class="clearfix add-to-cart-box">
                                                 <div class="add-to-cart-button">
                                                     <input type="hidden" id="product_id" name="product_id" value="@Model.ProductDetail.id" />
-                                                    <select name="ProductDetail.vendor_qty" id="quantity" class="form-control" style="height: 25px!important;width: 40px;">
+                                                    @*<select name="ProductDetail.vendor_qty" id="quantity" class="form-control" style="height: 25px!important;width: 40px;">
                                                         <option value="1">1</option>
                                                         <option value="2">2</option>
                                                         <option value="3">3</option>
                                                         <option value="4">4</option>
                                                         <option value="5">5</option>
-                                                    </select>
+                                                    </select>*@
                                                     <br />
                                                     <button class="unishop_button" id="addToCart" type="button">@Resources.AddtoCart</button>
                                                 </div>

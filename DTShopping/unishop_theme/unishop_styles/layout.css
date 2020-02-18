@@ -38,8 +38,8 @@
     #twitter,
     #deal,
     #contact,
-    #footer .footer-copyright, #footer .footer_information, #footer .footer_customer_service, #footer .footer_my_account{
-        width: 230px !important;
+    #footer .footer-copyright, #footer .footer_information, #footer .footer_customer_service, #footer .footer_my_account ,#footer .footer_social{
+        width: 200px !important;
     }
     #contact{
         width:200px !important;

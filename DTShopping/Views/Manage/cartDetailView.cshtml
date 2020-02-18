@@ -40,7 +40,15 @@
                                 <td><a href="#" name="deleteFunction" data-id="@product.id" class="btn btn-style text-uppercase"><img src="~/images/delete.png" height="20" width="20"</a></td>
                                 <td>
                                     <img src="@imageUrl/@product.small_image" alt="@product.title" title="@product.title" width="50" height="50" class="scale-with-grid" />
-                                    <br /><span>@product.title</span> <br>&nbsp;
+                                    <br /><span>@product.title</span> <br>
+                                    @if (!string.IsNullOrEmpty(product.product_size))
+                                    {
+                                        <span>Size : @product.product_size</span>
+                                    }
+                                    @if (!string.IsNullOrEmpty(product.Color))
+                                    {
+                                        <span>Color : @product.Color</span>
+                                    }
                                 </td>
                                 <td>
                                     <span>@product.vendor_qty</span>

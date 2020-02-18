@@ -291,8 +291,13 @@
     <Content Include="images\emailicon.png" />
     <Content Include="images\emptyShoppingBag.jpg" />
     <Content Include="images\facebook-demo-light.gif" />
+    <Content Include="images\fb-chat.jpg" />
+    <Content Include="images\fb-group.png" />
+    <Content Include="images\fb-page.png" />
     <Content Include="images\furni_01 %283%29.jpg" />
+    <Content Include="images\instagram.jpg" />
     <Content Include="images\light\store_logo.png" />
+    <Content Include="images\linkedin.png" />
     <Content Include="images\login_bg.jpg" />
     <Content Include="images\logout.jpg" />
     <Content Include="images\manclo_1_1 %281%29.jpg" />
@@ -309,6 +314,7 @@
     <Content Include="images\mopho_1_1%25209.jpg" />
     <Content Include="images\my_cart.jpg" />
     <Content Include="images\order_now.jpg" />
+    <Content Include="images\pintrest.png" />
     <Content Include="images\pointsLedger.jpg" />
     <Content Include="images\print.png" />
     <Content Include="images\questionMark.jpg" />
@@ -323,7 +329,9 @@
     <Content Include="images\slider\slide-bg-2.jpg" />
     <Content Include="images\slider\slide-bg-3.jpg" />
     <Content Include="images\slider\slide-bg-4.jpg" />
+    <Content Include="images\telegram.png" />
     <Content Include="images\thanku.jpg" />
+    <Content Include="images\twitter.jpg" />
     <Content Include="images\Under-Contruction.jpg" />
     <Content Include="images\wheel.gif" />
     <Content Include="images\ws_01 %2822%29.jpg" />

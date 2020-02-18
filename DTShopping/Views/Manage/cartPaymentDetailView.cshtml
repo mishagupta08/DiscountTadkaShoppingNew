@@ -57,7 +57,15 @@
                                 <td>
                                     <img src="@imageUrl/@product.small_image" alt="@product.title" title="@product.title" width="50" height="50" class="scale-with-grid" />
                                     <br />
-                                    <span>@product.title</span> <br>&nbsp;
+                                    <span>@product.title</span> <br>
+                                    @if (!string.IsNullOrEmpty(product.product_size))
+                                    {
+                                        <span>Size : @product.product_size</span>
+                                    }
+                                    @if (!string.IsNullOrEmpty(product.Color))
+                                    {
+                                        <span>Color : @product.Color</span>
+                                    }&nbsp;
                                 </td>
                                 <td>@product.vendor_qty</td>
 
@@ -133,30 +141,33 @@
                                     </ul>
                                 </div>
                             </td>
-                            <td>
-                                <div class="Paymenttd">
-                                    <ul>
-                                        <li>
-                                            <input type="radio" value="dtcard" name="paymentmethod" id="Pay3">
-                                            <b>
-                                                @*for company sunvis*@
-                                                @if (CompanyId == 29)
-                                                {
-                                                    <span>My Sunvis Wallet ( Training & Main)</span>
-                                                }
-                                                else
-                                                {
-                                                    <span>e-Wallet Payment</span>
-                                                }
-                                            </b>
+                            @if (CompanyId == 29 || CompanyId == 28)
+                            {
+                                <td>
+                                    <div class="Paymenttd">
+                                        <ul>
+                                            <li>
+                                                <input type="radio" value="dtcard" name="paymentmethod" id="Pay3">
+                                                <b>
+                                                    @*for company sunvis*@
+                                                    @if (CompanyId == 29)
+                                                    {
+                                                        <span>My Sunvis Wallet ( Training & Main)</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>e-Wallet Payment</span>
+                                                    }
+                                                </b>
 
 
-                                        </li>
+                                            </li>
 
 
-                                    </ul>
-                                </div>
-                            </td>
+                                        </ul>
+                                    </div>
+                                </td>
+                            }x
                         </tr>
                         <tr bgcolor="#EBC6AD">
                             <td>

@@ -64,7 +64,11 @@
     <script type="text/javascript" src="~/unishop_theme/unishop_js/cloud-zoom.1.0.2.js"></script>
     <script type="text/javascript" src="~/unishop_theme/unishop_js/custom.js?v=1"></script>
     <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
-
+    <style>
+        .cat-name a.main_category {
+            font-size: 11px !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -210,8 +214,8 @@
                                     <tbody>
                                         <tr>
                                             @foreach (var brand in Session["Brands"] as List
-            <brand>
-                )
+<brand>
+)
                                             {
                                                 if (!string.IsNullOrEmpty(brand.logo))
                                                 {
@@ -267,20 +271,38 @@
 
                                 @if (Session["UserDetail"] != null)
                                 {
-                                    <li><a href="/Home/MyAccount">My Account</a></li>
-                                    <li><a href="/Manage/GetCartProductList?isWithPayment=false&deliveryType=0">My Shopping Cart</a></li>
-                                    <li><a href="account_history.php">Order history</a></li>
-                                    <li><a href="/Account/LogOff">Log Out</a></li>
+                                <li><a href="/Home/MyAccount">My Account</a></li>
+                                <li><a href="/Manage/GetCartProductList?isWithPayment=false&deliveryType=0">My Shopping Cart</a></li>
+                                <li><a href="/Home/Orders">Order history</a></li>
+                                <li><a href="/Account/LogOff">Log Out</a></li>
                                 }
                                 else
                                 {
-                                    <li><a href="/Account/Login">Log In</a></li>
+                                <li><a href="/Account/Login">Log In</a></li>
                                 }
                             </ul>
                         </nav>
                     </div>
-                    <div class="four columns footer-block footer_my_account">
-                        &nbsp;
+                    <div class="four columns footer-block footer_social">
+                        @****change only for go happy cartcompany*****@
+                        @if (current_cmpny.id == 30)
+                        {
+                            <h2>Social Media</h2>
+                            <nav>
+                                <ul>
+                                    <li style="display:inline-block;"><a href="https://fb.me/Gohappyindia" target="_blank"><img src="~/images/fb-page.png" height="25" width="25" /></a></li>
+                                    @*<li style="display:inline-block;"><a href="m.me/Gohappyindia" target="_blank"><img src="~/images/fb-chat.jpg" height="25" width="25" /></a></li>
+                                        <li style="display:inline-block;"><a href="https://www.facebook.com/groups/473906246623921/" target="_blank"><img src="~/images/fb-group.png" height="30" width="40" /></a></li>*@
+                                    <li style="display:inline-block;"><a href="https://twitter.com/gohappyindia" target="_blank"><img src="~/images/twitter.jpg" height="25" width="25" /></a></li>
+                                    @*</ul>
+                                        <ul>*@
+                                    <li style="display:inline-block;"><a href="https://www.instagram.com/gohappyindia/" target="_blank"><img src="~/images/instagram.jpg" height="25" width="25" /></a></li>
+                                    <li style="display:inline-block;"><a href="https://www.pinterest.com/gohappyindia/" target="_blank"><img src="~/images/pintrest.png" height="25" width="25" /></a></li>
+                                    <li style="display:inline-block;"><a href="https://www.linkedin.com/in/go-happy-3160311a2/" target="_blank"><img src="~/images/linkedin.png" height="25" width="25" /></a></li>
+                                    <li style="display:inline-block;"><a href="https://t.me/Gohappyindia" target="_blank"><img src="~/images/telegram.png" height="25" width="25" /></a></li>
+                                </ul>
+                            </nav>
+                        }
                     </div>
                 </div>
             </div>
@@ -377,7 +399,7 @@
     //}
 
 
-    function AddProductInCart(prodId, quantity, isDetailPage) {
+    function AddProductInCart(prodId, quantity, isDetailPage, sizeD, colorD) {
         $(".preloader").show();
         if (quantity == null || quantity == "" || quantity == undefined) {
             quantity = 1;
@@ -386,7 +408,7 @@
             url: '/Manage/AddProductInToCart',
             type: 'Post',
             datatype: 'Json',
-            data: { ProductId: prodId, Quantity: quantity }
+            data: { ProductId: prodId, Quantity: quantity, size: sizeD, color: colorD }
         }).done(function (result) {
             if (result == null || result == undefined || result == "") {
                 alert("Something went wrong, Please try again later.");

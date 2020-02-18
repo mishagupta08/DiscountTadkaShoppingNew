@@ -103,6 +103,8 @@ namespace DTShopping.Models
         public Nullable<int> ProductDeliveryType { get; set; }
         public string ProductDeliveryTypeStr { get; set; }
         public string PaymentDate { get; set; }
+        public string Size { get; set; }
+        public string Color { get; set; }
     }
 
     public class PagedOrderList

@@ -69,7 +69,15 @@
                     <tr>
                         <td class="bordertop">@order.order_id</td>
                         <td class="bordertop">@order.productCode</td>
-                        <td class="bordertop">@order.productName</td>
+                        <td class="bordertop">@order.productName
+                            @*@if (!string.IsNullOrEmpty(order.siz))
+                            {
+                                <span>Size : @product.product_size</span>
+                            }
+                            @if (!string.IsNullOrEmpty(product.Color))
+                            {
+                                <span>Color : @product.Color</span>
+                            }*@</td>
                         <td valign="middle" class="bordertop">@order.quantity</td>
                         <td valign="middle" class="bordertop">@order.price</td>
                         <td valign="middle" class="bordertop">@order.RBV_Points</td>

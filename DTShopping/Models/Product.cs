@@ -49,6 +49,9 @@ namespace DTShopping.Models
         public Nullable<int> RBV { get; set; }
         public double TotalPayment { get; set; }
         public decimal amount { get; set; }
+        public string Color { get; set; }
+        public List<string> sizeList { get; set; }
+        public List<string> colorList { get; set; }
     }
 
     public class PagewiseProducts {

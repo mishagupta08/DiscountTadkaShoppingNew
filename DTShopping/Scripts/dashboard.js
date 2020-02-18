@@ -9,8 +9,16 @@
     $('#addToCart').click(function (e) {
         var prodId = $("#product_id").val();
         var quantity = $("#quantity").val();
+        var size = 0;
+        if ($("#sizeDropDown").length > 0) {
+            size = $("#sizeDropDown").val();
+        }
+        var color = 0;
+        if ($("#colorDropDown").length > 0) {
+            color = $("#colorDropDown").val();
+        }
 
-        AddProductInCart(prodId, quantity, true);
+        AddProductInCart(prodId, quantity, true, size, color);
     });
 });
 
