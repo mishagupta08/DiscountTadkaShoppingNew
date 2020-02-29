@@ -21,6 +21,11 @@ namespace DTShopping.Controllers
         private const int HOMEDELIVERYCODE = 3;
         private const int PAGESIZE = 7;
         private const string CartProductListAction = "CartProductList";
+        private const int SUNVISCOMPANYID = 29;
+        private const int SHOPCOMPANYID = 28;
+        private const int GOHAPPYCARTCOMPANYID = 30;
+        private const int URSHOPECOMPANYID = 33;
+        int companyId = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
 
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
@@ -101,6 +106,7 @@ namespace DTShopping.Controllers
             //detail.password_str = detailModel.User.password_str;
             detail.Amount = detailModel.Amount;
             detail.OtpCode = detailModel.User.OtpCode;
+            detailModel.User.username = detail.username;
             result = await this.objRepository.MangeOtpFunctions(detail, "ValidateOtp");
             if (result == null)
             {
@@ -130,19 +136,46 @@ namespace DTShopping.Controllers
                         return Json("ok");
                     }
                 }
-                else if (CompanyId == 28 || CompanyId == 29)
+                else if (CompanyId == SHOPCOMPANYID || CompanyId == SUNVISCOMPANYID || CompanyId == GOHAPPYCARTCOMPANYID || CompanyId == URSHOPECOMPANYID)
                 {
-                    var deductWallet = await objRepository.DeductWalletBalnce(detail);
+                    var usr = new UserDetails();
+                    usr = detail;
+                    //usr.password_str = usr.passwordDetail;
+
+                    var deductWallet = await objRepository.DeductWalletBalnce(usr);
                     if (deductWallet.Status)
                     {
                         var Wallet = JsonConvert.DeserializeObject<WalletDeduction>(deductWallet.ResponseValue);
                         if (Wallet.response.ToLower() == "ok")
                         {
                             detail.Voucher = Wallet.voucherno;
-                            var Walletconfirm = await objRepository.WalletConfirmationAPI(detail);
+
+                            var Walletconfirm = new Response();
+                            if (CompanyId == URSHOPECOMPANYID)
+                            {
+                                Walletconfirm.Status = true;
+                            }
+                            else
+                            {
+                                Walletconfirm = await objRepository.WalletConfirmationAPI(usr);
+                            }
+
                             if (Walletconfirm.Status)
                             {
-                                var ConfirmWallet = JsonConvert.DeserializeObject<WalletDetails>(Walletconfirm.ResponseValue);
+                                var ConfirmWallet = new WalletDetails();
+                                if (CompanyId == URSHOPECOMPANYID)
+                                {
+                                    ConfirmWallet.response = Wallet.response;
+                                }
+                                else
+                                {
+                                    ConfirmWallet = JsonConvert.DeserializeObject<WalletDetails>(Walletconfirm.ResponseValue);
+                                }
+
+                                if (ConfirmWallet == null || ConfirmWallet.response == null)
+                                {
+                                    return Json("Empty reponse received while wallet confirmation.");
+                                }
                                 if (ConfirmWallet.response.ToLower() == "ok")
                                 {
                                     detailModel.OrderDetail = new order();
@@ -278,11 +311,11 @@ namespace DTShopping.Controllers
                 if (this.model.ProductDetail != null)
                 {
                     this.model.ProductDetail.description_detail = this.model.ProductDetail.description_detail.Replace("\r\n\r\n", "");
-                    if(string.IsNullOrEmpty(this.model.ProductDetail.product_size))
+                    if (!string.IsNullOrEmpty(this.model.ProductDetail.product_size) && this.model.ProductDetail.product_size != "0")
                     {
                         this.model.ProductDetail.sizeList = this.model.ProductDetail.product_size.Split(',').ToList();
                     }
-                    if (string.IsNullOrEmpty(this.model.ProductDetail.Color))
+                    if (!string.IsNullOrEmpty(this.model.ProductDetail.Color))
                     {
                         this.model.ProductDetail.colorList = this.model.ProductDetail.Color.Split(',').ToList();
                     }
@@ -303,8 +336,21 @@ namespace DTShopping.Controllers
             var result = new Response();
 
             var detail = (UserDetails)(Session["UserDetail"]);
-            detail.password_str = detailModel.User.password_str;
+            if (companyId == URSHOPECOMPANYID)
+            {
+                if (detailModel == null || detailModel.User == null)
+                {
+                    detailModel.User = new UserDetails();
+                }
+                detailModel.User = detail;
+            }
+            else
+            {
+                detail.passwordDetail = detailModel.User.password_str;
+            }
+
             detail.Amount = detailModel.Amount;
+
             result = await this.objRepository.CheckUserExistance(detail);
             if (result == null)
             {
@@ -316,13 +362,16 @@ namespace DTShopping.Controllers
             }
             else
             {
-                result = await this.objRepository.CheckWalletBalance(detail);
+                detailModel.User.username = detail.username;
+                result = await this.objRepository.CheckWalletBalance(detailModel.User);
                 if (result.Status)
                 {
                     var Wallet = JsonConvert.DeserializeObject<WalletDetails>(result.ResponseValue);
 
                     if (detail.Amount <= Wallet.wallet)
                     {
+                        //send otp by default if have wallet balance.
+                        await GenerateOtpDetail();
                         return Json("Sufficient:" + Wallet.wallet);
                     }
                     else
@@ -346,7 +395,12 @@ namespace DTShopping.Controllers
             var detail = (UserDetails)(Session["UserDetail"]);
             detail.password_str = detailModel.User.password_str;
 
-            result = await this.objRepository.CheckUserExistance(detail);
+            var usr = new UserDetails();
+            usr = detail;
+            usr.password_str = usr.passwordDetail;
+
+
+            result = await this.objRepository.CheckUserExistance(usr);
             if (result == null)
             {
                 return Json(Resources.ErrorMessage);
@@ -357,7 +411,7 @@ namespace DTShopping.Controllers
             }
             else
             {
-                result = await this.objRepository.CheckWalletBalance(detail);
+                result = await this.objRepository.CheckWalletBalance(usr);
                 if (result.Status)
                 {
                     var Wallet = JsonConvert.DeserializeObject<WalletDetails>(result.ResponseValue);
@@ -581,13 +635,19 @@ namespace DTShopping.Controllers
                         this.model.Products = JsonConvert.DeserializeObject<List<Product>>(response.ResponseValue);
                         this.model.UsersPoints = response.Points;
                         this.model.User = new UserDetails();
-                        this.model.User.username = detail.username;
+                        //this.model.User.username = detail.username;
+                        this.model.User = detail;
                         //this.model.AssignPaymentModes();
                         //call here 
                         var resp = await objRepository.CreateOrder(new order(), "ListPaymentModes");
                         if (resp.Status == true)
                         {
                             this.model.PaymentModeList = JsonConvert.DeserializeObject<List<Containers>>(resp.ResponseValue);
+                            var waletMode = this.model.PaymentModeList.FirstOrDefault(p => p.value.Contains("Wallet"));
+                            if (waletMode != null)
+                            {
+                                this.model.PaymentModeList.Remove(waletMode);
+                            }
                             this.model.WalletPaymentModeList = this.model.PaymentModeList.Where(p => p.value.Contains("PhonePe") || p.value.Contains("PayTm")).ToList();
                             this.model.PaymentModeList.RemoveAll(p => this.model.WalletPaymentModeList.Contains(p));
                         }
@@ -613,6 +673,7 @@ namespace DTShopping.Controllers
 
                                 this.model.NetPayment += prod.amount;
                             }
+                            this.model.OrderDetail.payment_ref_amount = Convert.ToString(this.model.NetPayment);
                         }
                     }
                 }
@@ -635,6 +696,7 @@ namespace DTShopping.Controllers
             if (this.model.OrderDetail == null)
             {
                 this.model.OrderDetail = new order();
+                this.model.OrderDetail.payment_ref_amount = Convert.ToString(this.model.NetPayment);
             }
 
             if (deliveryType == 0)
@@ -646,7 +708,6 @@ namespace DTShopping.Controllers
                 this.model.OrderDetail.delievryType = deliveryType;
             }
 
-
             if (isWithPayment)
             {
                 var CompanyId = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
@@ -656,6 +717,18 @@ namespace DTShopping.Controllers
                 if (!(result == null || result.Status == false))
                 {
                     this.model.CompanyProfileDetail = JsonConvert.DeserializeObject<CompanyProfile>(result.ResponseValue);
+                }
+
+                if (model.User == null || model.User.phone == null)
+                {
+                    model.User = new UserDetails();
+                    model.User.otpPhone = "Please enter mobile no.";
+                }
+                else if (model.User.phone.Length == 10)
+                {
+                    model.User.otpPhone = model.User.phone;
+                    var sub = model.User.otpPhone.Substring(3,3);
+                    model.User.otpPhone = model.User.otpPhone.Replace(sub, "XXX");
                 }
 
                 return PartialView("cartPaymentDetailView", this.model);
@@ -673,7 +746,7 @@ namespace DTShopping.Controllers
             string companyId = System.Configuration.ConfigurationManager.AppSettings["CompanyId"];
             try
             {
-                if (CheckLoginUserStatus()) 
+                if (CheckLoginUserStatus())
                 {
                     var cart = new CartFilter();
                     cart.productId = ProductId;

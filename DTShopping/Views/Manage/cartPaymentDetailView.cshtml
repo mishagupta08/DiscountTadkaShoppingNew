@@ -10,6 +10,11 @@
     {
         imageUrl = imageUrl.Substring(0, imageUrl.LastIndexOf("/"));
     }
+
+    int SUNVISCOMPANYID = 29;
+    int SHOPCOMPANYID = 28;
+    int GOHAPPYCARTCOMPANYID = 30;
+    int URSHOPECOMPANYID = 33;
 }
 <style>
     .tAndC {
@@ -141,7 +146,7 @@
                                     </ul>
                                 </div>
                             </td>
-                            @if (CompanyId == 29 || CompanyId == 28)
+                            @if (CompanyId == SUNVISCOMPANYID || CompanyId == SHOPCOMPANYID || CompanyId == GOHAPPYCARTCOMPANYID || CompanyId == URSHOPECOMPANYID)
                             {
                                 <td>
                                     <div class="Paymenttd">
@@ -150,24 +155,32 @@
                                                 <input type="radio" value="dtcard" name="paymentmethod" id="Pay3">
                                                 <b>
                                                     @*for company sunvis*@
-                                                    @if (CompanyId == 29)
+                                                    @if (CompanyId == SUNVISCOMPANYID)
                                                     {
                                                         <span>My Sunvis Wallet ( Training & Main)</span>
+                                                    }
+                                                    else if (CompanyId == GOHAPPYCARTCOMPANYID)
+                                                    {
+                                                        <span>Shopping Wallet</span>
                                                     }
                                                     else
                                                     {
                                                         <span>e-Wallet Payment</span>
                                                     }
                                                 </b>
-
-
                                             </li>
 
 
                                         </ul>
                                     </div>
                                 </td>
-                            }x
+                            }
+                            else
+                            {
+                                <td>
+                                    <div class="Paymenttd">
+                                </td>
+                            }
                         </tr>
                         <tr bgcolor="#EBC6AD">
                             <td>
@@ -252,12 +265,14 @@
                                         </tr>
                                         <tr class="Common">
                                             <td class="fieldKey"><label for="username">@Resources.PaymentRefAmount</label> : </td>
-                                            <td class="fieldValue">@Html.TextBoxFor(m => m.OrderDetail.payment_ref_amount, new { @type = "number", @id = "amount", @required = "required", @class = "form-control", @placeholder = "" })</td>
+                                            <td class="fieldValue">@Html.TextBoxFor(m => m.OrderDetail.payment_ref_amount, new { @readonly = "readonly", @type = "number", @id = "amount", @required = "required", @class = "form-control", @placeholder = "" })</td>
                                         </tr>
                                         <tr>
                                             <td class="fieldKey"><label for="username">One Time Password (OTP)</label>:</td>
                                             <td>
                                                 @Html.TextBoxFor(m => m.OrderDetail.OtpCode, new { @type = "text", @id = "otpMessageBankTextBox", @required = "required", @class = "form-control", @placeholder = "" })
+                                                <label style="color:red;">Registerd Mobile No. : @Model.User.otpPhone</label>
+                                                <br />
                                                 <a class="generateotp" data-value="otpMessageBank" name="lnkOtp">Click here to Generate OTP</a>
                                                 <br />
                                                 <label id="otpMessageBank" style="color:red;"></label>
@@ -265,7 +280,7 @@
                                         </tr>
                                     </table>
                                     @*for company sunvis*@
-                                    @if (CompanyId == 29)
+                                    @if (CompanyId == SUNVISCOMPANYID)
                                     {
                                         <table style="display:inline-block; float:right;margin-top:10%;" border="0" width="50%" cellspacing="0" cellpadding="2">
                                             <tr style="margin-top:10px;">
@@ -375,12 +390,14 @@
                                             </tr>*@
                                         <tr class="Common">
                                             <td class="fieldKey"><label for="username">@Resources.PaymentRefAmount</label> : </td>
-                                            <td class="fieldValue">@Html.TextBoxFor(m => m.OrderDetail.payment_ref_amount, new { @type = "number", @id = "amount", @required = "required", @class = "form-control", @placeholder = "" })</td>
+                                            <td class="fieldValue">@Html.TextBoxFor(m => m.OrderDetail.payment_ref_amount, new { @readonly = "readonly", @type = "number", @id = "amount", @required = "required", @class = "form-control", @placeholder = "" })</td>
                                         </tr>
                                         <tr>
                                             <td class="fieldKey"><label for="username">One Time Password (OTP)</label>:</td>
                                             <td>
                                                 @Html.TextBoxFor(m => m.OrderDetail.OtpCode, new { @type = "text", @id = "otpMessageWalletTextBox", @required = "required", @class = "form-control", @placeholder = "" })
+                                                <label style="color:red;">Registerd Mobile No. : @Model.User.otpPhone</label>
+                                                <br />
                                                 <a class="generateotp" data-value="otpMessageWallet" name="lnkOtp">Click here to Generate OTP</a>
                                                 <br />
                                                 <label id="otpMessageWallet" style="color:red;"></label>
@@ -388,7 +405,7 @@
                                         </tr>
                                     </table>
                                     @*for company sunvis*@
-                                    @if (CompanyId == 29)
+                                    @if (CompanyId == SUNVISCOMPANYID)
                                     {
                                         <table style="display:inline-block; float:right;margin-top:10%;" border="0" width="50%" cellspacing="0" cellpadding="2">
                                             <tr style="margin-top:10px;">
@@ -428,18 +445,30 @@
                                             <td class="fieldKey"><label for="username">User ID</label> : </td>
                                             <td class="fieldValue">@Model.User.username</td>
                                         </tr>
-                                        <tr>
-                                            <td class="fieldKey"><label for="username">Password</label> : </td>
-                                            <td class="fieldValue">@Html.TextBoxFor(m => m.User.password_str, new { @type = "password", @id = "paymentPassword", @required = "required", @class = "form-control", @placeholder = "" })</td>
-                                        </tr>
+                                        @if (CompanyId != URSHOPECOMPANYID)
+                                        {
+                                            <tr>
+                                                <td class="fieldKey"><label for="username">Password</label> : </td>
+                                                <td class="fieldValue">@Html.TextBoxFor(m => m.User.password_str, new { @type = "password", @id = "paymentPassword", @required = "required", @class = "form-control", @placeholder = "" })</td>
+                                            </tr>
+                                        }
                                     </table>
                                 </div>
                                 <label id="loginError1" style="color:red;"></label>
                                 <div class="buttonSet">
                                     <span class="buttonAction">
                                         <button class="unishop_button" id="ConfirmPassword" type="submit">
-                                            @Resources.ConfirmPassword
+                                            @if (CompanyId == URSHOPECOMPANYID)
+                                            {
+                                                @Resources.CheckWalletBalance
+                                            }
+                                            else
+                                            {
+                                                @Resources.ConfirmPassword
+                                            }
+
                                         </button>
+
                                     </span>
                                 </div>
                             </div>
@@ -471,7 +500,9 @@
                                             <td class="fieldKey"><label for="username">One Time Password (OTP)</label>:</td>
                                             <td>
                                                 @Html.TextBoxFor(m => m.User.OtpCode, new { @type = "text", @id = "paymentrefno", @required = "required", @class = "form-control", @placeholder = "" })
-                                                <a class="generateotp" id="lnkOtp">Click here to Generate OTP</a>
+                                                <label style="color:red;">Registerd Mobile No. : @Model.User.otpPhone</label>
+                                                <br />
+                                                OTP is send to registered mobile no.<a class="generateotp" id="lnkOtp" style="color:blue;"> (Resend)</a>
                                                 <br />
                                                 <label id="otpMessage" style="color:red;"></label>
                                             </td>
@@ -499,7 +530,7 @@
                                     @Html.HiddenFor(m => m.OrderDetail.point_adjusted, new { name = "pointAdjusted1", id = "pointAdjusted1" })
 
                                     @*for company sunvis*@
-                                    @if (CompanyId == 29)
+                                    @if (CompanyId == SUNVISCOMPANYID)
                                     {
                                         <table border="0" width="97%" cellspacing="0" cellpadding="2">
                                             <tr style="margin-top:10px;">
@@ -526,7 +557,6 @@
                 </div>
             </div>
         </div>
-
     }
 </div>
 

@@ -592,6 +592,7 @@ namespace DTShopping.Controllers
                         objorder.billing_last_name = current_user.last_name;
                     }
                 }
+
                 Response response = new Response();
                 if (objorder.id == 0)
                 {
@@ -601,6 +602,7 @@ namespace DTShopping.Controllers
                 {
                     response = await objRepository.CreateOrder(objorder, "EditAddress");
                 }
+
                 if (response.Status == true)
                 {
                     Session["OrderId"] = response.ResponseValue;
@@ -616,6 +618,7 @@ namespace DTShopping.Controllers
             {
                 orderstatus = "Fail";
             }
+
             return Json(orderstatus, JsonRequestBehavior.AllowGet);
         }
 

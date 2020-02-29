@@ -133,6 +133,15 @@ namespace DTShopping.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Check Balance.
+        /// </summary>
+        public static string CheckWalletBalance {
+            get {
+                return ResourceManager.GetString("CheckWalletBalance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Color.
         /// </summary>
         public static string Color {

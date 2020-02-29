@@ -90,14 +90,23 @@
                         {
                             <div id="logo" style="margin-top:-50px;" class="five columns">
 
-                                <div id="storeLogo"> <a class="logo_inner" href="~/Home/Index"><img src="@imageUrl/@current_cmpny.logo" alt="unishop" title="unishop" width="177" height="46" class="scale-with-grid" /></a></div>
+                                <div id="storeLogo"> <a class="logo_inner" href="~/Home/Index"><img src="@imageUrl/@current_cmpny.logo" alt="@current_cmpny.company_name" title="@current_cmpny.company_name" width="177" height="46" class="scale-with-grid" /></a></div>
+                            </div>
+                        }
+                        else if (current_cmpny.id == 30)
+                        {
+                            <div id="logo" style="margin-top:-50px;" class="five columns">
+
+                                <div id="storeLogo"> <a class="logo_inner" href="~/Home/Index"><img src="@imageUrl/@current_cmpny.logo" alt="@current_cmpny.company_name" title="@current_cmpny.company_name" width="250" height="46" class="scale-with-grid" /></a></div>
                             </div>
                         }
                         else
-                        {   <div id="logo" class="five columns">
+                        {
+                            <div id="logo" class="five columns">
 
-                            <div id="storeLogo"> <a class="logo_inner" href="~/Home/Index"><img src="@imageUrl/@current_cmpny.logo" alt="unishop" title="unishop" width="177" height="46" class="scale-with-grid" /></a></div>
-                        </div>}
+                                <div id="storeLogo"> <a class="logo_inner" href="~/Home/Index"><img src="@imageUrl/@current_cmpny.logo" alt="@current_cmpny.company_name" title="@current_cmpny.company_name" width="177" height="46" class="scale-with-grid" /></a></div>
+                            </div>
+                        }
 
                         <div class="six columns">
 
@@ -271,14 +280,14 @@
 
                                 @if (Session["UserDetail"] != null)
                                 {
-                                <li><a href="/Home/MyAccount">My Account</a></li>
-                                <li><a href="/Manage/GetCartProductList?isWithPayment=false&deliveryType=0">My Shopping Cart</a></li>
-                                <li><a href="/Home/Orders">Order history</a></li>
-                                <li><a href="/Account/LogOff">Log Out</a></li>
+                                    <li><a href="/Home/MyAccount">My Account</a></li>
+                                    <li><a href="/Manage/GetCartProductList?isWithPayment=false&deliveryType=0">My Shopping Cart</a></li>
+                                    <li><a href="/Home/Orders">Order history</a></li>
+                                    <li><a href="/Account/LogOff">Log Out</a></li>
                                 }
                                 else
                                 {
-                                <li><a href="/Account/Login">Log In</a></li>
+                                    <li><a href="/Account/Login">Log In</a></li>
                                 }
                             </ul>
                         </nav>

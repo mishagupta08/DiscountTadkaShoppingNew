@@ -29,6 +29,7 @@ namespace DTShopping.Models
         public double Amount { get; set; }
         public Filters FilterDetail { get; set; }
         public CompanyProfile CompanyProfileDetail { get; set; }
+        
 
         public void AssignPaymentModes()
         {

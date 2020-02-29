@@ -5,12 +5,21 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     company current_cmpny = (Session["Company"] != null) ? Session["Company"] as company : new company();
     string imageUrl = System.Configuration.ConfigurationManager.AppSettings["ImageUrl"];
+    int CompanyId = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
+    int URSHOPECOMPANYID = 33;
 }
 
 <div class="container">
     <table width="100%" border="1" cellspacing="3" cellpadding="3" class="shoptable">
         <tr>
+            @if (CompanyId == URSHOPECOMPANYID)
+            {
+                <td width="20%"><img src="~/images/thanks.png" alt="Thank You" style="padding-left: 70%; padding-top: 10%;"></td>
+            }
+            else
+            {
             <td width="20%"><img src="~/images/thanku.jpg" alt="Thank You" style="padding-left: 70%; padding-top: 10%;"></td>
+            }
             <td width="60%" style="padding-left: 5%;" valign="middle">
                 Thanks for placing your order with us here at @current_cmpny.company_name <br>
                 Please find your order status in the "Orders" section in your account.                                             <br>

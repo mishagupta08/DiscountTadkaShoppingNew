@@ -4,9 +4,16 @@
     var item = 1;
     //List<Category> objMenuList = new List<Category>();
     var objMenuList = Session["MenuList"] != null ? Session["MenuList"] as List<Category> : new List<Category>();
- }
+    var headerStyle = string.Empty;
+    int CompanyId = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
+    int URSHOPECOMPANYID = 33;
+    if (CompanyId == URSHOPECOMPANYID)
+    {
+        headerStyle = "background:#f45117";
+    }
+}
 
-<div class="nav-container">
+<div class="nav-container" style=@headerStyle>
     <div class="container">
         <div class="sixteen columns" style="width:1400px">
             <div id="menu_block_head">
@@ -52,7 +59,7 @@
                             </div>
                             item = item + 1;
                         }
-                    </div>                  
+                    </div>
                 </div>
             </div>
 

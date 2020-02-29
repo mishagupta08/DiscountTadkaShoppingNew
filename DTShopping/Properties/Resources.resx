@@ -294,4 +294,7 @@
   <data name="Color" xml:space="preserve">
     <value>Color</value>
   </data>
+  <data name="CheckWalletBalance" xml:space="preserve">
+    <value>Check Balance</value>
+  </data>
 </root>

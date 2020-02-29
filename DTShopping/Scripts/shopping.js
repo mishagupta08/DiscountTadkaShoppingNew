@@ -64,7 +64,6 @@
         ConfirmPassword();
     });
 
-
     //$('input[name=paymentmethod]').unbind();
     //$('input[name=paymentmethod]').click(function (e) {
     //    LoadPaymentPage(this);
