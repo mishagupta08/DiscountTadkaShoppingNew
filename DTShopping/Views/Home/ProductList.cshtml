@@ -5,6 +5,13 @@
     ViewBag.Title = "ProductList";
     string imageUrl = System.Configuration.ConfigurationManager.AppSettings["ImageUrl"];
     var count = 0;
+    int CompanyId = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
+    int URSHOPECOMPANYID = 33;
+    var inLineStyle = string.Empty;
+    if (CompanyId == URSHOPECOMPANYID)
+    {
+        inLineStyle = "background-image:none; background-color:transparent;";
+    }
 }
 <link href="~/Content/PagedList.css" rel="stylesheet" />
 <style>
@@ -16,8 +23,8 @@
 
     .page-link {
         font-family: Arial, Helvetica, sans-serif;
-        font-size:12px;
-        color:black;
+        font-size: 12px;
+        color: black;
     }
 
     ul.pagination li {
@@ -571,10 +578,23 @@
                                                     </span><br>
                                                     <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
                                                         <br>
-                                                        @Resources.EUPoints : @{var t = product.point_adjusted != null ? product.point_adjusted : 0;}@t
+                                                        @if (CompanyId == URSHOPECOMPANYID)
+                                                        {
+                                                            <span>@Resources.ProfitPoint : </span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>@Resources.EUPoints : </span>
+                                                        }
+                                                        @{var t = product.point_adjusted != null ? product.point_adjusted : 0;}@t
                                                     </span>
                                                 </div>
-                                                <div class="icon_cart_rollover" onclick="AddProductInCart(@product.id, 1)"><a></a></div>
+                                                <div class="icon_cart_rollover" onclick="AddProductInCart(@product.id, 1)"><a style="@inLineStyle">
+    @if (CompanyId == URSHOPECOMPANYID)
+    {
+        <img src="~/unishop_theme/unishop_images/icon-cart2.png" height="30" width="30" />
+    }
+</a></div>
                                             </div>
                                         </div>
                                     </div>
@@ -606,7 +626,7 @@
                                                                 <div class="Eight columns"><h2>No Products found</h2></div>
                                                             }
 
-                        
+
                     </div>
                 </div>
             </div>

@@ -298,6 +298,7 @@
     <Content Include="images\brand-light-07.png" />
     <Content Include="images\brand-light-08.png" />
     <Content Include="images\brand-light-09.png" />
+    <Content Include="images\cart.png" />
     <Content Include="images\claim_icon.jpg" />
     <Content Include="images\cont_us.jpg" />
     <Content Include="images\delete.png" />
@@ -1037,6 +1038,7 @@
     <Content Include="unishop_theme\unishop_images\icon-brands.png" />
     <Content Include="unishop_theme\unishop_images\icon-cart-rollover.png" />
     <Content Include="unishop_theme\unishop_images\icon-cart.png" />
+    <Content Include="unishop_theme\unishop_images\icon-cart2.png" />
     <Content Include="unishop_theme\unishop_images\icon-category.png" />
     <Content Include="unishop_theme\unishop_images\icon-info-contact.png" />
     <Content Include="unishop_theme\unishop_images\icon-info-facebook.png" />
@@ -1210,6 +1212,7 @@
     <Content Include="Views\Manage\_retailerPointsPartialView.cshtml" />
     <Content Include="Views\Shared\_LayoutOrange.cshtml" />
     <Content Include="Views\Home\IndexOrange.cshtml" />
+    <Content Include="Views\Home\CategoryOrange.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

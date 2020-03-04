@@ -43,74 +43,17 @@
                 <div class="header__left">
                     <div class="menu--product-categories" >
                         <div class="menu__toggle"><i class="icon-menu"></i><span> Shop by Department</span></div>
-                        <div class="menu__content">
-                            <ul class="menu--dropdown">
-                                <li class="current-menu-item "><a href="#"><i class="icon-star"></i> Hot Promotions</a> </li>
-                                <li class="current-menu-item menu-item-has-children has-mega-menu">
-                                    <a href="#"><i class="icon-laundry"></i> Consumer Electronic</a>
-                                    <div class="mega-menu">
-                                        <div class="mega-menu__column">
-                                            <h4>Electronic<span class="sub-toggle"></span></h4>
-                                            <ul class="mega-menu__list">
-                                                <li class="current-menu-item"><a href="#">Home Audio &amp; Theathers</a> </li>
-                                                <li class="current-menu-item"><a href="#">TV &amp; Videos</a> </li>
-                                                <li class="current-menu-item"><a href="#">Camera, Photos &amp; Videos</a> </li>
-                                                <li class="current-menu-item"><a href="#">Cellphones &amp; Accessories</a> </li>
-                                                <li class="current-menu-item"><a href="#">Headphones</a> </li>
-                                                <li class="current-menu-item"><a href="#">Videosgames</a> </li>
-                                                <li class="current-menu-item"><a href="#">Wireless Speakers</a> </li>
-                                                <li class="current-menu-item"><a href="#">Office Electronic</a> </li>
-                                            </ul>
-                                        </div>
-                                        <div class="mega-menu__column">
-                                            <h4>Accessories &amp; Parts<span class="sub-toggle"></span></h4>
-                                            <ul class="mega-menu__list">
-                                                <li class="current-menu-item "><a href="#">Digital Cables</a> </li>
-                                                <li class="current-menu-item "><a href="#">Audio &amp; Video Cables</a> </li>
-                                                <li class="current-menu-item "><a href="#">Batteries</a> </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="current-menu-item "><a href="#"><i class="icon-shirt"></i> Clothing &amp; Apparel</a> </li>
-                                <li class="current-menu-item "><a href="#"><i class="icon-lampshade"></i> Home, Garden &amp; Kitchen</a> </li>
-                                <li class="current-menu-item "><a href="#"><i class="icon-heart-pulse"></i> Health &amp; Beauty</a> </li>
-                                <li class="current-menu-item "><a href="#"><i class="icon-diamond2"></i> Yewelry &amp; Watches</a> </li>
-                                <li class="current-menu-item menu-item-has-children has-mega-menu">
-                                    <a href="#"><i class="icon-desktop"></i> Computer &amp; Technology</a>
-                                    <div class="mega-menu">
-                                        <div class="mega-menu__column">
-                                            <h4>Computer &amp; Technologies<span class="sub-toggle"></span></h4>
-                                            <ul class="mega-menu__list">
-                                                <li class="current-menu-item "><a href="#">Computer &amp; Tablets</a> </li>
-                                                <li class="current-menu-item "><a href="#">Laptop</a> </li>
-                                                <li class="current-menu-item "><a href="#">Monitors</a> </li>
-                                                <li class="current-menu-item "><a href="#">Networking</a> </li>
-                                                <li class="current-menu-item "><a href="#">Drive &amp; Storages</a> </li>
-                                                <li class="current-menu-item "><a href="#">Computer Components</a> </li>
-                                                <li class="current-menu-item "><a href="#">Security &amp; Protection</a> </li>
-                                                <li class="current-menu-item "><a href="#">Gaming Laptop</a> </li>
-                                                <li class="current-menu-item "><a href="#">Accessories</a> </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="current-menu-item "><a href="#"><i class="icon-baby-bottle"></i> Babies &amp; Moms</a> </li>
-                                <li class="current-menu-item "><a href="#"><i class="icon-baseball"></i> Sport &amp; Outdoor</a> </li>
-                                <li class="current-menu-item "><a href="#"><i class="icon-smartphone"></i> Phones &amp; Accessories</a> </li>
-                                <li class="current-menu-item "><a href="#"><i class="icon-book2"></i> Books &amp; Office</a> </li>
-                                <li class="current-menu-item "><a href="#"><i class="icon-car-siren"></i> Cars &amp; Motocycles</a> </li>
-                                <li class="current-menu-item "><a href="#"><i class="icon-wrench"></i> Home Improments</a> </li>
-                                <li class="current-menu-item "><a href="#"><i class="icon-tag"></i> Vouchers &amp; Services</a> </li>
-                            </ul>
+                        @***** will add menus here******@
+                        <div id="DivCategories">
+
                         </div>
                     </div>
                     <a class="ps-logo" href="#">
                         <div class="logobox" align="center"> <img src="@imageUrl/@current_cmpny.logo" class="logoimg" alt="@current_cmpny.company_name" title="@current_cmpny.company_name"> </div>
                     </a>
                 </div>
-                <div class="header__center">
-                    <form class="ps-form--quick-search" action="#" method="get">
+                <div class="header__center" id="top_search">
+                    <form name="et_quick_find" id="et_quick_find" onsubmit="return false">
                         <div class="form-group--icon">
                             <i class="icon-chevron-down"></i>
                             <select class="form-control">
@@ -1538,5 +1481,135 @@
     <!-- custom scripts-->
     <script src="~/js/main.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxflHHc5FlDVI-J71pO7hM1QJNW1dRp4U&amp;region=GB"></script>
+    <script>
+    $(document).ready(function () {
+
+        $.ajax({
+            type: "GET",
+            async: false,
+            url: "/Home/GetCategories",
+            success: function (result) {
+                $("#DivCategories").html(result);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("Status: " + textStatus); alert("Error: " + errorThrown);
+            }
+        });
+
+        $('#et_categ_box_scroll .cat-name').hover(
+        function () { $('.drop-box-subcat', this).show() },
+        function () { $('.drop-box-subcat', this).hide() }
+    );
+        $('#et_categ_box_scroll .sub-cat-name').hover(
+            function () { $('.drop-box-subsubcat', this).toggle() }
+        );
+        $('#et_categ_box_scroll .subsub-cat-name').hover(
+            function () { $('.drop-box-3subcat', this).toggle() }
+        );
+        $('#et_categ_box_scroll .3sub-cat-name').hover(
+            function () { $('.drop-box-4subcat', this).toggle() }
+        );
+
+        $('#menu_block_head').click(function () {
+            $('.menu_block_dropdown').toggleClass('visible_on');
+        });
+
+        $("#et_quick_find").submit(function () {
+            var searchString = $("#search_input").val();
+
+            uri = '/Home/SearchProductList?page=1&searchString=' + searchString;
+
+            uri = uri.trim().replace(/ /g, '%20');
+            window.location.href = (uri);
+            return false;
+        })
+
+        $('.brandLink').click(
+            function () {
+                var brandid = $(this).attr("data-branId");
+                window.location.href = "/Home/ProductList?BrandId=" + brandid;
+            }
+        );
+
+        getCartCount();
+
+    });
+
+
+    function getCartCount() {
+        $.ajax({
+            type: "GET",
+            async: false,
+            url: "/Home/getCartCount",
+            success: function (result) {
+                $("#cartCount").html(result.CartProductCount);
+                $("#ShowBalancePoint").html(result.Points);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("Status: " + textStatus); alert("Error: " + errorThrown);
+            }
+        });
+    }
+
+    //function getBalancePoints() {
+    //    $.ajax({
+    //        type: "GET",
+    //        async: false,
+    //        url: "/Home/getBalancePoints",
+    //        success: function (result) {
+    //            //alert(result);
+    //            $("#ShowBalancePoint").html(result);
+    //        },
+    //        error: function (XMLHttpRequest, textStatus, errorThrown) {
+    //            alert("Status: " + textStatus); alert("Error: " + errorThrown);
+    //        }
+    //    });
+    //}
+
+
+    function AddProductInCart(prodId, quantity, isDetailPage, sizeD, colorD) {
+        $(".preloader").show();
+        if (quantity == null || quantity == "" || quantity == undefined) {
+            quantity = 1;
+        }
+        $.ajax({
+            url: '/Manage/AddProductInToCart',
+            type: 'Post',
+            datatype: 'Json',
+            data: { ProductId: prodId, Quantity: quantity, size: sizeD, color: colorD }
+        }).done(function (result) {
+            if (result == null || result == undefined || result == "") {
+                alert("Something went wrong, Please try again later.");
+            }
+            else if (result.Status == false) {
+                if (result.ResponseValue == "login") {
+                    window.location.href = "/Account/Login";
+                }
+                else {
+                    alert(result.ResponseValue);
+                }
+            }
+            else {
+
+                $("#cartCount").html(result.CartProductCount);
+                $("#ShowBalancePoint").html(result.Points);
+
+                if (isDetailPage == true) {
+                    window.location.href = "/Manage/GetCartProductList?isWithPayment=false&deliveryType=0";
+                }
+                else {
+                    alert("Product added to cart.");
+                }
+            }
+
+            $(".preloader").hide();
+        }).fail(function (error) {
+            alert(error.statusText);
+            $(".preloader").hide();
+        });
+
+        return false;
+    }
+    </script>
 </body>
 </html>

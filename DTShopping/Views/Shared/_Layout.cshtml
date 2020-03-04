@@ -11,7 +11,15 @@
     {
         imageUrl = imageUrl.Substring(0, imageUrl.LastIndexOf("/"));
     }
+    int CompanyId = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
+    int URSHOPECOMPANYID = 33;
+    var inLineStyle = string.Empty;
+    if (CompanyId == URSHOPECOMPANYID)
+    {
+        inLineStyle = "background-image:none; background-color:transparent;";
+    }
 }
+
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en">
@@ -68,6 +76,11 @@
         .cat-name a.main_category {
             font-size: 11px !important;
         }
+
+        .img-cart2 {
+            background-color: transparent !important;
+            background-image: none;
+        }
     </style>
 </head>
 
@@ -81,7 +94,7 @@
         <div id="header">
             <div class="container">
                 <div class="row">
-                    <div class="row phone offset-by-eleven five columns" style="width : 100%; margin-top:0px;font-size:12px;">
+                    <div class="row phone offset-by-eleven five columns" style="width: 100%; margin-top: 0px; font-size: 12px;">
 
                         <span>Call us:(91) @current_cmpny.company_landline_no </span>&nbsp;&nbsp;<span>Email: @current_cmpny.contact_email </span>
                     </div>
@@ -89,14 +102,12 @@
                         @if (current_cmpny.id == 29)
                         {
                             <div id="logo" style="margin-top:-50px;" class="five columns">
-
                                 <div id="storeLogo"> <a class="logo_inner" href="~/Home/Index"><img src="@imageUrl/@current_cmpny.logo" alt="@current_cmpny.company_name" title="@current_cmpny.company_name" width="177" height="46" class="scale-with-grid" /></a></div>
                             </div>
                         }
                         else if (current_cmpny.id == 30)
                         {
                             <div id="logo" style="margin-top:-50px;" class="five columns">
-
                                 <div id="storeLogo"> <a class="logo_inner" href="~/Home/Index"><img src="@imageUrl/@current_cmpny.logo" alt="@current_cmpny.company_name" title="@current_cmpny.company_name" width="250" height="46" class="scale-with-grid" /></a></div>
                             </div>
                         }
@@ -134,7 +145,14 @@
                                             <div class="clearfix">
                                                 @if (Session["UserDetail"] != null)
                                                 {
-                                                    <p class="img_cart"> <a href="/Manage/GetCartProductList?isWithPayment=false&deliveryType=0"></a> </p>
+                                                    <p class="img_cart" style='@inLineStyle'>
+                                                        <a href="/Manage/GetCartProductList?isWithPaymen">
+                                                            @if (CompanyId == URSHOPECOMPANYID)
+                                                            {
+                                                                <img src="~/unishop_theme/unishop_images/icon-cart2.png" height="30" width="30" />
+                                                            }
+                                                        </a>
+                                                    </p>
                                                     <div class="open"> <a href="/Manage/GetCartProductList?isWithPayment=false&&deliveryType=0"><span> Cart (<span id="cartCount"></span>)</span></a></div>
                                                     @*<a class="cart_link" href="checkout_shipping.php">Checkout</a>*@
                                                 }
@@ -142,18 +160,19 @@
                                         </div>
                                     </div>
                                     @*<div id="shopping_cart_mini">
-                                            <div class="inner-wrapper">
-                                                <p class="empty">You have no items in your shopping cart.</p>
-                                            </div>
-                                        </div>*@
+                                        <div class="inner-wrapper">
+                                                                                <p class="empty">You have no items in your shopping cart.</p>
+                                                        </div>
+                                                    </div>*@
                                 </div>
                                 @if (Session["UserDetail"] != null)
-                                {
+            {
                                     <div class="balancepoints" style="float:right; font-family:Oswald; font-size:12px; margin:15px 20px 0 20px;">Balance Points <span id="ShowBalancePoint"></span></div>
                                     <div class="welcome" style="float:right; font-family:Oswald; font-size:14px; margin:12px 0 0 0;">
                                         Welcome @username
                                         <div class="clear"></div>
                                     </div>
+
                                 }
                             </div>
                             <div class="row">
@@ -181,10 +200,10 @@
                                             }
                                             @if (Session["UserDetail"] != null)
                                             {
-                                                @*
-                                                    <li class="last"><a href="/Home/Claims">Claims</a></li>*@
+                                                @*<li class="last"><a href="/Home/Claims">Claims</a></li>*@
                                                 <li class="last"><a href="/Account/LogOff">Logout</a></li>
                                             }
+
                                         </ul>
                                     </div>
                                 </div>
@@ -245,8 +264,7 @@
 
                         <div id="copyright">
                             <a class="logo_footer" href="~/Home/Index">
-                                @*<img src="~/images/light/store_logo.png" alt="unishop" title="unishop" width="177" height="46" class="scale-with-grid" />*@
-                                <img src="@imageUrl/@current_cmpny.logo" alt="unishop" title="unishop" width="177" height="46" class="scale-with-grid" />
+                                @*<img src="~/images/light/store_logo.png" alt="unishop" title="unishop" width="177" height="46" class="scale-with-grid" />*@          <img src="@imageUrl/@current_cmpny.logo" alt="unishop" title="unishop" width="177" height="46" class="scale-with-grid" />
                             </a> &copy; @copyright
                         </div>
                     </div>
@@ -282,8 +300,8 @@
                                 {
                                     <li><a href="/Home/MyAccount">My Account</a></li>
                                     <li><a href="/Manage/GetCartProductList?isWithPayment=false&deliveryType=0">My Shopping Cart</a></li>
-                                    <li><a href="/Home/Orders">Order history</a></li>
-                                    <li><a href="/Account/LogOff">Log Out</a></li>
+                                            <li><a href="/Home/Orders">Order history</a></li>
+                                                                <li><a href="/Account/LogOff">Log Out</a></li>
                                 }
                                 else
                                 {
@@ -315,8 +333,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- end footer info -->
+        </div>     <!-- end footer info -->
 
     </div>
 

@@ -297,4 +297,10 @@
   <data name="CheckWalletBalance" xml:space="preserve">
     <value>Check Balance</value>
   </data>
+  <data name="Orange" xml:space="preserve">
+    <value>Orange</value>
+  </data>
+  <data name="ProfitPoint" xml:space="preserve">
+    <value>Profit Point</value>
+  </data>
 </root>

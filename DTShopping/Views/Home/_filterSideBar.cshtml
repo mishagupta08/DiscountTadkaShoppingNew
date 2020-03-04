@@ -4,17 +4,24 @@
     ViewBag.Title = "ProductList";
     string imageUrl = System.Configuration.ConfigurationManager.AppSettings["ImageUrl"];
     var count = 0;
+    int CompanyId = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
+    int URSHOPECOMPANYID = 33;
+    var inLineStyle = string.Empty;
+    if (CompanyId == URSHOPECOMPANYID)
+    {
+        inLineStyle = "background-image:none; background-color:transparent;";
+    }
 }
 
-    <div id="columnLeft" style="float: left;" class="product_info_page_left four columns alpha">
-     @if (Model != null && Model.categoryList.Count() > 0)
-     {
-          <div class="infoBox infoBoxCategory">
+<div id="columnLeft" style="float: left;" class="product_info_page_left four columns alpha">
+    @if (Model != null && Model.categoryList.Count() > 0)
+    {
+        <div class="infoBox infoBoxCategory">
             <div class="infoBoxHeading">
                 <p class="icon_box_category">&nbsp;</p>
                 Category
             </div>
-            <div class="infoBoxContents">                
+            <div class="infoBoxContents">
                 @foreach (var cat in Model.categoryList)
                 {
                     var t = cat.Childern != null && cat.Childern.Count > 0;
@@ -40,26 +47,26 @@
                 }
             </div>
         </div>
-      @*<div class="infoBox infoBoxBrands">
-            <div class="infoBoxHeading">Price Range</div>
-            <div class="infoBoxContents">
-                <ul>
-                    <li><a href="index.php?manufacturers_id=3">Rs. 0 - 1000</a></li>
-                    <li><a href="index.php?manufacturers_id=4">Rs.1000 - 2000</a></li>
-                    <li><a href="index.php?manufacturers_id=10">Rs.2000 - 3000</a></li>
-                    <li><a href="index.php?manufacturers_id=7">Rs.4000 - 5000</a></li>
-                    <li><a href="index.php?manufacturers_id=6">Rs.6000 - 7000</a></li>
-                    <li><a href="index.php?manufacturers_id=1">Rs.8000 - 9000</a></li>
-                    <li><a href="index.php?manufacturers_id=3">Rs. 0 - 1000</a></li>
-                    <li><a href="index.php?manufacturers_id=4">Rs.1000 - 2000</a></li>
-                    <li><a href="index.php?manufacturers_id=10">Rs.2000 - 3000</a></li>
-                    <li><a href="index.php?manufacturers_id=7">Rs.4000 - 5000</a></li>
-                    <li><a href="index.php?manufacturers_id=6">Rs.6000 - 7000</a></li>
-                    <li><a href="index.php?manufacturers_id=1">Rs.8000 - 9000</a></li>
-                    <li><a href="index.php?manufacturers_id=8">Above 9000</a></li>
-                </ul>
-            </div>
-        </div>*@
+        @*<div class="infoBox infoBoxBrands">
+                <div class="infoBoxHeading">Price Range</div>
+                <div class="infoBoxContents">
+                    <ul>
+                        <li><a href="index.php?manufacturers_id=3">Rs. 0 - 1000</a></li>
+                        <li><a href="index.php?manufacturers_id=4">Rs.1000 - 2000</a></li>
+                        <li><a href="index.php?manufacturers_id=10">Rs.2000 - 3000</a></li>
+                        <li><a href="index.php?manufacturers_id=7">Rs.4000 - 5000</a></li>
+                        <li><a href="index.php?manufacturers_id=6">Rs.6000 - 7000</a></li>
+                        <li><a href="index.php?manufacturers_id=1">Rs.8000 - 9000</a></li>
+                        <li><a href="index.php?manufacturers_id=3">Rs. 0 - 1000</a></li>
+                        <li><a href="index.php?manufacturers_id=4">Rs.1000 - 2000</a></li>
+                        <li><a href="index.php?manufacturers_id=10">Rs.2000 - 3000</a></li>
+                        <li><a href="index.php?manufacturers_id=7">Rs.4000 - 5000</a></li>
+                        <li><a href="index.php?manufacturers_id=6">Rs.6000 - 7000</a></li>
+                        <li><a href="index.php?manufacturers_id=1">Rs.8000 - 9000</a></li>
+                        <li><a href="index.php?manufacturers_id=8">Above 9000</a></li>
+                    </ul>
+                </div>
+            </div>*@
         <div class="infoBox infoBoxBrands">
             <div class="infoBoxHeading">Points</div>
             <div class="infoBoxContents">
@@ -69,19 +76,19 @@
                     <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=100&FilterToPoint=150">Point 100 - 150</a></li>
                     <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=150&FilterToPoint=200">Point 150- 200</a></li>
                     <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=200&FilterToPoint=250">Point 200 - 250</a></li>
-                    <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=250&FilterToPoint=300">Point 250 - 300</a></li>                    
-                    <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=300&FilterToPoint=350">Point 300 - 350</a></li>                    
-                    <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=350&FilterToPoint=400">Point 350 - 400</a></li>                    
-                    <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=400&FilterToPoint=450">Point 400 - 450</a></li>                    
-                    <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=450&FilterToPoint=500">Point 450 - 500</a></li>                    
-                    <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=500&FilterToPoint=1000">Point 500 - Above</a></li>                    
-                                    
+                    <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=250&FilterToPoint=300">Point 250 - 300</a></li>
+                    <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=300&FilterToPoint=350">Point 300 - 350</a></li>
+                    <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=350&FilterToPoint=400">Point 350 - 400</a></li>
+                    <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=400&FilterToPoint=450">Point 400 - 450</a></li>
+                    <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=450&FilterToPoint=500">Point 450 - 500</a></li>
+                    <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=500&FilterToPoint=1000">Point 500 - Above</a></li>
+
                 </ul>
             </div>
         </div>
-     }
-@if (Model != null && Model.latestProduct!= null)
-{
+    }
+    @if (Model != null && Model.latestProduct != null)
+    {
         <div class="infoBox infoBoxWhatsNew">
             <div class="infoBoxHeading">
                 <p class="icon_box_new">&nbsp;</p>
@@ -91,13 +98,13 @@
                 <div class="img_border">
                     <div class="product-image-wrapper">
                         @*<span class="product_sticker sticker_onsale_top_left sticker_display">
-                            Save up <br>
-                            to 30%
-                        </span>*@<a class="product_img" href="~/Home/GetProductDetail?prodId=@Model.latestProduct.id">
-    <div><img src="@imageUrl/@Model.latestProduct.large_image" alt="@Model.latestProduct.title" title="@Model.latestProduct.title" width="329" height="417" class="scale-with-grid" /></div>
-    <div class="roll_over_img"><img src="@imageUrl/@Model.latestProduct.large_image" alt="" width="329" height="417" class="scale-with-grid" /></div>
-    <div class="product-image-wrapper-hover"></div>
-</a>
+                                Save up <br>
+                                to 30%
+                            </span>*@<a class="product_img" href="~/Home/GetProductDetail?prodId=@Model.latestProduct.id">
+                            <div><img src="@imageUrl/@Model.latestProduct.large_image" alt="@Model.latestProduct.title" title="@Model.latestProduct.title" width="329" height="417" class="scale-with-grid" /></div>
+                            <div class="roll_over_img"><img src="@imageUrl/@Model.latestProduct.large_image" alt="" width="329" height="417" class="scale-with-grid" /></div>
+                            <div class="product-image-wrapper-hover"></div>
+                        </a>
                     </div>
                 </div>
                 <div class="wrapper-hover">
@@ -105,26 +112,42 @@
                     <div class="clearfix">
                         <div class="icon_cart_title product-price">
                             <span class="new_price">
-                               @if (Convert.ToDouble(string.IsNullOrEmpty(Model.latestProduct.market_price) ? "0" : Model.latestProduct.market_price) > Convert.ToDouble(string.IsNullOrEmpty(Model.latestProduct.offer_price) ? "0" : Model.latestProduct.offer_price))
-                               {
-                                <s>Rs.@Model.latestProduct.market_price</s><br>
-                                <span class="new-special-price">Rs.@Model.latestProduct.offer_price</span>
-                               }
-                               else
-                               {
-                                <span>Rs.@Model.latestProduct.market_price</span><br>
-                                <span class="new-special-price"></span>
-                               }
+                                @if (Convert.ToDouble(string.IsNullOrEmpty(Model.latestProduct.market_price) ? "0" : Model.latestProduct.market_price) > Convert.ToDouble(string.IsNullOrEmpty(Model.latestProduct.offer_price) ? "0" : Model.latestProduct.offer_price))
+                                {
+                                    <s>Rs.@Model.latestProduct.market_price</s><br>
+                                    <span class="new-special-price">Rs.@Model.latestProduct.offer_price</span>
+                                }
+                                else
+                                {
+                                    <span>Rs.@Model.latestProduct.market_price</span><br>
+                                    <span class="new-special-price"></span>
+                                }
                             </span><br>
                             <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
                                 <br>
-                                @Resources.EUPoints : @{var t = Model.latestProduct.point_adjusted != null ? Model.latestProduct.point_adjusted : 0;}@t
+                                @if (CompanyId == URSHOPECOMPANYID)
+                                {
+                                    <span>@Resources.ProfitPoint : </span>
+                                }
+                                else
+                                {
+                                    <span>@Resources.EUPoints : </span>
+                                }
+
+                                @{var t = Model.latestProduct.point_adjusted != null ? Model.latestProduct.point_adjusted : 0;}@t
                             </span>
                         </div>
-                        <div class="icon_cart_rollover" onclick="AddProductInCart(@Model.latestProduct.id, 1)"><a></a></div>
+                        <div class="icon_cart_rollover" onclick="AddProductInCart(@Model.latestProduct.id, 1)">
+                            <a style="@inLineStyle">
+                                @if (CompanyId == URSHOPECOMPANYID)
+                                {
+                                    <img src="~/unishop_theme/unishop_images/icon-cart2.png" height="30" width="30" />
+                                }
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-}
-    </div>
+                                    }
+</div>

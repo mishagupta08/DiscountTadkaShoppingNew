@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using DTShopping.Repository;
+using DTShopping.Properties;
 using System;
 using System.Collections.Generic;
 using DTShopping.Models;
@@ -17,10 +18,12 @@ namespace DTShopping.Controllers
         APIRepository objRepository = new APIRepository();
         Dashboard model = new Dashboard();
         private const int SUNVISCOMPANYID = 29;
+        string Theme = System.Configuration.ConfigurationManager.AppSettings["Theme"] == null ? string.Empty : System.Configuration.ConfigurationManager.AppSettings["Theme"].ToString();
         public async Task<ActionResult> Index()
         {
             Dashboard objDashboardDetails = new Dashboard();
             string companyId = System.Configuration.ConfigurationManager.AppSettings["CompanyId"];
+
             try
             {
                 var dt = new List<company>();
@@ -52,7 +55,15 @@ namespace DTShopping.Controllers
             {
 
             }
-            return View(objDashboardDetails);
+
+            if (Theme == Resources.Orange)
+            {
+                return View("IndexOrange", objDashboardDetails);
+            }
+            else
+            {
+                return View("Index", objDashboardDetails);
+            }
         }
 
         public ActionResult TermsAndConditions()
@@ -254,7 +265,14 @@ namespace DTShopping.Controllers
 
             }
 
-            return PartialView("Category", list);
+            if (Theme == Resources.Orange)
+            {
+                return PartialView("CategoryOrange", list);
+            }
+            else
+            {
+                return PartialView("Category", list);
+            }
         }
 
         public ActionResult getCatHeirarchy(string Cat, string subCat, string brandId)

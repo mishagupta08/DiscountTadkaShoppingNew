@@ -1,0 +1,57 @@
+﻿@using DTShopping.Models
+@{
+    Layout = null;
+    var item = 1;
+    //List<Category> objMenuList = new List<Category>();
+    var objMenuList = Session["MenuList"] != null ? Session["MenuList"] as List<Category> : new List<Category>();
+    var headerStyle = string.Empty;
+    int CompanyId = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
+
+}
+<div class="menu__content">
+    <ul class="menu--dropdown">
+        @*******@
+        @foreach (var category in objMenuList)
+        {
+            var children = category.Childern;
+
+            var t = category.Childern != null && category.Childern.Count > 0;
+            <li class="current-menu-item menu-item-has-children has-mega-menu">
+                <a href="~/Home/ProductList?cat=@category.id&root=@category.id">
+                    <i class="icon-laundry"></i>@category.title
+                </a>
+                @if (t)
+                {
+                    <div class="mega-menu">
+                        <div class="mega-menu__column">
+                            @foreach (var subcategory in category.Childern)
+                            {
+                                var tt = subcategory.Childern != null && subcategory.Childern.Count > 0;
+
+                                <ul class="mega-menu__list">
+                                    <li class="current-menu-item">
+                                        <a href="~/Home/ProductList?cat=@subcategory.id&root=@category.id">@subcategory.title</a>
+                                        @if (tt)
+                                        {
+                                            <ul class="mega-menu__list">
+                                                @foreach (var subsubcategory in subcategory.Childern)
+                                                {
+                                                    <li class="current-menu-item">
+                                                        <a href="~/Home/ProductList?cat=@subcategory.id&root=@category.id">@subcategory.title</a>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        }
+                                    </li>
+                                </ul>
+                            }
+                        </div>
+                    </div>
+                }
+                }
+            </li>
+
+        }
+    </ul>
+    @*******@
+</div>
