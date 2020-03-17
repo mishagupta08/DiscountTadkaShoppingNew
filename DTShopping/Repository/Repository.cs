@@ -110,7 +110,7 @@ namespace DTShopping.Repository
         {
             var companyData = JsonConvert.SerializeObject(companies);
             var result = await CallPostFunction(companyData, ManageCompaniesAction + "ById");
-            if (result == null)
+            if (result == null || result.Status == false )
             {
                 return null;
             }
@@ -260,6 +260,22 @@ namespace DTShopping.Repository
             else
             {
                 return result;
+            }
+        }
+
+        public async Task<ProductDetailOrangeThemeContainer> GetProductDetailByIdForOrangeTheme(List<Product> products)
+        {
+            products.FirstOrDefault().companyId = CompanyId;
+            var productData = JsonConvert.SerializeObject(products);
+            var result = await CallPostFunction(productData, ManageProductsAction + "ByIdForOrangeTheme");
+            if (result == null || !result.Status)
+            {
+                return null;
+            }
+            else
+            {
+                var prod = JsonConvert.DeserializeObject<ProductDetailOrangeThemeContainer>(result.ResponseValue);
+                return prod;
             }
         }
 

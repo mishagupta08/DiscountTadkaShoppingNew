@@ -1,0 +1,116 @@
+﻿@using DTShopping.Properties
+@model DTShopping.Models.Dashboard
+@{
+    ViewBag.Title = "Login Page";
+    Layout = "~/Views/Shared/_LayoutOrange.cshtml";
+}
+
+<!DOCTYPE html>
+<style>
+    .ps-form--account {
+        max-width: 700px;
+    }
+
+    #sign-in .form-control {
+        margin-left: 10%;
+        width: 75%;
+    }
+
+    #register .form-control {
+        display: inline-block;
+        width: 49%;
+    }
+</style>
+<html lang="en">
+
+<body>
+    <div class="ps-page--my-account">
+        <div class="ps-breadcrumb">
+            <div class="container">
+                <ul class="breadcrumb">
+                    <li><a href="/Home/Index">Home</a></li>
+                    <li>My account</li>
+                </ul>
+            </div>
+        </div>
+        <div class="ps-my-account">
+            <div class="container">
+                <div class="ps-form--account ps-tab-root">
+                    <ul class="ps-tab-list">
+                        <li class="active"><a href="#sign-in">Login</a></li>
+                        <li><a href="#register">Register</a></li>
+                    </ul>
+                    <div class="ps-tabs">
+                        <div class="ps-tab active" id="sign-in">
+                            <form id="addForm" onsubmit="return Login_Account();">
+                                <div class="ps-form__content">
+                                    <h5>Log In Your Account</h5>
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.User.username, new { @name = "username", @id = "username", @required = "required", @placeholder = "Username or email address", @class = "form-control" })
+                                    </div>
+                                    <div class="form-group form-forgot">
+                                        @Html.TextBoxFor(m => m.User.passwordDetail, new { name = "passwordDetail", id = "passwordDetail", @type = "password", @required = "required", @class = "form-control", @placeholder = "Password" })
+                                    </div>
+                                    <label id="loginError2" style="color:red;"></label>
+                                    <div class="form-group submit">
+                                        <button class="ps-btn ps-btn--fullwidth" data-page="login" type="submit">Login</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="ps-tab" id="register">
+                            <form id="addForm" onsubmit="return SaveDetailForm();">
+                                <div class="ps-form__content">
+                                    <h5>Register An Account</h5>
+
+                                    <div class="form-group">
+                                        @*<input class="form-control" type="text" placeholder="Username">*@
+                                        @Html.TextBoxFor(m => m.User.first_name, new { @type = "text", @id = "firstname", @required = "required", @placeholder = "First Name", @class = "form-control" })
+
+                                        @Html.TextBoxFor(m => m.User.last_name, new { @type = "text", @id = "lastname", @required = "required", @placeholder = "Last Name", @class = "form-control" })
+                                    </div>
+                                    <div> <hr> </div><br>
+
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.User.username, new { @type = "text", @id = "username", @required = "required", @placeholder = "Username", @class = "form-control" })
+
+                                        @Html.TextBoxFor(m => m.User.password_str, new { @type = "password", @id = "password", @required = "required", @placeholder = "Password", @class = "form-control" })
+
+
+                                    </div>
+
+                                    <div class="form-group">
+
+                                        @Html.TextBoxFor(m => m.User.phone, new { @type = "number", @id = "mobile", @required = "required", @placeholder = "Mobile No.", @class = "form-control" })
+
+                                        @Html.TextBoxFor(m => m.User.email, new { @type = "email", @id = "email", @required = "required", @placeholder = "Email", @class = "form-control" })
+
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.DropDownListFor(m => m.User.StateId, new SelectList(Model.States, "Id", "Name"), new { @required = "0", id = "stateList", @class = "form-control" })
+
+                                        @Html.DropDownListFor(m => m.User.CityId, new SelectList(Model.Cities, "cityID", "cityName"), new { @required = "0", id = "cityList", @class = "form-control" })
+                                    </div>
+                                    <div class="form-group submtit">
+                                        <button class="ps-btn ps-btn--fullwidth">SignUp</button>
+                                    </div>
+                                </div>
+                            </form>
+                            @*<div class="ps-form__footer">
+                                    <p>Connect with:</p>
+                                    <ul class="ps-list--social">
+                                        <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                                        <li><a class="google" href="#"><i class="fa fa-google-plus"></i></a></li>
+                                        <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                                        <li><a class="instagram" href="#"><i class="fa fa-instagram"></i></a></li>
+                                    </ul>
+                                </div>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script src="~/Scripts/dashboard.js"></script>

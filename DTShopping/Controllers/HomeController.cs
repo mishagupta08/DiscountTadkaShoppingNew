@@ -19,27 +19,33 @@ namespace DTShopping.Controllers
         Dashboard model = new Dashboard();
         private const int SUNVISCOMPANYID = 29;
         string Theme = System.Configuration.ConfigurationManager.AppSettings["Theme"] == null ? string.Empty : System.Configuration.ConfigurationManager.AppSettings["Theme"].ToString();
+        string companyId = System.Configuration.ConfigurationManager.AppSettings["CompanyId"];
+
         public async Task<ActionResult> Index()
         {
             Dashboard objDashboardDetails = new Dashboard();
-            string companyId = System.Configuration.ConfigurationManager.AppSettings["CompanyId"];
 
             try
             {
-                var dt = new List<company>();
-                dt.Add(new company
+                var res = await this.SetCompanyDetailInSession();
+                if (res != null)
                 {
-                    id = Convert.ToInt32(companyId)
-                });
-
-                var companyDetail = await objRepository.GetCompanyById(dt);
-                if (companyDetail == null || companyDetail.default_flag == 0)
-                {
-                    return View("Error");
+                    return res;
                 }
-                else
+                //var dt = new List<company>();
+                //dt.Add(new company
+                //{
+                //    id = Convert.ToInt32(companyId)
+                //});
+
+                //var companyDetail = await objRepository.GetCompanyById(dt);
+                //if (companyDetail == null || companyDetail.default_flag == 0)
+                //{
+                //    return View("Error");
+                //}
+                //else
                 {
-                    Session["Company"] = companyDetail;
+                    //Session["Company"] = companyDetail;
                     objDashboardDetails.Banners = new List<Banners>();
                     objDashboardDetails.Banners = await objRepository.GetBannerImageList(companyId);
 
@@ -66,69 +72,36 @@ namespace DTShopping.Controllers
             }
         }
 
-        public ActionResult TermsAndConditions()
+        public async Task<ActionResult> TermsAndConditions()
         {
-            try
+            var res = await this.SetCompanyDetailInSession();
+            if (res != null)
             {
-
+                return res;
             }
-            catch (Exception ex)
-            {
 
-            }
             return View();
         }
 
-        public ActionResult PrivacyPolicy()
+        public async Task<ActionResult> PrivacyPolicy()
         {
-            try
+            var res = await this.SetCompanyDetailInSession();
+            if (res != null)
             {
-
+                return res;
             }
-            catch (Exception ex)
-            {
 
-            }
             return View();
         }
 
-        public async Task<ActionResult> GetProductDetail(int prodId)
-        {
-            var dashboard = new Dashboard();
-            this.objRepository = new APIRepository();
-            try
-            {
-                var prodList = new List<Product>();
-
-                prodList.Add(new Product { id = prodId });
-                dashboard.ProductDetail = await objRepository.GetProductDetailById(prodList);
-                if (dashboard.ProductDetail != null)
-                {
-                    if (!string.IsNullOrEmpty(dashboard.ProductDetail.description_detail))
-                    {
-                        dashboard.ProductDetail.description_detail = dashboard.ProductDetail.description_detail.Replace("\r\n\r\n", "");
-                    }
-                    if (!string.IsNullOrEmpty(dashboard.ProductDetail.product_size))
-                    {
-                        dashboard.ProductDetail.sizeList = dashboard.ProductDetail.product_size.Split(',').ToList();
-                    }
-                    if (!string.IsNullOrEmpty(dashboard.ProductDetail.Color))
-                    {
-                        dashboard.ProductDetail.colorList = dashboard.ProductDetail.Color.Split(',').ToList();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-
-            }
-
-            return View("productDetailPage", dashboard);
-        }
-
-        public ActionResult About()
+        public async Task<ActionResult> About()
         {
             ViewBag.Message = "Your application description page.";
+            var res = await this.SetCompanyDetailInSession();
+            if (res != null)
+            {
+                return res;
+            }
             return View();
         }
 
@@ -151,8 +124,72 @@ namespace DTShopping.Controllers
             return View(this.model);
         }
 
-        public async Task<ActionResult> ProductList(string cat, string BrandId, string root, int? page, string SortBy, string Order, string FilterFromPoint, string FilterToPoint, string searchString)
+        public async Task<ActionResult> GetProductDetail(int prodId)
         {
+            if (CheckLoginUserStatus())
+            {
+                var dashboard = new Dashboard();
+                this.objRepository = new APIRepository();
+                try
+                {
+                    var prodList = new List<Product>();
+
+                    prodList.Add(new Product { id = prodId });
+                    if (Theme == Resources.Orange)
+                    {
+                        var container = await objRepository.GetProductDetailByIdForOrangeTheme(prodList);
+                        if (container != null)
+                        {
+                            dashboard.ProductDetail = container.ProductDetail;
+                            dashboard.RelatedProductList = container.RelatedProductList;
+                            dashboard.SameBrandProductList = container.SameBrandProductList;
+                        }
+                    }
+                    else
+                    {
+                        dashboard.ProductDetail = await objRepository.GetProductDetailById(prodList);
+                    }
+
+                    if (dashboard.ProductDetail != null)
+                    {
+                        if (!string.IsNullOrEmpty(dashboard.ProductDetail.description_detail))
+                        {
+                            dashboard.ProductDetail.description_detail = dashboard.ProductDetail.description_detail.Replace("\r\n\r\n", "");
+                        }
+                        if (!string.IsNullOrEmpty(dashboard.ProductDetail.product_size))
+                        {
+                            dashboard.ProductDetail.sizeList = dashboard.ProductDetail.product_size.Split(',').ToList();
+                        }
+                        if (!string.IsNullOrEmpty(dashboard.ProductDetail.Color))
+                        {
+                            dashboard.ProductDetail.colorList = dashboard.ProductDetail.Color.Split(',').ToList();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                if (Theme == Resources.Orange)
+                {
+                    return View("productDetailPageOrange", dashboard);
+                }
+                else
+                {
+                    return View("productDetailPage", dashboard);
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+        }
+
+        public async Task<ActionResult> ProductList(string cat, string BrandId, string root, int? page, string SortBy, string Order, string FilterFromPoint, string FilterToPoint, string searchString, string pointsFilterList)
+        {
+            this.model = new Dashboard();
             Filters c = new Filters();
             if (!string.IsNullOrEmpty(cat))
             {
@@ -199,6 +236,16 @@ namespace DTShopping.Controllers
                 c.FilterToPoint = Convert.ToInt32(FilterToPoint);
             }
 
+            if(!string.IsNullOrEmpty(pointsFilterList))
+            {
+                var pintList = pointsFilterList.Split(',').ToList().ConvertAll(int.Parse);
+                if (pintList.Count() >= 2)
+                {
+                    c.FilterFromPoint = Convert.ToInt32(pintList[0]);
+                    c.FilterToPoint = Convert.ToInt32(pintList[pintList.Count()-1]);
+                }
+            }
+
             var result = await objRepository.GetCategoryProducts(c);
             List<Product> listProducts = new List<Product>();
             double totalcount = 0;
@@ -236,7 +283,34 @@ namespace DTShopping.Controllers
             ViewBag.Page = page;
             ViewBag.ParentId = root;
             ViewBag.brand = BrandId;
-            return View(finalprodlist);
+            this.model.finalProductList = finalprodlist;
+            await SetCompanyDetailInSession();
+            if (Theme == Resources.Orange)
+            {
+                //this.model.FontpageSections = new ShoppingPortalFrontPageProdList();
+                //this.model.FontpageSections = await objRepository.GetShoppingPortalFrontPageProdList(companyId);
+
+                //if (finalprodlist != null && finalprodlist.ProductList != null && finalprodlist.ProductList.Count > 0)
+                //{
+                //    var pId = finalprodlist.ProductList.FirstOrDefault().id;
+                //    var prodList = new List<Product>();
+                //    prodList.Add(new Product { id = pId });
+
+
+                //    var container = await objRepository.GetProductDetailByIdForOrangeTheme(prodList);
+                //    if (container != null)
+                //    {
+                //        this.model.RelatedProductList = container.RelatedProductList;
+                //    }
+
+                //}
+
+                return View("ProductListOrange", this.model);
+            }
+            else
+            {
+                return View(this.model);
+            }
         }
 
         [HttpGet]
@@ -300,7 +374,14 @@ namespace DTShopping.Controllers
                 objsidebar.latestProduct = product.FirstOrDefault();
             }
 
-            return PartialView("_filterSideBar", objsidebar);
+            if (Theme == Resources.Orange)
+            {
+                return PartialView("_filterSideBarOrange", objsidebar);
+            }
+            else
+            {
+                return PartialView("_filterSideBar", objsidebar);
+            }
         }
 
         public List<Category> getNestedChildren(List<Category> ParentList, List<Category> MenuList)
@@ -330,6 +411,7 @@ namespace DTShopping.Controllers
 
         public async Task<ActionResult> SearchProductList(int? page, string SortBy, string Order, string searchString)
         {
+            this.model = new Dashboard();
             Filters c = new Filters();
 
             c.pageNo = page;
@@ -384,8 +466,33 @@ namespace DTShopping.Controllers
             }
             finalprodlist.pagerCount = list.ToPagedList(Convert.ToInt32(page), 10);
             ViewBag.Page = page;
+            this.model.finalProductList = finalprodlist;
+            if (Theme == Resources.Orange)
+            {
+                this.model.FontpageSections = new ShoppingPortalFrontPageProdList();
+                this.model.FontpageSections = await objRepository.GetShoppingPortalFrontPageProdList(companyId);
 
-            return View(finalprodlist);
+                if (finalprodlist != null && finalprodlist.ProductList != null && finalprodlist.ProductList.Count > 0)
+                {
+                    var pId = finalprodlist.ProductList.FirstOrDefault().id;
+                    var prodList = new List<Product>();
+                    prodList.Add(new Product { id = pId });
+
+
+                    var container = await objRepository.GetProductDetailByIdForOrangeTheme(prodList);
+                    if (container != null)
+                    {
+                        this.model.RelatedProductList = container.RelatedProductList;
+                    }
+
+                }
+
+                return View("SearchProductListOrange", this.model);
+            }
+            else
+            {
+                return View(this.model);
+            }
         }
 
         public async Task<ActionResult> GetAllDealProducts(string Deal, int? page, string SortBy, string Order, int? catId)
@@ -496,6 +603,7 @@ namespace DTShopping.Controllers
                     objFilter.VendorId = userID;
                     objFilter.pageNo = page;
                     objFilter.pageName = "VendorOrderProductList";
+                    objFilter.SelectedFilterName = "userOrderList";
                     var result = await objRepository.GetUserOrderList(objFilter);
                     double totalcount = 0;
                     if (result.Status == true && result.ResponseValue != null)
@@ -513,6 +621,18 @@ namespace DTShopping.Controllers
 
                 }
                 return View(UserOrderList);
+            }
+        }
+
+        private bool CheckLoginUserStatus()
+        {
+            if (Session["UserDetail"] == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
 
@@ -556,7 +676,16 @@ namespace DTShopping.Controllers
 
             }
 
-            return View(this.model);
+            if (Theme == Resources.Orange)
+            {
+                var manage = new ManageController();
+                await manage.SetShoppingCartProductInModel(this.model);
+                return View("CheckoutOrange", this.model);
+            }
+            else
+            {
+                return View(this.model);
+            }
         }
 
         [HttpGet]
@@ -724,5 +853,37 @@ namespace DTShopping.Controllers
             return Json(cityList);
         }
 
+        public async Task<ActionResult> SetCompanyDetailInSession()
+        {
+            if (Session["Company"] == null)
+            {
+                string companyId = System.Configuration.ConfigurationManager.AppSettings["CompanyId"];
+
+                try
+                {
+                    var dt = new List<company>();
+                    dt.Add(new company
+                    {
+                        id = Convert.ToInt32(companyId)
+                    });
+
+                    var companyDetail = await objRepository.GetCompanyById(dt);
+                    if (companyDetail == null || companyDetail.default_flag == 0)
+                    {
+                        return View("Error");
+                    }
+                    else
+                    {
+                        Session["Company"] = companyDetail;
+                    }
+                }
+                catch (Exception e)
+                {
+                    // return null;
+                }
+            }
+
+            return null;
+        }
     }
 }

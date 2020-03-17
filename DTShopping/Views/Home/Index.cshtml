@@ -36,20 +36,20 @@
                     @{ int i = 0;}
                     @if (Model.Banners != null && Model.Banners.Count > 0)
                     {
-                    foreach (var banner in Model.Banners)
-                    {
-                    string ids = "rslides1_s" + i;
-                    i = i = 1;
-                    <li id="@ids" style="display: block; float: none; position: absolute; opacity: 0; z-index: 1; transition: opacity 800ms ease-in-out 0s;" class="">
-                        <a href="#"><img alt="" src="@(imageUrl + "/" + banner.banner_image)"></a>
-                    </li>
-                    }
+                        foreach (var banner in Model.Banners)
+                        {
+                            string ids = "rslides1_s" + i;
+                            i = i = 1;
+                            <li id="@ids" style="display: block; float: none; position: absolute; opacity: 0; z-index: 1; transition: opacity 800ms ease-in-out 0s;" class="">
+                                <a href="#"><img alt="" src="@(imageUrl + "/" + banner.banner_image)"></a>
+                            </li>
+                        }
                     }
                     else
                     {
-                    <li id="rslides1_s0" style="display: block; float: none; position: absolute; opacity: 0; z-index: 1; transition: opacity 800ms ease-in-out 0s;" class=""><a href="#"><img alt="" src="~/images/slider-simple/slide-1.jpg"></a></li>
-                    <li id="rslides1_s1" style="float: none; position: absolute; opacity: 0; z-index: 1; display: list-item; transition: opacity 800ms ease-in-out 0s;" class=""><a href="#"><img alt="" src="~/images/slider-simple/slide-2.jpg"></a></li>
-                    <li id="rslides1_s2" style="float: left; position: relative; opacity: 1; z-index: 2; display: list-item; transition: opacity 800ms ease-in-out 0s;" class="rslides1_on"><a href="#"><img alt="" src="~/images/slider-simple/slide-3.jpg"></a></li>
+                        <li id="rslides1_s0" style="display: block; float: none; position: absolute; opacity: 0; z-index: 1; transition: opacity 800ms ease-in-out 0s;" class=""><a href="#"><img alt="" src="~/images/slider-simple/slide-1.jpg"></a></li>
+                        <li id="rslides1_s1" style="float: none; position: absolute; opacity: 0; z-index: 1; display: list-item; transition: opacity 800ms ease-in-out 0s;" class=""><a href="#"><img alt="" src="~/images/slider-simple/slide-2.jpg"></a></li>
+                        <li id="rslides1_s2" style="float: left; position: relative; opacity: 1; z-index: 2; display: list-item; transition: opacity 800ms ease-in-out 0s;" class="rslides1_on"><a href="#"><img alt="" src="~/images/slider-simple/slide-3.jpg"></a></li>
                     }
 
                 </ul>
@@ -59,13 +59,13 @@
 
             @if (Model.FontpageSections != null && Model.FontpageSections.SpeacialSegment != null && Model.FontpageSections.SpeacialSegment.Count > 0)
             {
-            <div class="container">
-                <div class="sixteen columns">
-                    <h1 id="bestsellers_title"><span class="icon_bestsellers">&nbsp;</span>Special Segment</h1>
+                <div class="container">
+                    <div class="sixteen columns">
+                        <h1 id="bestsellers_title"><span class="icon_bestsellers">&nbsp;</span>Special Segment</h1>
 
-                    <a href="/Home/GetAllDealProducts?Deal=SpecialSegment&page=1">(View All)</a>
+                        <a href="/Home/GetAllDealProducts?Deal=SpecialSegment&page=1">(View All)</a>
+                    </div>
                 </div>
-            </div>
             }
             <div class="carousel_bestsellers_outer">
                 <div class="container">
@@ -74,59 +74,59 @@
                             <ul>
                                 @if (Model.FontpageSections != null && Model.FontpageSections.SpeacialSegment != null && Model.FontpageSections.SpeacialSegment.Count > 0)
                                 {
-                                foreach (var segment in Model.FontpageSections.SpeacialSegment)
-                                {
-                                <li class="four columns product">
-                                    <div class="img_border">
-                                        <div class="product-image-wrapper">
-                                            <span class="product_sticker sticker_new_top_right sticker_display_none"></span> <a onclick="callDetailPage('@segment.id')" href="~/Home/GetProductDetail?prodId=@segment.id">
-                                                <div><img src="@imageUrl/@segment.large_image" alt="@segment.title" title="@segment.title" width="180" height="180" class="scale-with-grid" /></div>
-                                                <div class="roll_over_img"><img src="@imageUrl/@segment.large_image" alt="" width="329" height="417" class="scale-with-grid" /></div>
-                                                <div class="product-image-wrapper-hover"></div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="wrapper-hover">
-                                        <div class="product-name"> <a onclick="callDetailPage('@segment.id')" href="~/Home/GetProductDetail?prodId=@segment.id"> @segment.title </a> </div>
-                                        <div class="clearfix">
-                                            <div class="icon_cart_title product-price">
-                                                <span class="new_price">
-                                                    @if (Convert.ToDouble(string.IsNullOrEmpty(segment.market_price) ? "0" : segment.market_price) > Convert.ToDouble(string.IsNullOrEmpty(segment.offer_price) ? "0" : segment.offer_price))
-                                                    {
-                                                    <s>Rs.@segment.market_price</s><br>
-                                                    <span class="new-special-price">Rs.@segment.offer_price</span>
-                                                    }
-                                                    else
-                                                    {
-                                                    <span>Rs.@segment.market_price</span><br>
-                                                    <span class="new-special-price"></span>
-                                                    }
-                                                </span><br>
-                                                <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
+                                    foreach (var segment in Model.FontpageSections.SpeacialSegment)
+                                    {
+                                        <li class="four columns product">
+                                            <div class="img_border">
+                                                <div class="product-image-wrapper">
+                                                    <span class="product_sticker sticker_new_top_right sticker_display_none"></span> <a onclick="callDetailPage('@segment.id')" href="~/Home/GetProductDetail?prodId=@segment.id">
+                                                        <div><img src="@imageUrl/@segment.large_image" alt="@segment.title" title="@segment.title" width="180" height="180" class="scale-with-grid" /></div>
+                                                        <div class="roll_over_img"><img src="@imageUrl/@segment.large_image" alt="" width="329" height="417" class="scale-with-grid" /></div>
+                                                        <div class="product-image-wrapper-hover"></div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="wrapper-hover">
+                                                <div class="product-name"> <a onclick="callDetailPage('@segment.id')" href="~/Home/GetProductDetail?prodId=@segment.id"> @segment.title </a> </div>
+                                                <div class="clearfix">
+                                                    <div class="icon_cart_title product-price">
+                                                        <span class="new_price">
+                                                            @if (Convert.ToDouble(string.IsNullOrEmpty(segment.market_price) ? "0" : segment.market_price) > Convert.ToDouble(string.IsNullOrEmpty(segment.offer_price) ? "0" : segment.offer_price))
+                                                            {
+                                                                <s>Rs.@segment.market_price</s><br>
+                                                                <span class="new-special-price">Rs.@segment.offer_price</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>Rs.@segment.market_price</span><br>
+                                                                <span class="new-special-price"></span>
+                                                            }
+                                                        </span><br>
+                                                        <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
 
-                                                    @if (CompanyId == URSHOPECOMPANYID)
-                                                    {
-                                                    <span>@Resources.ProfitPoint : </span>
-                                                    }
-                                                    else
-                                                    {
-                                                    <span>@Resources.EUPoints : </span>
-                                                    }
-                                                    @Html.Raw(segment.point_adjusted)
-                                                </span>
+                                                            @if (CompanyId == URSHOPECOMPANYID)
+                                                            {
+                                                                <span>@Resources.ProfitPoint : </span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>@Resources.EUPoints : </span>
+                                                            }
+                                                            @Html.Raw(segment.point_adjusted)
+                                                        </span>
+                                                    </div>
+                                                    <div class="icon_cart_rollover">
+                                                        <a onclick="AddProductInCart(@segment.id, 1)" style="@inLineStyle">
+                                                            @if (CompanyId == URSHOPECOMPANYID)
+                                                            {
+                                                                <img src="~/unishop_theme/unishop_images/icon-cart2.png" height="30" width="30" />
+                                                            }
+                                                        </a>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="icon_cart_rollover">
-                                                <a onclick="AddProductInCart(@segment.id, 1)" style="@inLineStyle">
-                                                    @if (CompanyId == URSHOPECOMPANYID)
-                                                    {
-                                                    <img src="~/unishop_theme/unishop_images/icon-cart2.png" height="30" width="30" />
-                                                    }
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                }
+                                        </li>
+                                    }
                                 }
                             </ul>
                         </div>
@@ -136,13 +136,13 @@
             </div>
             @if (Model.FontpageSections != null && Model.FontpageSections.SpeacialSegment != null && Model.FontpageSections.DealOfDay.Count > 0)
             {
-            <div class="container">
-                <div class="sixteen columns">
-                    <h1 id="bestsellers_title"><span class="icon_bestsellers">&nbsp;</span>Deal Of Day</h1>
+                <div class="container">
+                    <div class="sixteen columns">
+                        <h1 id="bestsellers_title"><span class="icon_bestsellers">&nbsp;</span>Deal Of Day</h1>
 
-                    <a href="/Home/GetAllDealProducts?Deal=DealOfDay&page=1">(View All)</a>
+                        <a href="/Home/GetAllDealProducts?Deal=DealOfDay&page=1">(View All)</a>
+                    </div>
                 </div>
-            </div>
             }
             <div class="carousel_bestsellers_outer">
                 <div class="container">
@@ -151,58 +151,58 @@
                             <ul>
                                 @if (Model.FontpageSections != null && Model.FontpageSections.DealOfDay != null && Model.FontpageSections.DealOfDay.Count > 0)
                                 {
-                                foreach (var segment in Model.FontpageSections.DealOfDay)
-                                {
-                                <li class="four columns product">
-                                    <div class="img_border">
-                                        <div class="product-image-wrapper">
-                                            <span class="product_sticker sticker_new_top_right sticker_display_none"></span> <a onclick="callDetailPage('@segment.id')" href="~/Home/GetProductDetail?prodId=@segment.id">
-                                                <div><img src="@imageUrl/@segment.large_image" alt="@segment.title" title="@segment.title" width="180" height="180" class="scale-with-grid" /></div>
-                                                <div class="roll_over_img"><img src="@imageUrl/@segment.large_image" alt="" width="329" height="417" class="scale-with-grid" /></div>
-                                                <div class="product-image-wrapper-hover"></div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="wrapper-hover">
-                                        <div class="product-name"> <a onclick="callDetailPage('@segment.id')" href="~/Home/GetProductDetail?prodId=@segment.id">@segment.title</a> </div>
-                                        <div class="clearfix">
-                                            <div class="icon_cart_title product-price">
-                                                <span class="new_price">
-                                                    @if (Convert.ToDouble(string.IsNullOrEmpty(segment.market_price) ? "0" : segment.market_price) > Convert.ToDouble(string.IsNullOrEmpty(segment.offer_price) ? "0" : segment.offer_price))
-                                                    {
-                                                    <s>Rs.@segment.market_price</s><br>
-                                                    <span class="new-special-price">Rs.@segment.offer_price</span>
-                                                    }
-                                                    else
-                                                    {
-                                                    <span>Rs.@segment.market_price</span><br>
-                                                    <span class="new-special-price"></span>
-                                                    }
-                                                </span><br>
-                                                <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
-                                                    <br>
-                                                    @if (CompanyId == URSHOPECOMPANYID)
-                                                    {
-                                                    <span>@Resources.ProfitPoint : </span>
-                                                    }
-                                                    else
-                                                    {
-                                                    <span>@Resources.EUPoints : </span>
-                                                    } @Html.Raw(segment.point_adjusted)
-                                                </span>
+                                    foreach (var segment in Model.FontpageSections.DealOfDay)
+                                    {
+                                        <li class="four columns product">
+                                            <div class="img_border">
+                                                <div class="product-image-wrapper">
+                                                    <span class="product_sticker sticker_new_top_right sticker_display_none"></span> <a onclick="callDetailPage('@segment.id')" href="~/Home/GetProductDetail?prodId=@segment.id">
+                                                        <div><img src="@imageUrl/@segment.large_image" alt="@segment.title" title="@segment.title" width="180" height="180" class="scale-with-grid" /></div>
+                                                        <div class="roll_over_img"><img src="@imageUrl/@segment.large_image" alt="" width="329" height="417" class="scale-with-grid" /></div>
+                                                        <div class="product-image-wrapper-hover"></div>
+                                                    </a>
+                                                </div>
                                             </div>
-                                            <div class="icon_cart_rollover">
-                                                <a onclick="AddProductInCart(@segment.id, 1)" style="@inLineStyle">
-                                                    @if (CompanyId == URSHOPECOMPANYID)
-                                                    {
-                                                    <img src="~/unishop_theme/unishop_images/icon-cart2.png" height="30" width="30" />
-                                                    }
-                                                </a>
+                                            <div class="wrapper-hover">
+                                                <div class="product-name"> <a onclick="callDetailPage('@segment.id')" href="~/Home/GetProductDetail?prodId=@segment.id">@segment.title</a> </div>
+                                                <div class="clearfix">
+                                                    <div class="icon_cart_title product-price">
+                                                        <span class="new_price">
+                                                            @if (Convert.ToDouble(string.IsNullOrEmpty(segment.market_price) ? "0" : segment.market_price) > Convert.ToDouble(string.IsNullOrEmpty(segment.offer_price) ? "0" : segment.offer_price))
+                                                            {
+                                                                <s>Rs.@segment.market_price</s><br>
+                                                                <span class="new-special-price">Rs.@segment.offer_price</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>Rs.@segment.market_price</span><br>
+                                                                <span class="new-special-price"></span>
+                                                            }
+                                                        </span><br>
+                                                        <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
+                                                            <br>
+                                                            @if (CompanyId == URSHOPECOMPANYID)
+                                                            {
+                                                                <span>@Resources.ProfitPoint : </span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>@Resources.EUPoints : </span>
+                                                            } @Html.Raw(segment.point_adjusted)
+                                                        </span>
+                                                    </div>
+                                                    <div class="icon_cart_rollover">
+                                                        <a onclick="AddProductInCart(@segment.id, 1)" style="@inLineStyle">
+                                                            @if (CompanyId == URSHOPECOMPANYID)
+                                                            {
+                                                                <img src="~/unishop_theme/unishop_images/icon-cart2.png" height="30" width="30" />
+                                                            }
+                                                        </a>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                }
+                                        </li>
+                                    }
                                 }
                             </ul>
                         </div>
@@ -213,163 +213,163 @@
 
             @if (Model.FontpageSections != null && Model.FontpageSections.SevenDaySaver != null && Model.FontpageSections.SevenDaySaver.Count > 0)
             {
-            <div class="container">
-                <div class="sixteen columns">
-                    <h1 id="bestsellers_title"><span class="icon_bestsellers">&nbsp;</span>Seven Day Saver Deal</h1>
-
-                    <a href="/Home/GetAllDealProducts?Deal=Saver&page=1">(View All)</a>
-                </div>
-            </div>
-
-            <div class="carousel_bestsellers_outer">
                 <div class="container">
-                    <div id="carousel_sevensaver" class="es-carousel-wrapper">
-                        <div class="es-carousel-inner">
-                            <ul>
-                                @if (Model.FontpageSections != null && Model.FontpageSections.SevenDaySaver != null && Model.FontpageSections.SevenDaySaver.Count > 0)
-                                {
-                                foreach (var segment in Model.FontpageSections.SevenDaySaver)
-                                {
-                                <li class="four columns product">
-                                    <div class="img_border">
-                                        <div class="product-image-wrapper">
-                                            <span class="product_sticker sticker_new_top_right sticker_display_none"></span> <a onclick="callDetailPage('@segment.id')" href="~/Home/GetProductDetail?prodId=@segment.id">
-                                                <div><img src="@imageUrl/@segment.large_image" alt="@segment.title" title="@segment.title" width="180" height="180" class="scale-with-grid" /></div>
-                                                <div class="roll_over_img"><img src="@imageUrl/@segment.large_image" alt="" width="329" height="417" class="scale-with-grid" /></div>
-                                                <div class="product-image-wrapper-hover"></div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="wrapper-hover">
-                                        <div class="product-name"> <a onclick="callDetailPage('@segment.id')" href="~/Home/GetProductDetail?prodId=@segment.id">@segment.title</a> </div>
-                                        <div class="clearfix">
-                                            <div class="icon_cart_title product-price">
-                                                <span class="new_price">
-                                                    @if (Convert.ToDouble(string.IsNullOrEmpty(segment.market_price) ? "0" : segment.market_price) > Convert.ToDouble(string.IsNullOrEmpty(segment.offer_price) ? "0" : segment.offer_price))
-                                                    {
-                                                    <s>Rs.@segment.market_price</s><br>
-                                                    <span class="new-special-price">Rs.@segment.offer_price</span>
-                                                    }
-                                                    else
-                                                    {
-                                                    <span>Rs.@segment.market_price</span><br>
-                                                    <span class="new-special-price"></span>
-                                                    }
-                                                </span><br>
-                                                <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
-                                                    <br>
-                                                    @if (CompanyId == URSHOPECOMPANYID)
-                                                    {
-                                                    <span>@Resources.ProfitPoint : </span>
-                                                    }
-                                                    else
-                                                    {
-                                                    <span>@Resources.EUPoints : </span>
-                                                    } @Html.Raw(segment.point_adjusted)
-                                                </span>
-                                            </div>
-                                            <div class="icon_cart_rollover">
-                                                <a onclick="AddProductInCart(@segment.id, 1)" style="@inLineStyle">
-                                                    @if (CompanyId == URSHOPECOMPANYID)
-                                                    {
-                                                    <img src="~/unishop_theme/unishop_images/icon-cart2.png" height="30" width="30" />
-                                                    }
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                }
-                                }
-                            </ul>
-                        </div>
-                    </div>
+                    <div class="sixteen columns">
+                        <h1 id="bestsellers_title"><span class="icon_bestsellers">&nbsp;</span>Seven Day Saver Deal</h1>
 
+                        <a href="/Home/GetAllDealProducts?Deal=Saver&page=1">(View All)</a>
+                    </div>
                 </div>
-            </div>
+
+                <div class="carousel_bestsellers_outer">
+                    <div class="container">
+                        <div id="carousel_sevensaver" class="es-carousel-wrapper">
+                            <div class="es-carousel-inner">
+                                <ul>
+                                    @if (Model.FontpageSections != null && Model.FontpageSections.SevenDaySaver != null && Model.FontpageSections.SevenDaySaver.Count > 0)
+                                    {
+                                        foreach (var segment in Model.FontpageSections.SevenDaySaver)
+                                        {
+                                            <li class="four columns product">
+                                                <div class="img_border">
+                                                    <div class="product-image-wrapper">
+                                                        <span class="product_sticker sticker_new_top_right sticker_display_none"></span> <a onclick="callDetailPage('@segment.id')" href="~/Home/GetProductDetail?prodId=@segment.id">
+                                                            <div><img src="@imageUrl/@segment.large_image" alt="@segment.title" title="@segment.title" width="180" height="180" class="scale-with-grid" /></div>
+                                                            <div class="roll_over_img"><img src="@imageUrl/@segment.large_image" alt="" width="329" height="417" class="scale-with-grid" /></div>
+                                                            <div class="product-image-wrapper-hover"></div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="wrapper-hover">
+                                                    <div class="product-name"> <a onclick="callDetailPage('@segment.id')" href="~/Home/GetProductDetail?prodId=@segment.id">@segment.title</a> </div>
+                                                    <div class="clearfix">
+                                                        <div class="icon_cart_title product-price">
+                                                            <span class="new_price">
+                                                                @if (Convert.ToDouble(string.IsNullOrEmpty(segment.market_price) ? "0" : segment.market_price) > Convert.ToDouble(string.IsNullOrEmpty(segment.offer_price) ? "0" : segment.offer_price))
+                                                                {
+                                                                    <s>Rs.@segment.market_price</s><br>
+                                                                    <span class="new-special-price">Rs.@segment.offer_price</span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span>Rs.@segment.market_price</span><br>
+                                                                    <span class="new-special-price"></span>
+                                                                }
+                                                            </span><br>
+                                                            <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
+                                                                <br>
+                                                                @if (CompanyId == URSHOPECOMPANYID)
+                                                                {
+                                                                    <span>@Resources.ProfitPoint : </span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span>@Resources.EUPoints : </span>
+                                                                } @Html.Raw(segment.point_adjusted)
+                                                            </span>
+                                                        </div>
+                                                        <div class="icon_cart_rollover">
+                                                            <a onclick="AddProductInCart(@segment.id, 1)" style="@inLineStyle">
+                                                                @if (CompanyId == URSHOPECOMPANYID)
+                                                                {
+                                                                    <img src="~/unishop_theme/unishop_images/icon-cart2.png" height="30" width="30" />
+                                                                }
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             }
 
             @******start code for show display 1 category list*********@
             @if (Model.FontpageSections != null && Model.FontpageSections.CatProductsList != null && Model.FontpageSections.CatProductsList.Count > 0)
             {
-            foreach (var catProd in Model.FontpageSections.CatProductsList)
-            {
-            <div class="container">
-                <div class="sixteen columns">
-                    <h1 id="bestsellers_title"><span class="icon_bestsellers">&nbsp;</span>@catProd.CategoryName</h1>
+                foreach (var catProd in Model.FontpageSections.CatProductsList)
+                {
+                    <div class="container">
+                        <div class="sixteen columns">
+                            <h1 id="bestsellers_title"><span class="icon_bestsellers">&nbsp;</span>@catProd.CategoryName</h1>
 
-                    <a href="/Home/GetAllDealProducts?Deal=ByCategoryId&page=1&catId=@catProd.CategoryId">(View All)</a>
-                </div>
-            </div>
-
-            <div class="carousel_bestsellers_outer">
-                <div class="container">
-                    <div id="carousel_fashion" class="es-carousel-wrapper catCarousel">
-                        <div class="es-carousel-inner">
-                            <ul>
-                                @if (catProd.ProductList != null && catProd.ProductList.Count > 0)
-                                {
-                                foreach (var segment in catProd.ProductList)
-                                {
-                                <li class="four columns product">
-                                    <div class="img_border">
-                                        <div class="product-image-wrapper">
-                                            <span class="product_sticker sticker_new_top_right sticker_display_none"></span> <a onclick="callDetailPage('@segment.id')" href="~/Home/GetProductDetail?prodId=@segment.id">
-                                                <div><img src="@imageUrl/@segment.large_image" alt="@segment.title" title="@segment.title" width="180" height="180" class="scale-with-grid" /></div>
-                                                <div class="roll_over_img"><img src="@imageUrl/@segment.large_image" alt="" width="329" height="417" class="scale-with-grid" /></div>
-                                                <div class="product-image-wrapper-hover"></div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="wrapper-hover">
-                                        <div class="product-name"> <a onclick="callDetailPage('@segment.id')" href="~/Home/GetProductDetail?prodId=@segment.id">@segment.title</a> </div>
-                                        <div class="clearfix">
-                                            <div class="icon_cart_title product-price">
-                                                <span class="new_price">
-                                                    @if (Convert.ToDouble(string.IsNullOrEmpty(segment.market_price) ? "0" : segment.market_price) > Convert.ToDouble(string.IsNullOrEmpty(segment.offer_price) ? "0" : segment.offer_price))
-                                                    {
-                                                    <s>Rs.@segment.market_price</s><br>
-                                                    <span class="new-special-price">Rs.@segment.offer_price</span>
-                                                    }
-                                                    else
-                                                    {
-                                                    <span>Rs.@segment.market_price</span><br>
-                                                    <span class="new-special-price"></span>
-                                                    }
-                                                </span><br>
-                                                <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
-                                                    <br>
-                                                    @if (CompanyId == URSHOPECOMPANYID)
-                                                    {
-                                                    <span>@Resources.ProfitPoint : </span>
-                                                    }
-                                                    else
-                                                    {
-                                                    <span>@Resources.EUPoints : </span>
-                                                    }
-                                                    @Html.Raw(segment.point_adjusted)
-                                                </span>
-                                            </div>
-                                            <div class="icon_cart_rollover">
-                                                <a onclick="AddProductInCart(@segment.id, 1)" style="@inLineStyle">
-                                                    @if (CompanyId == URSHOPECOMPANYID)
-                                                    {
-                                                    <img src="~/unishop_theme/unishop_images/icon-cart2.png" height="30" width="30" />
-                                                    }
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                }
-                                }
-                            </ul>
+                            <a href="/Home/GetAllDealProducts?Deal=ByCategoryId&page=1&catId=@catProd.CategoryId">(View All)</a>
                         </div>
                     </div>
 
-                </div>
-            </div>
-            }
+                    <div class="carousel_bestsellers_outer">
+                        <div class="container">
+                            <div id="carousel_fashion" class="es-carousel-wrapper catCarousel">
+                                <div class="es-carousel-inner">
+                                    <ul>
+                                        @if (catProd.ProductList != null && catProd.ProductList.Count > 0)
+                                        {
+                                            foreach (var segment in catProd.ProductList)
+                                            {
+                                                <li class="four columns product">
+                                                    <div class="img_border">
+                                                        <div class="product-image-wrapper">
+                                                            <span class="product_sticker sticker_new_top_right sticker_display_none"></span> <a onclick="callDetailPage('@segment.id')" href="~/Home/GetProductDetail?prodId=@segment.id">
+                                                                <div><img src="@imageUrl/@segment.large_image" alt="@segment.title" title="@segment.title" width="180" height="180" class="scale-with-grid" /></div>
+                                                                <div class="roll_over_img"><img src="@imageUrl/@segment.large_image" alt="" width="329" height="417" class="scale-with-grid" /></div>
+                                                                <div class="product-image-wrapper-hover"></div>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="wrapper-hover">
+                                                        <div class="product-name"> <a onclick="callDetailPage('@segment.id')" href="~/Home/GetProductDetail?prodId=@segment.id">@segment.title</a> </div>
+                                                        <div class="clearfix">
+                                                            <div class="icon_cart_title product-price">
+                                                                <span class="new_price">
+                                                                    @if (Convert.ToDouble(string.IsNullOrEmpty(segment.market_price) ? "0" : segment.market_price) > Convert.ToDouble(string.IsNullOrEmpty(segment.offer_price) ? "0" : segment.offer_price))
+                                                                    {
+                                                                        <s>Rs.@segment.market_price</s><br>
+                                                                        <span class="new-special-price">Rs.@segment.offer_price</span>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <span>Rs.@segment.market_price</span><br>
+                                                                        <span class="new-special-price"></span>
+                                                                    }
+                                                                </span><br>
+                                                                <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
+                                                                    <br>
+                                                                    @if (CompanyId == URSHOPECOMPANYID)
+                                                                    {
+                                                                        <span>@Resources.ProfitPoint : </span>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <span>@Resources.EUPoints : </span>
+                                                                    }
+                                                                    @Html.Raw(segment.point_adjusted)
+                                                                </span>
+                                                            </div>
+                                                            <div class="icon_cart_rollover">
+                                                                <a onclick="AddProductInCart(@segment.id, 1)" style="@inLineStyle">
+                                                                    @if (CompanyId == URSHOPECOMPANYID)
+                                                                    {
+                                                                        <img src="~/unishop_theme/unishop_images/icon-cart2.png" height="30" width="30" />
+                                                                    }
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                }
             }
         </div>
     </div>
@@ -380,11 +380,6 @@
         $(".preloader").hide();
 
     });
-
-    function callDetailPage(productID) {
-        window.location.href = "/Home/GetProductDetail?prodId=" + productID;
-    }
-
 </script>
 
 

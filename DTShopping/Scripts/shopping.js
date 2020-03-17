@@ -18,6 +18,16 @@
         DeleteDetail(this);
     });
 
+    $('input[name=pointsCheckBox]').click(function () {
+        var points = "";
+        $("input:checkbox[name=chk]:checked").each(function () {
+            alert("Id: " + $(this).attr("id") + " Value: " + $(this).val());
+            points = $(this).val() + ",";
+        });
+
+        window.location = $("#PointsUrl").val() + points;
+    });
+
     $('input[name=termsCondition]').change(function () {
         $("button[name=saveButton]").attr("disabled", true);
         $("button[name=saveButton]").addClass("disabled");

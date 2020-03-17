@@ -25,6 +25,7 @@ namespace DTShopping.Controllers
         private const int SHOPCOMPANYID = 28;
         private const int GOHAPPYCARTCOMPANYID = 30;
         private const int URSHOPECOMPANYID = 33;
+        string Theme = System.Configuration.ConfigurationManager.AppSettings["Theme"] == null ? string.Empty : System.Configuration.ConfigurationManager.AppSettings["Theme"].ToString();
         int companyId = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
 
         private ApplicationSignInManager _signInManager;
@@ -35,6 +36,70 @@ namespace DTShopping.Controllers
 
         public ManageController()
         {
+        }
+
+        public async Task<ActionResult> GetShoppingCartProductList()
+        {
+            this.model = new Dashboard();
+            if (CheckLoginUserStatus())
+            {
+                try
+                {
+                    await SetShoppingCartProductInModel(this.model);
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+
+            return View("cartProdListOnHover", this.model);
+        }
+
+        public async Task SetShoppingCartProductInModel(Dashboard model)
+        {
+            var cart = new CartFilter();
+            var detail = (UserDetails)(Session["UserDetail"]);
+            cart.userId = detail.id;
+            cart.username = detail.username;
+            cart.password = detail.password_str;
+            cart.companyId = Convert.ToInt16(companyId);
+            var response = await objRepository.ManageCart(cart, CartProductListAction);
+            if (response != null && response.Status)
+            {
+                model.Products = JsonConvert.DeserializeObject<List<Product>>(response.ResponseValue);
+                if (model.Products != null)
+                {
+                    model.NetPayment = 0;
+                    var prodPrice = 0.0;
+                    model.ShippingCharge = 0;
+                    model.TotalProductPoints = 0;
+                    foreach (var prod in this.model.Products)
+                    {
+                        if (prod.offer_price == null || prod.offer_price == "0")
+                        {
+                            prodPrice = Convert.ToDouble(prod.market_price);
+                        }
+                        else
+                        {
+                            prodPrice = Convert.ToDouble(prod.offer_price);
+                        }
+
+                        prod.shippng_charge = (prod.vendor_qty ?? 1) * (prod.shippng_charge ?? 0);
+                        //prod.TotalPayment = prodPrice * (prod.vendor_qty ?? 1) + (prod.shippng_charge ?? 0);
+                        //this.model.TotalProductPoints += (prod.RBV ?? 0) * (prod.vendor_qty ?? 1);
+                        //this.model.NetPayment += prod.TotalPayment;
+                        model.ShippingCharge += (prod.shippng_charge ?? 0);
+                        model.TotalProductPoints += (prod.shippng_charge ?? 0);
+                        model.NetPayment += prod.amount;
+                    }
+                }
+            }
         }
 
         private bool CheckLoginUserStatus()
@@ -439,6 +504,7 @@ namespace DTShopping.Controllers
             Dashboard data = new Dashboard();
             data.OrderDetail = new order();
             data.OrderDetail.id = Session["OrderId"] != null ? Convert.ToInt32(Session["OrderId"]) : 0;
+
             if (data.OrderDetail.id != 0)
             {
                 var result = await this.objRepository.GetUserOrder(data.OrderDetail);
@@ -727,15 +793,29 @@ namespace DTShopping.Controllers
                 else if (model.User.phone.Length == 10)
                 {
                     model.User.otpPhone = model.User.phone;
-                    var sub = model.User.otpPhone.Substring(3,3);
+                    var sub = model.User.otpPhone.Substring(3, 3);
                     model.User.otpPhone = model.User.otpPhone.Replace(sub, "XXX");
                 }
 
-                return PartialView("cartPaymentDetailView", this.model);
+                if (Theme == Resources.Orange)
+                {
+                    return PartialView("cartPaymentDetailViewOrange", this.model);
+                }
+                else
+                {
+                    return PartialView("cartPaymentDetailView", this.model);
+                }
             }
             else
             {
-                return PartialView("cartDetailView", this.model);
+                if (Theme == Resources.Orange)
+                {
+                    return PartialView("cartDetailViewOrange", this.model);
+                }
+                else
+                {
+                    return PartialView("cartDetailView", this.model);
+                }
             }
         }
 

@@ -6,6 +6,14 @@
         GetCityByState();
     });
 
+    $("span[name=colorSpan]").click(function (e) {
+        $('#selectedColor').val = $(this).val;
+    });
+
+    $("span[name=sizeSpan]").click(function (e) {
+        $('#selectedSize').val($(this).val());
+    });
+
     $('#addToCart').click(function (e) {
         var prodId = $("#product_id").val();
         var quantity = $("#quantity").val();
@@ -21,6 +29,10 @@
         AddProductInCart(prodId, quantity, true, size, color);
     });
 });
+
+function LoginRegisterCalls() {
+    Login_Account();
+}
 
 function GetCityByState() {
     var id = $("#stateList").val();
@@ -57,6 +69,7 @@ function SaveDetailForm() {
     }).done(function (result) {
 
         $("#loginError").html(result);
+        $("#loginError1").html(result);
         $(".preloader").hide();
         $("#closeError").show();
 
@@ -114,7 +127,7 @@ function UpdateAccount() {
 
 function Login_Account() {
     $("#loginError").html("");
-    var loginDetail = $('#login_account').serialize();
+    var loginDetail = $('#addForm').serialize();
     $(".preloader").show();
     $.ajax({
         url: '/Account/Login',
@@ -127,6 +140,7 @@ function Login_Account() {
         }
         else {
             $("#loginError").html(result);
+            $("#loginError2").html(result);
         }
         $(".preloader").hide();
         $("#closeError").show();
@@ -138,4 +152,8 @@ function Login_Account() {
     });
 
     return false;
+}
+
+function callDetailPage(productID) {
+    window.location.href = "/Home/GetProductDetail?prodId=" + productID;
 }

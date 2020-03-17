@@ -1,10 +1,10 @@
-﻿<html>
-@using DTShopping.Models
+﻿@using DTShopping.Models
 @{
     UserDetails current_user = (Session["UserDetail"] != null) ? Session["UserDetail"] as UserDetails : null;
     company current_cmpny = (Session["Company"] != null) ? Session["Company"] as company : new company();
 
     string username = current_user != null ? current_user.username : "";
+    string name = current_user != null ? current_user.first_name + " " + current_user.last_name : "";
     double? points = current_user != null ? current_user.balance_point ?? 0.0 : 0.0;
     string imageUrl = System.Configuration.ConfigurationManager.AppSettings["ImageUrl"];
     string copyright = System.Configuration.ConfigurationManager.AppSettings["CopyrightText"];
@@ -12,7 +12,17 @@
     {
         imageUrl = imageUrl.Substring(0, imageUrl.LastIndexOf("/"));
     }
+
+    int CompanyId = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
+    int URSHOPECOMPANYID = 33;
+    var inLineStyle = string.Empty;
+    if (CompanyId == URSHOPECOMPANYID)
+    {
+        inLineStyle = "background-image:none; background-color:transparent;";
+    }
 }
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -35,1320 +45,175 @@
     <link rel="stylesheet" href="~/plugins/select2/dist/css/select2.min.css">
     <link rel="stylesheet" href="~/css/style.css">
     <link rel="stylesheet" href="~/css/market-place-3.css">
+    @******Scripts*****@
+    <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script src="~/plugins/jquery-1.12.4.min.js"></script>
+    <script src="~/plugins/popper.min.js"></script>
+    <script src="~/plugins/owl-carousel/owl.carousel.min.js"></script>
+    <script src="~/plugins/bootstrap4/js/bootstrap.min.js"></script>
+    <script src="~/plugins/imagesloaded.pkgd.min.js"></script>
+    <script src="~/plugins/masonry.pkgd.min.js"></script>
+    <script src="~/plugins/isotope.pkgd.min.js"></script>
+    <script src="~/plugins/jquery.matchHeight-min.js"></script>
+    <script src="~/plugins/slick/slick/slick.min.js"></script>
+    <script src="~/plugins/jquery-bar-rating/dist/jquery.barrating.min.js"></script>
+    <script src="~/plugins/slick-animation.min.js"></script>
+    <script src="~/plugins/lightGallery-master/dist/js/lightgallery-all.min.js"></script>
+    <script src="~/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/plugins/sticky-sidebar/dist/sticky-sidebar.min.js"></script>
+    <script src="~/plugins/jquery.slimscroll.min.js"></script>
+    <script src="~/plugins/select2/dist/js/select2.full.min.js"></script>
+    <script src="~/plugins/gmap3.min.js"></script>
+    <!-- custom scripts-->
+    <script src="~/js/main.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxflHHc5FlDVI-J71pO7hM1QJNW1dRp4U&amp;region=GB"></script>
+
+    <style>
+        .preloader {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.65) !important;
+            background: url(data:;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAABl0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuNUmK/OAAAAATSURBVBhXY2RgYNgHxGAAYuwDAA78AjwwRoQYAAAAAElFTkSuQmCC) repeat scroll transparent\9 !important; /* ie fallback png background image */
+            z-index: 9999;
+            color: white;
+        }
+
+            .preloader img {
+                position: absolute;
+                top: 47%;
+                left: 47%;
+            }
+    </style>
 </head>
 <body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <img src="~/images/wheel.gif" height="100" />
+    </div>
+    @****Complete header section****@
+    @****Header for laptop****@
     <header class="header header--market-place-3" data-sticky="true">
         <div class="header__top">
             <div class="container">
                 <div class="header__left">
-                    <div class="menu--product-categories" >
-                        <div class="menu__toggle"><i class="icon-menu"></i><span> Shop by Department</span></div>
-                        @***** will add menus here******@
-                        <div id="DivCategories">
-
-                        </div>
-                    </div>
-                    <a class="ps-logo" href="#">
-                        <div class="logobox" align="center"> <img src="@imageUrl/@current_cmpny.logo" class="logoimg" alt="@current_cmpny.company_name" title="@current_cmpny.company_name"> </div>
+                    <a class="ps-logo" href="~/Home/Index">
+                        <div class="logobox" align="center"> <img src="@imageUrl/@current_cmpny.logo" alt="@current_cmpny.company_name" title="@current_cmpny.company_name" class="logoimg" style="height:46px !important; width:177px !important;"></div>
                     </a>
                 </div>
-                <div class="header__center" id="top_search">
-                    <form name="et_quick_find" id="et_quick_find" onsubmit="return false">
+                <div class="header__center">
+                    <form class="ps-form--quick-search" name="et_quick_find" id="et_quick_find" onsubmit="return false">
+
                         <div class="form-group--icon">
-                            <i class="icon-chevron-down"></i>
-                            <select class="form-control">
-                                <option value="1">All</option>
-                                <option value="1">Bags</option>
-                                <option value="1">Shoes</option>
-                                <option value="1">Men</option>
-                                <option value="1">Women</option>
-                                <option value="1">Sunglasses</option>
-                            </select>
                         </div>
-                        <input class="form-control" type="text" placeholder="I'm shopping for...">
+                        <input class="form-control" type="text" placeholder="I'm shopping for..." id="search_input" style="width:75%;">
                         <button>Search</button>
                     </form>
                 </div>
                 <div class="header__right">
                     <div class="header__actions">
+                        @if (Session["UserDetail"] != null)
+                        {
+                            <div class="ps-cart--mini" style="margin-top:-50px;">
 
-                        <div class="ps-cart--mini">
-                            <a class="header__extra" href="#"><i class="icon-bag2"></i><span><i>0</i></span></a>
-                            <div class="ps-cart__content">
-                                <div class="ps-cart__items">
-                                    <div class="ps-product--cart-mobile">
-                                        <div class="ps-product__thumbnail"><a href="#"><img src="img/products/clothing/7.jpg" alt=""></a></div>
-                                        <div class="ps-product__content">
-                                            <a class="ps-product__remove" href="#"><i class="icon-cross"></i></a><a href="#">MVMTH Classical Leather Watch In Black</a>
-                                            <p><strong>Sold by:</strong> YOUNG SHOP</p>
-                                            <small>1 x Rs. 59.99</small>
-                                        </div>
-                                    </div>
+                                <a class="header__extra" href="/Manage/GetCartProductList?isWithPayment=false&&deliveryType=0"><i class="icon-bag2"></i><span><i id="cartCount">0</i></span></a>
 
-                                    <div class="ps-product--cart-mobile">
-                                        <div class="ps-product__thumbnail"><a href="#"><img src="img/products/clothing/5.jpg" alt=""></a></div>
-                                        <div class="ps-product__content">
-                                            <a class="ps-product__remove" href="#"><i class="icon-cross"></i></a><a href="#">Sleeve Linen Blend Caro Pane Shirt</a>
-                                            <p><strong>Sold by:</strong> YOUNG SHOP</p>
-                                            <small>1 x Rs. 59.99</small>
-                                        </div>
-                                    </div>
+                                <div class="ps-cart__content" id="cartProducts">
                                 </div>
-                                <div class="ps-cart__footer">
-                                    <h3>Total :<strong>Rs. 59.99</strong></h3>
-                                    <h3>Total Discount :<strong>Rs. 59.99</strong></h3>
-                                    <h3>Total BV :<strong>Rs. 59.99</strong></h3>
-                                    <figure><a class="ps-btn" href="#">View Cart</a><a class="ps-btn" href="#">Checkout</a></figure>
-                                </div>
+                            </div>
+                        }
+
+                        <div class="ps-block--user-header">
+                            <div class="ps-block__right">
+                                Call Us : <strong><br>  (91) @current_cmpny.company_landline_no </strong>
+                                <br />
+                                Email : <strong><br>  @current_cmpny.contact_email </strong>
                             </div>
                         </div>
 
 
                         <div class="ps-block--user-header">
-                            <div class="ps-block__right"> Call Us : <strong><br>  +91 124567890 </strong>  </div>
-                        </div>
-
-
-                        <div class="ps-block--user-header">
                             <div class="ps-block__left"><i class="icon-user"></i></div>
-                            <div class="ps-block__right"><a href="#">Login</a><a href="#">Register</a></div>
+                            @if (Session["UserDetail"] == null)
+                            {
+
+                                <div class="ps-block__right">
+                                    <a href="/Account/LoginOrangeFunction">Login</a>
+                                    <a href="/Account/LoginOrangeFunction">Register</a>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="ps-block__right">
+                                    <a href="/Account/LogOff">Logout</a>
+                                </div>
+                            }
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
         <nav class="navigation">
             <div class="container">
                 <div class="navigation__left">
                     <div class="menu--product-categories">
                         <div class="menu__toggle active"><i class="icon-menu"></i><span> Shop by Department</span></div>
-                        <div class="menu__content"></div>
+                        <div class="menu__content DivCategories">
+                        </div>
                     </div>
                 </div>
                 <div class="navigation__right">
                     <ul class="menu menu--recent-view"></ul>
                     <ul class="navigation__extra">
                         <li>
-                            <div class="ps-dropdown">
-                                <a href="#">Sell With Us! </a>
-                                <ul class="ps-dropdown-menu">
-                                    <li><a href="#">Become A Vendor </a></li>
-                                    <li><a href="#">Vendor Login </a></li>
-                                </ul>
-                            </div>
+                            @if (Session["UserDetail"] == null)
+                            {
+                                <a href="/Account/LoginOrangeFunction">My Account</a>
+                            }
+                            else
+                            {
+                                <div class="ps-dropdown">
+                                    <a href="#">My Account</a>
+
+                                    <ul class="ps-dropdown-menu">
+                                        <li><strong>@name</strong></li>
+
+                                        <li><a href="/Manage/GetCartProductList?isWithPayment=false&deliveryType=0"> My Cart</a></li>
+
+                                        <li><a href="/Home/DiscountCoupons">Discount Coupons</a></li>
+
+                                        <li><a href="/Home/Orders">orders</a></li>
+
+                                        <li><a href="/Manage/GetUserPointsListView">Points Ledger</a> </li>
+
+                                        <li><a href="/Home/UpdateAccount">Edit account</a></li>
+
+                                        <li><a href="/Account/LogOff">logout </a></li>
+
+                                    </ul>
+
+                                </div>
+                            }
+
                         </li>
-
-
-
-                        <li>
-                            <div class="ps-dropdown">
-                                <a href="#">My Account </a>
-                                <ul class="ps-dropdown-menu">
-                                    <li><a href="#"><strong>Rohit Sahu</strong> </a></li>
-                                    <li> <hr> </li>
-                                    <li><a href="#">User Profile</a></li>
-                                    <li><a href="#">Orders</a></li>
-                                    <li><a href="#">My Discount Coupons  </a></li>
-                                    <li><a href="#">Point Ledger</a></li>
-
-                                    <li><a href="#">DB Login</a></li>
-                                    <li><a href="#">Log Out </a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li><a href="#"> Balance Point : 15000</a></li>
+                        @if (Session["UserDetail"] != null)
+                        {
+                            <li><a href="#"> Balance Point : <span id="ShowBalancePoint"></span> </a></li>
+                        }
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <header class="header header--mobile" data-sticky="true">
+    @****Header for Mobile****@
 
-        <div class="navigation--mobile">
-            <div class="navigation__left"><div class="logobox" align="center"> <img src="img/logo3.png" class="logoimg" alt=""> </div></div>
-            <div class="navigation__right">
-                <div class="header__actions">
-                    <div class="ps-cart--mini">
-                        <a class="header__extra" href="#"><i class="icon-bag2"></i><span><i>0</i></span></a>
-                        <div class="ps-cart__content">
-                            <div class="ps-cart__items">
-                                <div class="ps-product--cart-mobile">
-                                    <div class="ps-product__thumbnail"><a href="#"><img src="img/products/clothing/7.jpg" alt=""></a></div>
-                                    <div class="ps-product__content">
-                                        <a class="ps-product__remove" href="#"><i class="icon-cross"></i></a><a href="#">MVMTH Classical Leather Watch In Black</a>
-                                        <p><strong>Sold by:</strong> YOUNG SHOP</p>
-                                        <small>1 x Rs. 59.99</small>
-                                    </div>
-                                </div>
-                                <div class="ps-product--cart-mobile">
-                                    <div class="ps-product__thumbnail"><a href="#"><img src="img/products/clothing/5.jpg" alt=""></a></div>
-                                    <div class="ps-product__content">
-                                        <a class="ps-product__remove" href="#"><i class="icon-cross"></i></a><a href="#">Sleeve Linen Blend Caro Pane Shirt</a>
-                                        <p><strong>Sold by:</strong> YOUNG SHOP</p>
-                                        <small>1 x Rs. 59.99</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="ps-cart__footer">
-                                <h3>Total :<strong>Rs. 59.99</strong></h3>
-                                <h3>Total Discount :<strong>Rs. 59.99</strong></h3>
-                                <h3>Total BV :<strong>Rs. 59.99</strong></h3>
-                                <figure><a class="ps-btn" href="#">View Cart</a><a class="ps-btn" href="#">Checkout</a></figure>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ps-block--user-header">
-                        <div class="ps-block__left"><i class="icon-user"></i></div>
-                        <div class="ps-block__right"><a href="#">Login</a><a href="#">Register</a></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="ps-search--mobile">
-            <form class="ps-form--search-mobile" action="#" method="get">
-                <div class="form-group--nest">
-                    <input class="form-control" type="text" placeholder="Search something...">
-                    <button><i class="icon-magnifier"></i></button>
-                </div>
-            </form>
-        </div>
-    </header>
-    <div class="ps-panel--sidebar" id="cart-mobile">
-        <div class="ps-panel__header">
-            <h3>Shopping Cart</h3>
-        </div>
-        <div class="navigation__content">
-            <div class="ps-cart--mobile">
-                <div class="ps-cart__content">
-                    <div class="ps-product--cart-mobile">
-                        <div class="ps-product__thumbnail"><a href="#"><img src="img/products/clothing/7.jpg" alt=""></a></div>
-                        <div class="ps-product__content">
-                            <a class="ps-product__remove" href="#"><i class="icon-cross"></i></a><a href="#">MVMTH Classical Leather Watch In Black</a>
-                            <p><strong>Sold by:</strong> YOUNG SHOP</p>
-                            <small>1 x Rs. 59.99</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="ps-cart__footer">
-                    <h3>Total :<strong>Rs. 59.99</strong></h3>
-                    <h3>Total Discount :<strong>Rs. 59.99</strong></h3>
-                    <h3>Total BV :<strong>Rs. 59.99</strong></h3>
-                    <figure><a class="ps-btn" href="#">View Cart</a><a class="ps-btn" href="#">Checkout</a></figure>
-                    <p>&nbsp;</p><p>&nbsp;</p>
-                </div>
-            </div>
-        </div>
-    </div>
+    @*****Header section end*******@
 
-    <div class="ps-panel--sidebar" id="navigation-mobile">
-        <div class="ps-panel__header">
-            <h3>Categories</h3>
-        </div>
-        <div class="ps-panel__content">
-            <ul class="menu--mobile">
-                <li class="current-menu-item "><a href="#">Hot Promotions</a> </li>
-                <li class="current-menu-item menu-item-has-children has-mega-menu">
-                    <a href="#">Consumer Electronic</a><span class="sub-toggle"></span>
-                    <div class="mega-menu">
-                        <div class="mega-menu__column">
-                            <h4>Electronic<span class="sub-toggle"></span></h4>
-                            <ul class="mega-menu__list">
-                                <li class="current-menu-item "><a href="#">Home Audio &amp; Theathers</a> </li>
-                                <li class="current-menu-item "><a href="#">TV &amp; Videos</a> </li>
-                                <li class="current-menu-item "><a href="#">Camera, Photos &amp; Videos</a> </li>
-                                <li class="current-menu-item "><a href="#">Cellphones &amp; Accessories</a> </li>
-                                <li class="current-menu-item "><a href="#">Headphones</a> </li>
-                                <li class="current-menu-item "><a href="#">Videosgames</a> </li>
-                                <li class="current-menu-item "><a href="#">Wireless Speakers</a> </li>
-                                <li class="current-menu-item "><a href="#">Office Electronic</a> </li>
-                            </ul>
-                        </div>
-                        <div class="mega-menu__column">
-                            <h4>Accessories &amp; Parts<span class="sub-toggle"></span></h4>
-                            <ul class="mega-menu__list">
-                                <li class="current-menu-item "><a href="#">Digital Cables</a> </li>
-                                <li class="current-menu-item "><a href="#">Audio &amp; Video Cables</a> </li>
-                                <li class="current-menu-item "><a href="#">Batteries</a> </li>
-                            </ul>
-                        </div>
-                    </div>
-                </li>
-                <li class="current-menu-item "><a href="#">Clothing &amp; Apparel</a> </li>
-                <li class="current-menu-item "><a href="#">Home, Garden &amp; Kitchen</a> </li>
-                <li class="current-menu-item "><a href="#">Health &amp; Beauty</a> </li>
-                <li class="current-menu-item "><a href="#">Yewelry &amp; Watches</a> </li>
-                <li class="current-menu-item menu-item-has-children has-mega-menu">
-                    <a href="#">Computer &amp; Technology</a><span class="sub-toggle"></span>
-                    <div class="mega-menu">
-                        <div class="mega-menu__column">
-                            <h4>Computer &amp; Technologies<span class="sub-toggle"></span></h4>
-                            <ul class="mega-menu__list">
-                                <li class="current-menu-item "><a href="#">Computer &amp; Tablets</a> </li>
-                                <li class="current-menu-item "><a href="#">Laptop</a> </li>
-                                <li class="current-menu-item "><a href="#">Monitors</a> </li>
-                                <li class="current-menu-item "><a href="#">Networking</a> </li>
-                                <li class="current-menu-item "><a href="#">Drive &amp; Storages</a> </li>
-                                <li class="current-menu-item "><a href="#">Computer Components</a> </li>
-                                <li class="current-menu-item "><a href="#">Security &amp; Protection</a> </li>
-                                <li class="current-menu-item "><a href="#">Gaming Laptop</a> </li>
-                                <li class="current-menu-item "><a href="#">Accessories</a> </li>
-                            </ul>
-                        </div>
-                    </div>
-                </li>
-                <li class="current-menu-item "><a href="#">Babies &amp; Moms</a> </li>
-                <li class="current-menu-item "><a href="#">Sport &amp; Outdoor</a> </li>
-                <li class="current-menu-item "><a href="#">Phones &amp; Accessories</a> </li>
-                <li class="current-menu-item "><a href="#">Books &amp; Office</a> </li>
-                <li class="current-menu-item "><a href="#">Cars &amp; Motocycles</a> </li>
-                <li class="current-menu-item "><a href="#">Home Improments</a> </li>
-                <li class="current-menu-item "><a href="#">Vouchers &amp; Services</a> </li>
-            </ul>
-        </div>
-    </div>
-
-
-    <div class="navigation--list">
-        <div class="navigation__content"><a class="navigation__item ps-toggle--sidebar" href="#menu-mobile"><i class="icon-menu"></i><span> Menu</span></a><a class="navigation__item ps-toggle--sidebar" href="#navigation-mobile"><i class="icon-list4"></i><span> Categories</span></a><a class="navigation__item ps-toggle--sidebar" href="#search-sidebar"><i class="icon-magnifier"></i><span> Search</span></a><a class="navigation__item ps-toggle--sidebar" href="#cart-mobile"><i class="icon-bag2"></i><span> Cart</span></a></div>
-    </div>
-
-
-    <div class="ps-panel--sidebar" id="search-sidebar">
-        <div class="ps-panel__header">
-            <form class="ps-form--search-mobile" action="#" method="get">
-                <div class="form-group--nest">
-                    <input class="form-control" type="text" placeholder="Search something...">
-                    <button><i class="icon-magnifier"></i></button>
-                </div>
-            </form>
-        </div>
-        <div class="navigation__content"></div>
-    </div>
-
-
-
-    <div class="ps-panel--sidebar" id="menu-mobile">
-        <div class="ps-panel__header">
-            <h3>Menu</h3>
-        </div>
-        <div class="ps-panel__content">
-            <ul class="menu--mobile">
-
-                <li class="menu-item-has-children"><a href="#"> <strong class="text-info">Login Account</strong></a></li>
-                <li class="menu-item-has-children"><a href="#"> <strong class="text-info">New Registration</strong> </a></li>
-
-                <li class="menu-item-has-children">
-                    <a href="#">Sell With Us! </a><span class="sub-toggle"></span>
-                    <ul class="sub-menu">
-                        <li class="current-menu-item "><a href="#">Become A Vendor</a> </li>
-                        <li class="current-menu-item "><a href="#">Vendor Login </a> </li>
-                    </ul>
-                </li>
-
-                <li class="menu-item-has-children">
-                    <a href="#">My Account</a><span class="sub-toggle"></span>
-                    <ul class="sub-menu">
-                        <li class="current-menu-item "><a href="#"><strong> Name : Rohit Sahu</strong></a></li>
-                        <li class="current-menu-item "><a href="#">User Profile</a> </li>
-                        <li class="current-menu-item "><a href="#">Orders </a> </li>
-                        <li class="current-menu-item "><a href="#">My Discount Coupons </a> </li>
-                        <li class="current-menu-item "><a href="#">Point Ledger </a> </li>
-                        <li class="current-menu-item "><a href="#">DB Login </a> </li>
-                    </ul>
-                </li>
-
-                <li class="menu-item-has-children"><a href="#" class="text-danger"> Balance Point : 15000 </a></li>
-
-
-                <li class="menu-item-has-children"><a href="#" class="text-danger"> Sign out Account</a></li>
-            </ul>
-        </div>
-    </div>
-
-    <div id="homepage-5">
-        <div class="ps-home-banner">
-            <div class="container">
-                <div class="ps-section__left">
-                    <ul class="menu--dropdown">
-                        <li class="current-menu-item "><a href="#"><i class="icon-star"></i> Hot Promotions</a> </li>
-                        <li class="current-menu-item menu-item-has-children has-mega-menu">
-                            <a href="#"><i class="icon-laundry"></i> Consumer Electronic</a>
-                            <div class="mega-menu">
-                                <div class="mega-menu__column">
-                                    <h4>Electronic<span class="sub-toggle"></span></h4>
-                                    <ul class="mega-menu__list">
-                                        <li class="current-menu-item "><a href="#">Home Audio &amp; Theathers</a> </li>
-                                        <li class="current-menu-item "><a href="#">TV &amp; Videos</a> </li>
-                                        <li class="current-menu-item "><a href="#">Camera, Photos &amp; Videos</a> </li>
-                                        <li class="current-menu-item "><a href="#">Cellphones &amp; Accessories</a> </li>
-                                        <li class="current-menu-item "><a href="#">Headphones</a> </li>
-                                        <li class="current-menu-item "><a href="#">Videosgames</a> </li>
-                                        <li class="current-menu-item "><a href="#">Wireless Speakers</a> </li>
-                                        <li class="current-menu-item "><a href="#">Office Electronic</a> </li>
-                                    </ul>
-                                </div>
-                                <div class="mega-menu__column">
-                                    <h4>Accessories &amp; Parts<span class="sub-toggle"></span></h4>
-                                    <ul class="mega-menu__list">
-                                        <li class="current-menu-item "><a href="#">Digital Cables</a> </li>
-                                        <li class="current-menu-item "><a href="#">Audio &amp; Video Cables</a> </li>
-                                        <li class="current-menu-item "><a href="#">Batteries</a> </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="current-menu-item "><a href="#"><i class="icon-shirt"></i> Clothing &amp; Apparel</a> </li>
-                        <li class="current-menu-item "><a href="#"><i class="icon-lampshade"></i> Home, Garden &amp; Kitchen</a> </li>
-                        <li class="current-menu-item "><a href="#"><i class="icon-heart-pulse"></i> Health &amp; Beauty</a> </li>
-                        <li class="current-menu-item "><a href="#"><i class="icon-diamond2"></i> Yewelry &amp; Watches</a> </li>
-                        <li class="current-menu-item menu-item-has-children has-mega-menu">
-                            <a href="#"><i class="icon-desktop"></i> Computer &amp; Technology</a>
-                            <div class="mega-menu">
-                                <div class="mega-menu__column">
-                                    <h4>Computer &amp; Technologies<span class="sub-toggle"></span></h4>
-                                    <ul class="mega-menu__list">
-                                        <li class="current-menu-item "><a href="#">Computer &amp; Tablets</a> </li>
-                                        <li class="current-menu-item "><a href="#">Laptop</a> </li>
-                                        <li class="current-menu-item "><a href="#">Monitors</a> </li>
-                                        <li class="current-menu-item "><a href="#">Networking</a> </li>
-                                        <li class="current-menu-item "><a href="#">Drive &amp; Storages</a> </li>
-                                        <li class="current-menu-item "><a href="#">Computer Components</a> </li>
-                                        <li class="current-menu-item "><a href="#">Security &amp; Protection</a> </li>
-                                        <li class="current-menu-item "><a href="#">Gaming Laptop</a> </li>
-                                        <li class="current-menu-item "><a href="#">Accessories</a> </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="current-menu-item "><a href="#"><i class="icon-baby-bottle"></i> Babies &amp; Moms</a> </li>
-                        <li class="current-menu-item "><a href="#"><i class="icon-baseball"></i> Sport &amp; Outdoor</a> </li>
-                        <li class="current-menu-item "><a href="#"><i class="icon-smartphone"></i> Phones &amp; Accessories</a> </li>
-                        <li class="current-menu-item "><a href="#"><i class="icon-book2"></i> Books &amp; Office</a> </li>
-                        <li class="current-menu-item "><a href="#"><i class="icon-car-siren"></i> Cars &amp; Motocycles</a> </li>
-                        <li class="current-menu-item "><a href="#"><i class="icon-wrench"></i> Home Improments</a> </li>
-                        <li class="current-menu-item "><a href="#"><i class="icon-tag"></i> Vouchers &amp; Services</a> </li>
-                    </ul>
-                </div>
-                <div class="ps-section__center">
-                    <div class="ps-carousel--dots owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="0" data-owl-nav="false" data-owl-dots="true" data-owl-item="1" data-owl-item-xs="1" data-owl-item-sm="1" data-owl-item-md="1" data-owl-item-lg="1" data-owl-duration="1000" data-owl-mousedrag="on"><a href="#"><img src="img/slider/home-5/1.jpg" alt=""></a><a href="#"><img src="img/slider/home-5/2.jpg" alt=""></a><a href="#"><img src="img/slider/home-5/3.jpg" alt=""></a></div>
-                    <a href="#"><img src="img/slider/home-5/promotion-6.jpg" alt=""></a>
-                </div>
-                <div class="ps-section__right"><a href="#"><img src="img/slider/home-5/promotion-1.jpg" alt=""></a><a href="#"><img src="img/slider/home-5/promotion-2.jpg" alt=""></a><a class="wide" href="#"><img src="img/slider/home-5/promotion-3.jpg" alt=""></a><a href="#"><img src="img/slider/home-5/promotion-4.jpg" alt=""></a><a href="#"><img src="img/slider/home-5/promotion-5.jpg" alt=""></a></div>
-            </div>
-        </div>
-        <div class="ps-search-trending">
-            <div class="container">
-                <div class="ps-section__header">
-                    <h3>Feature Product<span>Updated at 9:00AM</span></h3>
-                </div>
-                <div class="ps-section__content">
-                    <div class="ps-block--categories-tabs ps-tab-root">
-                        <div class="ps-block__header">
-                            <div class="ps-carousel--nav ps-tab-list owl-slider" data-owl-auto="false" data-owl-speed="1000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="true" data-owl-item="8" data-owl-item-xs="3" data-owl-item-sm="4" data-owl-item-md="6" data-owl-item-lg="6" data-owl-duration="500" data-owl-mousedrag="on">
-
-                                <a class="active" href="#tab-1"><i class="icon-star"></i><span>Kitchen & Home Utility</span></a>
-                                <a href="#tab-2"><i class="icon-smartphone"></i><span>Cell Phones</span></a>
-                                <a href="#tab-3"><i class="icon-desktop"></i><span>Computers</span></a>
-                                <a href="#tab-4"><i class="icon-lampshade"></i><span>Furnitures</span></a>
-                                <a href="#tab-5"><i class="icon-shirt"></i><span>T-Shirts</span></a>
-                                <a href="#tab-6"><i class="icon-baby-bottle"></i><span>Baby & Mom</span></a>
-                                <a href="#tab-7"><i class="icon-baseball"></i><span>Sports</span></a>
-                                <a href="#tab-8"><i class="icon-book2"></i><span>Book & Office</span></a>
-                                <a href="#tab-9"><i class="icon-car-siren"></i><span>Cars</span></a>
-                            </div>
-                        </div>
-                        <div class="ps-tabs">
-                            <div class="ps-tabs">
-                                <div class="ps-tab active" id="tab-1">
-                                    <div class="ps-block__item">
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/10.jpg" alt="#television"><span class="titleclr">Bajaj Majesty Sandwich Toaster New SWX 3 </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/10.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/10.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/10.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/10.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/10.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/10.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/10.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/10.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/10.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/10.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/10.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="ps-tab" id="tab-2">
-                                    <div class="ps-block__item">
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/9.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/9.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/9.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/9.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/9.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/9.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/9.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/9.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/9.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/9.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/9.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/9.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="ps-tab" id="tab-3">
-                                    <div class="ps-block__item">
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/8.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/8.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/8.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/8.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/8.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/8.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/8.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/8.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/8.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/8.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/8.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/8.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="ps-tab" id="tab-4">
-                                    <div class="ps-block__item">
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/9.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/9.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/9.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/9.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/9.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/9.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/9.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/9.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/9.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/9.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/9.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/9.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="ps-tab" id="tab-5">
-                                    <div class="ps-block__item">
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/6.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/6.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/6.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/6.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/6.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/6.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/6.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/6.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/6.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/6.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/6.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/6.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="ps-tab" id="tab-6">
-                                    <div class="ps-block__item">
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/5.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/5.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/5.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/5.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/5.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/5.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/5.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/5.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/5.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/5.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/5.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/5.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="ps-tab" id="tab-7">
-                                    <div class="ps-block__item">
-                                        <a href="#">
-                                            <img src="img/categories/home-5/4.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/4.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/4.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/4.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/4.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/4.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/4.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/4.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/4.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/4.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/4.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/4.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="ps-tab" id="tab-7">
-                                    <div class="ps-block__item">
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/3.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/3.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/3.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/3.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/3.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/3.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/3.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/3.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/3.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/3.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/3.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-
-                                        <a href="#">
-                                            <img src="img/categories/home-5/3.jpg" alt="#television"><span>Discount Tadka Product </span>
-                                            <p class="ps-product__price sale textgreen">Rs. 800.00 <del> Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="ps-deal-of-day">
-            <div class="container">
-                <div class="ps-section__header">
-                    <div class="ps-block--countdown-deal">
-                        <div class="ps-block__left">
-                            <h3>Best Deal</h3>
-                        </div>
-                    </div>
-                    <a href="#">View all</a>
-                </div>
-                <div class="ps-section__content">
-                    <div class="ps-carousel--nav owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="1000" data-owl-gap="30" data-owl-nav="false" data-owl-dots="true" data-owl-item="5" data-owl-item-xs="2" data-owl-item-sm="3" data-owl-item-md="4" data-owl-item-lg="4" data-owl-item-xl="5" data-owl-duration="1000" data-owl-mousedrag="on">
-
-
-                        <div class="ps-product ps-product--inner">
-                            <div class="ps-product__thumbnail">
-                                <a href="#"><img src="img/products/cloth.jpg" alt=""></a>
-                                <div class="ps-product__badge out-stock">Out Of Stock</div>
-                                <ul class="ps-product__actions">
-                                    <li><a href="#" data-toggle="tooltip" data-placement="top" title="Add to Cart"><i class="icon-bag2"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-eye"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="ps-product__container">
-                                <p class="ps-product__price sale">Rs. 800.00 <del>Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                <div class="ps-product__content">
-                                    <a class="ps-product__title" href="#">Bajaj Majesty Sandwich Toaster New SWX 3 </a>
-
-                                    <div class="ps-product__progress-bar ps-progress" data-value="94">
-                                        <div class="ps-progress__value"><span></span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="ps-product ps-product--inner">
-                            <div class="ps-product__thumbnail">
-                                <a href="#"><img src="img/products/cloth.jpg" alt=""></a>
-                                <div class="ps-product__badge">-16%</div>
-                                <ul class="ps-product__actions">
-                                    <li><a href="#" data-toggle="tooltip" data-placement="top" title="Add to Cart"><i class="icon-bag2"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-eye"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="ps-product__container">
-                                <p class="ps-product__price sale">Rs. 800.00 <del>Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                <div class="ps-product__content">
-                                    <a class="ps-product__title" href="#">Bajaj Majesty Sandwich Toaster New SWX 3 </a>
-                                    <div class="ps-product__progress-bar ps-progress" data-value="94">
-                                        <div class="ps-progress__value"><span></span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="ps-product ps-product--inner">
-                            <div class="ps-product__thumbnail">
-                                <a href="#"><img src="img/products/cloth.jpg" alt=""></a>
-                                <div class="ps-product__badge out-stock">Out Of Stock</div>
-                                <ul class="ps-product__actions">
-                                    <li><a href="#" data-toggle="tooltip" data-placement="top" title="Add to Cart"><i class="icon-bag2"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-eye"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="ps-product__container">
-                                <p class="ps-product__price sale">Rs. 800.00 <del>Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                <div class="ps-product__content">
-                                    <a class="ps-product__title" href="#">Bajaj Majesty Sandwich Toaster New SWX 3 </a>
-
-                                    <div class="ps-product__progress-bar ps-progress" data-value="94">
-                                        <div class="ps-progress__value"><span></span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="ps-product ps-product--inner">
-                            <div class="ps-product__thumbnail">
-                                <a href="#"><img src="img/products/cloth.jpg" alt=""></a>
-                                <div class="ps-product__badge">-16%</div>
-                                <ul class="ps-product__actions">
-                                    <li><a href="#" data-toggle="tooltip" data-placement="top" title="Add to Cart"><i class="icon-bag2"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-eye"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="ps-product__container">
-                                <p class="ps-product__price sale">Rs. 800.00 <del>Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                <div class="ps-product__content">
-                                    <a class="ps-product__title" href="#">Bajaj Majesty Sandwich Toaster New SWX 3 </a>
-                                    <div class="ps-product__progress-bar ps-progress" data-value="94">
-                                        <div class="ps-progress__value"><span></span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="ps-product ps-product--inner">
-                            <div class="ps-product__thumbnail">
-                                <a href="#"><img src="img/products/cloth.jpg" alt=""></a>
-                                <div class="ps-product__badge out-stock">Out Of Stock</div>
-                                <ul class="ps-product__actions">
-                                    <li><a href="#" data-toggle="tooltip" data-placement="top" title="Add to Cart"><i class="icon-bag2"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-eye"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="ps-product__container">
-                                <p class="ps-product__price sale">Rs. 800.00 <del>Rs. 1000.00 </del> <br> <small class="text-dark">DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                <div class="ps-product__content">
-                                    <a class="ps-product__title" href="#">Bajaj Majesty Sandwich Toaster New SWX 3 </a>
-
-                                    <div class="ps-product__progress-bar ps-progress" data-value="94">
-                                        <div class="ps-progress__value"><span></span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="ps-product-box">
-            <div class="container">
-                <div class="ps-home-promotions"><a href="#"><img src="https://via.placeholder.com/1200x244" alt=""></a></div>
-                <div class="ps-block--product-box">
-                    <div class="ps-block__header">
-                        <h3><i class="icon-laundry"></i> Consumer Electronic</h3>
-                        <ul>
-                            <li><a href="#">TV Televisions</a></li>
-                            <li><a href="#">Air Conditioner</a></li>
-                            <li><a href="#">Washing Machine</a></li>
-                            <li><a href="#">Refrigerator</a></li>
-                            <li><a href="#">Refrigerator</a></li>
-                            <li><a href="#">Microwave</a></li>
-                        </ul>
-                    </div>
-                    <div class="ps-block__content">
-                        <div class="ps-block__left">
-                            <div class="ps-carousel--nav-inside owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="true" data-owl-item="1" data-owl-item-xs="1" data-owl-item-sm="1" data-owl-item-md="1" data-owl-item-lg="1" data-owl-duration="1000" data-owl-mousedrag="on"><a href="#"><img src="https://via.placeholder.com/839x244" alt=""></a><a href="#"><img src="https://via.placeholder.com/839x244" alt=""></a></div>
-                            <div class="ps-block__products ps-tab-root">
-                                <ul class="ps-tab-list">
-                                    <li class="current"><a href="#product-box-1">New Arrivals</a></li>
-                                </ul>
-                                <div class="ps-tabs">
-
-                                    <div class="ps-section__content">
-                                        <div class="ps-carousel--nav owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="1000" data-owl-gap="30" data-owl-nav="false" data-owl-dots="true" data-owl-item="5" data-owl-item-xs="2" data-owl-item-sm="3" data-owl-item-md="4" data-owl-item-lg="4" data-owl-item-xl="5" data-owl-duration="1000" data-owl-mousedrag="on">
-
-                                            <div class="ps-product ps-product--inner">
-                                                <div class="ps-product__thumbnail">
-                                                    <a href="#"><img src="img/products/cloth.jpg" alt=""></a>
-                                                    <div class="ps-product__badge">-16%</div>
-                                                    <ul class="ps-product__actions">
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Add to Cart"><i class="icon-bag2"></i></a></li>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-eye"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="ps-product__container">
-                                                    <p class="ps-product__price sale">Rs. 800.00 <br> <del>Rs. 1000.00 </del> <br> <small class="text-dark"> DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                                    <div class="ps-product__content">
-                                                        <a class="ps-product__title" href="#"> Discount Tadka Product </a>
-                                                        <div class="ps-product__progress-bar ps-progress" data-value="94">
-                                                            <div class="ps-progress__value"><span></span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="ps-product ps-product--inner">
-                                                <div class="ps-product__thumbnail">
-                                                    <a href="#"><img src="img/products/cloth.jpg" alt=""></a>
-                                                    <div class="ps-product__badge out-stock">Out Of Stock</div>
-                                                    <ul class="ps-product__actions">
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Add to Cart"><i class="icon-bag2"></i></a></li>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-eye"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="ps-product__container">
-                                                    <p class="ps-product__price sale">Rs. 800.00 <br> <del>Rs. 1000.00 </del> <br> <small class="text-dark"> DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                                    <div class="ps-product__content">
-                                                        <a class="ps-product__title" href="#"> Discount Tadka Product  </a>
-
-                                                        <div class="ps-product__progress-bar ps-progress" data-value="94">
-                                                            <div class="ps-progress__value"><span></span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="ps-product ps-product--inner">
-                                                <div class="ps-product__thumbnail">
-                                                    <a href="#"><img src="img/products/cloth.jpg" alt=""></a>
-                                                    <div class="ps-product__badge">-16%</div>
-                                                    <ul class="ps-product__actions">
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Add to Cart"><i class="icon-bag2"></i></a></li>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-eye"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="ps-product__container">
-                                                    <p class="ps-product__price sale">Rs. 800.00 <br> <del>Rs. 1000.00 </del> <br> <small class="text-dark"> DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                                    <div class="ps-product__content">
-                                                        <a class="ps-product__title" href="#"> Discount Tadka Product </a>
-                                                        <div class="ps-product__progress-bar ps-progress" data-value="94">
-                                                            <div class="ps-progress__value"><span></span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="ps-product ps-product--inner">
-                                                <div class="ps-product__thumbnail">
-                                                    <a href="#"><img src="img/products/cloth.jpg" alt=""></a>
-                                                    <div class="ps-product__badge out-stock">Out Of Stock</div>
-                                                    <ul class="ps-product__actions">
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Add to Cart"><i class="icon-bag2"></i></a></li>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-eye"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="ps-product__container">
-                                                    <p class="ps-product__price sale">Rs. 800.00 <br> <del>Rs. 1000.00 </del> <br> <small class="text-dark"> DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                                    <div class="ps-product__content">
-                                                        <a class="ps-product__title" href="#"> Discount Tadka Product  </a>
-
-                                                        <div class="ps-product__progress-bar ps-progress" data-value="94">
-                                                            <div class="ps-progress__value"><span></span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="ps-product ps-product--inner">
-                                                <div class="ps-product__thumbnail">
-                                                    <a href="#"><img src="img/products/cloth.jpg" alt=""></a>
-                                                    <div class="ps-product__badge">-16%</div>
-                                                    <ul class="ps-product__actions">
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Add to Cart"><i class="icon-bag2"></i></a></li>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-eye"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="ps-product__container">
-                                                    <p class="ps-product__price sale">Rs. 800.00 <br> <del>Rs. 1000.00 </del> <br> <small class="text-dark"> DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                                    <div class="ps-product__content">
-                                                        <a class="ps-product__title" href="#"> Discount Tadka Product </a>
-                                                        <div class="ps-product__progress-bar ps-progress" data-value="94">
-                                                            <div class="ps-progress__value"><span></span></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ps-block__right">
-                            <figure>
-                                <figcaption>Recommended For You</figcaption>
-
-                                <div class="ps-product--horizontal">
-                                    <div class="ps-product__thumbnail"><a href="#"><img src="img/products/camera.jpg" alt=""></a></div>
-                                    <div class="ps-product__content">
-                                        <a class="ps-product__title" href="#">Discount Tadka Product</a>
-                                        <p class="ps-product__price sale">Rs. 800.00 <br> <del>Rs. 1000.00 </del> <br> <small class="text-dark"> DP 200</small> | <small class="text-dark">BV 100</small> </p>
-                                    </div>
-                                </div>
-
-                                <div class="ps-product--horizontal">
-                                    <div class="ps-product__thumbnail"><a href="#"><img src="img/products/camera.jpg" alt=""></a></div>
-                                    <div class="ps-product__content">
-                                        <a class="ps-product__title" href="#">Discount Tadka Product</a>
-                                        <div class="ps-product__rating">
-                                            <select class="ps-rating" data-read-only="true">
-                                                <option value="1">1</option>
-                                                <option value="1">2</option>
-                                                <option value="1">3</option>
-                                                <option value="1">4</option>
-                                                <option value="2">5</option>
-                                            </select>
-                                            <span>01</span>
-                                        </div>
-                                        <p class="ps-product__price sale">Rs. 800.00 <del>Rs. 1000.00 </del> <small class="text-dark">DP 200  </small> | <small class="text-dark">BV 100 </small> </p>
-                                    </div>
-                                </div>
-
-                                <div class="ps-product--horizontal">
-                                    <div class="ps-product__thumbnail"><a href="#"><img src="img/products/camera.jpg" alt=""></a></div>
-                                    <div class="ps-product__content">
-                                        <a class="ps-product__title" href="#">Discount Tadka Product</a>
-                                        <div class="ps-product__rating">
-                                            <select class="ps-rating" data-read-only="true">
-                                                <option value="1">1</option>
-                                                <option value="1">2</option>
-                                                <option value="1">3</option>
-                                                <option value="1">4</option>
-                                                <option value="2">5</option>
-                                            </select>
-                                            <span>01</span>
-                                        </div>
-                                        <p class="ps-product__price sale">Rs. 800.00 <del>Rs. 1000.00 </del> <small class="text-dark">DP 200  </small> | <small class="text-dark">BV 100 </small> </p>
-                                    </div>
-                                </div>
-
-                                <div class="ps-product--horizontal">
-                                    <div class="ps-product__thumbnail"><a href="#"><img src="img/products/camera.jpg" alt=""></a></div>
-                                    <div class="ps-product__content">
-                                        <a class="ps-product__title" href="#">Discount Tadka Product</a>
-                                        <p class="ps-product__price sale">Rs. 800.00 <del> Rs. 1000.00 </del> <small class="text-dark">DP 200  </small> | <small class="text-dark">BV 100 </small> </p>
-                                    </div>
-                                </div>
-
-                                <div class="ps-product--horizontal">
-                                    <div class="ps-product__thumbnail"><a href="#"><img src="img/products/camera.jpg" alt=""></a></div>
-                                    <div class="ps-product__content">
-                                        <a class="ps-product__title" href="#">Discount Tadka Product</a>
-                                        <div class="ps-product__rating">
-                                            <select class="ps-rating" data-read-only="true">
-                                                <option value="1">1</option>
-                                                <option value="1">2</option>
-                                                <option value="1">3</option>
-                                                <option value="1">4</option>
-                                                <option value="2">5</option>
-                                            </select>
-                                            <span>01</span>
-                                        </div>
-                                        <p class="ps-product__price sale">Rs. 800.00 <del>Rs. 1000.00 </del> <small class="text-dark">DP 200  </small> | <small class="text-dark">BV 100 </small> </p>
-                                    </div>
-                                </div>
-                            </figure>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
-
-        <div class="ps-product-box">
-            <div class="container">
-                <div class="ps-block--product-box">
-                    <div class="ps-block__content">
-                        <div class="row">
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-
-
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                    <div class="ps-section__content">
-                                        <marquee behavior="scroll" direction="left" onMouseOver="this.stop();" onMouseOut="this.start();">
-                                            <a href="#"><img src="img/brand/2-1.jpg" alt=""></a>
-                                            <a href="#"><img src="img/brand/2-2.jpg" alt=""></a>
-                                            <a href="#"><img src="img/brand/2-3.jpg" alt=""></a>
-                                            <a href="#"><img src="img/brand/2-4.jpg" alt=""></a>
-                                            <a href="#"><img src="img/brand/2-5.jpg" alt=""></a>
-                                            <a href="#"><img src="img/brand/2-6.jpg" alt=""></a>
-                                            <a href="#"><img src="img/brand/2-7.jpg" alt=""></a>
-                                            <a href="#"><img src="img/brand/2-8.jpg" alt=""></a>
-                                            <a href="#"><img src="img/brand/2-9.jpg" alt=""></a>
-                                            <a href="#"><img src="img/brand/2-10.jpg" alt=""></a>
-                                        </marquee>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-
+    @RenderBody()
 
     <footer class="ps-footer ps-footer--3">
         <div class="container">
@@ -1386,48 +251,76 @@
                 <aside class="widget widget_footer widget_contact-us">
                     <h4 class="widget-title">Contact us</h4>
                     <div class="widget_content">
-                        <h4>Discount Tadka India Private Limited </h4>
-                        <h3>123-456-7890</h3>
+                        <h4>@current_cmpny.company_name </h4>
+                        <h3>@current_cmpny.company_landline_no</h3>
                         <p>
-                            <strong>Address 1</strong> : A-31, Engineers Colony, BSL City Office Road, Ram Nagar<br> Bhilwara (Rajasthan) 311001 - INDIA <br><br>
+                            <strong>Address 1:</strong> : @current_cmpny.add1<br>
+                            @current_cmpny.add2
+                            <br />
+                            @if (!string.IsNullOrEmpty(current_cmpny.city))
+                            {
+                                <strong> @current_cmpny.city, </strong>
+                            }
 
-                            <strong>Address 1</strong> : A-31, Engineers Colony, BSL City Office Road, Ram Nagar<br> Bhilwara (Rajasthan) 311001 - INDIA <br>
-                            <span class="__cf_email__"> <strong>Email ID</strong> : info@discounttadka.com </span>
+                            @if (!string.IsNullOrEmpty(current_cmpny.state))
+                            {
+                                <strong> @current_cmpny.state, </strong>
+                            }
+
+                            @if (!string.IsNullOrEmpty(current_cmpny.zip))
+                            {
+                                <strong> @current_cmpny.zip </strong>
+                            }
+
+                            @if (!string.IsNullOrEmpty(current_cmpny.contact_email))
+                            {<br />
+                            <span class="__cf_email__"> <strong>Email ID</strong> : @current_cmpny.contact_email </span>
+                            }
                         </p>
-                        <ul class="ps-list--social">
-                            <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a class="google-plus" href="#"><i class="fa fa-google-plus"></i></a></li>
-                            <li><a class="instagram" href="#"><i class="fa fa-instagram"></i></a></li>
-                        </ul>
+
+                        @if (current_cmpny.id == 30)
+                        {
+                            <ul class="ps-list--social">
+                                <li><a class="facebook" href="https://fb.me/Gohappyindia"><i class="fa fa-facebook"></i></a></li>
+                                <li><a class="twitter" href="https://twitter.com/gohappyindia"><i class="fa fa-twitter"></i></a></li>
+                                <li><a class="pinterest" href="https://www.pinterest.com/gohappyindia/"><i class="fa fa-pinterest"></i></a></li>
+                                <li><a class="instagram" href="https://www.instagram.com/gohappyindia/"><i class="fa fa-instagram"></i></a></li>
+                                <li><a class="linkedin" href="https://www.linkedin.com/in/go-happy-3160311a2/"><i class="fa fa-linkedin"></i></a></li>
+                                <li><a class="fa-telegram" href="https://t.me/Gohappyindia"><i class="fa fa-telegram"></i></a></li>
+                            </ul>
+                        }
                     </div>
                 </aside>
                 <aside class="widget widget_footer">
                     <h4 class="widget-title">Quick links</h4>
                     <ul class="ps-list--link">
-                        <li><a href="#">Policy</a></li>
-                        <li><a href="#">Term & Condition</a></li>
-                        <li><a href="#">Shipping</a></li>
-                        <li><a href="#">Return</a></li>
-                        <li><a href="faqs.html">FAQs</a></li>
+                        <li><a href="~/Home/About" target="_blank">About Us</a></li>
+                        <li><a href="~/Home/PrivacyPolicy">Privacy Policy</a></li>
+                        <li><a href="~/Home/TermsAndConditions">Terms &amp; Conditions</a></li>
                     </ul>
                 </aside>
                 <aside class="widget widget_footer">
                     <h4 class="widget-title">Company</h4>
                     <ul class="ps-list--link">
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Affilate</a></li>
-                        <li><a href="#">Career</a></li>
-                        <li><a href="#">Contact</a></li>
+
+                        <li><a href="#">(91) @current_cmpny.company_landline_no</a></li>
+                        <li><a href="#">@current_cmpny.contact_email</a></li>
                     </ul>
                 </aside>
                 <aside class="widget widget_footer">
                     <h4 class="widget-title">Bussiness</h4>
                     <ul class="ps-list--link">
-                        <li><a href="#">Our Press</a></li>
-                        <li><a href="#">Checkout</a></li>
-                        <li><a href="#">My account</a></li>
-                        <li><a href="#">Shop</a></li>
+                        @if (Session["UserDetail"] != null)
+                        {
+                            <li><a href="/Home/MyAccount">My Account</a></li>
+                            <li><a href="/Manage/GetCartProductList?isWithPayment=false&deliveryType=0">My Shopping Cart</a></li>
+                            <li><a href="/Home/Orders">Order history</a></li>
+                            <li><a href="/Account/LogOff">Log Out</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="/Account/LoginOrangeFunction">Log In</a></li>
+                        }
                     </ul>
                 </aside>
             </div>
@@ -1440,8 +333,8 @@
                 <p><strong>Computer &amp; Technologies:</strong><a href="#">Desktop PC</a><a href="#">Laptop</a><a href="#">Smartphones</a><a href="#">Tablet</a><a href="#">Game Controller</a><a href="#">Audio &amp; Video</a><a href="#">Wireless Speaker</a><a href="#">Done</a> </p>
             </div>
             <div class="ps-footer__copyright">
-                <p>© 2019 Discount Tadka. All Rights Reserved</p>
-                <p><span>We Using Safe Payment For:</span><a href="#"><img src="img/payment-method/1.jpg" alt=""></a><a href="#"><img src="img/payment-method/2.jpg" alt=""></a><a href="#"><img src="img/payment-method/3.jpg" alt=""></a><a href="#"><img src="img/payment-method/4.jpg" alt=""></a><a href="#"><img src="img/payment-method/5.jpg" alt=""></a></p>
+                <p>&copy; @copyright</p>
+                <p><span>We Using Safe Payment For:</span><a href="#"><img src="~/img/payment-method/1.jpg" alt=""></a><a href="#"><img src="~/img/payment-method/2.jpg" alt=""></a><a href="#"><img src="~/img/payment-method/3.jpg" alt=""></a><a href="#"><img src="~/img/payment-method/4.jpg" alt=""></a><a href="#"><img src="~/img/payment-method/5.jpg" alt=""></a></p>
             </div>
         </div>
     </footer>
@@ -1460,36 +353,31 @@
             </form>
         </div>
     </div>
-    <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-    <script src="~/plugins/jquery-1.12.4.min.js"></script>
-    <script src="~/plugins/popper.min.js"></script>
-    <script src="~/plugins/owl-carousel/owl.carousel.min.js"></script>
-    <script src="~/plugins/bootstrap4/js/bootstrap.min.js"></script>
-    <script src="~/plugins/imagesloaded.pkgd.min.js"></script>
-    <script src="~/plugins/masonry.pkgd.min.js"></script>
-    <script src="~/plugins/isotope.pkgd.min.js"></script>
-    <script src="~/plugins/jquery.matchHeight-min.js"></script>
-    <script src="~/plugins/slick/slick/slick.min.js"></script>
-    <script src="~/plugins/jquery-bar-rating/dist/jquery.barrating.min.js"></script>
-    <script src="~/plugins/slick-animation.min.js"></script>
-    <script src="~/plugins/lightGallery-master/dist/js/lightgallery-all.min.js"></script>
-    <script src="~/plugins/jquery-ui/jquery-ui.min.js"></script>
-    <script src="~/plugins/sticky-sidebar/dist/sticky-sidebar.min.js"></script>
-    <script src="~/plugins/jquery.slimscroll.min.js"></script>
-    <script src="~/plugins/select2/dist/js/select2.full.min.js"></script>
-    <script src="~/plugins/gmap3.min.js"></script>
-    <!-- custom scripts-->
-    <script src="~/js/main.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxflHHc5FlDVI-J71pO7hM1QJNW1dRp4U&amp;region=GB"></script>
-    <script>
-    $(document).ready(function () {
 
+
+</body>
+</html>
+<script>
+    $(document).ready(function () {
+        $(".preloader").hide();
         $.ajax({
             type: "GET",
             async: false,
             url: "/Home/GetCategories",
             success: function (result) {
-                $("#DivCategories").html(result);
+                $(".DivCategories").html(result);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert("Status: " + textStatus); alert("Error: " + errorThrown);
+            }
+        });
+
+        $.ajax({
+            type: "GET",
+            async: false,
+            url: "/Manage/GetShoppingCartProductList",
+            success: function (result) {
+                $("#cartProducts").html(result);
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert("Status: " + textStatus); alert("Error: " + errorThrown);
@@ -1583,7 +471,7 @@
             }
             else if (result.Status == false) {
                 if (result.ResponseValue == "login") {
-                    window.location.href = "/Account/Login";
+                    window.location.href = "/Account/LoginOrangeFunction";
                 }
                 else {
                     alert(result.ResponseValue);
@@ -1610,6 +498,4 @@
 
         return false;
     }
-    </script>
-</body>
-</html>
+</script>

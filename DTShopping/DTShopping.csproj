@@ -225,6 +225,7 @@
     <Compile Include="Models\OrderDetailContainer.cs" />
     <Compile Include="Models\Points.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\ProductDetailOrangeThemeContainer.cs" />
     <Compile Include="Models\product_images.cs" />
     <Compile Include="Models\Response.cs" />
     <Compile Include="Models\R_CityMaster.cs" />
@@ -1213,6 +1214,15 @@
     <Content Include="Views\Shared\_LayoutOrange.cshtml" />
     <Content Include="Views\Home\IndexOrange.cshtml" />
     <Content Include="Views\Home\CategoryOrange.cshtml" />
+    <Content Include="Views\Manage\cartProdListOnHover.cshtml" />
+    <Content Include="Views\Account\LoginOrange.cshtml" />
+    <Content Include="Views\Home\productDetailPageOrange.cshtml" />
+    <Content Include="Views\Manage\cartDetailViewOrange.cshtml" />
+    <Content Include="Views\Home\CheckoutOrange.cshtml" />
+    <Content Include="Views\Manage\cartPaymentDetailViewOrange.cshtml" />
+    <Content Include="Views\Home\SearchProductListOrange.cshtml" />
+    <Content Include="Views\Home\ProductListOrange.cshtml" />
+    <Content Include="Views\Home\_filterSideBarOrange.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

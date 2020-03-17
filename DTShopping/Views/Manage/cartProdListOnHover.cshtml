@@ -1,0 +1,72 @@
+﻿@using DTShopping.Properties
+@model DTShopping.Models.Dashboard
+@{
+    Layout = null;
+    string imageUrl = System.Configuration.ConfigurationManager.AppSettings["ImageUrl"];
+    int URSHOPECOMPANYID = 33;
+    int CompanyId = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
+    var imageName = string.Empty;
+}
+@if (Model == null || Model.Products == null || Model.Products.Count == 0)
+{
+    <div class="ps-cart__items">
+        <strong> It Feels Lights!!</strong>
+    </div>
+}
+else
+{
+    <div class="ps-cart__items">
+        @foreach (var product in Model.Products)
+        {
+            imageName = product.small_image;
+            if(string.IsNullOrEmpty(product.small_image))
+            {
+                if (string.IsNullOrEmpty(product.medium_image))
+                {
+                    imageName = product.large_image;
+                }
+                else
+                {
+                    imageName = product.medium_image;
+                }
+            }
+
+            <div class="ps-product--cart-mobile">
+                <div class="ps-product__thumbnail"><a href="#"><img src="@imageUrl/@product.small_image" alt="@product.title" title="@product.title"></a></div>
+                <div class="ps-product__content">
+                    <a class="ps-product__remove" name="deleteFunction" data-id="@product.id" href="#"><i class="icon-cross"></i></a><a href="#">@product.title</a>
+
+                    @if (!string.IsNullOrEmpty(product.product_size))
+                    {
+                        <p><strong>Size:</strong> @product.product_size</p>
+                    }
+                    @if (!string.IsNullOrEmpty(product.Color))
+                    {
+                        <p><strong>Color:</strong> @product.Color</p>
+                    }
+                    <small>@product.vendor_qty x Rs. @product.amount</small>
+                    <small>@Resources.ShippingCharge : Rs. @(product.shippng_charge ?? 0)</small>
+                    <small>
+                        @if (CompanyId == URSHOPECOMPANYID)
+                        {
+                            <span>@Resources.ProfitPoint :</span>
+                        }
+                        else
+                        {
+                            <span>@Resources.EUPoints :</span>
+                        }
+
+                        Rs. @(product.point_adjusted ?? 0)
+                    </small>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="ps-cart__footer">
+        <h3>Total :<strong>Rs. @Model.NetPayment</strong></h3>
+        <h3>Total Points :<strong>Rs. @Model.TotalProductPoints</strong></h3>
+        <h3>Total ShippingCharge :<strong>Rs. @Model.ShippingCharge</strong></h3>
+        <figure><a class="ps-btn" href="#">View Cart</a><a class="ps-btn" href="#">Checkout</a></figure>
+    </div>
+}
+<script src="~/Scripts/shopping.js"></script>

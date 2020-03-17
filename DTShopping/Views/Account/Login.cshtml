@@ -17,14 +17,15 @@
             <div id="bodyContent" class="twelve columns omega main_part_wrapper loginbg">
                 <h1>LOGIN HERE</h1>
 
-                <form data-parsley-validate class="validateForm form-horizontal form-style" id="login_account" onsubmit="return Login_Account();">
+                <form data-parsley-validate class="validateForm form-horizontal form-style" id="addForm" onsubmit="return Login_Account();">
                     <div class="contentContainer">
                         <div class="contentText">
                             <table border="0" cellspacing="2" cellpadding="2">
 
                                 <tr>
                                     <td class="fieldKey">Username : </td>
-                                    <td class="fieldValue">@Html.TextBoxFor(m => m.username, new { name = "username", id = "username", @required = "required", }) &nbsp;<span class="inputRequirement">*</span></td>
+                                    <td class="fieldValue">
+                                    @Html.TextBoxFor(m => m.username, new { name = "username", id = "username", @required = "required", }) &nbsp;<span class="inputRequirement">*</span></td>
                                 </tr>
                                 @*<tr>
                                         <td class="fieldKey">Smart Card No. :</td>

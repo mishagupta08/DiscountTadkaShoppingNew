@@ -111,6 +111,12 @@
                                 <div id="storeLogo"> <a class="logo_inner" href="~/Home/Index"><img src="@imageUrl/@current_cmpny.logo" alt="@current_cmpny.company_name" title="@current_cmpny.company_name" width="250" height="46" class="scale-with-grid" /></a></div>
                             </div>
                         }
+                        else if (current_cmpny.id == URSHOPECOMPANYID)
+                        {
+                            <div id="logo" class="five columns">
+                                <div id="storeLogo"> <a class="logo_inner" href="~/Home/Index"><img src="@imageUrl/@current_cmpny.logo" alt="@current_cmpny.company_name" title="@current_cmpny.company_name" width="100" height="46" class="scale-with-grid" /></a></div>
+                            </div>
+                        }
                         else
                         {
                             <div id="logo" class="five columns">
@@ -283,8 +289,6 @@
                         <nav>
                             <ul>
                                 <li><a href="#">(91) @current_cmpny.company_landline_no</a></li>
-                                @*
-                                    <li><a href="shipping.php">Shipping &amp; Returns</a></li>*@
                                 <li><a href="#">@current_cmpny.contact_email</a></li>
                             </ul>
                         </nav>
@@ -300,8 +304,8 @@
                                 {
                                     <li><a href="/Home/MyAccount">My Account</a></li>
                                     <li><a href="/Manage/GetCartProductList?isWithPayment=false&deliveryType=0">My Shopping Cart</a></li>
-                                            <li><a href="/Home/Orders">Order history</a></li>
-                                                                <li><a href="/Account/LogOff">Log Out</a></li>
+                                    <li><a href="/Home/Orders">Order history</a></li>
+                                            <li><a href="/Account/LogOff">Log Out</a></li>
                                 }
                                 else
                                 {

@@ -1,0 +1,185 @@
+﻿@using DTShopping.Properties
+@model DTShopping.Models.Dashboard
+@{
+    Layout = "~/Views/Shared/_LayoutOrange.cshtml";
+    string imageUrl = System.Configuration.ConfigurationManager.AppSettings["ImageUrl"];
+    string CompanyId = System.Configuration.ConfigurationManager.AppSettings["CompanyId"];
+    string url = "";
+}
+
+<div class="ps-page--simple">
+    @if (Model.Products == null || Model.Products.Count() == 0)
+    {
+        <img src="~/images/emptyShoppingBag.jpg" height="20%" width="20%" style="margin-left:40%;" />
+        <br />
+        <span style="margin-left:46%">feel so light !!</span>
+    }
+    else
+    {
+        <div class="ps-breadcrumb">
+            <div class="container">
+                <ul class="breadcrumb">
+                    <li><a href="~/Home/Index">Home</a></li>
+                    <li>Shopping Cart</li>
+                </ul>
+            </div>
+        </div>
+        <div class="ps-section--shopping ps-shopping-cart">
+            <div class="container">
+                <div class="ps-section__content">
+                    <div class="table-responsive">
+                        <table class="table ps-table--shopping-cart">
+                            <thead>
+                                <tr>
+                                    <th>PARTICULARS</th>
+                                    <th>PRODUCT QUANTITY</th>
+                                    <th>MARKET PRICE</th>
+                                    <th>OFFER PRICE</th>
+                                    <th>DISCOUNT POINTS</th>
+                                    <th>SHIPPING CHARGES</th>
+                                    <th>NET AMOUNT</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var product in Model.Products)
+                                {
+                                    var quantityID = "productQuantity_" + product.id;
+                                    <tr>
+                                        <td>
+                                            <div class="ps-product--cart">
+                                                <div class="ps-product__thumbnail"><a href="~/Home/GetProductDetail?prodId=@product.id"><img src="@imageUrl/@product.small_image" alt="@product.title" title="@product.title"></a></div>
+                                                <div class="ps-product__content">
+                                                    <a href="#"> @product.title </a>
+                                                    @if (!string.IsNullOrEmpty(product.product_size))
+                                                    {
+                                                        <p>Size:<strong> @product.product_size </strong></p>
+                                                    }
+                                                    @if (!string.IsNullOrEmpty(product.Color))
+                                                    {
+                                                        <p>Color:<strong> @product.Color </strong></p>
+                                                    }
+                                                    @*<p>Sold By:<strong> DISCOUNT TADKA </strong></p>*@
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group--number">
+                                                <span>@product.vendor_qty</span>
+                                                @Html.HiddenFor(m => product.vendor_qty)
+                                            </div>
+                                        </td>
+                                        <td>@product.market_price</td>
+
+                                        <td>@product.offer_price</td>
+
+                                        <td>@(product.point_adjusted ?? 0)</td>
+
+                                        <td><span name="actualAmount">@(product.shippng_charge ?? 0)</span></td>
+
+                                        <td>@product.amount</td>
+
+                                        <td><a href="#" name="deleteFunction" data-id="@product.id"><i class="icon-cross"></i></a></td>
+                                    </tr>
+                                }
+
+                                <tr class="bg-light">
+                                    <td>&nbsp;  </td>
+                                    <td>&nbsp;  </td>
+                                    <td>&nbsp;  </td>
+                                    <td>&nbsp;  </td>
+                                    <td>&nbsp;  </td>
+                                    <td><h4>Cart Total</h4> </td>
+                                    <td><h4>Rs. @Model.NetPayment</h4></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="clearfix"> </div>
+                <div class="ps-section__footer">
+                    <div class="row">
+
+                        @if (CompanyId == Resources.HideDeliveryTypeCompanyId)
+                        {
+                            Model.OrderDetail.delievryType = 1;
+                        }
+                        else
+                        {
+                            <div class="col-xl-8 col-lg-4 col-md-12 col-sm-12 col-12 ">
+                                <div class="ps-block__header">
+                                    <h4><span> Select A Delivary Location </span></h4>
+                                </div><br>
+
+                                @foreach (var payOp in Model.deliveryTypeList)
+                    {
+                                    <div class="form-group">
+                                        <div class="ps-radio active">
+                                            @Html.RadioButtonFor(m => Model.OrderDetail.delievryType, payOp.Id, new { @class = "form-control ps-radio" })
+                                            <label for="ps-radio">@payOp.Value</label>
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+                        }
+
+                        <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 col-12 ">
+                            <p>&nbsp;</p><p>&nbsp;</p>
+                            @{ url = "/Home/Checkout?deliveryType=" + @Model.OrderDetail.delievryType;}
+                            <a class="ps-btn ps-btn--fullwidth" id="continueUrl" href=@url><i class="alert-info"></i> Proceed to Checkout </a>
+                        </div>
+
+
+                        <div class="clearfix"></div>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    @Html.Action("getCatHeirarchy", "Home", new { Cat = ViewBag.ParentId, subCat = ViewBag.category })
+</div>
+
+<script src="~/Scripts/shopping.js"></script>
+<script>
+    $(document).ready(function () {
+        showHideShippingCharge();
+        $('input[type=radio]').live('change', function () {
+            showHideShippingCharge();
+            var radioVal = $("input[type=radio]:checked").val();
+            UpdateShippingCharge(radioVal);
+        });
+
+        $('#continueUrl').click(function (e) {
+            showHideShippingCharge();
+            if (radioVal == null || radioVal == "") {
+                alert("Please select delivery type.");
+            }
+            else {
+                var url = "/Home/Checkout?deliveryType=" + $("input[type=radio]:checked").val();
+                document.getElementById("continueUrl").href = url;
+            }
+        });
+
+    });
+
+    function showHideShippingCharge() {
+        //var radioVal = $("input[type=radio]:checked").val();
+        //if (radioVal == null || radioVal == "") {
+        //    $("span[name=actualAmount]").show();
+        //    $("span[name=zeroAMount]").hide();
+        //}
+        //else if (radioVal == "3") {
+        //    $("span[name=actualAmount]").show();
+        //    $("span[name=zeroAMount]").hide();
+        //}
+        //else {
+        //    $("span[name=actualAmount]").hide();
+        //    $("span[name=zeroAMount]").show();
+        //}
+    }
+</script>

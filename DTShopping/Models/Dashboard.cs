@@ -15,6 +15,7 @@ namespace DTShopping.Models
         public List<Product> Products { get; set; }
         public UserDetails User { get; set; }
         public decimal NetPayment { get; set; }
+        public decimal ShippingCharge { get; set; }
         public double UsersPoints { get; set; }
         public double TotalProductPoints { get; set; }
         public Product ProductDetail { get; set; }
@@ -25,24 +26,27 @@ namespace DTShopping.Models
         public List<Containers> PaymentModeList { get; set; }
         public List<Containers> WalletPaymentModeList { get; set; }
         public List<KeyValue> deliveryTypeList { get; set; }
-        public ShoppingPortalFrontPageProdList FontpageSections{get;set;}
+        public ShoppingPortalFrontPageProdList FontpageSections { get; set; }
         public double Amount { get; set; }
         public Filters FilterDetail { get; set; }
         public CompanyProfile CompanyProfileDetail { get; set; }
-        
+        public List<Product> RelatedProductList { get; set; }
+        public List<Product> SameBrandProductList { get; set; }
+        public PagewiseProducts finalProductList { get; set; }
+
 
         public void AssignPaymentModes()
         {
             this.PaymentModeList = new List<Containers>();
-            this.PaymentModeList.Add(new Containers { value = "Cash Deposit"});
+            this.PaymentModeList.Add(new Containers { value = "Cash Deposit" });
             this.PaymentModeList.Add(new Containers { value = "Demand Draft" });
             this.PaymentModeList.Add(new Containers { value = "Cheque" });
             this.PaymentModeList.Add(new Containers { value = "NEFT" });
             this.PaymentModeList.Add(new Containers { value = "RTGS" });
             this.PaymentModeList.Add(new Containers { value = "IMPS" });
             this.PaymentModeList.Add(new Containers { value = "Paytm" });
-            this.PaymentModeList.Add(new Containers { value = "PhonePe" });            
-            
+            this.PaymentModeList.Add(new Containers { value = "PhonePe" });
+
         }
     }
 

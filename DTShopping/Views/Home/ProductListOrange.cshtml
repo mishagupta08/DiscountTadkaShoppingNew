@@ -1,0 +1,503 @@
+﻿@using PagedList.Mvc;
+@using DTShopping.Properties
+@model  DTShopping.Models.Dashboard
+@{
+    Layout = "~/Views/Shared/_LayoutOrange.cshtml";
+    ViewBag.Title = "ProductList";
+    string imageUrl = System.Configuration.ConfigurationManager.AppSettings["ImageUrl"];
+    var count = 0;
+    int CompanyId = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
+    int URSHOPECOMPANYID = 33;
+    var inLineStyle = string.Empty;
+    if (CompanyId == URSHOPECOMPANYID)
+    {
+        inLineStyle = "background-image:none; background-color:transparent;";
+    }
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+<style>
+    .ul.pagination {
+        display: inline-block;
+        padding: 0;
+        margin: 0;
+    }
+
+    .page-link {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 12px;
+        color: black;
+    }
+
+    ul.pagination li {
+        display: inline;
+    }
+
+        ul.pagination li a {
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+            transition: background-color .3s;
+        }
+
+            ul.pagination li a.active {
+                background-color: #4CAF50;
+                color: white;
+            }
+
+            ul.pagination li a:hover:not(.active) {
+                background-color: #ddd;
+            }
+</style>
+
+<div class="ps-breadcrumb">
+    <div class="ps-container">
+        <ul class="breadcrumb">
+            <li><a href="~/Home/Index">Home</a></li>
+            <li>Products</li>
+        </ul>
+    </div>
+</div>
+<div class="ps-page--shop">
+    <div class="ps-container">
+        @*<div class="ps-shop-banner">
+                <div class="ps-carousel--nav-inside owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="true" data-owl-item="1" data-owl-item-xs="1" data-owl-item-sm="1" data-owl-item-md="1" data-owl-item-lg="1" data-owl-duration="1000" data-owl-mousedrag="on"><a href="#"><img src="img/slider/shop-default/1.jpg" alt=""></a><a href="#"><img src="img/slider/shop-default/2.jpg" alt=""></a></div>
+            </div>*@
+
+        <div class="ps-layout--shop">
+            @Html.Action("getCatHeirarchy", "Home", new { Cat = ViewBag.ParentId, subCat = ViewBag.category, brandId = ViewBag.brand })
+            
+            <div class="ps-layout__right" style="margin-top:1%;">
+                @if (Model.FontpageSections != null && Model.FontpageSections.SpeacialSegment != null && Model.FontpageSections.SpeacialSegment.Count > 0)
+                {
+                    <div class="ps-block--shop-features">
+                        <div class="ps-block__header">
+                            <h3>Best Sale Items</h3>
+                            <div class="ps-block__navigation"><a class="ps-carousel__prev" href="#recommended1"><i class="icon-chevron-left"></i></a><a class="ps-carousel__next" href="#recommended1"><i class="icon-chevron-right"></i></a></div>
+                        </div>
+                        <div class="ps-block__content">
+                            <div class="owl-slider" id="recommended1" data-owl-auto="true" data-owl-loop="true" data-owl-speed="10000" data-owl-gap="30" data-owl-nav="false" data-owl-dots="false" data-owl-item="6" data-owl-item-xs="2" data-owl-item-sm="2" data-owl-item-md="3" data-owl-item-lg="4" data-owl-item-xl="5" data-owl-duration="1000" data-owl-mousedrag="on">
+                                @foreach (var prod in Model.FontpageSections.SpeacialSegment)
+                                {
+                                    var iName = prod.large_image;
+                                    if (string.IsNullOrEmpty(prod.large_image))
+                                    {
+                                        if (string.IsNullOrEmpty(prod.medium_image))
+                                        {
+                                            iName = prod.small_image;
+                                        }
+                                        else
+                                        {
+                                            iName = prod.medium_image;
+                                        }
+                                    }
+                                    <div class="ps-product">
+                                        <div class="ps-product__thumbnail">
+                                            <a onclick="callDetailPage('@prod.id')" href="~/Home/GetProductDetail?prodId=@prod.id">
+                                                <img src="@imageUrl/@iName" alt="">
+                                            </a>
+                                            @*<div class="ps-product__badge">-37%</div>*@
+                                            <ul class="ps-product__actions">
+                                                <li><a onclick="AddProductInCart(@prod.id, 1)" href="#" data-toggle="tooltip" data-placement="top" title="Add to Cart"><i class="icon-bag2"></i></a></li>
+                                                <li><a onclick="callDetailPage('@prod.id')" href="~/Home/GetProductDetail?prodId=@prod.id" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-eye"></i></a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="ps-product__container">
+                                            @*<a class="ps-product__vendor" href="#">Discount Tadka </a>*@
+                                            <div class="ps-product__content">
+                                                <a class="ps-product__title" onclick="callDetailPage('@prod.id')" href="~/Home/GetProductDetail?prodId=@prod.id"> @prod.title </a>
+                                                <p class="ps-product__price sale">
+                                                    @if (Convert.ToDouble(string.IsNullOrEmpty(prod.market_price) ? "0" : prod.market_price) > Convert.ToDouble(string.IsNullOrEmpty(prod.offer_price) ? "0" : prod.offer_price))
+                                                    {
+                                                        <span> Rs. @prod.offer_price <del> Rs. @prod.market_price </del> </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>
+                                                            Rs. @prod.offer_price
+                                                        </span>
+                                                    }
+                                                    <br>
+                                                    @{var point = @prod.point_adjusted != null ? @prod.point_adjusted : 0;}
+
+                                                    <small class="text-dark">
+                                                        @if (CompanyId == URSHOPECOMPANYID)
+                                                        {
+                                                            <span>@Resources.ProfitPoint : </span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>@Resources.EUPoints : </span>
+                                                        }
+                                                        @point
+                                                    </small>
+                                                </p>
+
+                                            </div>
+                                            <div class="ps-product__content hover">
+                                                <a class="ps-product__title" onclick="callDetailPage('@prod.id')" href="~/Home/GetProductDetail?prodId=@prod.id">Grand Slam Indoor Of Show Jumping Novel</a>
+                                                <p class="ps-product__price sale">
+                                                    @if (Convert.ToDouble(string.IsNullOrEmpty(prod.market_price) ? "0" : prod.market_price) > Convert.ToDouble(string.IsNullOrEmpty(prod.offer_price) ? "0" : prod.offer_price))
+                                                    {
+                                                        <span> Rs. @prod.offer_price <del> Rs. @prod.market_price </del> </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>
+                                                            Rs. @prod.offer_price
+                                                        </span>
+                                                    }
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                                        }
+                            </div>
+                        </div>
+                    </div>
+                                                        }
+                @if (Model.RelatedProductList != null && Model.RelatedProductList.Count > 0)
+                {
+                    <div class="ps-block--shop-features">
+                        <div class="ps-block__header">
+                            <h3>Recommended Items</h3>
+                            <div class="ps-block__navigation"><a class="ps-carousel__prev" href="#recommended"><i class="icon-chevron-left"></i></a><a class="ps-carousel__next" href="#recommended"><i class="icon-chevron-right"></i></a></div>
+                        </div>
+                        <div class="ps-block__content">
+                            <div class="owl-slider" id="recommended" data-owl-auto="true" data-owl-loop="true" data-owl-speed="10000" data-owl-gap="30" data-owl-nav="false" data-owl-dots="false" data-owl-item="6" data-owl-item-xs="2" data-owl-item-sm="2" data-owl-item-md="3" data-owl-item-lg="4" data-owl-item-xl="5" data-owl-duration="1000" data-owl-mousedrag="on">
+                                @foreach (var prod in Model.RelatedProductList)
+                                {
+                                    var iName = prod.large_image;
+                                    if (string.IsNullOrEmpty(prod.large_image))
+                                    {
+                                        if (string.IsNullOrEmpty(prod.medium_image))
+                                        {
+                                            iName = prod.small_image;
+                                        }
+                                        else
+                                        {
+                                            iName = prod.medium_image;
+                                        }
+                                    }
+                                    <div class="ps-product">
+                                        <div class="ps-product__thumbnail">
+                                            <a onclick="callDetailPage('@prod.id')" href="~/Home/GetProductDetail?prodId=@prod.id">
+                                                <img src="@imageUrl/@iName" alt="">
+                                            </a>
+                                            @*<div class="ps-product__badge">-37%</div>*@
+                                            <ul class="ps-product__actions">
+                                                <li><a onclick="AddProductInCart(@prod.id, 1)" href="#" data-toggle="tooltip" data-placement="top" title="Add to Cart"><i class="icon-bag2"></i></a></li>
+                                                <li><a onclick="callDetailPage('@prod.id')" href="~/Home/GetProductDetail?prodId=@prod.id" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-eye"></i></a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="ps-product__container">
+                                            @*<a class="ps-product__vendor" href="#">Discount Tadka </a>*@
+                                            <div class="ps-product__content">
+                                                <a class="ps-product__title" onclick="callDetailPage('@prod.id')" href="~/Home/GetProductDetail?prodId=@prod.id"> @prod.title </a>
+                                                <p class="ps-product__price sale">
+                                                    @if (Convert.ToDouble(string.IsNullOrEmpty(prod.market_price) ? "0" : prod.market_price) > Convert.ToDouble(string.IsNullOrEmpty(prod.offer_price) ? "0" : prod.offer_price))
+                                                    {
+                                                        <span> Rs. @prod.offer_price <del> Rs. @prod.market_price </del> </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>
+                                                            Rs. @prod.offer_price
+                                                        </span>
+                                                    }
+                                                    <br>
+
+
+                                                    @{var point = @prod.point_adjusted != null ? @prod.point_adjusted : 0;}
+
+                                                    <small class="text-dark">
+                                                        @if (CompanyId == URSHOPECOMPANYID)
+                                                        {
+                                                            <span>@Resources.ProfitPoint : </span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>@Resources.EUPoints : </span>
+                                                        }
+                                                        @point
+                                                    </small>
+                                                </p>
+
+                                            </div>
+                                            <div class="ps-product__content hover">
+                                                <a class="ps-product__title" onclick="callDetailPage('@prod.id')" href="~/Home/GetProductDetail?prodId=@prod.id">Grand Slam Indoor Of Show Jumping Novel</a>
+                                                <p class="ps-product__price sale">
+                                                    @if (Convert.ToDouble(string.IsNullOrEmpty(prod.market_price) ? "0" : prod.market_price) > Convert.ToDouble(string.IsNullOrEmpty(prod.offer_price) ? "0" : prod.offer_price))
+                                                    {
+                                                        <span> Rs. @prod.offer_price <del> Rs. @prod.market_price </del> </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>
+                                                            Rs. @prod.offer_price
+                                                        </span>
+                                                    }
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                                        }
+                            </div>
+                        </div>
+                    </div>
+                                                        }
+                <div class="ps-shopping ps-tab-root">
+                    <div class="ps-shopping__header">
+                        <p><strong> @Model.finalProductList.pagerCount.TotalItemCount</strong> Products found</p>
+                        <div class="ps-shopping__actions">
+                            <select class="ps-select" data-placeholder="Sort Items">
+                                <option><a href="/Home/SearchProductList?page=1&SearchString=@Model.finalProductList.SearchString&SortBy=price&Order=asc" class="SortProduct" data-SortBy="price" data-SortOrder="ASC">Sort by price: low to high</a></option>
+                                <option><a href="/Home/SearchProductList?page=1&SearchString=@Model.finalProductList.SearchString&SortBy=price&Order=desc" class="SortProduct" data-SortBy="price" data-SortOrder="DESC">Sort by price: high to high</a></option>
+                                <option><a href="/Home/SearchProductList?page=1&SearchString=@Model.finalProductList.SearchString&SortBy=points&Order=asc" class="SortProduct" data-SortBy="Points" data-SortOrder="ASC">Sort by Point: low to high</a></option>
+                                <option><a href="/Home/SearchProductList?page=1&SearchString=@Model.finalProductList.SearchString&SortBy=points&Order=desc" class="SortProduct" data-SortBy="Points" data-SortOrder="DESC">Sort by Point: high to low</a></option>
+                            </select>
+                            <div class="ps-shopping__view">
+                                <p>View</p>
+                                <ul class="ps-tab-list">
+                                    <li class="active"><a href="#tab-1"><i class="icon-grid"></i></a></li>
+                                    <li><a href="#tab-2"><i class="icon-list4"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    @if (Model.finalProductList == null || Model.finalProductList.ProductList == null || Model.finalProductList.ProductList.Count > 0)
+                    {
+                        <div class="ps-tabs">
+                            <div class="ps-tab active" id="tab-1">
+                                <div class="ps-shopping-product">
+                                    <div class="row">
+                                        @foreach (var prod in Model.finalProductList.ProductList)
+                                        {
+                                            var iName = prod.small_image;
+                                            if (string.IsNullOrEmpty(prod.small_image))
+                                            {
+                                                if (string.IsNullOrEmpty(prod.medium_image))
+                                                {
+                                                    iName = prod.large_image;
+                                                }
+                                                else
+                                                {
+                                                    iName = prod.medium_image;
+                                                }
+                                            }
+                                            <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 col-6 ">
+                                                <div class="ps-product">
+                                                    <div class="ps-product__thumbnail">
+                                                        <a onclick="callDetailPage('@prod.id')" href="~/Home/GetProductDetail?prodId=@prod.id">
+                                                            <img src="@imageUrl/@iName" alt="">
+                                                        </a>
+                                                        @*<div class="ps-product__badge">-37%</div>*@
+                                                        <ul class="ps-product__actions">
+                                                            <li><a onclick="AddProductInCart(@prod.id, 1)" href="#" data-toggle="tooltip" data-placement="top" title="Add to Cart"><i class="icon-bag2"></i></a></li>
+                                                            <li><a onclick="callDetailPage('@prod.id')" href="~/Home/GetProductDetail?prodId=@prod.id" data-toggle="tooltip" data-placement="top" title="Read More"><i class="icon-eye"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="ps-product__container">
+                                                        @*<a class="ps-product__vendor" href="#">Discount Tadka </a>*@
+                                                        <div class="ps-product__content">
+                                                            <a class="ps-product__title" onclick="callDetailPage('@prod.id')" href="~/Home/GetProductDetail?prodId=@prod.id"> @prod.title </a>
+                                                            <p class="ps-product__price sale">
+                                                                @if (Convert.ToDouble(string.IsNullOrEmpty(prod.market_price) ? "0" : prod.market_price) > Convert.ToDouble(string.IsNullOrEmpty(prod.offer_price) ? "0" : prod.offer_price))
+                                                                {
+                                                                    <span> Rs. @prod.offer_price <del> Rs. @prod.market_price </del> </span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span>
+                                                                        Rs. @prod.offer_price
+                                                                    </span>
+                                                                }
+                                                                <br>
+
+
+                                                                @{var point = @prod.point_adjusted != null ? @prod.point_adjusted : 0;}
+
+                                                                <small class="text-dark">
+                                                                    @if (CompanyId == URSHOPECOMPANYID)
+                                                                    {
+                                                                        <span>@Resources.ProfitPoint : </span>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <span>@Resources.EUPoints : </span>
+                                                                    }
+                                                                    @point
+                                                                </small>
+                                                            </p>
+
+                                                        </div>
+                                                        <div class="ps-product__content hover">
+                                                            <a class="ps-product__title" onclick="callDetailPage('@prod.id')" href="~/Home/GetProductDetail?prodId=@prod.id">Grand Slam Indoor Of Show Jumping Novel</a>
+                                                            <p class="ps-product__price sale">
+                                                                @if (Convert.ToDouble(string.IsNullOrEmpty(prod.market_price) ? "0" : prod.market_price) > Convert.ToDouble(string.IsNullOrEmpty(prod.offer_price) ? "0" : prod.offer_price))
+                                                                {
+                                                                    <span> Rs. @prod.offer_price <del> Rs. @prod.market_price </del> </span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span>
+                                                                        Rs. @prod.offer_price
+                                                                    </span>
+                                                                }
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                                                    }
+                                    </div>
+                                </div>
+                                <div class="ps-pagination">
+
+                                    <center>
+                                        <span class="page-link">Page@(Model.finalProductList.pagerCount.PageCount < Model.finalProductList.pagerCount.PageNumber ? 0 : Model.finalProductList.pagerCount.PageNumber) of @Model.finalProductList.pagerCount.PageCount</span>
+
+
+                                        @Html.PagedListPager(Model.finalProductList.pagerCount, page => Url.Action("ProductList", "Home", new { page, SearchString = Model.finalProductList.SearchString, SortBy = Model.finalProductList.sortby, Order = Model.finalProductList.order, cat = ViewBag.category, BrandId = ViewBag.brand, root = ViewBag.ParentId }),
+
+    new PagedListRenderOptions
+    {
+        DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+        DisplayLinkToLastPage = PagedListDisplayMode.Never,
+        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+        MaximumPageNumbersToDisplay = 3
+
+    }
+    )
+                                    </center>
+
+
+                                    @*<ul class="pagination">
+                                            <li class="active"><a href="#">1</a></li>
+                                            <li><a href="#">2</a></li>
+                                            <li><a href="#">3</a></li>
+                                            <li><a href="#">Next Page<i class="icon-chevron-right"></i></a></li>
+                                        </ul>*@
+                                </div>
+                            </div>
+                            <div class="ps-tab" id="tab-2">
+                                <div class="ps-shopping-product">
+                                    @foreach (var prod in Model.finalProductList.ProductList)
+                                    {
+                                        var iName = prod.small_image;
+                                        if (string.IsNullOrEmpty(prod.small_image))
+                                        {
+                                            if (string.IsNullOrEmpty(prod.medium_image))
+                                            {
+                                                iName = prod.large_image;
+                                            }
+                                            else
+                                            {
+                                                iName = prod.medium_image;
+                                            }
+                                        }
+                                        <div class="ps-product ps-product--wide">
+                                            <div class="ps-product__thumbnail">
+                                                <a onclick="callDetailPage('@prod.id')" href="~/Home/GetProductDetail?prodId=@prod.id">
+                                                    <img src="@imageUrl/@iName" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="ps-product__container">
+                                                <div class="ps-product__content" style="max-width:420px;">
+                                                    <a class="ps-product__title" onclick="callDetailPage('@prod.id')" href="~/Home/GetProductDetail?prodId=@prod.id"> @prod.title </a>
+                                                    @*<p class="ps-product__vendor">Sold by:<a href="#">ROBERT’S STORE</a></p>*@
+                                                    <div class="ps-product__desc">
+                                                        @*@Html.Raw(prod.short_description)*@
+                                                    </div>
+                                                    @*<ul class="ps-product__desc">
+                                                            <li> Unrestrained and portable active stereo speaker</li>
+                                                            <li> Free from the confines of wires and chords</li>
+                                                            <li> 20 hours of portable capabilities</li>
+                                                            <li> Double-ended Coil Cord with 3.5mm Stereo Plugs Included</li>
+                                                            <li> 3/4″ Dome Tweeters: 2X and 4″ Woofer: 1X</li>
+                                                        </ul>*@
+                                                </div>
+                                                <div class="ps-product__shopping">
+                                                    @if (Convert.ToDouble(string.IsNullOrEmpty(prod.market_price) ? "0" : prod.market_price) > Convert.ToDouble(string.IsNullOrEmpty(prod.offer_price) ? "0" : prod.offer_price))
+                                                    {
+                                                        <p class="ps-product__price">
+                                                            Rs. @prod.offer_price <del>@prod.market_price</del>
+                                                        </p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p class="ps-product__price">
+                                                            Rs. @prod.offer_price
+                                                        </p>
+                                                    }
+                                                    @{var point = @prod.point_adjusted != null ? @prod.point_adjusted : 0;}
+
+                                                    <small class="text-dark">
+                                                        @if (CompanyId == URSHOPECOMPANYID)
+                                                        {
+                                                            <span>@Resources.ProfitPoint : </span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>@Resources.EUPoints : </span>
+                                                        }
+                                                        @point
+                                                    </small>
+
+                                                    <a class="ps-btn" onclick="AddProductInCart(@prod.id, 1)" href="#">Add to cart</a>
+                                                    @*<ul class="ps-product__actions">
+                                                            <li><a href="#"><i class="icon-heart"></i> Wishlist</a></li>
+                                                            <li><a href="#"><i class="icon-chart-bars"></i> Compare</a></li>
+                                                        </ul>*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                                        }
+                                </div>
+                                <div class="ps-pagination">
+                                    <center>
+                                        <span class="page-link">Page@(Model.finalProductList.pagerCount.PageCount < Model.finalProductList.pagerCount.PageNumber ? 0 : Model.finalProductList.pagerCount.PageNumber) of @Model.finalProductList.pagerCount.PageCount</span>
+
+
+                                        @Html.PagedListPager(Model.finalProductList.pagerCount, page => Url.Action("ProductList", "Home", new { page, SearchString = Model.finalProductList.SearchString, SortBy = Model.finalProductList.sortby, Order = Model.finalProductList.order, cat = ViewBag.category, BrandId = ViewBag.brand, root = ViewBag.ParentId }),
+
+    new PagedListRenderOptions
+    {
+        DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+        DisplayLinkToLastPage = PagedListDisplayMode.Never,
+        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+        MaximumPageNumbersToDisplay = 3
+
+    }
+    )
+                                    </center>
+                                    @*<ul class="pagination">
+                                            <li class="active"><a href="#">1</a></li>
+                                            <li><a href="#">2</a></li>
+                                            <li><a href="#">3</a></li>
+                                            <li><a href="#">Next Page<i class="icon-chevron-right"></i></a></li>
+                                        </ul>*@
+                                </div>
+                            </div>
+                        </div>
+                                                        }
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="shop-filter-lastest" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="list-group"><a class="list-group-item list-group-item-action" href="#">Sort by</a><a class="list-group-item list-group-item-action" href="#">Sort by average rating</a><a class="list-group-item list-group-item-action" href="#">Sort by latest</a><a class="list-group-item list-group-item-action" href="#">Sort by price: low to high</a><a class="list-group-item list-group-item-action" href="#">Sort by price: high to low</a><a class="list-group-item list-group-item-action text-center" href="#" data-dismiss="modal"><strong>Close</strong></a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/dashboard.js"></script>

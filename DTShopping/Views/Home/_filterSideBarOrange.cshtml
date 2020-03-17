@@ -1,0 +1,183 @@
+﻿@model DTShopping.Models.SideBar
+@using DTShopping.Properties
+@{
+    ViewBag.Title = "ProductList";
+    string imageUrl = System.Configuration.ConfigurationManager.AppSettings["ImageUrl"];
+    var count = 0;
+    int CompanyId = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
+    int URSHOPECOMPANYID = 33;
+    var inLineStyle = string.Empty;
+    if (CompanyId == URSHOPECOMPANYID)
+    {
+        inLineStyle = "background-image:none; background-color:transparent;";
+    }
+
+    var url = "/Home/ProductList?cat=" + @ViewBag.category + "&BrandId=" + @ViewBag.brand + "&root=" + @ViewBag.ParentId + "&page=1&pointsFilterList=";
+}
+
+<input type="hidden" value="@url" id="PointsUrl" />
+<div class="ps-layout__left">
+    @if (Model != null && Model.categoryList.Count() > 0)
+    {
+        <aside class="widget widget_shop">
+            <h4 class="widget-title">Categories</h4>
+            <ul class="ps-list--categories">
+                @foreach (var category in Model.categoryList)
+                {
+
+                    var t = category.Childern != null && category.Childern.Count > 0;
+                    var hasChild = t == true ? "menu-item-has-children" : string.Empty;
+                <li class="current-menu-item @hasChild">
+                    <a href="~/Home/ProductList?cat=@category.id&root=@category.id">
+                        @category.title
+                    </a>
+                    @if (t)
+                        {
+                        <ul class="sub-menu">
+                            @foreach (var subcategory in category.Childern)
+                                {
+                                    var tt = subcategory.Childern != null && subcategory.Childern.Count > 0;
+                                    var hasChild1 = tt == true ? "menu-item-has-children has-mega-menu" : string.Empty;
+                                <li class="current-menu-item @hasChild1">
+                                    @if (tt)
+                                        {
+                                        <a href="~/Home/ProductList?cat=@subcategory.id&root=@category.id">@subcategory.title</a>
+                                        <ul class="sub-menu">
+                                            @foreach (var subsubcategory in subcategory.Childern)
+                                                {
+                                                <li class="current-menu-item ">
+                                                    <a href="~/Home/ProductList?cat=@subsubcategory.id&root=@category.id">@subsubcategory.title</a>
+                                                </li>
+                                                }
+                                        </ul>
+                                        }
+                                </li>
+                                }
+                        </ul>
+                        }
+                </li>
+                }
+            </ul>
+        </aside>
+    }
+
+    <aside class="widget widget_shop">
+        <h4 class="widget-title">POINTS</h4>
+        @*<form class="ps-form--widget-search" action="http://nouthemes.net/html/martfury/do_action" method="get">
+                <input class="form-control" type="text" placeholder="">
+                <button><i class="icon-magnifier"></i></button>
+            </form>*@
+        <figure class="ps-custom-scrollbar" data-height="250">
+            <div class="ps-checkbox">
+                <input class="form-control" type="checkbox" value="0,50" id="brand-1" name="pointsCheckBox">
+                <label for="brand-1">Point 0 - 50</label>
+            </div>
+            <div class="ps-checkbox">
+                <input class="form-control" type="checkbox" value="50,100" id="brand-2" name="pointsCheckBox">
+                <label for="brand-2">Point 50 - 100</label>
+            </div>
+            <div class="ps-checkbox">
+                <input class="form-control" type="checkbox" value="100,150" id="brand-3" name="pointsCheckBox">
+                <label for="brand-3">Point 100 - 150</label>
+            </div>
+            <div class="ps-checkbox">
+                <input class="form-control" type="checkbox" id="brand-4" value="150,200" name="pointsCheckBox">
+                <label for="brand-4">Point 150- 200</label>
+            </div>
+            <div class="ps-checkbox">
+                <input class="form-control" type="checkbox" id="brand-5" value="200,250" name="pointsCheckBox">
+                <label for="brand-5">Point 200 - 250</label>
+            </div>
+            <div class="ps-checkbox">
+                <input class="form-control" type="checkbox" id="brand-6" value="250,300" name="pointsCheckBox">
+                <label for="brand-6">Point 250 - 300</label>
+            </div>
+            <div class="ps-checkbox">
+                <input class="form-control" type="checkbox" id="brand-7" value="300,350" name="pointsCheckBox">
+                <label for="brand-7">Point 300 - 350</label>
+            </div>
+            <div class="ps-checkbox">
+                <input class="form-control" type="checkbox" id="brand-8" value="350,400" name="pointsCheckBox">
+                <label for="brand-8">Point 350 - 400</label>
+            </div>
+            <div class="ps-checkbox">
+                <input class="form-control" type="checkbox" id="brand-9" value="400,450" name="pointsCheckBox">
+                <label for="brand-9">Point 400 - 450</label>
+            </div>
+            <div class="ps-checkbox">
+                <input class="form-control" type="checkbox" id="brand-10" value="450,500" name="pointsCheckBox">
+                <label for="brand-10">Point 450 - 500</label>
+            </div>
+            <div class="ps-checkbox">
+                <input class="form-control" type="checkbox" id="brand-11" value="500,1000"name="pointsCheckBox">
+                <label for="brand-11">Point 500 - Above</label>
+            </div>
+        </figure>
+        <figure>
+            <h4 class="widget-title">By Price</h4>
+            <div class="ps-slider" data-default-min="13" data-default-max="1300" data-max="1311" data-step="100" data-unit="Rs. "></div>
+            <p class="ps-slider__meta">Price:<span class="ps-slider__value ps-slider__min"></span>-<span class="ps-slider__value ps-slider__max"></span></p>
+        </figure>
+        <figure>
+            <h4 class="widget-title">By Price</h4>
+            <div class="ps-checkbox">
+                <input class="form-control" type="checkbox" id="review-1" name="review">
+                <label for="review-1"><span><i class="fa fa-star rate"></i><i class="fa fa-star rate"></i><i class="fa fa-star rate"></i><i class="fa fa-star rate"></i><i class="fa fa-star rate"></i></span><small>(13)</small></label>
+            </div>
+            <div class="ps-checkbox">
+                <input class="form-control" type="checkbox" id="review-2" name="review">
+                <label for="review-2"><span><i class="fa fa-star rate"></i><i class="fa fa-star rate"></i><i class="fa fa-star rate"></i><i class="fa fa-star rate"></i><i class="fa fa-star"></i></span><small>(13)</small></label>
+            </div>
+            <div class="ps-checkbox">
+                <input class="form-control" type="checkbox" id="review-3" name="review">
+                <label for="review-3"><span><i class="fa fa-star rate"></i><i class="fa fa-star rate"></i><i class="fa fa-star rate"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span><small>(5)</small></label>
+            </div>
+            <div class="ps-checkbox">
+                <input class="form-control" type="checkbox" id="review-4" name="review">
+                <label for="review-4"><span><i class="fa fa-star rate"></i><i class="fa fa-star rate"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span><small>(5)</small></label>
+            </div>
+            <div class="ps-checkbox">
+                <input class="form-control" type="checkbox" id="review-5" name="review">
+                <label for="review-5"><span><i class="fa fa-star rate"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span><small>(1)</small></label>
+            </div>
+        </figure>
+        <figure>
+            <h4 class="widget-title">By Color</h4>
+            <div class="ps-checkbox ps-checkbox--color color-1 ps-checkbox--inline">
+                <input class="form-control" type="checkbox" id="color-1" name="size">
+                <label for="color-1"></label>
+            </div>
+            <div class="ps-checkbox ps-checkbox--color color-2 ps-checkbox--inline">
+                <input class="form-control" type="checkbox" id="color-2" name="size">
+                <label for="color-2"></label>
+            </div>
+            <div class="ps-checkbox ps-checkbox--color color-3 ps-checkbox--inline">
+                <input class="form-control" type="checkbox" id="color-3" name="size">
+                <label for="color-3"></label>
+            </div>
+            <div class="ps-checkbox ps-checkbox--color color-4 ps-checkbox--inline">
+                <input class="form-control" type="checkbox" id="color-4" name="size">
+                <label for="color-4"></label>
+            </div>
+            <div class="ps-checkbox ps-checkbox--color color-5 ps-checkbox--inline">
+                <input class="form-control" type="checkbox" id="color-5" name="size">
+                <label for="color-5"></label>
+            </div>
+            <div class="ps-checkbox ps-checkbox--color color-6 ps-checkbox--inline">
+                <input class="form-control" type="checkbox" id="color-6" name="size">
+                <label for="color-6"></label>
+            </div>
+            <div class="ps-checkbox ps-checkbox--color color-7 ps-checkbox--inline">
+                <input class="form-control" type="checkbox" id="color-7" name="size">
+                <label for="color-7"></label>
+            </div>
+            <div class="ps-checkbox ps-checkbox--color color-8 ps-checkbox--inline">
+                <input class="form-control" type="checkbox" id="color-8" name="size">
+                <label for="color-8"></label>
+            </div>
+        </figure>
+        <figure class="sizes">
+            <h4 class="widget-title">BY SIZE</h4><a href="#">L</a><a href="#">M</a><a href="#">S</a><a href="#">XL</a>
+        </figure>
+    </aside>
+</div>

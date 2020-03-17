@@ -10,15 +10,15 @@
 }
 
 <div class="container">
-    <table width="100%" border="1" cellspacing="3" cellpadding="3" class="shoptable">
+    <table width="100%" border="1" cellspacing="3" cellpadding="3" class="shoptable" style="margin-top:10px;">
         <tr>
             @if (CompanyId == URSHOPECOMPANYID)
             {
-                <td width="20%"><img src="~/images/thanks.png" alt="Thank You" style="padding-left: 70%; padding-top: 10%;"></td>
+                <td width="20%"><img src="~/images/thanks.png" height="140" width="90" alt="Thank You" style="margin-left: 30%;"></td>
             }
             else
             {
-            <td width="20%"><img src="~/images/thanku.jpg" alt="Thank You" style="padding-left: 70%; padding-top: 10%;"></td>
+                <td width="20%"><img src="~/images/thanku.jpg" alt="Thank You" height="120" width="120" style="margin-left: 20%;"></td>
             }
             <td width="60%" style="padding-left: 5%;" valign="middle">
                 Thanks for placing your order with us here at @current_cmpny.company_name <br>

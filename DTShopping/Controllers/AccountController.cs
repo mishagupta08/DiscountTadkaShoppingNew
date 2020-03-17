@@ -10,6 +10,7 @@ using System.Security.Cryptography;
 using System.IO;
 using System.Text;
 using System.Globalization;
+using DTShopping.Properties;
 
 namespace DTShopping
 {
@@ -17,6 +18,7 @@ namespace DTShopping
     public class AccountController : Controller
     {
         private APIRepository _APIManager;
+        string Theme = System.Configuration.ConfigurationManager.AppSettings["Theme"] == null ? string.Empty : System.Configuration.ConfigurationManager.AppSettings["Theme"].ToString();
 
         private static byte[] KeyByte = Encoding.ASCII.GetBytes("6b04d38748f94490a636cf1be3d82841");
         private static byte[] IVByte = Encoding.ASCII.GetBytes("f8adbf3c94b7463d");
@@ -39,7 +41,19 @@ namespace DTShopping
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
+
             return View();
+
+        }
+
+        [AllowAnonymous]
+        public async Task<ActionResult> LoginOrangeFunction(string returnUrl)
+        {
+            this.model = new Dashboard();
+            ViewBag.ReturnUrl = returnUrl;
+            this._APIManager = new APIRepository();
+            await this.AssignStateCityList();
+            return View("LoginOrange", this.model);
         }
 
         [HttpGet]
@@ -86,6 +100,7 @@ namespace DTShopping
                                     UserDetails user = JsonConvert.DeserializeObject<UserDetails>(result.ResponseValue);
                                     FormsAuthentication.SetAuthCookie(user.username, false);
                                     Session["UserDetail"] = user;
+
                                     return RedirectToAction("Index", "Home");
                                 }
                                 else

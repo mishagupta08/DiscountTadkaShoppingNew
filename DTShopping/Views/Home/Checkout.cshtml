@@ -25,6 +25,10 @@
                         @Html.HiddenFor(m => m.OrderDetail.point_adjusted, new { name = "pointAdjusted2", id = "pointAdjusted2" })
                         @Html.Hidden("Amount", Model.NetPayment)
 
+                        @Html.HiddenFor(m => m.OrderDetail.delievryType, new { @id = "deliveryType" })
+                        @Html.HiddenFor(m => m.OrderDetail.user_id)
+                        @Html.HiddenFor(m => m.OrderDetail.id)
+
                         @******* if company id = 29// for sunvis*** then load this view.*@
                         @if (CompanyId == 29)
                         {
@@ -33,9 +37,6 @@
                                     <td colspan="2" style="background:#efefef;">
                                         <h3 style="font-family:'Oswald';font-size:16px;">Confirm Mobile No. and Email</h3>
                                     </td>
-                                    @Html.HiddenFor(m => m.OrderDetail.delievryType, new { @id = "deliveryType" })
-                                    @Html.HiddenFor(m => m.OrderDetail.user_id)
-                                    @Html.HiddenFor(m => m.OrderDetail.id)
                                 </tr>
                                 <tr>
                                     <td class="fieldKey"><label for="username">Mobile Number</label>:</td>
@@ -59,9 +60,6 @@
                                     <td colspan="2" style="background:#efefef;">
                                         <h3 style="font-family:'Oswald';font-size:16px;">Shipping  Address</h3>
                                     </td>
-                                    @Html.HiddenFor(m => m.OrderDetail.delievryType, new { @id = "deliveryType" })
-                                    @Html.HiddenFor(m => m.OrderDetail.user_id)
-                                    @Html.HiddenFor(m => m.OrderDetail.id)
                                 </tr>
 
                                 <tr>

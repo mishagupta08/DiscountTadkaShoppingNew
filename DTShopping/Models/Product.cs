@@ -50,6 +50,7 @@ namespace DTShopping.Models
         public double TotalPayment { get; set; }
         public decimal amount { get; set; }
         public string Color { get; set; }
+        public string BrandName { get; set; }
         public List<string> sizeList { get; set; }
         public List<string> colorList { get; set; }
     }

@@ -1,7 +1,18 @@
-﻿@{
+﻿@using DTShopping.Properties
+@{
     ViewBag.Title = "TermsAndConditions";
     string CompanyWebsite = System.Configuration.ConfigurationManager.AppSettings["CompanyWebsite"];
     string CompanyName = System.Configuration.ConfigurationManager.AppSettings["CompanyName"];
+
+    string Theme = System.Configuration.ConfigurationManager.AppSettings["Theme"] == null ? string.Empty : System.Configuration.ConfigurationManager.AppSettings["Theme"].ToString();
+    if (Theme == Resources.Orange)
+    {
+        Layout = "~/Views/Shared/_LayoutOrange.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
 }
 <div class="container">
     <div class="sixteen columns">

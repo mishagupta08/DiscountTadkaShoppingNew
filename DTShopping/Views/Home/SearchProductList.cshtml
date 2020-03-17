@@ -1,6 +1,6 @@
 ﻿@using PagedList.Mvc;
 @using DTShopping.Properties
-@model  DTShopping.Models.PagewiseProducts
+@model  DTShopping.Models.Dashboard
 @{
     ViewBag.Title = "ProductList";
     string imageUrl = System.Configuration.ConfigurationManager.AppSettings["ImageUrl"];
@@ -62,10 +62,10 @@
                                 <tr>
                                     <td class="padding0">
                                         Sort by :
-                                        <a href="/Home/SearchProductList?page=1&SearchString=@Model.SearchString&SortBy=points&Order=desc" class="SortProduct" data-SortBy="Points" data-SortOrder="DESC">High Points</a> |
-                                        <a href="/Home/SearchProductList?page=1&SearchString=@Model.SearchString&SortBy=points&Order=asc" class="SortProduct" data-SortBy="Points" data-SortOrder="ASC">Low Points</a> |
-                                        <a href="/Home/SearchProductList?page=1&SearchString=@Model.SearchString&SortBy=price&Order=desc" class="SortProduct" data-SortBy="price" data-SortOrder="DESC">High Price </a> |
-                                        <a href="/Home/SearchProductList?page=1&SearchString=@Model.SearchString&SortBy=price&Order=asc" class="SortProduct" data-SortBy="price" data-SortOrder="ASC">Low Price </a>
+                                        <a href="/Home/SearchProductList?page=1&SearchString=@Model.finalProductList.SearchString&SortBy=points&Order=desc" class="SortProduct" data-SortBy="Points" data-SortOrder="DESC">High Points</a> |
+                                        <a href="/Home/SearchProductList?page=1&SearchString=@Model.finalProductList.SearchString&SortBy=points&Order=asc" class="SortProduct" data-SortBy="Points" data-SortOrder="ASC">Low Points</a> |
+                                        <a href="/Home/SearchProductList?page=1&SearchString=@Model.finalProductList.SearchString&SortBy=price&Order=desc" class="SortProduct" data-SortBy="price" data-SortOrder="DESC">High Price </a> |
+                                        <a href="/Home/SearchProductList?page=1&SearchString=@Model.finalProductList.SearchString&SortBy=price&Order=asc" class="SortProduct" data-SortBy="price" data-SortOrder="ASC">Low Price </a>
                                         <div></div>
                                     </td>
                                 </tr>
@@ -73,9 +73,9 @@
 
                         </div>
 
-                        @if (Model.ProductList.Count() > 0)
+                        @if (Model.finalProductList.ProductList.Count() > 0)
                         {
-                            foreach (var product in Model.ProductList)
+                            foreach (var product in Model.finalProductList.ProductList)
                             {
                                 count = count + 1;
                                 if (count == 7)
@@ -129,10 +129,10 @@
                                                             }
                                                             <div class="sixteen columns" style="padding-top:20px;">
                                                                 <center>
-                                                                    <span class="page-link">Page@(Model.pagerCount.PageCount < Model.pagerCount.PageNumber ? 0 : Model.pagerCount.PageNumber) of @Model.pagerCount.PageCount</span>
+                                                                    <span class="page-link">Page@(Model.finalProductList.pagerCount.PageCount < Model.finalProductList.pagerCount.PageNumber ? 0 : Model.finalProductList.pagerCount.PageNumber) of @Model.finalProductList.pagerCount.PageCount</span>
 
 
-                                                                    @Html.PagedListPager(Model.pagerCount, page => Url.Action("ProductList", "Home", new { page, SearchString = Model.SearchString, SortBy = Model.sortby, Order = Model.order, cat = ViewBag.category, BrandId = ViewBag.brand, root = ViewBag.ParentId }),
+                                                                    @Html.PagedListPager(Model.finalProductList.pagerCount, page => Url.Action("ProductList", "Home", new { page, SearchString = Model.finalProductList.SearchString, SortBy = Model.finalProductList.sortby, Order = Model.finalProductList.order, cat = ViewBag.category, BrandId = ViewBag.brand, root = ViewBag.ParentId }),
 
     new PagedListRenderOptions
     {
