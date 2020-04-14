@@ -13,6 +13,7 @@ namespace DTShopping.Models
         public List<R_StateMaster> States { get; set; }
         public List<R_CityMaster> Cities { get; set; }
         public List<Product> Products { get; set; }
+        public List<discount_coupons> couponList { get; set; }
         public UserDetails User { get; set; }
         public decimal NetPayment { get; set; }
         public decimal ShippingCharge { get; set; }
@@ -33,6 +34,7 @@ namespace DTShopping.Models
         public List<Product> RelatedProductList { get; set; }
         public List<Product> SameBrandProductList { get; set; }
         public PagewiseProducts finalProductList { get; set; }
+        public string IdList { get; set; }
 
 
         public void AssignPaymentModes()

@@ -65,8 +65,8 @@
             </div>*@
 
         <div class="ps-layout--shop">
-            @Html.Action("getCatHeirarchy", "Home", new { Cat = ViewBag.ParentId, subCat = ViewBag.category, brandId = ViewBag.brand })
-            
+            @Html.Action("getCatHeirarchy", "Home", new { Cat = ViewBag.ParentId, subCat = ViewBag.category, brandId = ViewBag.brand, minPointValue = Model.FilterDetail.FilterFromPoint, maxPointValue = Model.FilterDetail.FilterToPoint })
+
             <div class="ps-layout__right" style="margin-top:1%;">
                 @if (Model.FontpageSections != null && Model.FontpageSections.SpeacialSegment != null && Model.FontpageSections.SpeacialSegment.Count > 0)
                 {
@@ -253,10 +253,10 @@
                         <p><strong> @Model.finalProductList.pagerCount.TotalItemCount</strong> Products found</p>
                         <div class="ps-shopping__actions">
                             <select class="ps-select" data-placeholder="Sort Items">
-                                <option><a href="/Home/SearchProductList?page=1&SearchString=@Model.finalProductList.SearchString&SortBy=price&Order=asc" class="SortProduct" data-SortBy="price" data-SortOrder="ASC">Sort by price: low to high</a></option>
-                                <option><a href="/Home/SearchProductList?page=1&SearchString=@Model.finalProductList.SearchString&SortBy=price&Order=desc" class="SortProduct" data-SortBy="price" data-SortOrder="DESC">Sort by price: high to high</a></option>
-                                <option><a href="/Home/SearchProductList?page=1&SearchString=@Model.finalProductList.SearchString&SortBy=points&Order=asc" class="SortProduct" data-SortBy="Points" data-SortOrder="ASC">Sort by Point: low to high</a></option>
-                                <option><a href="/Home/SearchProductList?page=1&SearchString=@Model.finalProductList.SearchString&SortBy=points&Order=desc" class="SortProduct" data-SortBy="Points" data-SortOrder="DESC">Sort by Point: high to low</a></option>
+                                <option value="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&SortBy=price&Order=asc" class="SortProduct" data-SortBy="price" data-SortOrder="ASC">Sort by price: low to high</option>
+                                <option value="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&SortBy=price&Order=desc" class="SortProduct" data-SortBy="price" data-SortOrder="DESC">Sort by price: high to low</option>
+                                <option value="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&SortBy=points&Order=asc" class="SortProduct" data-SortBy="Points" data-SortOrder="ASC">Sort by Point: low to high</option>
+                                <option value="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&SortBy=points&Order=desc" class="SortProduct" data-SortBy="Points" data-SortOrder="DESC">Sort by Point: high to low</option>
                             </select>
                             <div class="ps-shopping__view">
                                 <p>View</p>

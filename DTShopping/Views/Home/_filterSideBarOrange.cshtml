@@ -12,7 +12,7 @@
         inLineStyle = "background-image:none; background-color:transparent;";
     }
 
-    var url = "/Home/ProductList?cat=" + @ViewBag.category + "&BrandId=" + @ViewBag.brand + "&root=" + @ViewBag.ParentId + "&page=1&pointsFilterList=";
+    var url = "/Home/ProductList?cat=" + @ViewBag.category + "&BrandId=" + @ViewBag.brand + "&root=" + @ViewBag.ParentId + "&page=1";
 }
 
 <input type="hidden" value="@url" id="PointsUrl" />
@@ -67,7 +67,7 @@
                 <input class="form-control" type="text" placeholder="">
                 <button><i class="icon-magnifier"></i></button>
             </form>*@
-        <figure class="ps-custom-scrollbar" data-height="250">
+        @*<figure class="ps-custom-scrollbar" data-height="250">
             <div class="ps-checkbox">
                 <input class="form-control" type="checkbox" value="0,50" id="brand-1" name="pointsCheckBox">
                 <label for="brand-1">Point 0 - 50</label>
@@ -112,11 +112,11 @@
                 <input class="form-control" type="checkbox" id="brand-11" value="500,1000"name="pointsCheckBox">
                 <label for="brand-11">Point 500 - Above</label>
             </div>
-        </figure>
+        </figure>*@
         <figure>
-            <h4 class="widget-title">By Price</h4>
-            <div class="ps-slider" data-default-min="13" data-default-max="1300" data-max="1311" data-step="100" data-unit="Rs. "></div>
-            <p class="ps-slider__meta">Price:<span class="ps-slider__value ps-slider__min"></span>-<span class="ps-slider__value ps-slider__max"></span></p>
+            <h4 class="widget-title">By Points</h4>
+            <div class="ps-slider"  data-default-min="13" data-default-max="1300" data-max="1311" data-step="100" data-unit="Rs. "></div>
+            <p class="ps-slider__meta">Points:<span class="ps-slider__value ps-slider__min" id="minPointValue">@Model.filterDetail.FilterFromPoint</span>-<span class="ps-slider__value ps-slider__max" id="maxPointValue">@Model.filterDetail.FilterToPoint</span></p>
         </figure>
         <figure>
             <h4 class="widget-title">By Price</h4>
@@ -181,3 +181,8 @@
         </figure>
     </aside>
 </div>
+
+<script src="~/Scripts/shopping.js"></script>
+<script>
+    filterSlider();
+</script>

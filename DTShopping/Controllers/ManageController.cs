@@ -137,7 +137,7 @@ namespace DTShopping.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Login", "Account");
             }
 
             return View("_retailerPointsPartialView", model);
@@ -156,7 +156,7 @@ namespace DTShopping.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Login", "Account");
             }
         }
 
@@ -785,17 +785,19 @@ namespace DTShopping.Controllers
                     this.model.CompanyProfileDetail = JsonConvert.DeserializeObject<CompanyProfile>(result.ResponseValue);
                 }
 
-                if (model.User == null || model.User.phone == null)
+                if (this.model.User == null || this.model.User.phone == null)
                 {
-                    model.User = new UserDetails();
-                    model.User.otpPhone = "Please enter mobile no.";
+                    this.model.User = new UserDetails();
+                    this.model.User.otpPhone = "Please enter mobile no.";
                 }
                 else if (model.User.phone.Length == 10)
                 {
-                    model.User.otpPhone = model.User.phone;
-                    var sub = model.User.otpPhone.Substring(3, 3);
-                    model.User.otpPhone = model.User.otpPhone.Replace(sub, "XXX");
+                    this.model.User.otpPhone = this.model.User.phone;
+                    var sub = this.model.User.otpPhone.Substring(3, 3);
+                    this.model.User.otpPhone = this.model.User.otpPhone.Replace(sub, "XXX");
                 }
+
+                this.model.couponList = await this.objRepository.GetCouponList(this.model.User.id);
 
                 if (Theme == Resources.Orange)
                 {

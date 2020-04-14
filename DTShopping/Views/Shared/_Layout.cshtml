@@ -13,12 +13,17 @@
     }
     int CompanyId = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
     int URSHOPECOMPANYID = 33;
+    int OSMARKETCOMPANYID = 34;
+    int FANCLUBCOMPANYID = 35;
+    int width = 177;
+    string styleDetail = "margin-top:-50px;";
     var inLineStyle = string.Empty;
     if (CompanyId == URSHOPECOMPANYID)
     {
         inLineStyle = "background-image:none; background-color:transparent;";
     }
 }
+
 
 <!DOCTYPE html>
 
@@ -101,30 +106,32 @@
                     <div class="row">
                         @if (current_cmpny.id == 29)
                         {
-                            <div id="logo" style="margin-top:-50px;" class="five columns">
-                                <div id="storeLogo"> <a class="logo_inner" href="~/Home/Index"><img src="@imageUrl/@current_cmpny.logo" alt="@current_cmpny.company_name" title="@current_cmpny.company_name" width="177" height="46" class="scale-with-grid" /></a></div>
-                            </div>
+                            width = 177;
+                            styleDetail = "margin-top:-50px;";
                         }
                         else if (current_cmpny.id == 30)
                         {
-                            <div id="logo" style="margin-top:-50px;" class="five columns">
-                                <div id="storeLogo"> <a class="logo_inner" href="~/Home/Index"><img src="@imageUrl/@current_cmpny.logo" alt="@current_cmpny.company_name" title="@current_cmpny.company_name" width="250" height="46" class="scale-with-grid" /></a></div>
-                            </div>
+                            width = 250;
+                            styleDetail = "margin-top:-50px;";
                         }
                         else if (current_cmpny.id == URSHOPECOMPANYID)
                         {
-                            <div id="logo" class="five columns">
-                                <div id="storeLogo"> <a class="logo_inner" href="~/Home/Index"><img src="@imageUrl/@current_cmpny.logo" alt="@current_cmpny.company_name" title="@current_cmpny.company_name" width="100" height="46" class="scale-with-grid" /></a></div>
-                            </div>
+                            width = 130;
+                            styleDetail = string.Empty;
+                        }
+                        else if (current_cmpny.id == FANCLUBCOMPANYID)
+                        {
+                            width = 130;
+                            styleDetail = string.Empty;
                         }
                         else
                         {
-                            <div id="logo" class="five columns">
-
-                                <div id="storeLogo"> <a class="logo_inner" href="~/Home/Index"><img src="@imageUrl/@current_cmpny.logo" alt="@current_cmpny.company_name" title="@current_cmpny.company_name" width="177" height="46" class="scale-with-grid" /></a></div>
-                            </div>
+                            width = 177;
+                            styleDetail = string.Empty;
                         }
-
+                        <div id="logo" style="@styleDetail" class="five columns">
+                            <div id="storeLogo"> <a class="logo_inner" href="~/Home/Index"><img src="@imageUrl/@current_cmpny.logo" alt="@current_cmpny.company_name" title="@current_cmpny.company_name" width="@width" height="46" class="scale-with-grid" /></a></div>
+                        </div>
                         <div class="six columns">
 
                             <div id="top_search">
@@ -270,7 +277,8 @@
 
                         <div id="copyright">
                             <a class="logo_footer" href="~/Home/Index">
-                                @*<img src="~/images/light/store_logo.png" alt="unishop" title="unishop" width="177" height="46" class="scale-with-grid" />*@          <img src="@imageUrl/@current_cmpny.logo" alt="unishop" title="unishop" width="177" height="46" class="scale-with-grid" />
+                                @*<img src="~/images/light/store_logo.png" alt="unishop" title="unishop" width="177" height="46" class="scale-with-grid" />*@
+                                <img src="@imageUrl/@current_cmpny.logo" alt="unishop" title="unishop" width="177" height="46" class="scale-with-grid" />
                             </a> &copy; @copyright
                         </div>
                     </div>
@@ -305,7 +313,7 @@
                                     <li><a href="/Home/MyAccount">My Account</a></li>
                                     <li><a href="/Manage/GetCartProductList?isWithPayment=false&deliveryType=0">My Shopping Cart</a></li>
                                     <li><a href="/Home/Orders">Order history</a></li>
-                                            <li><a href="/Account/LogOff">Log Out</a></li>
+                                    <li><a href="/Account/LogOff">Log Out</a></li>
                                 }
                                 else
                                 {
@@ -338,7 +346,6 @@
                 </div>
             </div>
         </div>     <!-- end footer info -->
-
     </div>
 
 </body>
@@ -473,3 +480,19 @@
         return false;
     }
 </script>
+@if (CompanyId == OSMARKETCOMPANYID)
+{
+    <style>
+        #footer #copyright .logo_footer img {
+            width: 170px !important;
+        }
+    </style>
+}
+@if (CompanyId == FANCLUBCOMPANYID)
+{
+    <style>
+        #footer #copyright .logo_footer img {
+            width: 90px !important;
+        }
+    </style>
+}

@@ -1,6 +1,6 @@
 ﻿@using PagedList.Mvc;
 @using DTShopping.Properties
-@model  DTShopping.Models.PagewiseProducts
+@model  DTShopping.Models.Dashboard
 @{
     ViewBag.Title = "ProductList";
     string imageUrl = System.Configuration.ConfigurationManager.AppSettings["ImageUrl"];
@@ -537,9 +537,9 @@
                                     </div>
                                 </form>
                             </div>*@
-                        @if (Model.ProductList.Count() > 0)
+                        @if (Model.finalProductList.ProductList.Count() > 0)
                         {
-                            foreach (var product in Model.ProductList)
+                            foreach (var product in Model.finalProductList.ProductList)
                             {
                                 count = count + 1;
                                 if (count == 5)
@@ -589,12 +589,14 @@
                                                         @{var t = product.point_adjusted != null ? product.point_adjusted : 0;}@t
                                                     </span>
                                                 </div>
-                                                <div class="icon_cart_rollover" onclick="AddProductInCart(@product.id, 1)"><a style="@inLineStyle">
-    @if (CompanyId == URSHOPECOMPANYID)
-    {
-        <img src="~/unishop_theme/unishop_images/icon-cart2.png" height="30" width="30" />
-    }
-</a></div>
+                                                <div class="icon_cart_rollover" onclick="AddProductInCart(@product.id, 1)">
+                                                    <a style="@inLineStyle">
+                                                        @if (CompanyId == URSHOPECOMPANYID)
+                                                        {
+                                                            <img src="~/unishop_theme/unishop_images/icon-cart2.png" height="30" width="30" />
+                                                        }
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -602,10 +604,10 @@
                                                             }
                                                             <div class="twelve columns" style="padding-top:20px;">
                                                                 <center>
-                                                                    <span class="page-link">Page@(Model.pagerCount.PageCount < Model.pagerCount.PageNumber ? 0 : Model.pagerCount.PageNumber) of @Model.pagerCount.PageCount</span>
+                                                                    <span class="page-link">Page@(Model.finalProductList.pagerCount.PageCount < Model.finalProductList.pagerCount.PageNumber ? 0 : Model.finalProductList.pagerCount.PageNumber) of @Model.finalProductList.pagerCount.PageCount</span>
 
 
-                                                                    @Html.PagedListPager(Model.pagerCount, page => Url.Action("ProductList", "Home", new { page, SearchString = Model.SearchString, SortBy = Model.sortby, Order = Model.order, cat = ViewBag.category, BrandId = ViewBag.brand, root = ViewBag.ParentId }),
+                                                                    @Html.PagedListPager(Model.finalProductList.pagerCount, page => Url.Action("ProductList", "Home", new { page, SearchString = Model.finalProductList.SearchString, SortBy = Model.finalProductList.sortby, Order = Model.finalProductList.order, cat = ViewBag.category, BrandId = ViewBag.brand, root = ViewBag.ParentId }),
 
     new PagedListRenderOptions
     {
@@ -634,8 +636,7 @@
         </div>
 
 
-
-        @Html.Action("getCatHeirarchy", "Home", new { Cat = ViewBag.ParentId, subCat = ViewBag.category, brandId = ViewBag.brand })
+        @Html.Action("getCatHeirarchy", "Home", new { Cat = ViewBag.ParentId, subCat = ViewBag.category, brandId = ViewBag.brand, minPointValue = Model.FilterDetail.FilterFromPoint, maxPointValue = Model.FilterDetail.FilterToPoint })
 
     </div>
 

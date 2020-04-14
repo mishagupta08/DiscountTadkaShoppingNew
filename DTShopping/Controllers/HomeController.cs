@@ -182,7 +182,7 @@ namespace DTShopping.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("Login", "Account");
             }
 
         }
@@ -195,10 +195,12 @@ namespace DTShopping.Controllers
             {
                 c.CategoryId = Convert.ToInt16(cat);
             }
+
             if (!string.IsNullOrEmpty(BrandId))
             {
                 c.BrandId = Convert.ToInt16(BrandId);
             }
+
             c.pageNo = page ?? 1;
             c.NoOfRecord = 10;
             c.SelectedFilterName = "Title";
@@ -236,13 +238,15 @@ namespace DTShopping.Controllers
                 c.FilterToPoint = Convert.ToInt32(FilterToPoint);
             }
 
-            if(!string.IsNullOrEmpty(pointsFilterList))
+            if (!string.IsNullOrEmpty(pointsFilterList))
             {
+                var index = pointsFilterList.LastIndexOf(',');
+                pointsFilterList = pointsFilterList.Remove(index);
                 var pintList = pointsFilterList.Split(',').ToList().ConvertAll(int.Parse);
                 if (pintList.Count() >= 2)
                 {
                     c.FilterFromPoint = Convert.ToInt32(pintList[0]);
-                    c.FilterToPoint = Convert.ToInt32(pintList[pintList.Count()-1]);
+                    c.FilterToPoint = Convert.ToInt32(pintList[pintList.Count() - 1]);
                 }
             }
 
@@ -275,6 +279,7 @@ namespace DTShopping.Controllers
             {
                 list.Add(i);
             }
+
             finalprodlist.pagerCount = list.ToPagedList(Convert.ToInt32(c.pageNo), 10);
 
 
@@ -285,6 +290,7 @@ namespace DTShopping.Controllers
             ViewBag.brand = BrandId;
             this.model.finalProductList = finalprodlist;
             await SetCompanyDetailInSession();
+            this.model.FilterDetail = c;
             if (Theme == Resources.Orange)
             {
                 //this.model.FontpageSections = new ShoppingPortalFrontPageProdList();
@@ -304,7 +310,7 @@ namespace DTShopping.Controllers
                 //    }
 
                 //}
-
+                this.model.IdList = searchString;
                 return View("ProductListOrange", this.model);
             }
             else
@@ -349,7 +355,7 @@ namespace DTShopping.Controllers
             }
         }
 
-        public ActionResult getCatHeirarchy(string Cat, string subCat, string brandId)
+        public ActionResult getCatHeirarchy(string Cat, string subCat, string brandId, string minPointValue, string maxPointValue)
         {
             SideBar objsidebar = new SideBar();
             var CategoryList = new List<Category>();
@@ -368,6 +374,26 @@ namespace DTShopping.Controllers
             ViewBag.brand = brandId;
             ViewBag.Page = 1;
             objsidebar.categoryList = CategoryList;
+            objsidebar.filterDetail = new Filters();
+
+            if (string.IsNullOrEmpty(minPointValue))
+            {
+                objsidebar.filterDetail.FilterFromPoint = null;
+            }
+            else
+            {
+                objsidebar.filterDetail.FilterFromPoint =Convert.ToInt32(minPointValue);
+            }
+
+            if (string.IsNullOrEmpty(maxPointValue))
+            {
+                objsidebar.filterDetail.FilterToPoint = null;
+            }
+            else
+            {
+                objsidebar.filterDetail.FilterToPoint = Convert.ToInt32(maxPointValue);
+            }
+
             if (Session["LatestProduct"] != null)
             {
                 var product = Session["LatestProduct"] as List<Product>;

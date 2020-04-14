@@ -30,6 +30,21 @@
     });
 });
 
+function checkPoints() {
+    var chkId = "";
+    var checkBoxIdsList = $("#checkBoxIds").val();
+
+    if (checkBoxIdsList != "" || checkBoxIdsList != undefined) {
+        $("input:checkbox[name=pointsCheckBox]").each(function () {
+
+            //alert("Id: " + $(this).attr("id") + " Value: " + $(this).val());
+            chkId = $(this).attr("id");
+            if (checkBoxIdsList.indexOf(chkId) > -1) {
+                $(this).attr('checked', true);
+            }
+        });
+    }
+}
 function LoginRegisterCalls() {
     Login_Account();
 }

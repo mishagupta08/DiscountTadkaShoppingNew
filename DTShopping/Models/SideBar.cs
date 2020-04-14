@@ -9,5 +9,6 @@ namespace DTShopping.Models
     {
         public List<Category> categoryList { get; set; }
         public Product latestProduct { get; set; }
+        public Filters filterDetail { get; set; }
     }
 }

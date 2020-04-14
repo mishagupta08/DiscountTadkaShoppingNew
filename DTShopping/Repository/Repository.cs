@@ -25,6 +25,8 @@ namespace DTShopping.Repository
 
         private string DeliveryTypeListAction = "DeliveryTypeList";
 
+        private string GetCouponListAction = "GetCouponList/";
+
         private string ManageProductsAction = "ManageProducts/";
 
         private string MangeOtpFunctionsAction = "MangeOtpFunctions/";
@@ -64,6 +66,21 @@ namespace DTShopping.Repository
             else
             {
                 return result;
+            }
+        }
+
+
+        public async Task<List<discount_coupons>> GetCouponList(int userId)
+        {
+            var result = await CallPostFunction(string.Empty, GetCouponListAction + userId);
+            if (result == null || !result.Status)
+            {
+                return null;
+            }
+            else
+            {
+                var list = JsonConvert.DeserializeObject<List<discount_coupons>>(result.ResponseValue);
+                return list;
             }
         }
 
@@ -110,7 +127,7 @@ namespace DTShopping.Repository
         {
             var companyData = JsonConvert.SerializeObject(companies);
             var result = await CallPostFunction(companyData, ManageCompaniesAction + "ById");
-            if (result == null || result.Status == false )
+            if (result == null || result.Status == false)
             {
                 return null;
             }
@@ -181,8 +198,10 @@ namespace DTShopping.Repository
         {
             user.role_id = RoleId;
             user.company_id = CompanyId;
-            var detail = JsonConvert.SerializeObject(user);
-            var result = await CallPostFunction(detail, "ManageVendor/Add");
+            var list = new List<UserDetails>();
+            list.Add(user);
+            var detail = JsonConvert.SerializeObject(list);
+            var result = await CallPostFunction(detail, "ManageRetailer/Add");
 
             //var result = JsonConvert.DeserializeObject<Response>(result.ResponseValue);
             return result;
@@ -219,6 +238,7 @@ namespace DTShopping.Repository
 
         public async Task<Response> ManageCart(CartFilter filter, string action)
         {
+            filter.companyId = CompanyId;
             var filterData = JsonConvert.SerializeObject(filter);
             var result = await CallPostFunction(filterData, ManageCartAction + action);
             if (result == null)
@@ -297,6 +317,7 @@ namespace DTShopping.Repository
 
         public async Task<Response> MangeOtpFunctions(UserDetails user, string operation)
         {
+            user.company_id = CompanyId;
             var data = JsonConvert.SerializeObject(user);
             var result = await CallPostFunction(data, MangeOtpFunctionsAction + operation);
             return result;
@@ -342,7 +363,7 @@ namespace DTShopping.Repository
         public async Task<Response> GetDealProductsFullList(Filters FilterDetails, string Deal)
         {
             var productData = JsonConvert.SerializeObject(FilterDetails);
-            var result = await  CallPostFunction(productData, ManageDealProducts + Deal);
+            var result = await CallPostFunction(productData, ManageDealProducts + Deal);
             if (result == null)
             {
                 return null;
@@ -377,6 +398,7 @@ namespace DTShopping.Repository
             filter.username = userDetail.username;
             filter.password = userDetail.password_str;
             filter.userId = userDetail.id;
+            filter.companyId = userDetail.company_id ?? 0;
             var productData = JsonConvert.SerializeObject(filter);
             var result = await CallPostFunction(productData, ManageCartAction + "CartCount");
             if (result == null)

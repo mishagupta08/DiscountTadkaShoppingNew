@@ -6,6 +6,7 @@
     string CompanyId = System.Configuration.ConfigurationManager.AppSettings["CompanyId"];
     int URSHOPECOMPANYID = 33;
     string url = "";
+    var imageName = string.Empty;
 }
 
 <div class="container">
@@ -37,10 +38,23 @@
                         @foreach (var product in Model.Products)
                         {
                             var quantityID = "productQuantity_" + product.id;
+                            imageName = product.small_image;
+                            if (string.IsNullOrEmpty(product.small_image))
+                            {
+                                if (string.IsNullOrEmpty(product.medium_image))
+                                {
+                                    imageName = product.large_image;
+                                }
+                                else
+                                {
+                                    imageName = product.medium_image;
+                                }
+                            }
                             <tr align="left" class="dgrdcell">
                                 <td><a href="#" name="deleteFunction" data-id="@product.id" class="btn btn-style text-uppercase"><img src="~/images/delete.png" height="20" width="20"</a></td>
                                 <td>
-                                    <img src="@imageUrl/@product.small_image" alt="@product.title" title="@product.title" width="50" height="50" class="scale-with-grid" />
+
+                                    <img src="@imageUrl/@imageName" alt="@product.title" title="@product.title" width="50" height="50" class="scale-with-grid" />
                                     <br /><span>@product.title</span> <br>
                                     @if (!string.IsNullOrEmpty(product.product_size))
                                     {

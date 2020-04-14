@@ -1017,6 +1017,7 @@
     <Content Include="plugins\lightGallery-master\dist\fonts\lgd641.eot" />
     <Content Include="plugins\lightGallery-master\dist\fonts\lgd641.ttf" />
     <Content Include="plugins\lightGallery-master\dist\fonts\lgd641.woff" />
+    <None Include="Properties\PublishProfiles\ShoppingPortalDeployUrShope.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\dashboard.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

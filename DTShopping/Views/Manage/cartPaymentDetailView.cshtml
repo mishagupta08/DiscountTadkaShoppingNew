@@ -11,10 +11,12 @@
         imageUrl = imageUrl.Substring(0, imageUrl.LastIndexOf("/"));
     }
 
+    var imageName = string.Empty;
     int SUNVISCOMPANYID = 29;
     int SHOPCOMPANYID = 28;
     int GOHAPPYCARTCOMPANYID = 30;
     int URSHOPECOMPANYID = 33;
+    int OSMARKETCOMPANYID = 34;
 }
 <style>
     .tAndC {
@@ -58,9 +60,21 @@
 
                         @foreach (var product in Model.Products)
                         {
+                            imageName = product.small_image;
+                            if (string.IsNullOrEmpty(product.small_image))
+                            {
+                                if (string.IsNullOrEmpty(product.medium_image))
+                                {
+                                    imageName = product.large_image;
+                                }
+                                else
+                                {
+                                    imageName = product.medium_image;
+                                }
+                            }
                             <tr align="left" class="dgrdcell">
                                 <td>
-                                    <img src="@imageUrl/@product.small_image" alt="@product.title" title="@product.title" width="50" height="50" class="scale-with-grid" />
+                                    <img src="@imageUrl/@imageName" alt="@product.title" title="@product.title" width="50" height="50" class="scale-with-grid" />
                                     <br />
                                     <span>@product.title</span> <br>
                                     @if (!string.IsNullOrEmpty(product.product_size))
@@ -146,7 +160,7 @@
                                     </ul>
                                 </div>
                             </td>
-                            @if (CompanyId == SUNVISCOMPANYID || CompanyId == SHOPCOMPANYID || CompanyId == GOHAPPYCARTCOMPANYID || CompanyId == URSHOPECOMPANYID)
+                            @if (CompanyId == SUNVISCOMPANYID || CompanyId == SHOPCOMPANYID || CompanyId == GOHAPPYCARTCOMPANYID || CompanyId == URSHOPECOMPANYID || CompanyId == OSMARKETCOMPANYID)
                             {
                                 <td>
                                     <div class="Paymenttd">

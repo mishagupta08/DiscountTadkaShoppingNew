@@ -13,6 +13,12 @@
         GetCityByState();
     });
 
+    //$('.ps-slider').unbind();
+    //$('.ui-state-default').mouseup(function (e) {
+    //    alert("Id: " + $(this).attr("id") + " Value: " + $(this).val());
+    //    window.location = $("#PointsUrl").val() + "&FilterFromPoint=" + $('#minPointValue').html() + "&FilterToPoint=" + $('#maxPointValue').html();
+    //});
+
     $('a[name=deleteFunction]').unbind();
     $('a[name=deleteFunction]').click(function (e) {
         DeleteDetail(this);
@@ -20,12 +26,14 @@
 
     $('input[name=pointsCheckBox]').click(function () {
         var points = "";
-        $("input:checkbox[name=chk]:checked").each(function () {
-            alert("Id: " + $(this).attr("id") + " Value: " + $(this).val());
-            points = $(this).val() + ",";
+        var idList = "";
+        $("input:checkbox[name=pointsCheckBox]:checked").each(function () {
+            //alert("Id: " + $(this).attr("id") + " Value: " + $(this).val());
+            points += $(this).val() + ",";
+            idList += $(this).attr("id") + ",";
         });
 
-        window.location = $("#PointsUrl").val() + points;
+        window.location = $("#PointsUrl").val() + points + "&searchString=" + idList;
     });
 
     $('input[name=termsCondition]').change(function () {
