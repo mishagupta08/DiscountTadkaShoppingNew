@@ -3,6 +3,25 @@
 @model  DTShopping.Models.PagedOrderList
 @{
     ViewBag.Title = "Orders";
+    string Theme = System.Configuration.ConfigurationManager.AppSettings["Theme"] == null ? string.Empty : System.Configuration.ConfigurationManager.AppSettings["Theme"].ToString();
+    if (Theme == Resources.Orange)
+    {
+        Layout = "~/Views/Shared/_LayoutOrange.cshtml";
+        <style>
+            h3 {
+                font-size: 15px;
+            }
+
+            h1 {
+                font-size: 25px;
+            }
+        </style>
+
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
 }
 <link href="~/Content/PagedList.css" rel="stylesheet" />
 <style>
@@ -11,10 +30,11 @@
         padding: 0;
         margin: 0;
     }
+
     .page-link {
         font-family: Arial, Helvetica, sans-serif;
-        font-size:12px;
-        color:black;
+        font-size: 12px;
+        color: black;
     }
 
 
@@ -66,32 +86,34 @@
                     </tr>
                     @foreach (var order in Model.OrderProductList)
                     {
-                    <tr>
-                        <td class="bordertop">@order.order_id</td>
-                        <td class="bordertop">@order.productCode</td>
-                        <td class="bordertop">@order.productName
-                            @*@if (!string.IsNullOrEmpty(order.siz))
-                            {
-                                <span>Size : @product.product_size</span>
-                            }
-                            @if (!string.IsNullOrEmpty(product.Color))
-                            {
-                                <span>Color : @product.Color</span>
-                            }*@</td>
-                        <td valign="middle" class="bordertop">@order.quantity</td>
-                        <td valign="middle" class="bordertop">@order.price</td>
-                        <td valign="middle" class="bordertop">@order.RBV_Points</td>
-                        <td valign="middle" class="bordertop">@order.shipping_charge</td>
-                        <td valign="middle" class="bordertop">@order.Amt</td>
-                        <td valign="middle" class="bordertop">@order.DispatchStatusStr</td>
-                        <td valign="middle" class="bordertop">@order.PaymentMode</td>
-                        <td valign="middle" class="bordertop">
-                            @order.PaymentStatus
-                            <br />
-                            @order.PaymentDate
-                        </td>
-                        <td><a href="@Url.Action("GetOrderDetailPage", "Manage", new { id = order.order_id})"><img src="~/images/print.png" title="@Resources.Print" height="20" width="20" /></a></td>
-                    </tr>
+                        <tr>
+                            <td class="bordertop">@order.order_id</td>
+                            <td class="bordertop">@order.productCode</td>
+                            <td class="bordertop">
+                                @order.productName
+                                @*@if (!string.IsNullOrEmpty(order.siz))
+                                    {
+                                        <span>Size : @product.product_size</span>
+                                    }
+                                    @if (!string.IsNullOrEmpty(product.Color))
+                                    {
+                                        <span>Color : @product.Color</span>
+                                    }*@
+                            </td>
+                            <td valign="middle" class="bordertop">@order.quantity</td>
+                            <td valign="middle" class="bordertop">@order.price</td>
+                            <td valign="middle" class="bordertop">@order.RBV_Points</td>
+                            <td valign="middle" class="bordertop">@order.shipping_charge</td>
+                            <td valign="middle" class="bordertop">@order.Amt</td>
+                            <td valign="middle" class="bordertop">@order.DispatchStatusStr</td>
+                            <td valign="middle" class="bordertop">@order.PaymentMode</td>
+                            <td valign="middle" class="bordertop">
+                                @order.PaymentStatus
+                                <br />
+                                @order.PaymentDate
+                            </td>
+                            <td><a href="@Url.Action("GetOrderDetailPage", "Manage", new { id = order.order_id})"><img src="~/images/print.png" title="@Resources.Print" height="20" width="20" /></a></td>
+                        </tr>
                     }
 
                 </table>

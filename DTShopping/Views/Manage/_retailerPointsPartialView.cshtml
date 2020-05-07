@@ -3,7 +3,25 @@
 @model DTShopping.Models.Dashboard
 @{
     ViewBag.Title = "Points List";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    string Theme = System.Configuration.ConfigurationManager.AppSettings["Theme"] == null ? string.Empty : System.Configuration.ConfigurationManager.AppSettings["Theme"].ToString();
+    if (Theme == Resources.Orange)
+    {
+        Layout = "~/Views/Shared/_LayoutOrange.cshtml";
+        <style>
+            h3 {
+                font-size: 15px;
+            }
+
+            h1 {
+                font-size: 25px;
+            }
+        </style>
+
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
 }
 
 <h2 style="text-align:center;">@Resources.PointsLedger</h2>
@@ -134,7 +152,7 @@ else
                     @Html.DisplayFor(modelItem => item.ReferenceNo)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UpdatonDate)
+                    @Html.DisplayFor(modelItem => item.UpdationDateStr)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Credit)

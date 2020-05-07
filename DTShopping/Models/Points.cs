@@ -19,5 +19,6 @@ namespace DTShopping.Models
         public string companyName { get; set; }
         public string memberName { get; set; }
         public string Remark { get; set; }
+        public string UpdationDateStr { get; set; }
     }
 }

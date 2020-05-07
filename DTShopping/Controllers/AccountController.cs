@@ -38,11 +38,17 @@ namespace DTShopping
         //
         // GET: /Account/Login
         [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
+        public async Task<ActionResult> Login(string returnUrl)
         {
-            ViewBag.ReturnUrl = returnUrl;
-
-            return View();
+            if (Theme == Resources.Orange)
+            {
+                return await LoginOrangeFunction(returnUrl);
+            }
+            else
+            {
+                ViewBag.ReturnUrl = returnUrl;
+                return View();
+            }
 
         }
 

@@ -120,6 +120,8 @@
                                                     <input class="form-control" type="text" placeholder="1">
                                                 </div>
                                             </figure>*@
+                                        @if (!(Model.ProductDetail.sizeList == null || Model.ProductDetail.sizeList.Count == 0))
+                                        {
                                         <figure>
                                             <figcaption>Size</figcaption>
                                             @for (int i = 1; i < Model.ProductDetail.sizeList.Count; i++)
@@ -128,6 +130,7 @@
                                                 <div class="ps-variant ps-variant--color @sizeClass"><span class="ps-variant__tooltip" name="sizeSpan">@Model.ProductDetail.sizeList[i - 1]</span></div>
                                             }
                                         </figure>
+                                        }
                                         @*@if (Model.ProductDetail.sizeList != null && Model.ProductDetail.sizeList.Count > 0)
                                             {
                                                 <strong>
@@ -135,8 +138,11 @@
                                                 </strong>
                                                 @Html.DropDownListFor(m => m.ProductDetail.product_size, new SelectList(Model.ProductDetail.sizeList), new { @required = "0", id = "sizeDropDown", @class = "form-control", @style = "width: 156px;height: 30px;" })
                                             }*@
-
-                                        <a class="ps-btn ps-btn--black" href="#">Add to cart</a><a class="ps-btn" href="#">Buy Now</a>
+                                        <input type="hidden" id="product_id" name="product_id" value="@Model.ProductDetail.id" />
+                                        <br />
+                                        <a class="ps-btn ps-btn--black" href="#" id="addToCart">Add to cart</a>
+                                        <br/>
+                                        <a class="ps-btn" href="#">Buy Now</a>
                                     </div>
                                     <div class="orderpolicy">
                                         <strong>@Html.Raw(Resources.TAndC)</strong> :
@@ -405,3 +411,4 @@
 </html>
 <input type="hidden" id="selectedSize" name="size">
 <input type="hidden" id="selectedColor" name="color">
+<script src="~/Scripts/dashboard.js?v=1"></script>

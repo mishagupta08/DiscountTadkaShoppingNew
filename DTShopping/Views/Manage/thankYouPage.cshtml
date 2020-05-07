@@ -2,7 +2,15 @@
 @model DTShopping.Models.Dashboard
 @using DTShopping.Models
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    string Theme = System.Configuration.ConfigurationManager.AppSettings["Theme"] == null ? string.Empty : System.Configuration.ConfigurationManager.AppSettings["Theme"].ToString();
+    if (Theme == Resources.Orange)
+    {
+        Layout = "~/Views/Shared/_LayoutOrange.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
     company current_cmpny = (Session["Company"] != null) ? Session["Company"] as company : new company();
     string imageUrl = System.Configuration.ConfigurationManager.AppSettings["ImageUrl"];
     int CompanyId = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);

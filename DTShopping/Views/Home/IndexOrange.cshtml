@@ -1,4 +1,5 @@
 ﻿@model DTShopping.Models.Dashboard
+@using DTShopping.Models
 @using DTShopping.Properties
 @{
     ViewBag.Title = "Home Page";
@@ -857,28 +858,37 @@
             </div>
         </div>
     </div>
-    <div class="ps-product-box">
-        <div class="container">
-            <div class="ps-block--product-box">
-                <div class="ps-block__content">
-                    <div class="row">
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+    @if (Session["Brands"] != null)
+    {
+        <div class="ps-product-box">
+            <div class="container">
+                <div class="ps-block--product-box">
+                    <div class="ps-block__content">
 
-
+                        <div class="row">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                <div class="ps-section__content">
-                                    <marquee behavior="scroll" direction="left" onMouseOver="this.stop();" onMouseOut="this.start();">
-                                        <a href="#"><img src="~/img/brand/2-1.jpg" alt=""></a>
-                                        <a href="#"><img src="~/img/brand/2-2.jpg" alt=""></a>
-                                        <a href="#"><img src="~/img/brand/2-3.jpg" alt=""></a>
-                                        <a href="#"><img src="~/img/brand/2-4.jpg" alt=""></a>
-                                        <a href="#"><img src="~/img/brand/2-5.jpg" alt=""></a>
-                                        <a href="#"><img src="~/img/brand/2-6.jpg" alt=""></a>
-                                        <a href="#"><img src="~/img/brand/2-7.jpg" alt=""></a>
-                                        <a href="#"><img src="~/img/brand/2-8.jpg" alt=""></a>
-                                        <a href="#"><img src="~/img/brand/2-9.jpg" alt=""></a>
-                                        <a href="#"><img src="~/img/brand/2-10.jpg" alt=""></a>
-                                    </marquee>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <div class="ps-section__content">
+                                        <marquee behavior="scroll" direction="left" onMouseOver="this.stop();" onMouseOut="this.start();">
+                                            @foreach (var brand in Session["Brands"] as List<brand>)
+                                            {
+                                                if (!string.IsNullOrEmpty(brand.logo))
+                                                {
+                                                    <a class="brandLink" data-branId="@brand.id" href="/Home/ProductList?BrandId=@brand.id"> <img src="@imageUrl/@brand.logo" alt="@brand.name" title="@brand.name" style="height:75%" /> </a>
+                                                    @*<a href="#"><img src="~/img/brand/2-1.jpg" alt=""></a>
+                                                        <a href="#"><img src="~/img/brand/2-2.jpg" alt=""></a>
+                                                        <a href="#"><img src="~/img/brand/2-3.jpg" alt=""></a>
+                                                        <a href="#"><img src="~/img/brand/2-4.jpg" alt=""></a>
+                                                        <a href="#"><img src="~/img/brand/2-5.jpg" alt=""></a>
+                                                        <a href="#"><img src="~/img/brand/2-6.jpg" alt=""></a>
+                                                        <a href="#"><img src="~/img/brand/2-7.jpg" alt=""></a>
+                                                        <a href="#"><img src="~/img/brand/2-8.jpg" alt=""></a>
+                                                        <a href="#"><img src="~/img/brand/2-9.jpg" alt=""></a>
+                                                        <a href="#"><img src="~/img/brand/2-10.jpg" alt=""></a>*@
+                                                }
+                                            }
+                                        </marquee>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -886,5 +896,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    }
 </div>

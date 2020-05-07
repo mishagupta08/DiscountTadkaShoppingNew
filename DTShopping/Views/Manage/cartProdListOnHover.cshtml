@@ -19,7 +19,7 @@ else
         @foreach (var product in Model.Products)
         {
             imageName = product.small_image;
-            if(string.IsNullOrEmpty(product.small_image))
+            if (string.IsNullOrEmpty(product.small_image))
             {
                 if (string.IsNullOrEmpty(product.medium_image))
                 {
@@ -45,7 +45,9 @@ else
                         <p><strong>Color:</strong> @product.Color</p>
                     }
                     <small>@product.vendor_qty x Rs. @product.amount</small>
+                    <br />
                     <small>@Resources.ShippingCharge : Rs. @(product.shippng_charge ?? 0)</small>
+                    <br />
                     <small>
                         @if (CompanyId == URSHOPECOMPANYID)
                         {

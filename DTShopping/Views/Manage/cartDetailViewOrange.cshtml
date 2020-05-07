@@ -4,7 +4,9 @@
     Layout = "~/Views/Shared/_LayoutOrange.cshtml";
     string imageUrl = System.Configuration.ConfigurationManager.AppSettings["ImageUrl"];
     string CompanyId = System.Configuration.ConfigurationManager.AppSettings["CompanyId"];
+    int URSHOPECOMPANYID = 33;
     string url = "";
+    var imageName = string.Empty;
 }
 
 <div class="ps-page--simple">
@@ -116,7 +118,7 @@
                     {
                                     <div class="form-group">
                                         <div class="ps-radio active">
-                                            @Html.RadioButtonFor(m => Model.OrderDetail.delievryType, payOp.Id, new { @class = "form-control ps-radio" })
+                                            @Html.RadioButtonFor(m => Model.OrderDetail.delievryType, payOp.Id, new { @Name= "delievryType",@id= "delievryType_" + payOp.Id, @class = "form-control ps-radio" })
                                             <label for="ps-radio">@payOp.Value</label>
                                         </div>
                                     </div>
@@ -141,14 +143,17 @@
             </div>
         </div>
     }
-    @Html.Action("getCatHeirarchy", "Home", new { Cat = ViewBag.ParentId, subCat = ViewBag.category })
+    
 </div>
 
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/vendor/jquery/jquery.min.js"></script>
+<script src="~/unishop_theme/unishop_js/jquery-ui.js"></script>
 <script src="~/Scripts/shopping.js"></script>
 <script>
     $(document).ready(function () {
         showHideShippingCharge();
-        $('input[type=radio]').live('change', function () {
+        $('input[type=radio]').on('change', function () {
             showHideShippingCharge();
             var radioVal = $("input[type=radio]:checked").val();
             UpdateShippingCharge(radioVal);

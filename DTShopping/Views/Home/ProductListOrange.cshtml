@@ -16,6 +16,9 @@
 }
 <link href="~/Content/PagedList.css" rel="stylesheet" />
 <style>
+    h1{
+        font-size:14px;
+    }
     .ul.pagination {
         display: inline-block;
         padding: 0;
@@ -252,7 +255,7 @@
                     <div class="ps-shopping__header">
                         <p><strong> @Model.finalProductList.pagerCount.TotalItemCount</strong> Products found</p>
                         <div class="ps-shopping__actions">
-                            <select class="ps-select" data-placeholder="Sort Items">
+                            <select class="ps-select" data-placeholder="Sort Items" onchange="window.location.href = this.value">
                                 <option value="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&SortBy=price&Order=asc" class="SortProduct" data-SortBy="price" data-SortOrder="ASC">Sort by price: low to high</option>
                                 <option value="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&SortBy=price&Order=desc" class="SortProduct" data-SortBy="price" data-SortOrder="DESC">Sort by price: high to low</option>
                                 <option value="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&SortBy=points&Order=asc" class="SortProduct" data-SortBy="Points" data-SortOrder="ASC">Sort by Point: low to high</option>
@@ -411,7 +414,7 @@
                                                     <a class="ps-product__title" onclick="callDetailPage('@prod.id')" href="~/Home/GetProductDetail?prodId=@prod.id"> @prod.title </a>
                                                     @*<p class="ps-product__vendor">Sold by:<a href="#">ROBERT’S STORE</a></p>*@
                                                     <div class="ps-product__desc">
-                                                        @*@Html.Raw(prod.short_description)*@
+                                                        @Html.Raw(prod.short_description)
                                                     </div>
                                                     @*<ul class="ps-product__desc">
                                                             <li> Unrestrained and portable active stereo speaker</li>

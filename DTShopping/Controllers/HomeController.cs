@@ -184,7 +184,6 @@ namespace DTShopping.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-
         }
 
         public async Task<ActionResult> ProductList(string cat, string BrandId, string root, int? page, string SortBy, string Order, string FilterFromPoint, string FilterToPoint, string searchString, string pointsFilterList)
@@ -705,7 +704,8 @@ namespace DTShopping.Controllers
             if (Theme == Resources.Orange)
             {
                 var manage = new ManageController();
-                await manage.SetShoppingCartProductInModel(this.model);
+                var usr = Session["UserDetail"] as UserDetails;
+                await manage.SetShoppingCartProductInModel(this.model, usr);
                 return View("CheckoutOrange", this.model);
             }
             else

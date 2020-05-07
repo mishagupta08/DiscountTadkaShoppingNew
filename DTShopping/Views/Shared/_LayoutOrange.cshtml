@@ -487,6 +487,17 @@
                 }
                 else {
                     alert("Product added to cart.");
+                    $.ajax({
+                        type: "GET",
+                        async: false,
+                        url: "/Manage/GetShoppingCartProductList",
+                        success: function (result) {
+                            $("#cartProducts").html(result);
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert("Status: " + textStatus); alert("Error: " + errorThrown);
+                        }
+                    });
                 }
             }
 

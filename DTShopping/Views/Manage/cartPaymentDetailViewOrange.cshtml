@@ -2,7 +2,7 @@
 @using DTShopping.Models
 @model DTShopping.Models.Dashboard
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutOrange.cshtml";
     var Company = Session["Company"] as company;
     string imageUrl = System.Configuration.ConfigurationManager.AppSettings["ImageUrl"];
     int CompanyId = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
@@ -292,7 +292,7 @@
                                                         @Html.TextBoxFor(m => m.OrderDetail.OtpCode, new { @type = "text", @id = "otpMessageBankTextBox", @required = "required", @class = "form-control", @placeholder = "" })
                                                         <label style="color:red;">Registerd Mobile No. : @Model.User.otpPhone</label>
                                                         <br />
-                                                        <a class="generateotp" data-value="otpMessageBank" name="lnkOtp">Click here to Generate OTP</a>
+                                                        <a class="generateotp" data-value="otpMessageBank" name="lnkOtp" style="cursor:pointer;">Click here to Generate OTP</a>
                                                         <br />
                                                         <label id="otpMessageBank" style="color:red;"></label>
                                                     </td>
@@ -327,7 +327,7 @@
                                         <input type="checkbox" name="termsCondition" value="tnc1" /><button type="button" class="btn" data-toggle="modal" data-target="#myModal">Terms And Condition</button>
                                         <label id="loginError" style="color:red;"></label>
                                         <div class="buttonSet">
-                                            <span class="buttonAction"><button class="unishop_button" id="tnc1" name="saveButton" type="submit">@Resources.Save</button></span>
+                                            <span class="buttonAction"><button class="ps-btn" id="tnc1" name="saveButton" type="submit">@Resources.Save</button></span>
                                         </div>
                                     </div>
 
@@ -417,7 +417,7 @@
                                                         @Html.TextBoxFor(m => m.OrderDetail.OtpCode, new { @type = "text", @id = "otpMessageWalletTextBox", @required = "required", @class = "form-control", @placeholder = "" })
                                                         <label style="color:red;">Registerd Mobile No. : @Model.User.otpPhone</label>
                                                         <br />
-                                                        <a class="generateotp" data-value="otpMessageWallet" name="lnkOtp">Click here to Generate OTP</a>
+                                                        <a class="generateotp" data-value="otpMessageWallet" name="lnkOtp" style="cursor:pointer;">Click here to Generate OTP</a>
                                                         <br />
                                                         <label id="otpMessageWallet" style="color:red;"></label>
                                                     </td>
@@ -442,7 +442,7 @@
                                         <label id="loginErrorW" style="color:red;"></label>
                                         <input type="checkbox" name="termsCondition" value="tnc2" data-value="otpMessageWallet" /><button type="button" class="btn" data-toggle="modal" data-target="#myModal">Terms And Condition</button>
                                         <div class="buttonSet">
-                                            <span class="buttonAction"><button class="unishop_button" id="tnc2" name="saveButton" type="submit">@Resources.Save</button></span>
+                                            <span class="buttonAction"><button class="ps-btn" id="tnc2" name="saveButton" type="submit">@Resources.Save</button></span>
                                         </div>
                                     </div>
 
@@ -521,7 +521,7 @@
                                                         @Html.TextBoxFor(m => m.User.OtpCode, new { @type = "text", @id = "paymentrefno", @required = "required", @class = "form-control", @placeholder = "" })
                                                         <label style="color:red;">Registerd Mobile No. : @Model.User.otpPhone</label>
                                                         <br />
-                                                        OTP is send to registered mobile no.<a class="generateotp" id="lnkOtp" style="color:blue;"> (Resend)</a>
+                                                        OTP is send to registered mobile no.<a class="generateotp" id="lnkOtp" style="color:blue; cursor:pointer;"> (Resend)</a>
                                                         <br />
                                                         <label id="otpMessage" style="color:red;"></label>
                                                     </td>

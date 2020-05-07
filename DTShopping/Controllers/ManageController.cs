@@ -45,7 +45,8 @@ namespace DTShopping.Controllers
             {
                 try
                 {
-                    await SetShoppingCartProductInModel(this.model);
+                    var userDetail = Session["UserDetail"] as UserDetails;
+                    await SetShoppingCartProductInModel(this.model, userDetail);
                 }
                 catch (Exception ex)
                 {
@@ -61,10 +62,10 @@ namespace DTShopping.Controllers
             return View("cartProdListOnHover", this.model);
         }
 
-        public async Task SetShoppingCartProductInModel(Dashboard model)
+        public async Task SetShoppingCartProductInModel(Dashboard dModel, UserDetails detail)
         {
             var cart = new CartFilter();
-            var detail = (UserDetails)(Session["UserDetail"]);
+            //var detail = (UserDetails)(Session["UserDetail"]);
             cart.userId = detail.id;
             cart.username = detail.username;
             cart.password = detail.password_str;
@@ -72,14 +73,14 @@ namespace DTShopping.Controllers
             var response = await objRepository.ManageCart(cart, CartProductListAction);
             if (response != null && response.Status)
             {
-                model.Products = JsonConvert.DeserializeObject<List<Product>>(response.ResponseValue);
-                if (model.Products != null)
+                dModel.Products = JsonConvert.DeserializeObject<List<Product>>(response.ResponseValue);
+                if (dModel.Products != null)
                 {
-                    model.NetPayment = 0;
+                    dModel.NetPayment = 0;
                     var prodPrice = 0.0;
-                    model.ShippingCharge = 0;
-                    model.TotalProductPoints = 0;
-                    foreach (var prod in this.model.Products)
+                    dModel.ShippingCharge = 0;
+                    dModel.TotalProductPoints = 0;
+                    foreach (var prod in dModel.Products)
                     {
                         if (prod.offer_price == null || prod.offer_price == "0")
                         {
@@ -94,9 +95,9 @@ namespace DTShopping.Controllers
                         //prod.TotalPayment = prodPrice * (prod.vendor_qty ?? 1) + (prod.shippng_charge ?? 0);
                         //this.model.TotalProductPoints += (prod.RBV ?? 0) * (prod.vendor_qty ?? 1);
                         //this.model.NetPayment += prod.TotalPayment;
-                        model.ShippingCharge += (prod.shippng_charge ?? 0);
-                        model.TotalProductPoints += (prod.shippng_charge ?? 0);
-                        model.NetPayment += prod.amount;
+                        dModel.ShippingCharge += (prod.shippng_charge ?? 0);
+                        dModel.TotalProductPoints += (prod.shippng_charge ?? 0);
+                        dModel.NetPayment += prod.amount;
                     }
                 }
             }
