@@ -8,6 +8,7 @@
     int CompanyId = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
     int URSHOPECOMPANYID = 33;
     var inLineStyle = string.Empty;
+    int SJLABSCOMPANYID = 40;
     if (CompanyId == URSHOPECOMPANYID)
     {
         inLineStyle = "background-image:none; background-color:transparent;";
@@ -588,6 +589,13 @@
                                                         }
                                                         @{var t = product.point_adjusted != null ? product.point_adjusted : 0;}@t
                                                     </span>
+                                                    @if (CompanyId == SJLABSCOMPANYID && !(product.RBV == 0 || product.RBV == null))
+                                                    {
+                                                        <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:8px;">
+                                                            <span>@Resources.BV : </span>
+                                                            @Html.Raw(product.RBV)
+                                                        </span>
+                                                    }
                                                 </div>
                                                 <div class="icon_cart_rollover" onclick="AddProductInCart(@product.id, 1)">
                                                     <a style="@inLineStyle">

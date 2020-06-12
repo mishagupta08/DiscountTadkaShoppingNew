@@ -20,6 +20,8 @@ namespace DTShopping.Models
         public string parentCategoryName { get; set; }
         public List<Category> Childern { get; set; }
         public int CompanyId { get; set; }
+        public string categoryBannerImage { get; set; }
+        public string logoImage { get; set; }
     }
 
     public class Banners

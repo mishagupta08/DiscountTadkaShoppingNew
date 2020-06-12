@@ -7,6 +7,7 @@ namespace DTShopping.Models
 {
     public class Dashboard
     {
+        public string WalletType { get; set; }
         public List<PointsLedger> ledgerList { get; set; }
         public List<Category> MenuItems { get; set; }
         public List<Banners> Banners { get; set; }
@@ -35,8 +36,7 @@ namespace DTShopping.Models
         public List<Product> SameBrandProductList { get; set; }
         public PagewiseProducts finalProductList { get; set; }
         public string IdList { get; set; }
-
-
+        
         public void AssignPaymentModes()
         {
             this.PaymentModeList = new List<Containers>();

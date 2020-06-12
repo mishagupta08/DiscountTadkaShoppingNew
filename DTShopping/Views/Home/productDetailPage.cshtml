@@ -6,6 +6,7 @@
     int CompanyId = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
     int URSHOPECOMPANYID = 33;
     int SUNVISCOMPANYID = 29;
+    int SJLABSCOMPANYID = 40;
 }
 
 @*<div class="">
@@ -33,7 +34,6 @@
                                             rel="adjustX:-4, adjustY:-4, softFocus:true"><img src="~/@Model.ProductDetail.large_image" alt="" itemprop="image" /></a>*@
                                         <a href="@imageUrl/@Model.ProductDetail.large_image" class="cloud-zoom" id="zoom1"
                                            rel="adjustX:-4, adjustY:-4, softFocus:true"><img src="@imageUrl/@Model.ProductDetail.large_image" alt="" itemprop="image" /></a>
-
                                     </div>
                                     <div class="gallery_note">Roll over the image to view it</div>
                                     <div class="clearfix gallery_smallimg_wrapper">
@@ -114,6 +114,13 @@
                                                                     <span>@Resources.EUPoints : </span>
                                                                 } 
                                                              @{var t = @Model.ProductDetail.point_adjusted != null ? @Model.ProductDetail.point_adjusted : 0;}@t</strong><br>
+                                                            @if (CompanyId == SJLABSCOMPANYID && !(Model.ProductDetail.RBV == 0 || Model.ProductDetail.RBV == null))
+                                                            {
+                                                                <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:8px;">
+                                                                    <span>@Resources.BV : </span>
+                                                                    @Html.Raw(Model.ProductDetail.RBV)
+                                                                </span>
+                                                            }
 
                                                             @if (Model.ProductDetail.sizeList != null && Model.ProductDetail.sizeList.Count > 0)
                                                             {

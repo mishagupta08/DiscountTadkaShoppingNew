@@ -17,6 +17,9 @@
     int GOHAPPYCARTCOMPANYID = 30;
     int URSHOPECOMPANYID = 33;
     int OSMARKETCOMPANYID = 34;
+    int SHOPENTERTAINMENTCOMPANYID = 37;
+    int GVENTERTAINMENTCOMPANYID = 38;
+    int SJLABSCOMPANYID = 40;
 }
 <style>
     .tAndC {
@@ -160,7 +163,7 @@
                                     </ul>
                                 </div>
                             </td>
-                            @if (CompanyId == SUNVISCOMPANYID || CompanyId == SHOPCOMPANYID || CompanyId == GOHAPPYCARTCOMPANYID || CompanyId == URSHOPECOMPANYID || CompanyId == OSMARKETCOMPANYID)
+                            @if (CompanyId == SUNVISCOMPANYID || CompanyId == SHOPCOMPANYID || CompanyId == GOHAPPYCARTCOMPANYID || CompanyId == URSHOPECOMPANYID || CompanyId == OSMARKETCOMPANYID || CompanyId == SHOPENTERTAINMENTCOMPANYID || CompanyId == GVENTERTAINMENTCOMPANYID || CompanyId == SJLABSCOMPANYID)
                             {
                                 <td>
                                     <div class="Paymenttd">
@@ -450,6 +453,21 @@
                                     @Html.Hidden("Amount", Model.NetPayment)
 
                                     <table border="0" width="97%" cellspacing="0" cellpadding="2">
+                                        @if (CompanyId == SHOPENTERTAINMENTCOMPANYID || CompanyId == GVENTERTAINMENTCOMPANYID)
+                                        {
+                                            <tr><td></td></tr>
+                                            <tr>
+                                                <td>
+                                                    @Html.RadioButtonFor(m => m.User.WalletType, "M")
+
+                                                    <b>Main Wallet</b>
+                                                </td>
+                                                <td>
+                                                    @Html.RadioButtonFor(m => m.User.WalletType, "R")
+                                                    <b>Shopping Wallet</b>
+                                                </td>
+                                            </tr>
+                                        }
                                         <tr>
                                             <td colspan="2" style="background:#efefef;">
                                                 <h3 style="font-family:'Oswald';font-size:16px;">Shopping Wallet Process</h3>
@@ -480,7 +498,6 @@
                                             {
                                                 @Resources.ConfirmPassword
                                             }
-
                                         </button>
 
                                     </span>
@@ -493,7 +510,10 @@
                             <div class="contentContainer">
                                 <div class="contentText">
                                     @Html.HiddenFor(m => m.OrderDetail.point_adjusted, new { name = "pointAdjusted2", id = "pointAdjusted2" })
+
                                     @Html.Hidden("Amount", Model.NetPayment)
+                                    @Html.HiddenFor(m => m.User.WalletType)
+
                                     <br /><br />
                                     <h2 style="font-family:'Oswald';font-size:16px;">Current Wallet Balance : <span id="walletAmount"></span></h2>
                                     <br /><br />
@@ -610,6 +630,7 @@
 <script>
     var jq = $.noConflict();
     jq(".preloader").hide();
+    //$("#mWallet").attr('checked', 'checked');
     jq('.datepicker').datepicker({
     });
 </script>

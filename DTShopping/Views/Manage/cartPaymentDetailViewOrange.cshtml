@@ -15,6 +15,8 @@
     int SHOPCOMPANYID = 28;
     int GOHAPPYCARTCOMPANYID = 30;
     int URSHOPECOMPANYID = 33;
+    int SHOPENTERTAINMENTCOMPANYID = 37;
+    int GVENTERTAINMENTCOMPANYID = 38;
 }
 <style>
     .tAndC {
@@ -453,8 +455,23 @@
                                     <div class="contentContainer">
                                         <div class="contentText">
                                             @Html.Hidden("Amount", Model.NetPayment)
-
+                                            
                                             <table border="0" width="97%" cellspacing="0" cellpadding="2">
+                                                @if (CompanyId == SHOPENTERTAINMENTCOMPANYID || CompanyId == GVENTERTAINMENTCOMPANYID)
+                                                {
+                                                    <tr></tr>
+                                                    <tr>
+                                                        <td>
+                                                            @Html.RadioButtonFor(m => m.User.WalletType, "M")
+                                                            
+                                                            <b>Main Wallet</b>
+                                                        </td>
+                                                        <td>
+                                                            @Html.RadioButtonFor(m => m.User.WalletType, "R")
+                                                            <b>Shopping Wallet</b>
+                                                        </td>
+                                                    </tr>
+                                                }
                                                 <tr>
                                                     <td colspan="2" style="background:#efefef;">
                                                         <h3 style="font-family:'Oswald';font-size:16px;">Shopping Wallet Process</h3>

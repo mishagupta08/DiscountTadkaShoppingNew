@@ -82,6 +82,8 @@
         ConfirmPassword();
     });
 
+    //$('input:radio[name=walletTypeBtn]')[0].checked = true;
+
     //$('input[name=paymentmethod]').unbind();
     //$('input[name=paymentmethod]').click(function (e) {
     //    LoadPaymentPage(this);
@@ -208,6 +210,7 @@ function ConfirmPassword() {
         }
 
         document.getElementById("walletAmount").innerHTML = walletAmount;
+        //$("#WalletTypeHidden").val($("input[name='walletTypeBtn']:checked").val());
         if (result == "Not Found") {
             $("#loginError1").html("Password does not match.");
         }

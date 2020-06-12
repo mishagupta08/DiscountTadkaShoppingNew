@@ -15,6 +15,7 @@
     string imageUrl = System.Configuration.ConfigurationManager.AppSettings["ImageUrl"];
     int CompanyId = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
     int URSHOPECOMPANYID = 33;
+    string iName = string.Empty;
 }
 
 <div class="container">
@@ -56,8 +57,22 @@
                     @{ var count = 1;}
                     @foreach (var product in Model.OrderProducts)
                     {
+                        iName = product.small_image;
+                        if (string.IsNullOrEmpty(product.small_image))
+                        {
+                            if (string.IsNullOrEmpty(product.medium_image))
+                            {
+                                iName = product.large_image;
+                            }
+                            else
+                            {
+                                iName = product.medium_image;
+                            }
+                        }
                         <tr>
-                            <td><img src="@imageUrl/@product.small_image" height="50" width="50" alt="" itemprop="image" /></td>
+                            <td>
+                            <img src="@imageUrl/@iName" height="50" width="50" alt="" itemprop="image" />
+                            </td>
                             <td>
                                 Product :- @product.productName <br />
                                 Code :- @product.product_id<br />

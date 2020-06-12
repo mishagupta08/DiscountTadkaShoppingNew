@@ -15,6 +15,7 @@
     int URSHOPECOMPANYID = 33;
     int OSMARKETCOMPANYID = 34;
     int FANCLUBCOMPANYID = 35;
+    int SJLABSCOMPANYID = 40;
     int width = 177;
     string styleDetail = "margin-top:-50px;";
     var inLineStyle = string.Empty;
@@ -114,15 +115,15 @@
                             width = 250;
                             styleDetail = "margin-top:-50px;";
                         }
-                        else if (current_cmpny.id == URSHOPECOMPANYID)
+                        else if (current_cmpny.id == URSHOPECOMPANYID || current_cmpny.id == FANCLUBCOMPANYID)
                         {
                             width = 130;
                             styleDetail = string.Empty;
                         }
-                        else if (current_cmpny.id == FANCLUBCOMPANYID)
+                        else if (current_cmpny.id == SJLABSCOMPANYID)
                         {
-                            width = 130;
-                            styleDetail = string.Empty;
+                            width = 160;
+                            styleDetail = "margin-top:-50px;";
                         }
                         else
                         {
@@ -276,7 +277,7 @@
                         <div id="copyright">
                             <a class="logo_footer" href="~/Home/Index">
                                 @*<img src="~/images/light/store_logo.png" alt="unishop" title="unishop" width="177" height="46" class="scale-with-grid" />*@
-                                <img src="@imageUrl/@current_cmpny.logo" alt="unishop" title="unishop" width="177" height="46" class="scale-with-grid" />
+                                <img src="@imageUrl/@current_cmpny.logo" alt="unishop" title="" width="177" height="46" class="scale-with-grid" />
                             </a> &copy; @copyright
                         </div>
                     </div>

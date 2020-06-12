@@ -8,6 +8,8 @@ namespace DTShopping.Models
     public class UserDetails
     {
         public int id { get; set; }
+        public int orderId { get; set; }
+        public string WalletType { get; set; }
         public string otpPhone { get; set; }
         public Nullable<int> role_id { get; set; }
         public string first_name { get; set; }

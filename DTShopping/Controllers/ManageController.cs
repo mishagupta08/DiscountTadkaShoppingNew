@@ -25,6 +25,9 @@ namespace DTShopping.Controllers
         private const int SHOPCOMPANYID = 28;
         private const int GOHAPPYCARTCOMPANYID = 30;
         private const int URSHOPECOMPANYID = 33;
+        int SHOPENTERTAINMENTCOMPANYID = 37;
+        int GVENTERTAINMENTCOMPANYID = 38;
+        int SJLABSCOMPANYID = 40;
         string Theme = System.Configuration.ConfigurationManager.AppSettings["Theme"] == null ? string.Empty : System.Configuration.ConfigurationManager.AppSettings["Theme"].ToString();
         int companyId = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
 
@@ -173,7 +176,10 @@ namespace DTShopping.Controllers
             detail.Amount = detailModel.Amount;
             detail.OtpCode = detailModel.User.OtpCode;
             detailModel.User.username = detail.username;
+            detail.WalletType = detailModel.User.WalletType;
             result = await this.objRepository.MangeOtpFunctions(detail, "ValidateOtp");
+            detailModel.OrderDetail = new order();
+            detailModel.OrderDetail.id = Session["OrderId"] != null ? Convert.ToInt32(Session["OrderId"]) : 0;
             if (result == null)
             {
                 return Json(Resources.ErrorMessage);
@@ -186,8 +192,6 @@ namespace DTShopping.Controllers
             {
                 if (CompanyId == 17)
                 {
-                    detailModel.OrderDetail = new order();
-                    detailModel.OrderDetail.id = Session["OrderId"] != null ? Convert.ToInt32(Session["OrderId"]) : 0;
                     result = await objRepository.CreateOrder(detailModel.OrderDetail, "EditWithOtp");
                     if (result == null)
                     {
@@ -202,12 +206,12 @@ namespace DTShopping.Controllers
                         return Json("ok");
                     }
                 }
-                else if (CompanyId == SHOPCOMPANYID || CompanyId == SUNVISCOMPANYID || CompanyId == GOHAPPYCARTCOMPANYID || CompanyId == URSHOPECOMPANYID)
+                else if (CompanyId == SHOPCOMPANYID || companyId == SJLABSCOMPANYID || CompanyId == SUNVISCOMPANYID || CompanyId == GOHAPPYCARTCOMPANYID || CompanyId == URSHOPECOMPANYID || CompanyId == GVENTERTAINMENTCOMPANYID || CompanyId == SHOPENTERTAINMENTCOMPANYID)
                 {
                     var usr = new UserDetails();
                     usr = detail;
                     //usr.password_str = usr.passwordDetail;
-
+                    usr.orderId = detailModel.OrderDetail.id;
                     var deductWallet = await objRepository.DeductWalletBalnce(usr);
                     if (deductWallet.Status)
                     {
@@ -426,9 +430,14 @@ namespace DTShopping.Controllers
             {
                 return Json("Not Found");
             }
+            else if ((detail.company_id == GVENTERTAINMENTCOMPANYID || detail.company_id == SHOPENTERTAINMENTCOMPANYID) && string.IsNullOrEmpty(detail.WalletType))
+            {
+                return Json("Please select Wallet type");
+            }
             else
             {
                 detailModel.User.username = detail.username;
+                detailModel.User.WalletType = detail.WalletType;
                 result = await this.objRepository.CheckWalletBalance(detailModel.User);
                 if (result.Status)
                 {
@@ -464,7 +473,7 @@ namespace DTShopping.Controllers
             var usr = new UserDetails();
             usr = detail;
             usr.password_str = usr.passwordDetail;
-
+            usr.WalletType = detailModel.User.WalletType;
 
             result = await this.objRepository.CheckUserExistance(usr);
             if (result == null)
@@ -799,7 +808,7 @@ namespace DTShopping.Controllers
                 }
 
                 this.model.couponList = await this.objRepository.GetCouponList(this.model.User.id);
-
+                this.model.User.WalletType = "M";
                 if (Theme == Resources.Orange)
                 {
                     return PartialView("cartPaymentDetailViewOrange", this.model);

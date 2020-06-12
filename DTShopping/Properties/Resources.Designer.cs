@@ -124,6 +124,15 @@ namespace DTShopping.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to BV.
+        /// </summary>
+        public static string BV {
+            get {
+                return ResourceManager.GetString("BV", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Category.
         /// </summary>
         public static string Category {
@@ -214,7 +223,7 @@ namespace DTShopping.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dabit.
+        ///   Looks up a localized string similar to Debit.
         /// </summary>
         public static string Dabit {
             get {

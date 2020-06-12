@@ -280,7 +280,7 @@
     <value>Credit Valid UpTo</value>
   </data>
   <data name="Dabit" xml:space="preserve">
-    <value>Dabit</value>
+    <value>Debit</value>
   </data>
   <data name="Member" xml:space="preserve">
     <value>Member</value>
@@ -302,5 +302,8 @@
   </data>
   <data name="ProfitPoint" xml:space="preserve">
     <value>Profit Point</value>
+  </data>
+  <data name="BV" xml:space="preserve">
+    <value>BV</value>
   </data>
 </root>
