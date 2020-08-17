@@ -16,12 +16,20 @@
     int OSMARKETCOMPANYID = 34;
     int FANCLUBCOMPANYID = 35;
     int SJLABSCOMPANYID = 40;
+    int SHOPENTERTAINMENTCOMPANYID = 37;
+    int GVENTERTAINMENTCOMPANYID = 38;
     int width = 177;
+    string targetUrl = "~/Home/Index";
     string styleDetail = "margin-top:-50px;";
     var inLineStyle = string.Empty;
     if (CompanyId == URSHOPECOMPANYID)
     {
         inLineStyle = "background-image:none; background-color:transparent;";
+    }
+
+    if(current_user != null && (CompanyId == SHOPENTERTAINMENTCOMPANYID || CompanyId == GVENTERTAINMENTCOMPANYID))
+    {
+        targetUrl = "https://entertainmentclub.biz/Index.aspx";
     }
 }
 
@@ -131,7 +139,7 @@
                             styleDetail = string.Empty;
                         }
                         <div id="logo" style="@styleDetail" class="five columns">
-                            <div id="storeLogo"> <a class="logo_inner" href="~/Home/Index"><img src="@imageUrl/@current_cmpny.logo" alt="@current_cmpny.company_name" title="@current_cmpny.company_name" width="@width" height="46" class="scale-with-grid" /></a></div>
+                            <div id="storeLogo"> <a class="logo_inner" href="@targetUrl"><img src="@imageUrl/@current_cmpny.logo" alt="@current_cmpny.company_name" title="@current_cmpny.company_name" width="@width" height="46" class="scale-with-grid" /></a></div>
                         </div>
                         <div class="six columns">
 
@@ -297,6 +305,26 @@
                             <ul>
                                 <li><a href="#">(91) @current_cmpny.company_landline_no</a></li>
                                 <li><a href="#">@current_cmpny.contact_email</a></li>
+                                <li>
+                                    <a>
+                                        @if (!string.IsNullOrEmpty(current_cmpny.add1))
+                                        {
+                                            <div>@current_cmpny.add1</div>
+                                        }
+                                        @if (!string.IsNullOrEmpty(current_cmpny.add2))
+                                        {
+                                            <div>@current_cmpny.add2</div>
+                                        }
+                                        @if (!string.IsNullOrEmpty(current_cmpny.city))
+                                        {
+                                            <div>@current_cmpny.city</div>
+                                        }
+                                        @if (!string.IsNullOrEmpty(current_cmpny.state))
+                                        {
+                                            <div>@current_cmpny.state</div>
+                                        }
+                                    </a>
+                                </li>
                             </ul>
                         </nav>
                     </div>
