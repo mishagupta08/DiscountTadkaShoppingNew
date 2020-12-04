@@ -20,6 +20,11 @@
     int SHOPENTERTAINMENTCOMPANYID = 37;
     int GVENTERTAINMENTCOMPANYID = 38;
     int SJLABSCOMPANYID = 40;
+    int HEALTHTADKACOMPANYID = 41;
+    int ETRADECOMPANYID = 42;
+    int DUDHAMRITCOMPANYID = 43;
+    int MYDWORLDCOMPANYID = 44;
+    int MYAIMTRADESERVICESCOMPANYID = 45;
 }
 <style>
     .tAndC {
@@ -163,7 +168,7 @@
                                     </ul>
                                 </div>
                             </td>
-                            @if (CompanyId == SUNVISCOMPANYID || CompanyId == SHOPCOMPANYID || CompanyId == GOHAPPYCARTCOMPANYID || CompanyId == URSHOPECOMPANYID || CompanyId == OSMARKETCOMPANYID || CompanyId == SHOPENTERTAINMENTCOMPANYID || CompanyId == GVENTERTAINMENTCOMPANYID || CompanyId == SJLABSCOMPANYID)
+                            @if (CompanyId == SUNVISCOMPANYID || CompanyId == SHOPCOMPANYID || CompanyId == GOHAPPYCARTCOMPANYID || CompanyId == URSHOPECOMPANYID || CompanyId == OSMARKETCOMPANYID || CompanyId == SHOPENTERTAINMENTCOMPANYID || CompanyId == GVENTERTAINMENTCOMPANYID || CompanyId == SJLABSCOMPANYID || CompanyId == ETRADECOMPANYID || CompanyId == DUDHAMRITCOMPANYID || CompanyId == MYDWORLDCOMPANYID || CompanyId == MYAIMTRADESERVICESCOMPANYID)
                             {
                                 <td>
                                     <div class="Paymenttd">
@@ -186,8 +191,6 @@
                                                     }
                                                 </b>
                                             </li>
-
-
                                         </ul>
                                     </div>
                                 </td>
@@ -215,7 +218,7 @@
                                     <ul>
                                         <li>
                                             <input type="radio" value="cardPaymentMode" name="paymentmethod" id="Pay4">
-                                            <b>Credit Card / Debit Card / Net Banking</b><br>
+                                            <b>Credit Card / Debit Card / Net Banking/PayUMoney</b><br>
                                         </li>
                                     </ul>
                                 </div>
@@ -579,11 +582,25 @@
 
                                         </table>
                                     }
+                                    @if (CompanyId == HEALTHTADKACOMPANYID)
+                                    {
+                                        <table border="0" width="97%" cellspacing="0" cellpadding="2">
+                                            <tr class="Common">
+                                                <td class="fieldKey"><label for="username">@Resources.PaymentRefNo</label> : </td>
+                                                <td class="fieldValue">@Html.TextBoxFor(m => m.OrderDetail.payment_ref_no, new { @type = "text", @id = "paymentrefno", @required = "required", @class = "form-control", @placeholder = "" })</td>
+                                            </tr>
+
+                                        </table>
+
+                                        <div class="buttonSet">
+                                            <span class="buttonAction"><button id="payWithPayu" class="unishop_button" type="button">Pay With PayUMoney</button></span>
+                                        </div>
+                                    }
                                 </div>
                                 <label id="loginError" style="color:red;"></label>
-                                @*<div class="buttonSet">
-                                        <span class="buttonAction"><button class="unishop_button" type="submit">Continue</button></span>
-                                    </div>*@
+                                <div class="buttonSet" id="submitForPayu" style="display:none;">
+                                    <span class="buttonAction"><button class="unishop_button" type="submit">Continue</button></span>
+                                </div>
                             </div>
 
                         </form>

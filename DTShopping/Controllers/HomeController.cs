@@ -12,7 +12,6 @@ using Newtonsoft.Json;
 
 namespace DTShopping.Controllers
 {
-
     public class HomeController : Controller
     {
         APIRepository objRepository = new APIRepository();
@@ -98,11 +97,16 @@ namespace DTShopping.Controllers
         {
             ViewBag.Message = "Your application description page.";
             var res = await this.SetCompanyDetailInSession();
-            if (res != null)
+            var profile = new CompanyProfile { CompanyId = Convert.ToInt32(companyId) };
+            //get companyProfileDetail
+            var result = await objRepository.ManageCompanyProfile(profile, "ByCompanyId");
+            if (!(result == null || result.Status == false))
             {
-                return res;
+                this.model = new Dashboard();
+                this.model.CompanyProfileDetail = JsonConvert.DeserializeObject<CompanyProfile>(result.ResponseValue);
             }
-            return View();
+
+            return View(this.model);
         }
 
         public async Task<ActionResult> Contact()
@@ -164,6 +168,11 @@ namespace DTShopping.Controllers
                         {
                             dashboard.ProductDetail.colorList = dashboard.ProductDetail.Color.Split(',').ToList();
                         }
+
+                        var prodImageList = new List<product_images>();
+
+                        prodImageList.Add(new product_images { product_id = prodId });
+                        dashboard.ProductDetail.prodImageList = await objRepository.GetProductImagesList(prodImageList);
                     }
                 }
                 catch (Exception ex)
@@ -381,7 +390,7 @@ namespace DTShopping.Controllers
             }
             else
             {
-                objsidebar.filterDetail.FilterFromPoint =Convert.ToInt32(minPointValue);
+                objsidebar.filterDetail.FilterFromPoint = Convert.ToInt32(minPointValue);
             }
 
             if (string.IsNullOrEmpty(maxPointValue))
@@ -609,6 +618,7 @@ namespace DTShopping.Controllers
 
         public async Task<ActionResult> Orders(int? page)
         {
+            var dash = new Dashboard();
             if (Session["UserDetail"] == null)
             {
                 return RedirectToAction("Login", "Account");
@@ -618,7 +628,7 @@ namespace DTShopping.Controllers
                 var userID = 0;
                 var companyID = 0;
                 Filters objFilter = new Filters();
-                PagedOrderList UserOrderList = new PagedOrderList();
+                //PagedOrderList UserOrderList = new PagedOrderList();
                 if (Session["UserDetail"] != null)
                 {
                     userID = (Session["UserDetail"] as UserDetails).id;
@@ -634,7 +644,7 @@ namespace DTShopping.Controllers
                     if (result.Status == true && result.ResponseValue != null)
                     {
                         totalcount = result.TotalRecords;
-                        UserOrderList.OrderProductList = JsonConvert.DeserializeObject<List<order_products>>(result.ResponseValue);
+                        dash.orderDetailListContainer = JsonConvert.DeserializeObject<List<OrderDetailContainer>>(result.ResponseValue);
                     }
 
                     var list = new List<int>();
@@ -642,10 +652,11 @@ namespace DTShopping.Controllers
                     {
                         list.Add(i);
                     }
-                    UserOrderList.pagerCount = list.ToPagedList(Convert.ToInt32(page ?? 1), 10);
+
+                    dash.pagerCount = list.ToPagedList(Convert.ToInt32(page ?? 1), 10);
 
                 }
-                return View(UserOrderList);
+                return View(dash);
             }
         }
 
@@ -792,7 +803,8 @@ namespace DTShopping.Controllers
                 orderstatus = "Fail";
             }
 
-            return Json(orderstatus, JsonRequestBehavior.AllowGet);
+            return
+                Json(orderstatus, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -883,8 +895,6 @@ namespace DTShopping.Controllers
         {
             if (Session["Company"] == null)
             {
-                string companyId = System.Configuration.ConfigurationManager.AppSettings["CompanyId"];
-
                 try
                 {
                     var dt = new List<company>();

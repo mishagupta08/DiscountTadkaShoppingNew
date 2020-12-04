@@ -7,6 +7,9 @@
     int URSHOPECOMPANYID = 33;
     int SUNVISCOMPANYID = 29;
     int SJLABSCOMPANYID = 40;
+    int ETRADECOMPANYID = 42;
+    int DUDHAMRITCOMPANYID = 43;
+    int MYDWORLDCOMPANYID = 44;
 }
 
 @*<div class="">
@@ -19,6 +22,15 @@
             </div>
         </div>
     </div>*@
+<style>
+    .product_img_wrapper {
+        max-width: 47% !important;
+    }
+
+    .cloud-zoom-big {
+        background-repeat: no-repeat !important;
+    }
+</style>
 <div class="product-info-nostyle">
     <div class="product-info-nostyle">
         <div id="bodyContent" class="product_info_page_central">
@@ -29,19 +41,39 @@
                             <div class="product_img_wrapper">
                                 @****Product Image here****@
                                 <div class="cloudzoom_gallery">
-                                    <div class="gallery_bigimg">
-                                        @*<a href="~/images/24_2.jpg" class="cloud-zoom" id="zoom1"
-                                            rel="adjustX:-4, adjustY:-4, softFocus:true"><img src="~/@Model.ProductDetail.large_image" alt="" itemprop="image" /></a>*@
-                                        <a href="@imageUrl/@Model.ProductDetail.large_image" class="cloud-zoom" id="zoom1"
-                                           rel="adjustX:-4, adjustY:-4, softFocus:true"><img src="@imageUrl/@Model.ProductDetail.large_image" alt="" itemprop="image" /></a>
-                                    </div>
-                                    <div class="gallery_note">Roll over the image to view it</div>
-                                    <div class="clearfix gallery_smallimg_wrapper">
+                                    <div class="clearfix gallery_smallimg_wrapper" style="display:inline-block;float:left; margin-right:5px;">
                                         <div class="gallery_smallimg">
-                                            <a href="@imageUrl/@Model.ProductDetail.small_image" class="cloud-zoom-gallery"
+                                            <a href="@imageUrl/@Model.ProductDetail.small_image" style="display:inline-block !important;" class="cloud-zoom-gallery"
                                                rel="useZoom:'zoom1', smallImage: '@imageUrl/@Model.ProductDetail.small_image' "><img src="@imageUrl/@Model.ProductDetail.small_image" alt="" /></a>
+
+                                            @if (!(Model.ProductDetail.prodImageList == null || Model.ProductDetail.prodImageList.Count == 0))
+                                            {
+                                                foreach (var img in Model.ProductDetail.prodImageList)
+                                                {
+                                                    <a href="@imageUrl/@img.images" class="cloud-zoom-gallery"
+                                                       rel="useZoom:'zoom1', smallImage: '@imageUrl/@img.images' "><img src="@imageUrl/@img.images" alt="" /></a>
+                                                }
+                                            }
                                         </div>
                                     </div>
+                                    <div class="gallery_bigimg" style="display:inline-block;">
+                                        @*<a href="~/images/24_2.jpg" class="cloud-zoom" id="zoom1"
+                                            rel="adjustX:-4, adjustY:-4, softFocus:true"><img src="~/@Model.ProductDetail.large_image" alt="" itemprop="image" /></a>*@
+                                        <a href="@imageUrl/@Model.ProductDetail.large_image" style="height:450px !important;width:450px !important;" class="cloud-zoom" id="zoom1"
+                                           rel="adjustX:-4, adjustY:-4, softFocus:true"><img src="@imageUrl/@Model.ProductDetail.large_image" alt="" itemprop="image" /></a>
+
+                                        @*@if (!(Model.ProductDetail.prodImageList == null || Model.ProductDetail.prodImageList.Count == 0))
+                                            {
+                                                foreach (var img in Model.ProductDetail.prodImageList)
+                                                {
+                                                <a href="@imageUrl/@img.images" class="cloud-zoom" id="zoom1"
+                                                   rel="adjustX:-4, adjustY:-4, softFocus:true"><img src="@imageUrl/@img.images" alt="" itemprop="image" /></a>
+                                                }
+                                            }*@
+
+                                    </div>
+                                    <div class="gallery_note">Roll over the image to view it</div>
+
                                 </div>
                             </div>
                             @***Product detail here ****@
@@ -104,16 +136,20 @@
                                                     }
                                                     <p>
                                                         <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
-                                                            <strong>
-                                                                @if (CompanyId == URSHOPECOMPANYID)
-                                                                {
-                                                                    <span>@Resources.ProfitPoint : </span>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <span>@Resources.EUPoints : </span>
-                                                                } 
-                                                             @{var t = @Model.ProductDetail.point_adjusted != null ? @Model.ProductDetail.point_adjusted : 0;}@t</strong><br>
+                                                            @if (CompanyId != ETRADECOMPANYID && CompanyId != DUDHAMRITCOMPANYID && CompanyId != MYDWORLDCOMPANYID)
+                                                            {
+                                                                <strong>
+                                                                    @if (CompanyId == URSHOPECOMPANYID)
+                                                                    {
+                                                                        <span>@Resources.ProfitPoint : </span>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <span>@Resources.EUPoints : </span>
+                                                                    }
+                                                                    @{var t = @Model.ProductDetail.point_adjusted != null ? @Model.ProductDetail.point_adjusted : 0;}@t
+                                                                </strong><br>
+                                                                        }
                                                             @if (CompanyId == SJLABSCOMPANYID && !(Model.ProductDetail.RBV == 0 || Model.ProductDetail.RBV == null))
                                                             {
                                                                 <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:8px;">
@@ -127,7 +163,7 @@
                                                                 <strong>
                                                                     @Resources.Size :
                                                                 </strong>
-                                                                    @Html.DropDownListFor(m => m.ProductDetail.product_size, new SelectList(Model.ProductDetail.sizeList), new { @required = "0", id = "sizeDropDown", @class = "form-control", @style = "width: 156px;height: 30px;" })
+                                                                @Html.DropDownListFor(m => m.ProductDetail.product_size, new SelectList(Model.ProductDetail.sizeList), new { @required = "0", id = "sizeDropDown", @class = "form-control", @style = "width: 156px;height: 30px;" })
                                                             }
 
                                                             @if (Model.ProductDetail.colorList != null && Model.ProductDetail.sizeList.Count > 0)
@@ -147,13 +183,11 @@
                                             <div class="clearfix add-to-cart-box">
                                                 <div class="add-to-cart-button">
                                                     <input type="hidden" id="product_id" name="product_id" value="@Model.ProductDetail.id" />
-                                                    @*<select name="ProductDetail.vendor_qty" id="quantity" class="form-control" style="height: 25px!important;width: 40px;">
-                                                            <option value="1">1</option>
-                                                            <option value="2">2</option>
-                                                            <option value="3">3</option>
-                                                            <option value="4">4</option>
-                                                            <option value="5">5</option>
-                                                        </select>*@
+                                                    @if (CompanyId == DUDHAMRITCOMPANYID || CompanyId == ETRADECOMPANYID || CompanyId == MYDWORLDCOMPANYID)
+                                                    {
+                                                        @Html.TextBoxFor(m => m.ProductDetail.vendor_qty, new { @type = "number", @min=1, @max=50, @id = "quantity", @required = "required", @class = "form-control", @placeholder = "quantity", @style="width:31%;"})
+                                                    }
+
                                                     <br />
                                                     <button class="unishop_button" id="addToCart" type="button">@Resources.AddtoCart</button>
                                                 </div>

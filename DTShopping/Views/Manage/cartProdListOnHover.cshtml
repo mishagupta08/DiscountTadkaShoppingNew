@@ -6,6 +6,9 @@
     int URSHOPECOMPANYID = 33;
     int CompanyId = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
     var imageName = string.Empty;
+    int ETRADECOMPANYID = 42;
+    int DUDHAMRITCOMPANYID = 43;
+    int MYDWORLDCOMPANYID = 44;
 }
 @if (Model == null || Model.Products == null || Model.Products.Count == 0)
 {
@@ -48,18 +51,21 @@ else
                     <br />
                     <small>@Resources.ShippingCharge : Rs. @(product.shippng_charge ?? 0)</small>
                     <br />
-                    <small>
-                        @if (CompanyId == URSHOPECOMPANYID)
+                    @if (CompanyId != ETRADECOMPANYID && CompanyId != DUDHAMRITCOMPANYID && CompanyId != MYDWORLDCOMPANYID)
+                    {
+                        <small>
+                            @if (CompanyId == URSHOPECOMPANYID)
                         {
-                            <span>@Resources.ProfitPoint :</span>
-                        }
-                        else
-                        {
-                            <span>@Resources.EUPoints :</span>
-                        }
+                                <span>@Resources.ProfitPoint :</span>
+                            }
+                            else
+                            {
+                                <span>@Resources.EUPoints :</span>
+                            }
 
-                        Rs. @(product.point_adjusted ?? 0)
-                    </small>
+                            Rs. @(product.point_adjusted ?? 0)
+                        </small>
+                    }
                 </div>
             </div>
         }

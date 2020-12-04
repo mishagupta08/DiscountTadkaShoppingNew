@@ -12,6 +12,9 @@
     Layout = "~/Views/Shared/_LayoutOrange.cshtml";
     int CompanyId = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
     int URSHOPECOMPANYID = 33;
+    int ETRADECOMPANYID = 42;
+    int DUDHAMRITCOMPANYID = 43;
+    int MYDWORLDCOMPANYID = 44;
 }
 
 <div id="homepage-5">
@@ -617,18 +620,20 @@
 
 
                                         @{var point = @Model.ProductDetail.point_adjusted != null ? @Model.ProductDetail.point_adjusted : 0;}
-
-                                        <small class="text-dark">
-                                            @if (CompanyId == URSHOPECOMPANYID)
-                                            {
-                                                <span>@Resources.ProfitPoint : </span>
-                                            }
-                                            else
-                                            {
-                                                <span>@Resources.EUPoints : </span>
-                                            }
-                                            @point
-                                        </small>
+                                        @if (CompanyId != ETRADECOMPANYID && CompanyId != DUDHAMRITCOMPANYID && CompanyId != MYDWORLDCOMPANYID)
+                                        {
+                                            <small class="text-dark">
+                                                @if (CompanyId == URSHOPECOMPANYID)
+                                                {
+                                                    <span>@Resources.ProfitPoint : </span>
+                                                }
+                                                else
+                                                {
+                                                    <span>@Resources.EUPoints : </span>
+                                                }
+                                                @point
+                                            </small>
+                                        }
                                     </p>
 
                                     <div class="ps-product__content">

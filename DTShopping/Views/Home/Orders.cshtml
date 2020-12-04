@@ -1,6 +1,6 @@
 ﻿@using PagedList.Mvc;
 @using DTShopping.Properties;
-@model  DTShopping.Models.PagedOrderList
+@model  DTShopping.Models.Dashboard
 @{
     ViewBag.Title = "Orders";
     string Theme = System.Configuration.ConfigurationManager.AppSettings["Theme"] == null ? string.Empty : System.Configuration.ConfigurationManager.AppSettings["Theme"].ToString();
@@ -16,7 +16,6 @@
                 font-size: 25px;
             }
         </style>
-
     }
     else
     {
@@ -67,16 +66,17 @@
 
             <h1>ORDER DETAILS</h1>
 
-            @if (Model != null && Model.OrderProductList != null && Model.OrderProductList.Count > 0)
+            @if (Model != null && Model.orderDetailListContainer != null && Model.orderDetailListContainer.Count > 0)
             {
                 <table width="100%" border="0" cellspacing="5" cellpadding="5" class="shoptable" style="width: 100%; border-top: 1px solid rgb(204, 204, 204);">
                     <tr>
                         <td width="13%" bgcolor="#E9E9E9"><h3>ORDER NO </h3></td>
-                        <td width="13%" bgcolor="#E9E9E9"><h3>PRODUCT CODE </h3></td>
-                        <td width="14%" bgcolor="#E9E9E9"><h3>PRODUCT NAME</h3></td>
+                        <td width="13%" bgcolor="#E9E9E9"><h3>PRODUCTS DETAIL </h3></td>
+                        @*<td width="14%" bgcolor="#E9E9E9"><h3>PRODUCT NAME</h3></td>*@
                         <td width="11%" bgcolor="#E9E9E9"><h3>QUANTITY</h3></td>
                         <td width="10%" bgcolor="#E9E9E9"><h3>PRICE</h3></td>
                         <td width="13%" bgcolor="#E9E9E9"><h3>POINTS USED</h3></td>
+                        <td width="13%" bgcolor="#E9E9E9"><h3>ORDER DATE</h3></td>
                         <td width="16%" bgcolor="#E9E9E9"><h3>SHIPPING CHARGES</h3></td>
                         <td width="12%" bgcolor="#E9E9E9"><h3>NET PRICE</h3></td>
                         <td width="11%" bgcolor="#E9E9E9"><h3>DISPACTH</h3></td>
@@ -84,43 +84,38 @@
                         <td width="11%" bgcolor="#E9E9E9"><h3>PAYMENT STATUS</h3></td>
                         <td width="11%" bgcolor="#E9E9E9"><h3>ACTION</h3></td>
                     </tr>
-                    @foreach (var order in Model.OrderProductList)
+                    @foreach (var order in Model.orderDetailListContainer)
                     {
-                        <tr>
-                            <td class="bordertop">@order.order_id</td>
-                            <td class="bordertop">@order.productCode</td>
-                            <td class="bordertop">
-                                @order.productName
-                                @*@if (!string.IsNullOrEmpty(order.siz))
+                        foreach (var orderProd in order.OrderProducts)
+                        {
+                            <tr>
+                                <td valign="middle" class="bordertop">@order.OrderDetail.id</td>
+                                <td class="bordertop">
+                                    @orderProd.productName
+                                    @if (!string.IsNullOrEmpty(orderProd.Size))
                                     {
-                                        <span>Size : @product.product_size</span>
-                                    }
-                                    @if (!string.IsNullOrEmpty(product.Color))
-                                    {
-                                        <span>Color : @product.Color</span>
-                                    }*@
-                            </td>
-                            <td valign="middle" class="bordertop">@order.quantity</td>
-                            <td valign="middle" class="bordertop">@order.price</td>
-                            <td valign="middle" class="bordertop">@order.RBV_Points</td>
-                            <td valign="middle" class="bordertop">@order.shipping_charge</td>
-                            <td valign="middle" class="bordertop">@order.Amt</td>
-                            <td valign="middle" class="bordertop">@order.DispatchStatusStr</td>
-                            <td valign="middle" class="bordertop">@order.PaymentMode</td>
-                            <td valign="middle" class="bordertop">
-                                @order.PaymentStatus
-                                <br />
-                                @order.PaymentDate
-                            </td>
-                            <td><a href="@Url.Action("GetOrderDetailPage", "Manage", new { id = order.order_id})"><img src="~/images/print.png" title="@Resources.Print" height="20" width="20" /></a></td>
-                        </tr>
+                                        <br />
+                                        <span>Size : @orderProd.Size</span>
+                                    }                                    
+                                </td>
+                                @*<td class="bordertop">@order.ProductName</td>*@
+                                <td valign="middle" class="bordertop">@orderProd.quantity</td>
+                                <td valign="middle" class="bordertop">@orderProd.price</td>
+                                <td valign="middle" class="bordertop">@orderProd.RBV_Points</td>
+                                <td valign="middle" class="bordertop">@orderProd.created.ToString("dd/MM/yyyy")</td>
+                                <td valign="middle" class="bordertop">@orderProd.shipping_charge</td>
+                                <td valign="middle" class="bordertop">@orderProd.Amt</td>
+                                <td valign="middle" class="bordertop">@orderProd.DispatchStatusStr</td>
+                                <td valign="middle" class="bordertop">@order.OrderDetail.payment_mode</td>
+                                <td valign="middle" class="bordertop">@order.OrderDetail.PaymentStatus</td>
+                                <td><a href="@Url.Action("GetOrderDetailPage", "Manage", new { id = order.OrderDetail.id})"><img src="~/images/print.png" title="@Resources.Print" height="20" width="20" /></a></td>
+                            </tr>
+                        }
                     }
-
                 </table>
             }
             else
             {
-
                 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="shoptable" style="margin-bottom:20px">
                     <tr>
                         <td width="51%">Total 0 records available.</td>
@@ -128,13 +123,10 @@
                     </tr>
                 </table>
             }
-
         </div>
-
-
     </div>
 
-    @if (Model != null && Model.OrderProductList != null && Model.OrderProductList.Count > 0)
+    @if (Model != null && Model.orderDetailListContainer != null && Model.orderDetailListContainer.Count > 0)
     {
         <span class="page-link">Page @(Model.pagerCount.PageCount < Model.pagerCount.PageNumber ? 0 : Model.pagerCount.PageNumber) of @Model.pagerCount.PageCount</span>
         @Html.PagedListPager(Model.pagerCount, page => Url.Action("Orders", "Home", new { page }), new PagedListRenderOptions
@@ -152,7 +144,6 @@
 <script>
     $(document).ready(function () {
         $(".preloader").hide();
-
     });
 </script>
 

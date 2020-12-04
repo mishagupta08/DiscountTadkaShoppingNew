@@ -8,6 +8,9 @@
     int CompanyId = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
     int URSHOPECOMPANYID = 33;
     int SJLABSCOMPANYID = 40;
+    int ETRADECOMPANYID = 42;
+    int DUDHAMRITCOMPANYID = 43;
+    int MYDWORLDCOMPANYID = 44;
     var inLineStyle = string.Empty;
     if (CompanyId == URSHOPECOMPANYID)
     {
@@ -131,18 +134,21 @@
                                                         <s>Rs.@product.market_price</s><br>
                                                         <span class="new-special-price">Rs.@product.offer_price</span>
                                                     </span><br>
-                                                    <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
-                                                        <br>
-                                                        @if (CompanyId == URSHOPECOMPANYID)
-                                                        {
-                                                            <span>@Resources.ProfitPoint : </span>
-                                                        }
-                                                        else
-                                                        {
-                                                            <span>@Resources.EUPoints : </span>
-                                                        }
-                                                        @{var t = product.point_adjusted != null ? product.point_adjusted : 0;}@t
-                                                    </span>
+                                                    @if (CompanyId != ETRADECOMPANYID && CompanyId != DUDHAMRITCOMPANYID && CompanyId != MYDWORLDCOMPANYID)
+                                                    {
+                                                        <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
+                                                            <br>
+                                                            @if (CompanyId == URSHOPECOMPANYID)
+                                                            {
+                                                                <span>@Resources.ProfitPoint : </span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>@Resources.EUPoints : </span>
+                                                            }
+                                                            @{var t = product.point_adjusted != null ? product.point_adjusted : 0;}@t
+                                                        </span>
+                                                                }
                                                     @if (CompanyId == SJLABSCOMPANYID && !(product.RBV == 0 || product.RBV == null))
                                                     {
                                                         <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:8px;">
@@ -151,21 +157,24 @@
                                                         </span>
                                                     }
                                                 </div>
-                                                <div class="icon_cart_rollover" onclick="AddProductInCart(@product.id, 1)"><a style="@inLineStyle">
-                                                    @if (CompanyId == URSHOPECOMPANYID)
-                                                    {
-                                                    <img src="~/unishop_theme/unishop_images/icon-cart2.png" height="30" width="30" />
-                                                    }</a></div>
+                                                <div class="icon_cart_rollover" onclick="AddProductInCart(@product.id, 1)">
+                                                    <a style="@inLineStyle">
+                                                        @if (CompanyId == URSHOPECOMPANYID)
+                                                        {
+                                                            <img src="~/unishop_theme/unishop_images/icon-cart2.png" height="30" width="30" />
+                                                        }
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                                                    }
                                                                 }
-                                                            }
-                                                            else
-                                                            {
-                                                                <div class="Eight columns"><h2>No Products found</h2></div>
-                                                            }
+                                                                else
+                                                                {
+                                                                    <div class="Eight columns"><h2>No Products found</h2></div>
+                                                                }
 
 
                     </div>

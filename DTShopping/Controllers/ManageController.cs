@@ -23,11 +23,15 @@ namespace DTShopping.Controllers
         private const string CartProductListAction = "CartProductList";
         private const int SUNVISCOMPANYID = 29;
         private const int SHOPCOMPANYID = 28;
+        private const int MYDWORLDCOMPANYID = 44;
         private const int GOHAPPYCARTCOMPANYID = 30;
         private const int URSHOPECOMPANYID = 33;
         int SHOPENTERTAINMENTCOMPANYID = 37;
         int GVENTERTAINMENTCOMPANYID = 38;
         int SJLABSCOMPANYID = 40;
+        int ETRADECOMPANYID = 42;
+        int DUDHAMRITCOMPANYID = 43;
+        int MYAIMTRADESERVICESCOMPANYID = 45;
         string Theme = System.Configuration.ConfigurationManager.AppSettings["Theme"] == null ? string.Empty : System.Configuration.ConfigurationManager.AppSettings["Theme"].ToString();
         int companyId = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
 
@@ -177,14 +181,18 @@ namespace DTShopping.Controllers
             detail.OtpCode = detailModel.User.OtpCode;
             detailModel.User.username = detail.username;
             detail.WalletType = detailModel.User.WalletType;
-            result = await this.objRepository.MangeOtpFunctions(detail, "ValidateOtp");
+            if (companyId != ETRADECOMPANYID)
+            {
+                result = await this.objRepository.MangeOtpFunctions(detail, "ValidateOtp");
+            }
+
             detailModel.OrderDetail = new order();
             detailModel.OrderDetail.id = Session["OrderId"] != null ? Convert.ToInt32(Session["OrderId"]) : 0;
-            if (result == null)
+            if (result == null && companyId != ETRADECOMPANYID)
             {
                 return Json(Resources.ErrorMessage);
             }
-            else if (!result.Status)
+            else if (!result.Status && companyId != ETRADECOMPANYID)
             {
                 return Json("Invald OTP.");
             }
@@ -206,7 +214,7 @@ namespace DTShopping.Controllers
                         return Json("ok");
                     }
                 }
-                else if (CompanyId == SHOPCOMPANYID || companyId == SJLABSCOMPANYID || CompanyId == SUNVISCOMPANYID || CompanyId == GOHAPPYCARTCOMPANYID || CompanyId == URSHOPECOMPANYID || CompanyId == GVENTERTAINMENTCOMPANYID || CompanyId == SHOPENTERTAINMENTCOMPANYID)
+                else if (CompanyId == SHOPCOMPANYID || companyId == SJLABSCOMPANYID || CompanyId == SUNVISCOMPANYID || CompanyId == GOHAPPYCARTCOMPANYID || CompanyId == URSHOPECOMPANYID || CompanyId == GVENTERTAINMENTCOMPANYID || CompanyId == SHOPENTERTAINMENTCOMPANYID || companyId == ETRADECOMPANYID || CompanyId == DUDHAMRITCOMPANYID || CompanyId == MYDWORLDCOMPANYID || CompanyId == MYAIMTRADESERVICESCOMPANYID)
                 {
                     var usr = new UserDetails();
                     usr = detail;
@@ -252,6 +260,7 @@ namespace DTShopping.Controllers
                                     detailModel.OrderDetail.id = Session["OrderId"] != null ? Convert.ToInt32(Session["OrderId"]) : 0;
                                     detailModel.OrderDetail.payment_ref_no = Wallet.voucherno;
                                     detailModel.OrderDetail.payment_ref_amount = detailModel.Amount.ToString();
+                                    detailModel.OrderDetail.user_id = usr.id;
                                     result = await objRepository.CreateOrder(detailModel.OrderDetail, "EditWithOtp");
                                     if (result == null)
                                     {
@@ -446,8 +455,18 @@ namespace DTShopping.Controllers
                     if (detail.Amount <= Wallet.wallet)
                     {
                         //send otp by default if have wallet balance.
-                        await GenerateOtpDetail();
-                        return Json("Sufficient:" + Wallet.wallet);
+                        if (companyId == ETRADECOMPANYID)
+                        {
+                           var res = await SaveDetailFormOtp(detailModel);
+                            
+                            return Json(res);
+                        }
+                        else
+                        {
+                            await GenerateOtpDetail();
+                            return Json("Sufficient:" + Wallet.wallet);
+                        }
+                        
                     }
                     else
                     {
@@ -1174,6 +1193,87 @@ namespace DTShopping.Controllers
             }
 
             base.Dispose(disposing);
+        }
+
+        public async Task<ActionResult> GetPaymentWindow(double netPayment)
+        {
+            try
+            {
+                var userDetail = Session["UserDetail"] as UserDetails;
+                if (userDetail == null)
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+                else
+                {
+                    var cntrl = new PayUController();
+                    var payrequest = new PayuRequest
+                    {
+                        FirstName = userDetail.first_name,
+                        TransactionAmount = netPayment,
+                        Email = userDetail.email,
+                        Phone = userDetail.phone,
+                        udf1 = string.Empty,
+                        udf2 = Session["OrderId"] != null ? Convert.ToString((Session["OrderId"])) : "0",
+                        memberId = userDetail.username,
+                        ProductInfo = "order products",
+                        surl = "http://" + Request.Url.Authority + "/Manage/Return",
+                        furl = "http://" + Request.Url.Authority + "/Manage/Return"
+                    };
+                    cntrl.Payment(payrequest);
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+
+            return null;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Return(FormCollection form)
+        {
+            var OrderDetail = new order();
+            OrderDetail.id = Session["OrderId"] != null ? Convert.ToInt32(Session["OrderId"]) : 0;
+            OrderDetail.user_id = Session["UserDetail"] != null ? (Session["UserDetail"] as UserDetails).id : 0;
+
+            var resp = await objRepository.CreateOrder(new order(), "ListPaymentModes");
+            if (resp.Status == true)
+            {
+                this.model.PaymentModeList = JsonConvert.DeserializeObject<List<Containers>>(resp.ResponseValue);
+                var waletMode = this.model.PaymentModeList.FirstOrDefault(p => p.value.Contains("PayUMoney"));
+                if (waletMode != null)
+                {
+                    OrderDetail.payment_mode = Convert.ToString(waletMode.Id);
+                }
+            }
+            OrderDetail.dt_payment_ref_date = DateTime.Now;
+            if (form["status"] == "success")
+            {
+                OrderDetail.payment_ref_no = Convert.ToString(form["txnid"]);
+
+                OrderDetail.payment_ref_bank = form["bank_ref_num"];
+                OrderDetail.narration = "PG_REQUEST," + form["udf2"] + "," + Convert.ToString(form["mode"]) + "," + Convert.ToString(form["txnid"]) + "," + Convert.ToString(form["bank_ref_num"]);
+                //                payment_ref_amount = amo
+                //TotalAmount
+            }
+            else
+            {
+                OrderDetail.narration = "PG_REQUEST, " + form["udf2"] + "  " + form["status"];
+            }
+
+            var result = await objRepository.CreateOrder(OrderDetail, "Edit");
+            if (form["status"] == "success")
+            {
+                return RedirectToAction("thankYouPage", "Manage");
+            }
+            else
+            {
+
+            }
+
+            return null;
         }
 
         #region Helpers

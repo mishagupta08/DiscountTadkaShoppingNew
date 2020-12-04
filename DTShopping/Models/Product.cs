@@ -53,6 +53,7 @@ namespace DTShopping.Models
         public string BrandName { get; set; }
         public List<string> sizeList { get; set; }
         public List<string> colorList { get; set; }
+        public List<product_images> prodImageList { get; set; }
     }
 
     public class PagewiseProducts {

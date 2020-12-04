@@ -1,0 +1,26 @@
+﻿@using DTShopping.Properties
+@model DTShopping.Models.Dashboard
+@using DTShopping.Models
+@{
+    string Theme = System.Configuration.ConfigurationManager.AppSettings["Theme"] == null ? string.Empty : System.Configuration.ConfigurationManager.AppSettings["Theme"].ToString();
+    if (Theme == Resources.Orange)
+    {
+        Layout = "~/Views/Shared/_LayoutOrange.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+<div class="container">
+    <table width="100%" border="1" cellspacing="3" cellpadding="3" class="shoptable" style="margin-top:10px;">
+        <tr>
+        
+            <td width="20%" style="padding-left: 5%;" valign="middle">
+                <h4>Order not placed.</h4>
+            </td>
+        </tr>
+    </table>
+</div>
+<script src="~/Scripts/shopping.js"></script>

@@ -70,6 +70,7 @@ namespace DTShopping.Models
         public string DispatchStatusStr { get; set; }
         public string companyWebsite { get; set; }
         public string OtpCode { get; set; }
+        public IPagedList<int> pagerCount { get; set; }
     }
 
     public class order_products

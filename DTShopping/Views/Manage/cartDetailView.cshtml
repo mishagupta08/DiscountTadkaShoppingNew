@@ -3,8 +3,11 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     string imageUrl = System.Configuration.ConfigurationManager.AppSettings["ImageUrl"];
-    string CompanyId = System.Configuration.ConfigurationManager.AppSettings["CompanyId"];
+    int CompanyId = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
     int URSHOPECOMPANYID = 33;
+    int ETRADECOMPANYID = 42;
+    int DUDHAMRITCOMPANYID = 43;
+    int MYDWORLDCOMPANYID = 44;
     string url = "";
     var imageName = string.Empty;
 }
@@ -65,19 +68,25 @@
                                         <span>Color : @product.Color</span>
                                     }
                                 </td>
-                                <td>
-                                    <span>@product.vendor_qty</span>
-                                    @Html.HiddenFor(m => product.vendor_qty)
-                                    <br />
-                                </td>
-                                @*/***uncomment this td towork with quantity****/*@
-                                @*<td>
+                                @if (CompanyId == ETRADECOMPANYID)
+                                {
+
+                                    @*/***uncomment this td towork with quantity****/*@
+                                    <td>
                                         @Html.TextBoxFor(m => product.vendor_qty, new { @min = 1, @type = "number", @id = quantityID, @required = "required", @class = "form-control", @placeholder = "" })
                                         <br />
-                                        <a href="#" name="updateQuantity" data-id="@product.id" class="btn btn-style text-uppercase">Update</a>
-                                    </td>*@
-                                @*/**End**/*@
-
+                                        <a href="#" name="updateQuantity" data-id="@product.id" class="text-uppercase">Update</a>
+                                    </td>
+                                    @*/**End**/*@
+                                }
+                                else
+                                {
+                                    <td>
+                                        <span>@product.vendor_qty</span>
+                                        @Html.HiddenFor(m => product.vendor_qty)
+                                        <br />
+                                    </td>
+                                }
                                 <td>@product.market_price</td>
 
                                 <td>@product.offer_price</td>
@@ -127,37 +136,46 @@
                 </table>
                 <p>&nbsp;</p>
                 <p>&nbsp;</p>
-                @if (CompanyId == Resources.HideDeliveryTypeCompanyId)
+                @if (CompanyId == Convert.ToInt32(Resources.HideDeliveryTypeCompanyId))
                 {
                     Model.OrderDetail.delievryType = 1;
                 }
                 else
                 {
-                    <table width="97%" border="0" cellspacing="5" cellpadding="5" class="shoptable" style="border:1px solid #CCCCCC;">
-                        <tr>
-                            <td width="53%"><h2>Delivery Type</h2></td>
-                            <td width="47%">&nbsp;</td>
-                        </tr>
-                        @foreach (var payOp in Model.deliveryTypeList)
+                    if (!(CompanyId == DUDHAMRITCOMPANYID || CompanyId == ETRADECOMPANYID || CompanyId == MYDWORLDCOMPANYID))
                     {
-                            <tr bgcolor="#EBC6AD">
-                                <td colspan="5">
-                                    <div class="Paymenttd">
-                                        <ul>
-                                            <li>
-                                                @Html.RadioButtonFor(m => Model.OrderDetail.delievryType, payOp.Id) <span>@payOp.Value</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
+                        <table width="97%" border="0" cellspacing="5" cellpadding="5" class="shoptable" style="border:1px solid #CCCCCC;">
+                            <tr>
+                                <td width="53%"><h2>Delivery Type</h2></td>
+                                <td width="47%">&nbsp;</td>
                             </tr>
-                        }
-                    </table>
+                            @foreach (var payOp in Model.deliveryTypeList)
+                            {
+                                <tr bgcolor="#EBC6AD">
+                                    <td colspan="5">
+                                        <div class="Paymenttd">
+                                            <ul>
+                                                <li>
+                                                    @Html.RadioButtonFor(m => Model.OrderDetail.delievryType, payOp.Id) <span>@payOp.Value</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    }
                 }
                 <p>
                     <div class="buttonSet">
                         @{ url = "/Home/Checkout?deliveryType=" + @Model.OrderDetail.delievryType;}
-                        <span class="buttonAction"><a class="unishop_submit" id="continueUrl" href=@url>Continue</a></span>
+                        <input type="hidden" id="redirectUrl" value="@url" />
+                        <input type="hidden" id="userPoints" value="@Model.UsersPoints" />
+                        <input type="hidden" id="companyId" value="@CompanyId" />
+                        <span class="buttonAction" style="float: none;">
+                            <a class="unishop_submit" href="/Home/Index">Continue Shopping</a>
+                            <a style="margin-right:3%;float:right;" class="unishop_submit" id="continueUrl" href=#>Proceed To Checkout</a>
+                        </span>
                     </div>
                 </p>
 
@@ -180,16 +198,34 @@
         });
 
         $('#continueUrl').click(function (e) {
-            showHideShippingCharge();
-            if (radioVal == null || radioVal == "") {
-                alert("Please select delivery type.");
+            var dudhAmritCompanyId = 43;
+            var flag = false;
+            var companyId = parseInt($("#companyId").val());
+            document.getElementById("continueUrl").href = $("#redirectUrl").val();
+            if (companyId == dudhAmritCompanyId) {
+                var userPoints = parseInt($("#userPoints").val());
+                if (userPoints <= 200) {
+                    flag = true;
+                }
+                else {
+                    alert("Add more products to checkout.");
+                }
             }
             else {
-                var url = "/Home/Checkout?deliveryType=" + $("input[type=radio]:checked").val();
-                document.getElementById("continueUrl").href = url;
+                flag = true;
+            }
+
+            if (flag == true) {
+                showHideShippingCharge();
+                if (radioVal == null || radioVal == "") {
+                    alert("Please select delivery type.");
+                }
+                else {
+                    var url = "/Home/Checkout?deliveryType=" + $("input[type=radio]:checked").val();
+                    document.getElementById("continueUrl").href = url;
+                }
             }
         });
-
     });
 
     function showHideShippingCharge() {

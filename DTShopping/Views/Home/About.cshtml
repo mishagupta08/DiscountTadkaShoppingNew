@@ -1,4 +1,5 @@
 ﻿@using DTShopping.Properties
+@model  DTShopping.Models.Dashboard
 @{
     ViewBag.Title = "About";
     string Theme = System.Configuration.ConfigurationManager.AppSettings["Theme"] == null ? string.Empty : System.Configuration.ConfigurationManager.AppSettings["Theme"].ToString();
@@ -15,9 +16,22 @@
     <div class="sixteen columns">
         <div id="bodyContent" class="sixteen columns omega main_part_wrapper">
             <!-- subcategory view -->
-            <h1 style="padding-left:45%;padding-top:20%;">Coming soon</h1>
+
+
         </div>
+        @if (Model == null || Model.CompanyProfileDetail == null || string.IsNullOrEmpty(Model.CompanyProfileDetail.AboutUsText))
+        {
+
+            <h1 style="padding-left:45%;padding-top:20%;">Coming soon</h1>
+        }
+        else
+        {
+            <div class="product_description">
+                @Html.Raw(Model.CompanyProfileDetail.AboutUsText)
+            </div>
+        }
     </div>
+</div>
 </div>
 
 <script>

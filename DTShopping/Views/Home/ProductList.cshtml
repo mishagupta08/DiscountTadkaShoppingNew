@@ -9,6 +9,9 @@
     int URSHOPECOMPANYID = 33;
     var inLineStyle = string.Empty;
     int SJLABSCOMPANYID = 40;
+    int ETRADECOMPANYID = 42;
+    int DUDHAMRITCOMPANYID = 43;
+    int MYDWORLDCOMPANYID = 44;
     if (CompanyId == URSHOPECOMPANYID)
     {
         inLineStyle = "background-image:none; background-color:transparent;";
@@ -577,18 +580,21 @@
                                                             <span class="new-special-price"></span>
                                                         }
                                                     </span><br>
-                                                    <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
-                                                        <br>
-                                                        @if (CompanyId == URSHOPECOMPANYID)
-                                                        {
-                                                            <span>@Resources.ProfitPoint : </span>
-                                                        }
-                                                        else
-                                                        {
-                                                            <span>@Resources.EUPoints : </span>
-                                                        }
-                                                        @{var t = product.point_adjusted != null ? product.point_adjusted : 0;}@t
-                                                    </span>
+                                                    @if (CompanyId != ETRADECOMPANYID && CompanyId != DUDHAMRITCOMPANYID && CompanyId != MYDWORLDCOMPANYID)
+                                                    {
+                                                        <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:18px;">
+                                                            <br>
+                                                            @if (CompanyId == URSHOPECOMPANYID)
+                                                            {
+                                                                <span>@Resources.ProfitPoint : </span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>@Resources.EUPoints : </span>
+                                                            }
+                                                            @{var t = product.point_adjusted != null ? product.point_adjusted : 0;}@t
+                                                        </span>
+                                                                }
                                                     @if (CompanyId == SJLABSCOMPANYID && !(product.RBV == 0 || product.RBV == null))
                                                     {
                                                         <span class="icon_cart_title product-price" style="font-size:11px; font-family:Arial, Helvetica, sans-serif; line-height:8px;">
@@ -609,13 +615,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                                            }
-                                                            <div class="twelve columns" style="padding-top:20px;">
-                                                                <center>
-                                                                    <span class="page-link">Page@(Model.finalProductList.pagerCount.PageCount < Model.finalProductList.pagerCount.PageNumber ? 0 : Model.finalProductList.pagerCount.PageNumber) of @Model.finalProductList.pagerCount.PageCount</span>
+                                                                }
+                                                                <div class="twelve columns" style="padding-top:20px;">
+                                                                    <center>
+                                                                        <span class="page-link">Page@(Model.finalProductList.pagerCount.PageCount < Model.finalProductList.pagerCount.PageNumber ? 0 : Model.finalProductList.pagerCount.PageNumber) of @Model.finalProductList.pagerCount.PageCount</span>
 
 
-                                                                    @Html.PagedListPager(Model.finalProductList.pagerCount, page => Url.Action("ProductList", "Home", new { page, SearchString = Model.finalProductList.SearchString, SortBy = Model.finalProductList.sortby, Order = Model.finalProductList.order, cat = ViewBag.category, BrandId = ViewBag.brand, root = ViewBag.ParentId }),
+                                                                        @Html.PagedListPager(Model.finalProductList.pagerCount, page => Url.Action("ProductList", "Home", new { page, SearchString = Model.finalProductList.SearchString, SortBy = Model.finalProductList.sortby, Order = Model.finalProductList.order, cat = ViewBag.category, BrandId = ViewBag.brand, root = ViewBag.ParentId }),
 
     new PagedListRenderOptions
     {
@@ -627,14 +633,14 @@
 
     }
     )
-                                                                </center>
+                                                                    </center>
 
-                                                            </div>
-                                                            }
-                                                            else
-                                                            {
-                                                                <div class="Eight columns"><h2>No Products found</h2></div>
-                                                            }
+                                                                </div>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <div class="Eight columns"><h2>No Products found</h2></div>
+                                                                }
 
 
                     </div>

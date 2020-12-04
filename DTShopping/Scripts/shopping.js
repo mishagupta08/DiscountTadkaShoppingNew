@@ -13,6 +13,10 @@
         GetCityByState();
     });
 
+    $("#payWithPayu").click(function (e) {
+        window.location = "/Manage/GetPaymentWindow?netPayment=" + $("#Amount").val();
+    });
+
     //$('.ps-slider').unbind();
     //$('.ui-state-default').mouseup(function (e) {
     //    alert("Id: " + $(this).attr("id") + " Value: " + $(this).val());
@@ -192,9 +196,9 @@ function SaveDetailFormOtp() {
 
 
 function ConfirmPassword() {
+    $(".preloader").show();
     $("#loginError").html("");
     var loginDetail = $('#addForm1').serialize();
-    $(".preloader").show();
     $.ajax({
         url: '/Manage/ConfirmPassword',
         type: 'Post',
@@ -202,29 +206,36 @@ function ConfirmPassword() {
         datatype: 'Json',
         data: loginDetail
     }).done(function (result) {
-        var walletAmount = 0;
-        if (result.indexOf(':') > 0) {
-            var dataArray = result.split(':');
-            walletAmount = dataArray[1];
-            result = dataArray[0];
-        }
-
-        document.getElementById("walletAmount").innerHTML = walletAmount;
-        //$("#WalletTypeHidden").val($("input[name='walletTypeBtn']:checked").val());
-        if (result == "Not Found") {
-            $("#loginError1").html("Password does not match.");
-        }
-        else if (result == "Sufficient") {
-            $("#dtcard").hide();
-            $("#dtcardOTP").show();
-        }
-        else if (result == "InSufficient") {
-            $("#loginError1").html("User Exists but does not have sufficient balance in wallet.<br/> Current Wallet Balance : " + walletAmount);
+        if (result.Data == "ok") {
+            window.location = "/Manage/thankYouPage";
         }
         else {
-            $("#loginError1").html(result);
-        }
+            var walletAmount = 0;
+            if (result.indexOf(':') > 0) {
+                var dataArray = result.split(':');
+                walletAmount = dataArray[1];
+                result = dataArray[0];
+            }
 
+            document.getElementById("walletAmount").innerHTML = walletAmount;
+            //$("#WalletTypeHidden").val($("input[name='walletTypeBtn']:checked").val());
+            if (result == "Not Found") {
+                $("#loginError1").html("Password does not match.");
+            }
+            else if (result == "ok") {
+                window.location = "/Manage/thankYouPage";
+            }
+            else if (result == "Sufficient") {
+                $("#dtcard").hide();
+                $("#dtcardOTP").show();
+            }
+            else if (result == "InSufficient") {
+                $("#loginError1").html("User Exists but does not have sufficient balance in wallet.<br/> Current Wallet Balance : " + walletAmount);
+            }
+            else {
+                $("#loginError1").html(result);
+            }
+        }
         $(".preloader").hide();
 
     }).fail(function (error) {

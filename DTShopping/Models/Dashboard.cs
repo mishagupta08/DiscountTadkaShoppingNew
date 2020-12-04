@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -23,6 +24,7 @@ namespace DTShopping.Models
         public Product ProductDetail { get; set; }
         public order OrderDetail { get; set; }
         public company CompanyDetail { get; set; }
+        public List<OrderDetailContainer> orderDetailListContainer { get; set; }
         public OrderDetailContainer orderDetailContainer { get; set; }
         public List<order_products> OrderProducts { get; set; }
         public List<Containers> PaymentModeList { get; set; }
@@ -36,7 +38,9 @@ namespace DTShopping.Models
         public List<Product> SameBrandProductList { get; set; }
         public PagewiseProducts finalProductList { get; set; }
         public string IdList { get; set; }
-        
+        public double TotalRecordCount { get; set; }
+        public IPagedList<int> pagerCount { get; set; }
+
         public void AssignPaymentModes()
         {
             this.PaymentModeList = new List<Containers>();

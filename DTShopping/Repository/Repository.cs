@@ -11,6 +11,8 @@ namespace DTShopping.Repository
 {
     public class APIRepository
     {
+        int ETRADECOMPANYID = 42;
+
         private int RoleId = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["RoleId"]);
 
         private int CompanyId = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
@@ -23,6 +25,8 @@ namespace DTShopping.Repository
 
         private string ManageListWithFilterAction = "ManageListWithFilter";
 
+        private string ManageProductImagesAction = "ManageProductImages/";
+
         private string DeliveryTypeListAction = "DeliveryTypeList";
 
         private string GetCouponListAction = "GetCouponList/";
@@ -32,8 +36,6 @@ namespace DTShopping.Repository
         private string MangeOtpFunctionsAction = "MangeOtpFunctions/";
 
         private string GetUserPointsByUserIdAction = "GetUserPointsByUserId/";
-
-        private string ManageProductImagesAction = "ManageProductImages/";
 
         private string ManageCartAction = "ManageCart/";
 
@@ -52,6 +54,8 @@ namespace DTShopping.Repository
         private string ManageOrderproducts = "ManageVendorProductOrderListWithFilter/";
 
         private string ManageOrder = "ManageOrder/";
+
+        private string GetProductImagesListAction = "ManageProductImages/ListByProductId";
 
         private string ManagePointLedgerAction = "ManagePointsLedger/";
 
@@ -168,6 +172,12 @@ namespace DTShopping.Repository
 
         public async Task<Response> Login(UserDetails user)
         {
+            //if (user.company_id == ETRADECOMPANYID)
+            //{
+            //    user.passwordDetail = Base64Encode(user.passwordDetail);
+            //    user.password_str = user.passwordDetail;
+            //}
+
             var detail = JsonConvert.SerializeObject(user);
             var result = await CallPostFunction(detail, "LoginShoppigPortalUser");
             if (result != null)
@@ -321,6 +331,21 @@ namespace DTShopping.Repository
             var data = JsonConvert.SerializeObject(user);
             var result = await CallPostFunction(data, MangeOtpFunctionsAction + operation);
             return result;
+        }
+
+        public async Task<List<product_images>> GetProductImagesList(List<product_images> imageDetail)
+        {
+            var data = JsonConvert.SerializeObject(imageDetail);
+            var result = await CallPostFunction(data, GetProductImagesListAction);
+            if (result == null || !result.Status)
+            {
+                return null;
+            }
+            else
+            {
+                var list = JsonConvert.DeserializeObject<List<product_images>>(result.ResponseValue);
+                return list;
+            }
         }
 
         public async Task<Response> GetCategoryProducts(Filters FilterDetails)
@@ -567,6 +592,12 @@ namespace DTShopping.Repository
             {
                 return result;
             }
+        }
+
+        public static string Base64Encode(string plainText)
+        {
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
+            return System.Convert.ToBase64String(plainTextBytes);
         }
 
     }

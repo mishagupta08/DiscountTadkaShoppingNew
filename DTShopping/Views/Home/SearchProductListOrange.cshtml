@@ -8,6 +8,9 @@
     var count = 0;
     int CompanyId = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
     int URSHOPECOMPANYID = 33;
+    int ETRADECOMPANYID = 42;
+    int DUDHAMRITCOMPANYID = 43;
+    int MYDWORLDCOMPANYID = 44;
     var inLineStyle = string.Empty;
     if (CompanyId == URSHOPECOMPANYID)
     {
@@ -369,18 +372,20 @@
                                                     }
                                                     <br>
                                                     @{var point = @prod.point_adjusted != null ? @prod.point_adjusted : 0;}
-
-                                                    <small class="text-dark">
-                                                        @if (CompanyId == URSHOPECOMPANYID)
-                                                        {
-                                                            <span>@Resources.ProfitPoint : </span>
-                                                        }
-                                                        else
-                                                        {
-                                                            <span>@Resources.EUPoints : </span>
-                                                        }
-                                                        @point
-                                                    </small>
+                                                    @if (CompanyId != ETRADECOMPANYID && CompanyId != DUDHAMRITCOMPANYID && CompanyId != MYDWORLDCOMPANYID)
+                                                    {
+                                                        <small class="text-dark">
+                                                            @if (CompanyId == URSHOPECOMPANYID)
+                                                            {
+                                                                <span>@Resources.ProfitPoint : </span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>@Resources.EUPoints : </span>
+                                                            }
+                                                            @point
+                                                        </small>
+                                                    }
                                                 </p>
 
                                             </div>
@@ -460,18 +465,20 @@
 
 
                                                     @{var point = @prod.point_adjusted != null ? @prod.point_adjusted : 0;}
-
-                                                    <small class="text-dark">
-                                                        @if (CompanyId == URSHOPECOMPANYID)
-                                                        {
-                                                            <span>@Resources.ProfitPoint : </span>
-                                                        }
-                                                        else
-                                                        {
-                                                            <span>@Resources.EUPoints : </span>
-                                                        }
-                                                        @point
-                                                    </small>
+                                                    @if (CompanyId != ETRADECOMPANYID && CompanyId != DUDHAMRITCOMPANYID && CompanyId != MYDWORLDCOMPANYID)
+                                                    {
+                                                        <small class="text-dark">
+                                                            @if (CompanyId == URSHOPECOMPANYID)
+                                                            {
+                                                                <span>@Resources.ProfitPoint : </span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>@Resources.EUPoints : </span>
+                                                            }
+                                                            @point
+                                                        </small>
+                                                    }
                                                 </p>
 
                                             </div>
@@ -568,18 +575,20 @@
 
 
                                                                 @{var point = @prod.point_adjusted != null ? @prod.point_adjusted : 0;}
-
-                                                                <small class="text-dark">
-                                                                    @if (CompanyId == URSHOPECOMPANYID)
-                                                                    {
-                                                                        <span>@Resources.ProfitPoint : </span>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <span>@Resources.EUPoints : </span>
-                                                                    }
-                                                                    @point
-                                                                </small>
+                                                                @if (CompanyId != ETRADECOMPANYID && CompanyId != DUDHAMRITCOMPANYID && CompanyId != MYDWORLDCOMPANYID)
+                                                                {
+                                                                    <small class="text-dark">
+                                                                        @if (CompanyId == URSHOPECOMPANYID)
+                                                                        {
+                                                                            <span>@Resources.ProfitPoint : </span>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <span>@Resources.EUPoints : </span>
+                                                                        }
+                                                                        @point
+                                                                    </small>
+                                                                }
                                                             </p>
 
                                                         </div>
@@ -685,19 +694,20 @@
                                                         </p>
                                                     }
                                                     @{var point = @prod.point_adjusted != null ? @prod.point_adjusted : 0;}
-
-                                                    <small class="text-dark">
-                                                        @if (CompanyId == URSHOPECOMPANYID)
-                                                        {
-                                                            <span>@Resources.ProfitPoint : </span>
-                                                        }
-                                                        else
-                                                        {
-                                                            <span>@Resources.EUPoints : </span>
-                                                        }
-                                                        @point
-                                                    </small>
-
+                                                    @if (CompanyId != ETRADECOMPANYID && CompanyId != DUDHAMRITCOMPANYID && CompanyId != MYDWORLDCOMPANYID)
+                                                    {
+                                                        <small class="text-dark">
+                                                            @if (CompanyId == URSHOPECOMPANYID)
+                                                            {
+                                                                <span>@Resources.ProfitPoint : </span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>@Resources.EUPoints : </span>
+                                                            }
+                                                            @point
+                                                        </small>
+                                                    }
                                                     <a class="ps-btn" onclick="AddProductInCart(@prod.id, 1)" href="#">Add to cart</a>
                                                     @*<ul class="ps-product__actions">
                                                             <li><a href="#"><i class="icon-heart"></i> Wishlist</a></li>

@@ -19,7 +19,7 @@
     int SHOPENTERTAINMENTCOMPANYID = 37;
     int GVENTERTAINMENTCOMPANYID = 38;
     int width = 177;
-    string targetUrl = "~/Home/Index";
+
     string styleDetail = "margin-top:-50px;";
     var inLineStyle = string.Empty;
     if (CompanyId == URSHOPECOMPANYID)
@@ -27,10 +27,10 @@
         inLineStyle = "background-image:none; background-color:transparent;";
     }
 
-    if(current_user != null && (CompanyId == SHOPENTERTAINMENTCOMPANYID || CompanyId == GVENTERTAINMENTCOMPANYID))
-    {
-        targetUrl = "https://entertainmentclub.biz/Index.aspx";
-    }
+    //if (current_user != null && (CompanyId == SHOPENTERTAINMENTCOMPANYID || CompanyId == GVENTERTAINMENTCOMPANYID))
+    //{
+    //    targetUrl = "https://entertainmentclub.biz/Index.aspx";
+    //}
 }
 
 
@@ -139,11 +139,17 @@
                             styleDetail = string.Empty;
                         }
                         <div id="logo" style="@styleDetail" class="five columns">
-                            <div id="storeLogo"> <a class="logo_inner" href="@targetUrl"><img src="@imageUrl/@current_cmpny.logo" alt="@current_cmpny.company_name" title="@current_cmpny.company_name" width="@width" height="46" class="scale-with-grid" /></a></div>
+                            @if (current_user != null && (CompanyId == SHOPENTERTAINMENTCOMPANYID || CompanyId == GVENTERTAINMENTCOMPANYID))
+                            {
+                                <div id="storeLogo"> <a class="logo_inner" href='https://entertainmentclub.biz/Index.aspx'><img src="@imageUrl/@current_cmpny.logo" alt="@current_cmpny.company_name" title="@current_cmpny.company_name" width="@width" height="46" class="scale-with-grid" /></a></div>
+                            }
+                            else
+                            {
+                                <div id="storeLogo"> <a class="logo_inner" href='~/Home/Index'><img src="@imageUrl/@current_cmpny.logo" alt="@current_cmpny.company_name" title="@current_cmpny.company_name" width="@width" height="46" class="scale-with-grid" /></a></div>
+                            }
                         </div>
                         <div class="six columns">
-
-                            <div id="top_search">
+                            <div id="top_search" style="width: 120%;margin-left: 70%; margin-bottom:1%;">
                                 <form name="et_quick_find" id="et_quick_find" onsubmit="return false">
                                     <div class="clearfix">
                                         <div id="search">
@@ -285,7 +291,7 @@
                         <div id="copyright">
                             <a class="logo_footer" href="~/Home/Index">
                                 @*<img src="~/images/light/store_logo.png" alt="unishop" title="unishop" width="177" height="46" class="scale-with-grid" />*@
-                                <img src="@imageUrl/@current_cmpny.logo" alt="unishop" title="" width="177" height="46" class="scale-with-grid" />
+                                <img src="@imageUrl/@current_cmpny.logo" alt="" title="" width="177" height="46" class="scale-with-grid" />
                             </a> &copy; @copyright
                         </div>
                     </div>
@@ -465,7 +471,7 @@
 
     function AddProductInCart(prodId, quantity, isDetailPage, sizeD, colorD) {
         $(".preloader").show();
-        if (quantity == null || quantity == "" || quantity == undefined) {
+        if (quantity == null || quantity == "" || quantity == undefined || quantity == "0") {
             quantity = 1;
         }
         $.ajax({

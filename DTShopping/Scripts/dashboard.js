@@ -1,20 +1,7 @@
 ﻿$(document).ready(function () {
     $(".preloader").hide();
 
-    $('#stateList').unbind();
-    $('#stateList').change(function (e) {
-        GetCityByState();
-    });
-
-    $("span[name=colorSpan]").click(function (e) {
-        $('#selectedColor').val = $(this).val;
-    });
-
-    $("span[name=sizeSpan]").click(function (e) {
-        $('#selectedSize').val($(this).val());
-    });
-
-    $('#addToCart').click(function (e) {
+        $('#addToCart').click(function (e) {
         var prodId = $("#product_id").val();
         var quantity = $("#quantity").val();
         var size = 0;

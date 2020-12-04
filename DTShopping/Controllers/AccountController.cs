@@ -11,6 +11,7 @@ using System.IO;
 using System.Text;
 using System.Globalization;
 using DTShopping.Properties;
+using DTShopping.Controllers;
 
 namespace DTShopping
 {
@@ -68,9 +69,10 @@ namespace DTShopping
         {
             try
             {
-                //var dataStr = "test123|123456|29|" + DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
-
-                //                string encrypted = Encrypt(dataStr, KeyByte, IVByte);
+                //var dataStr = "AT6665090|123123|45|" + DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                                var dataStr = "AT6665090|123123|45|02-12-2020 16:39:20";
+                string encrypted = Encrypt(dataStr, KeyByte, IVByte);
+                data = encrypted;
                 var detail = Decrypt(data, KeyByte, IVByte);
 
                 //var base64EncodedBytes = System.Convert.FromBase64String(data);
