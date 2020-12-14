@@ -10,6 +10,7 @@
     int ETRADECOMPANYID = 42;
     int DUDHAMRITCOMPANYID = 43;
     int MYDWORLDCOMPANYID = 44;
+    int MYtradeServices = 45;
 
     var inLineStyle = string.Empty;
     if (CompanyId == URSHOPECOMPANYID)
@@ -52,25 +53,33 @@
                 }
             </div>
         </div>
-
-        <div class="infoBox infoBoxBrands">
-            <div class="infoBoxHeading">Points</div>
-            <div class="infoBoxContents">
-                <ul>
-                    <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=0&FilterToPoint=50">Point 0 - 50</a></li>
-                    <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=50&FilterToPoint=100">Point 50 - 100</a></li>
-                    <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=100&FilterToPoint=150">Point 100 - 150</a></li>
-                    <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=150&FilterToPoint=200">Point 150- 200</a></li>
-                    <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=200&FilterToPoint=250">Point 200 - 250</a></li>
-                    <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=250&FilterToPoint=300">Point 250 - 300</a></li>
-                    <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=300&FilterToPoint=350">Point 300 - 350</a></li>
-                    <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=350&FilterToPoint=400">Point 350 - 400</a></li>
-                    <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=400&FilterToPoint=450">Point 400 - 450</a></li>
-                    <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=450&FilterToPoint=500">Point 450 - 500</a></li>
-                    <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=500&FilterToPoint=1000">Point 500 - Above</a></li>
-                </ul>
+        if (CompanyId != ETRADECOMPANYID || CompanyId != DUDHAMRITCOMPANYID || CompanyId != MYDWORLDCOMPANYID || CompanyId != MYtradeServices)
+        {
+            <div class="infoBox infoBoxBrands">
+                <div class="infoBoxHeading">Points</div>
+                <div class="infoBoxContents">
+                    <ul>
+                        <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=0&FilterToPoint=50">Point 0 - 50</a></li>
+                        <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=50&FilterToPoint=100">Point 50 - 100</a></li>
+                        <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=100&FilterToPoint=150">Point 100 - 150</a></li>
+                        <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=150&FilterToPoint=200">Point 150- 200</a></li>
+                        <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=200&FilterToPoint=250">Point 200 - 250</a></li>
+                        <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=250&FilterToPoint=300">Point 250 - 300</a></li>
+                        <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=300&FilterToPoint=350">Point 300 - 350</a></li>
+                        <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=350&FilterToPoint=400">Point 350 - 400</a></li>
+                        <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=400&FilterToPoint=450">Point 400 - 450</a></li>
+                        <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=450&FilterToPoint=500">Point 450 - 500</a></li>
+                        <li><a href="/Home/ProductList?cat=@ViewBag.category&BrandId=@ViewBag.brand&root=@ViewBag.ParentId&page=1&FilterFromPoint=500&FilterToPoint=1000">Point 500 - Above</a></li>
+                    </ul>
+                </div>
             </div>
-        </div>
+        }
+        else
+        {
+            <div class="infoBox infoBoxBrands"></div>
+
+        }
+
     }
     @if (Model != null && Model.latestProduct != null)
     {
