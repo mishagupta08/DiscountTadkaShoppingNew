@@ -31,6 +31,18 @@
         background-repeat: no-repeat !important;
     }
 </style>
+<script>
+    
+    window.onload = () => {
+        //add event listener to prevent the default behavior
+        const mouseOnlyNumberInputField = document.getElementById("quantity");
+        mouseOnlyNumberInputField.addEventListener("keypress", (event) => {
+            event.preventDefault();
+        });
+    }
+
+
+</script>
 <div class="product-info-nostyle">
     <div class="product-info-nostyle">
         <div id="bodyContent" class="product_info_page_central">
@@ -185,7 +197,7 @@
                                                     <input type="hidden" id="product_id" name="product_id" value="@Model.ProductDetail.id" />
                                                     @if (CompanyId == DUDHAMRITCOMPANYID || CompanyId == ETRADECOMPANYID || CompanyId == MYDWORLDCOMPANYID)
                                                     {
-                                                        @Html.TextBoxFor(m => m.ProductDetail.vendor_qty, new { @type = "number", @min=1, @max=50, @id = "quantity", @required = "required", @class = "form-control", @placeholder = "quantity", @style="width:31%;"})
+                                                        @Html.TextBoxFor(m => m.ProductDetail.vendor_qty, new { @type = "number", @min=1, @max=50, @id = "quantity", @required = "required", @class = "form-control ", @placeholder = "quantity", @style="width:31%;"  })
                                                     }
 
                                                     <br />

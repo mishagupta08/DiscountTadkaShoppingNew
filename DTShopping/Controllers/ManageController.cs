@@ -620,7 +620,7 @@ namespace DTShopping.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> UpdateProductQuantityDetail(int prodId, int quantity, int deliveryType)
+        public async Task<ActionResult> UpdateProductQuantityDetail(int prodId, int quantity, int ?deliveryType)
         {
             this.model = new Dashboard();
             var message = string.Empty;
@@ -638,7 +638,7 @@ namespace DTShopping.Controllers
                     filter.userId = detail.id;
                     filter.companyId = Convert.ToInt16(companyId);
                     filter.quantity = quantity;
-                    filter.deliveryType = deliveryType;
+                    filter.deliveryType = deliveryType??0;
                     var res = await objRepository.ManageCart(filter, "UpdateQuantity");
                     if (res == null)
                     {
@@ -705,6 +705,7 @@ namespace DTShopping.Controllers
 
         [HttpGet]
         public async Task<ActionResult> GetCartProductList(bool isWithPayment, int deliveryType)
+
         {
             this.model = new Dashboard();
             this.objRepository = new APIRepository();

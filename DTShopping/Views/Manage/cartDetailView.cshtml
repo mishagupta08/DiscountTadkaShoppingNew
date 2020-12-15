@@ -12,6 +12,7 @@
     var imageName = string.Empty;
 }
 
+
 <div class="container">
     @if (Model.Products == null || Model.Products.Count() == 0)
     {
@@ -73,7 +74,7 @@
 
                                     @*/***uncomment this td towork with quantity****/*@
                                     <td>
-                                        @Html.TextBoxFor(m => product.vendor_qty, new { @min = 1, @type = "number", @id = quantityID, @required = "required", @class = "form-control", @placeholder = "" })
+                                        @Html.TextBoxFor(m => product.vendor_qty, new { @min = 1, @type = "number", @id = "quantityID", @required = "required", @class = "form-control", @placeholder = "" })
                                         <br />
                                         <a href="#" name="updateQuantity" data-id="@product.id" class="text-uppercase">Update</a>
                                         @*<a href="#"   onclick="updateQty(this);" data-id="@product.id" class="text-uppercase">Update</a>*@
@@ -270,4 +271,15 @@
         return false;
 
     }
+
+
+    window.onload = () => {
+        //add event listener to prevent the default behavior
+        const mouseOnlyNumberInputField = document.getElementById("quantityID");
+        mouseOnlyNumberInputField.addEventListener("keypress", (event) => {
+            event.preventDefault();
+        });
+    }
+
 </script>
+
