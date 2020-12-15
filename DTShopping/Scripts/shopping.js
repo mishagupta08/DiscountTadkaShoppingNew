@@ -52,6 +52,7 @@
 
     $('a[name=updateQuantity]').unbind();
     $('a[name=updateQuantity]').click(function (e) {
+        debugger;
         UpdateQuantityDetail(this);
     });
 
@@ -328,6 +329,7 @@ function UpdateShippingCharge(dlivryTpe) {
 }
 
 function UpdateQuantityDetail(thisVar) {
+    debugger;
 
     $(".preloader").show();
     var idVal = $(thisVar).attr("data-id");

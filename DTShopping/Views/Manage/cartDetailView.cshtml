@@ -76,6 +76,7 @@
                                         @Html.TextBoxFor(m => product.vendor_qty, new { @min = 1, @type = "number", @id = quantityID, @required = "required", @class = "form-control", @placeholder = "" })
                                         <br />
                                         <a href="#" name="updateQuantity" data-id="@product.id" class="text-uppercase">Update</a>
+                                        @*<a href="#"   onclick="updateQty(this);" data-id="@product.id" class="text-uppercase">Update</a>*@
                                     </td>
                                     @*/**End**/*@
                                 }
@@ -242,5 +243,31 @@
         //    $("span[name=actualAmount]").hide();
         //    $("span[name=zeroAMount]").show();
         //}
+    }
+
+    function updateQty(thisVar)
+    {
+        debugger;
+      //  $(".preloader").show();
+        var idVal = $(thisVar).attr("data-id");
+        var id = "#productQuantity_" + idVal;
+        var radioVal = $("input[type=radio]:checked").val();
+        var qty = $(id).val();
+        $.ajax({
+            url: '/Manage/UpdateProductQuantityDetail',
+            type: 'Post',
+            datatype: 'Json',
+            data: { prodId: idVal, quantity: qty, deliveryType: radioVal }
+        }).done(function (result) {
+            //$(".preloader").hide();
+            alert(result);
+            location.reload();
+        }).fail(function (error) {
+            $("#error").html(error.statusText);
+           // $(".preloader").hide();
+        });
+
+        return false;
+
     }
 </script>

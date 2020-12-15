@@ -3,6 +3,17 @@
     ViewBag.Title = "Checkout";
     int CompanyId = Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["CompanyId"]);
 }
+<script>
+    function isNumberKey(evt) {
+        debugger;
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if ((charCode > 31 && (charCode < 48) || (charCode > 57)))
+            return false;
+
+        return true;
+    }
+
+</script>
 
 <div class="">
     <div class="container">
@@ -111,14 +122,14 @@
                                 <tr>
                                     <td class="fieldKey"><label for="username">Pin Code</label>:</td>
                                     <td class="feWidget">
-                                        @Html.TextBoxFor(m => m.OrderDetail.billing_postcode, new { @type = "text", @id = "billing_postcode", @required = "required", @placeholder = "" })
+                                        @Html.TextBoxFor(m => m.OrderDetail.billing_postcode, new { @type = "text", @id = "billing_postcode", @required = "required", @onkeypress = "return isNumberKey(event)", @placeholder = "" })
                                     </td>
                                 </tr>
 
                                 <tr>
                                     <td class="fieldKey"><label for="username">Mobile Number</label>:</td>
                                     <td class="feWidget">
-                                        @Html.TextBoxFor(m => m.OrderDetail.billing_phone, new { @type = "text", @id = "billing_phone", @required = "required", @placeholder = "" })
+                                        @Html.TextBoxFor(m => m.OrderDetail.billing_phone, new { @type = "text", @id = "billing_phone", @required = "required", @onkeypress = "return isNumberKey(event)", @placeholder = "",@onchange="ChangeMobileNo();" })
                                     </td>
                                 </tr>
                                 <tr>
@@ -169,6 +180,17 @@
         });
 
         return false;
+    }
+
+    function ChangeMobileNo()
+    {
+        debugger;
+        var mobileno = $("#billing_phone").val();
+        if(mobileno.length !=10)
+        {
+            alert("This Mobile No is Not valid!")
+            $("#billing_phone").val("");
+        }
     }
 </script>
 
