@@ -543,6 +543,7 @@ namespace DTShopping.Controllers
                 productlist.SearchString = Deal;
                 productlist.sortby = SortBy;
                 productlist.order = Order;
+                productlist.CatId = catId??0;
                 c.CategoryId = catId;
 
                 if (!string.IsNullOrEmpty(SortBy))

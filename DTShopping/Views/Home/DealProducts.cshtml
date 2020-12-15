@@ -72,13 +72,14 @@
 
 
             <script>
-
                 $(document).ready(function () {
                     $("#advan_btn").click(function () {
                         $("#searchform").slideToggle("slow");
                     });
                 });
             </script>
+
+          
 
 
 
@@ -187,7 +188,7 @@
     <span class="page-link">  Page@(Model.pagerCount.PageCount < Model.pagerCount.PageNumber ? 0 : Model.pagerCount.PageNumber) of @Model.pagerCount.PageCount</span>
 
 
-    @Html.PagedListPager(Model.pagerCount, page => Url.Action("GetAllDealProducts", "Home", new { page, Deal = Model.SearchString, SortBy = Model.sortby, Order = Model.order }), new PagedListRenderOptions
+    @Html.PagedListPager(Model.pagerCount, page => Url.Action("GetAllDealProducts", "Home", new { page, Deal = Model.SearchString, SortBy = Model.sortby, Order = Model.order, catId = Model.CatId }), new PagedListRenderOptions
 {
     DisplayLinkToFirstPage = PagedListDisplayMode.Never,
     DisplayLinkToLastPage = PagedListDisplayMode.Never,

@@ -62,6 +62,7 @@ namespace DTShopping.Models
         public string order { get; set; }
         public string sortby { get; set; }
         public string SearchString { get; set; }
+        public int  CatId { get; set; }
 
     }
 }
