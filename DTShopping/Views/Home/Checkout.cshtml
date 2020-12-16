@@ -122,7 +122,7 @@
                                 <tr>
                                     <td class="fieldKey"><label for="username">Pin Code</label>:</td>
                                     <td class="feWidget">
-                                        @Html.TextBoxFor(m => m.OrderDetail.billing_postcode, new { @type = "text", @id = "billing_postcode", @required = "required", @onkeypress = "return isNumberKey(event)", @placeholder = "" })
+                                        @Html.TextBoxFor(m => m.OrderDetail.billing_postcode, new { @type = "text", @id = "billing_postcode", @required = "required", @onkeypress = "return isNumberKey(event)", @placeholder = "" ,@onchange = "ChangePinCode();" })
                                     </td>
                                 </tr>
 
@@ -191,6 +191,16 @@
             alert("This Mobile No is Not valid!")
             $("#billing_phone").val("");
         }
+    }
+    function ChangePinCode()
+    {
+        debugger;
+        var pincode = $("#billing_postcode").val();
+        if (pincode.length != 6) {
+            alert("This PinCode No is Not valid!")
+            $("#billing_postcode").val("");
+        }
+
     }
 </script>
 
