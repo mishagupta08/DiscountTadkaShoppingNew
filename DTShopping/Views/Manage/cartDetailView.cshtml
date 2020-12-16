@@ -74,7 +74,7 @@
 
                                     @*/***uncomment this td towork with quantity****/*@
                                     <td>
-                                        @Html.TextBoxFor(m => product.vendor_qty, new { @min = 1, @type = "number", @id = "quantityID", @required = "required", @class = "form-control", @placeholder = "" })
+                                        @Html.TextBoxFor(m => product.vendor_qty, new { @min = 1, @type = "number", @id = quantityID, @required = "required", @class = "form-control",@name= "quantitytxt", @placeholder = "" })
                                         <br />
                                         <a href="#" name="updateQuantity" data-id="@product.id" class="text-uppercase">Update</a>
                                       
@@ -247,15 +247,17 @@
     }
 
     
+    $("[type='number']").keypress(function (evt) {
+        evt.preventDefault();
+    });
 
-
-    window.onload = () => {
-        //add event listener to prevent the default behavior
-        const mouseOnlyNumberInputField = document.getElementById("quantityID");
-        mouseOnlyNumberInputField.addEventListener("keypress", (event) => {
-            event.preventDefault();
-        });
-    }
+    //window.onload = () => {
+    //    //add event listener to prevent the default behavior
+    //    const mouseOnlyNumberInputField = document.getElementsByName("quantitytxt");
+    //    mouseOnlyNumberInputField.addEventListener("keypress", (event) => {
+    //        event.preventDefault();
+    //    });
+    //}
 
 </script>
 

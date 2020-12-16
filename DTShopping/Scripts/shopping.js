@@ -330,13 +330,12 @@ function UpdateShippingCharge(dlivryTpe) {
 
 function UpdateQuantityDetail(thisVar) {
     debugger;
-
     $(".preloader").show();
     var idVal = $(thisVar).attr("data-id");
     var id = "#productQuantity_" + idVal;
     var radioVal = $("input[type=radio]:checked").val();
     var qty = $(id).val();
-
+    //var qty = $("#quantityID").val();
     $.ajax({
         url: '/Manage/UpdateProductQuantityDetail',
         type: 'Post',

@@ -335,7 +335,6 @@
     <Content Include="images\logout.jpg" />
     <Content Include="images\manclo_1_1 %281%29.jpg" />
     <Content Include="images\manclo_1_1 %282%29.jpg" />
-    <Content Include="images\manclo_1_1%25201.jpg" />
     <Content Include="images\manclo_1_1%25202.jpg" />
     <Content Include="images\mopho_1_1 %2810%29.jpg" />
     <Content Include="images\mopho_1_1 %287%29.jpg" />
@@ -1034,6 +1033,7 @@
     <Content Include="plugins\lightGallery-master\dist\fonts\lgd641.eot" />
     <Content Include="plugins\lightGallery-master\dist\fonts\lgd641.ttf" />
     <Content Include="plugins\lightGallery-master\dist\fonts\lgd641.woff" />
+    <None Include="Properties\PublishProfiles\ETrade.pubxml" />
     <None Include="Properties\PublishProfiles\ShoppingPortalDeployUrShope.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\dashboard.js" />

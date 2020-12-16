@@ -705,7 +705,6 @@ namespace DTShopping.Controllers
 
         [HttpGet]
         public async Task<ActionResult> GetCartProductList(bool isWithPayment, int deliveryType)
-
         {
             this.model = new Dashboard();
             this.objRepository = new APIRepository();
