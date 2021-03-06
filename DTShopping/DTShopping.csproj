@@ -347,6 +347,7 @@
     <Content Include="images\mopho_1_1%25209.jpg" />
     <Content Include="images\my_cart.jpg" />
     <Content Include="images\order_now.jpg" />
+    <Content Include="images\paymentgateway.jpg" />
     <Content Include="images\pintrest.png" />
     <Content Include="images\pointsLedger.jpg" />
     <Content Include="images\print.png" />
@@ -1036,6 +1037,7 @@
     <Content Include="plugins\lightGallery-master\dist\fonts\lgd641.woff" />
     <None Include="Properties\PublishProfiles\ETrade.pubxml" />
     <None Include="Properties\PublishProfiles\ShoppingPortalDeployUrShope.pubxml" />
+    <None Include="Properties\PublishProfiles\Stanvee.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\dashboard.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1279,7 +1281,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>63692</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
