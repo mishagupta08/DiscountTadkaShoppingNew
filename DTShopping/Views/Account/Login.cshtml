@@ -40,9 +40,26 @@
                         <label id="loginError" style="color:red;"></label>
                         <div class="buttonSet">
                             <span class="buttonAction"><button class="unishop_button" type="submit" autofocus>Login</button></span>
-                            <span class="buttonAction" style="margin-left:10px;"><a href="@Url.Action("Register", "Account")" class="unishop_button">Register</a></span>
+                            @*<span class="buttonAction" style="margin-left:10px;"><a href="@Url.Action("Register", "Account")" class="unishop_button">Register</a></span>*@
+                             <span class="buttonAction" style="margin-left:10px;"><a href="https://cpanel.gohappynetwork.com/NewJoin.aspx" @*onclick="postYourAdd();"*@ class="unishop_button">Register</a></span>
 
-                        </div>
+                            <div class="wrapper">
+                                <div class="popup">
+                                    <iframe src="" width="1000" height="1000"></iframe>
+                                    <a href="#" class="close">X</a>
+                                </div>
+                            </div>
+                    
+                            @*<iframe id="forPostyouradd" data-src="https://cpanel.gohappynetwork.com/NewJoin.aspx" src="about:blank"  width="1000" height="1000"></iframe>*@
+                            @*<div>
+                                <iframe id="iframeRegister"></iframe>
+                                Register
+                            </div>*@
+                         
+
+                                @*<iframe src="https://cpanel.gohappynetwork.com/NewJoin.aspx" name="foo">Register</iframe>*@
+
+</div>
                     </div>
                 </form>
             </div>
@@ -115,3 +132,18 @@
     </div>
 </div>
 <script src="~/Scripts/dashboard.js"></script>
+<script type="text/javascript">
+    
+    function postYourAdd() {
+         debugger;
+        var iframe = $("#forPostyouradd");
+        iframe.attr("src", iframe.data("src"));
+    }
+
+    //$(document).ready(function () {
+    //    $('a').click(function (e) {
+    //        e.preventDefault();
+    //        $('iframeRegister').attr('src', "https://cpanel.gohappynetwork.com/NewJoin.aspx");
+    //    });
+    //});
+</script>
