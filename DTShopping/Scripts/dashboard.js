@@ -156,6 +156,46 @@ function Login_Account() {
     return false;
 }
 
+
+
+function Other_Register() {
+    debugger;
+    $("#loginError").html("");
+    var registerDetail = $('#addForm').serialize();
+    $(".preloader").show();
+    $.ajax({
+        url: '/Account/SaveOtherRegister',
+        type: 'Post',
+        datatype: 'Json',
+        data: registerDetail
+    }).done(function (result) {
+        debugger;
+        var obj = $.parseJSON(result);
+        if (obj.response == "OK") {
+            alert("Registered Successfully!! your ID No. is  " + obj.idno + " and password " + obj.password + "");
+        }
+        else {
+            alert("invalid pincode");
+        }
+        //if (result == "Success") {
+        //    window.location.href = "/Home/Index";
+        //}
+        //else {
+        //    $("#loginError").html(result);
+        //    $("#loginError2").html(result);
+        //}
+        $(".preloader").hide();
+        $("#closeError").show();
+    }).fail(function (error) {
+        $("#loginError").html(error.statusText);
+        $(".preloader").hide();
+        $("#closeError").show();
+        $(".preloader").hide();
+    });
+
+    return false;
+}
+
 function callDetailPage(productID) {
     window.location.href = "/Home/GetProductDetail?prodId=" + productID;
 }

@@ -220,10 +220,13 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PayUController.cs" />
     <Compile Include="Controllers\ReturnController.cs" />
+    <Compile Include="General.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\APIOtherPinCode.cs" />
+    <Compile Include="Models\ApiOtherRegister.cs" />
     <Compile Include="Models\CartFilter.cs" />
     <Compile Include="Models\CatProducts.cs" />
     <Compile Include="Models\company.cs" />
@@ -236,6 +239,7 @@
     <Compile Include="Models\KeyValue.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MenuItems.cs" />
+    <Compile Include="Models\M_areacode.cs" />
     <Compile Include="Models\order.cs" />
     <Compile Include="Models\OrderDetailContainer.cs" />
     <Compile Include="Models\PayuRequest.cs" />
@@ -1245,6 +1249,7 @@
     <Content Include="Views\Home\ProductListOrange.cshtml" />
     <Content Include="Views\Home\_filterSideBarOrange.cshtml" />
     <Content Include="Views\Manage\CustomErrorPage.cshtml" />
+    <Content Include="Views\Account\OtherRegister.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

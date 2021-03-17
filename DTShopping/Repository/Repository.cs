@@ -232,6 +232,40 @@ namespace DTShopping.Repository
             }
         }
 
+        public async Task<List<AreaCoderesponse>> GetAreaCode(string PinCode)
+        {
+            var result = await CallPostFunction(string.Empty, "AreaList/" + PinCode);
+            //var result = await CallPostFunction(string.Empty, "AreaList");
+            if (result == null || !result.Status)
+            {
+                return null;
+            }
+            else
+            {
+                var Area = JsonConvert.DeserializeObject<List<AreaCoderesponse>>(result.ResponseValue);
+                return Area;
+            }
+        }
+
+
+        public async Task<Response> SaveAPIRequest(ApiPinCoderesponse code)
+        {
+            var filterData = JsonConvert.SerializeObject(code);
+            var result = await CallPostFunction(filterData, "SaveAPIRequest" );
+       
+            //var result = await CallPostFunction(string.Empty, "AreaList");
+            if (result == null || !result.Status)
+            {
+                return null;
+            }
+            else
+            {
+                var Area = result.ResponseValue;
+                //var Area = JsonConvert.DeserializeObject<Response>(result.ResponseValue);
+                return result;
+            }
+        }
+
         public async Task<List<R_CityMaster>> GetCityListById(string Id)
         {
             var result = await CallPostFunction(string.Empty, "CityList/" + Id);

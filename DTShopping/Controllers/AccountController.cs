@@ -12,6 +12,7 @@ using System.Text;
 using System.Globalization;
 using DTShopping.Properties;
 using DTShopping.Controllers;
+using System.Net;
 
 namespace DTShopping
 {
@@ -71,7 +72,7 @@ namespace DTShopping
             {
                 //var dataStr = "ATTRADE|aim@321|45|" + DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
                 //               var dataStr = "AT6665090|123123|45|02-12-2020 16:39:20";
-               // string encrypted = Encrypt(dataStr, KeyByte, IVByte);
+                // string encrypted = Encrypt(dataStr, KeyByte, IVByte);
                 //data = encrypted;
                 var detail = Decrypt(data, KeyByte, IVByte);
 
@@ -170,6 +171,18 @@ namespace DTShopping
             }
         }
 
+
+
+
+        [AllowAnonymous]
+        public async Task<ActionResult> OtherRegister()
+        {
+            this.model = new Dashboard();
+            this._APIManager = new APIRepository();
+            await this.AssignOtherAreaCode("");
+            return View(this.model);
+        }
+
         // GET: /Account/Register
         [AllowAnonymous]
         public async Task<ActionResult> Register()
@@ -178,6 +191,108 @@ namespace DTShopping
             this._APIManager = new APIRepository();
             await this.AssignStateCityList();
             return View(this.model);
+        }
+
+        public async Task<ActionResult> getPinCodeStateDetail(string pinCode)
+        {
+            this.model = new Dashboard();
+            this._APIManager = new APIRepository();
+            AreaCoderesponse Area = new AreaCoderesponse();
+            // var arealist= AssignOtherAreaCode(pinCode);
+            Response responseDetail = new Response();
+            General clsgen = new General();
+            string jsonResponse = string.Empty;
+            try
+            {
+                APIOtherPinCode otherPincode = new APIOtherPinCode();
+                otherPincode.reqtype = "getpincodedetail";
+                otherPincode.pincode = pinCode;
+                string output1 = JsonConvert.SerializeObject(otherPincode);
+                HttpWebRequest reponse;
+                reponse = clsgen.JSON(output1, "https://cpanel.gohappynetwork.com/DTProcess.aspx");
+                jsonResponse = clsgen.GetResponse(reponse);
+
+                Area = JsonConvert.DeserializeObject<AreaCoderesponse>(jsonResponse);
+
+                ApiPinCoderesponse Code = new ApiPinCoderesponse();
+                {
+                    Code.request = output1;
+                    Code.response = jsonResponse;
+                    Code.url = "https://cpanel.gohappynetwork.com/DTProcess.aspx";
+                }
+                var statusID = await this._APIManager.SaveAPIRequest(Code);
+                //statusID = await Task.Run(() => entity.sp_SaveAPIRequest(output1, jsonResponse, "https://cpanel.gohappynetwork.com/DTProcess.aspx"));
+                //responseDetail.ResponseValue = jsonResponse;
+            }
+            catch (Exception ex)
+
+            {
+
+            }
+            return Json(Area);
+        }
+
+ 
+        public async Task<ActionResult> SaveOtherRegister(string mobileNo,string referralid,string name,string address,string statecode, string district, string city, string email, string areacode, string citycode, string districtcode, string panno ,string pinCode)
+        {
+
+            General clsgen = new General();
+            AreaCoderesponse Area = new AreaCoderesponse();
+            this._APIManager = new APIRepository();
+            string jsonResponse = string.Empty;
+            ApiOtherRegister register = new ApiOtherRegister();
+            try
+            {
+            register.reqtype = "register";
+            register.username = string.Empty;
+            register.name = name;
+            register.mobile = "0";
+            register.pincode = pinCode;
+            register.referralid = referralid == null ? "" : referralid;
+            register.side = "1";
+            register.fname = string.Empty;
+            register.dob = "08-04-1992";
+            register.ismarried = "Y";
+            register.marriagedate = "08-05-2018";
+            register.address = address;
+            register.statecode = statecode;
+            register.district =district;
+            register.city =city;
+            register.mobl = mobileNo;
+            register.phoneno = "1482220754";
+            register.email = email;
+            register.nominee = "testjfds";
+            register.relation = "dsdd";
+            register.mpasswd = "123456";
+            register.areacode = areacode;
+            register.citycode = citycode;
+            register.districtcode = districtcode;
+            register.frelation = "D/O";
+            register.actype = "CHOOSE Account Type";
+            register.bankcode = "30";
+            register.panno = panno;
+            register.accountno = "123456868";
+            register.ifsc = "PUNB112478";
+            register.branch = "sanganerigate";
+            register.aadharno = "12323434";
+            string output1 = JsonConvert.SerializeObject(register);
+            HttpWebRequest reponse;
+            reponse = clsgen.JSON(output1, "https://cpanel.gohappynetwork.com/DTProcess.aspx");
+            jsonResponse = clsgen.GetResponse(reponse);
+
+            ApiPinCoderesponse Code = new ApiPinCoderesponse();
+            {
+                Code.request = output1;
+                Code.response = jsonResponse;
+                Code.url = "https://cpanel.gohappynetwork.com/DTProcess.aspx";
+            }
+            var statusID = await this._APIManager.SaveAPIRequest(Code);
+        }
+        catch(Exception ex)
+          {
+
+          }
+            return Json(jsonResponse);
         }
 
         //
@@ -196,6 +311,20 @@ namespace DTShopping
             FormsAuthentication.SignOut();
             Session["UserDetail"] = null;
             return RedirectToAction("Index", "Home");
+        }
+
+         private async Task AssignOtherAreaCode(string pinCode)
+        {
+            this.model.AreaCoderesponse = await this._APIManager.GetAreaCode(pinCode);
+            if (this.model.AreaCoderesponse == null)
+            {
+                this.model.areacode = new List<M_areacode>();
+                this.model.areacode.Add(new M_areacode
+                {
+                    areacode = "0",
+                    areaname = "-Not Available-"
+                });
+            }
         }
 
         private async Task AssignStateCityList()

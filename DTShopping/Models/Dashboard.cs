@@ -40,6 +40,9 @@ namespace DTShopping.Models
         public string IdList { get; set; }
         public double TotalRecordCount { get; set; }
         public IPagedList<int> pagerCount { get; set; }
+         public ApiOtherRegister OtherRegister { get; set; }
+        public List<M_areacode> areacode { get; set; }
+        public List<AreaCoderesponse> AreaCoderesponse { get; set; }
 
         public void AssignPaymentModes()
         {

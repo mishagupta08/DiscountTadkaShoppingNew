@@ -1,0 +1,251 @@
+﻿
+@model DTShopping.Models.Dashboard
+
+<div class="bg-front bg-front-mob-rel">
+
+    <div class="container">
+
+        <div class="search-tabs search-tabs-bg search-tabs-abs mt50">
+            <div class="form-horizontal">
+                 <h3 style="align-content:center"> Registration</h3>
+                <fieldset>
+                   
+                   
+                    @*<form data-parsley-validate class="validateForm form-horizontal form-style" id="addForm" onsubmit="return Other_Register();">*@
+                        @Html.AntiForgeryToken()
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="txtName">Referal ID</label>
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(m => m.OtherRegister.referralid, new { @type = "text", @id = "referralid", @required = "required", @placeholder = "" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="txtName">Name</label>
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(m => m.OtherRegister.name, new { @type = "text", @id = "name", @required = "required", @placeholder = "" })
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="txtAddress">Address</label>
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(m => m.OtherRegister.address, new { @type = "text", @id = "address", @required = "required", @placeholder = "" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="txtPincode">Pin code</label>
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(m => m.OtherRegister.pincode, new { @type = "text", @id = "pincode", @required = "required", @placeholder = "" , @onchange = "GetStateDetail();" })
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="txtState">State</label>
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(m => m.OtherRegister.statecode, new { @type = "text", @id = "statecode", @required = "required", @placeholder = "" , disabled = "disabled" })
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="txtDistrict">District</label>
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(m => m.OtherRegister.district, new { @type = "text", @id = "district", @required = "required", @placeholder = "", disabled = "disabled" })
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="txtCity">City</label>
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(m => m.OtherRegister.city, new { @type = "text", @id = "city", @required = "required", @placeholder = "" ,disabled = "disabled" })
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="txtCity">Area</label>
+                            <div class="col-md-4">
+                                @*<asp:DropDownList ID="ddlArea" ClientIDMode="Static" runat="server" CssClass="form-control input-md"></asp:DropDownList>*@
+                                @Html.DropDownListFor(m => m.OtherRegister.areacode, new SelectList(Model.areacode, "areacode", "areaname"), new { @required = "0", id = "ddlArea", @class = "form-control multiselect-ui" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="txtMobileNo">Mobile No.*</label>
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(m => m.OtherRegister.mobile, new { @type = "text", @id = "mobile", @required = "required", @placeholder = "" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="txtEmailID">Email ID*</label>
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(m => m.OtherRegister.email, new { @type = "text", @id = "email", @required = "required", @placeholder = "" })
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="txtEmailID">PAN No*</label>
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(m => m.OtherRegister.panno , new { @type = "text", @id = "panno", @required = "required", @placeholder = "" })
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="bCancel"></label>
+                            <div class="col-md-8">
+                              
+                                @*<asp:Button ID="btnCancel" runat="server" Text="Cancel" PostBackUrl="~/Login.aspx" CssClass="btn btn-danger" />*@
+                                <label id="loginError" style="color:red;"></label>
+                                <div class="buttonSet" > 
+                                  
+                                    <span class="buttonAction"> <input  type="button" id="signup" name="SignUp" value="SignUp"onclick="SignUp(); " class="unishop_button"/></span> 
+                                    <span class="buttonAction" style="margin-left:10px;"><a id="btnCancel" href="@Url.Action("Login", "Account")" class="unishop_button">Cancel</a></span>
+ 
+                                </div>
+                              
+
+                            </div>
+                        </div>
+                        <input type="hidden" id="hdnStateCode" />
+                        <input type="hidden" id="hdnCityCode" />
+                        <input type="hidden" id="hdnDistrictCode" />
+   @*</form>*@
+</fieldset>
+          </div>
+       </div>
+     </div>
+
+    </div>
+<script src="~/Scripts/dashboard.js"></script>
+<script>
+    function GetStateDetail()
+    {
+        debugger;
+        var pinCode = $("#pincode").val();
+        $(".preloader").show();
+        $.ajax({
+            url: '/Account/getPinCodeStateDetail',
+            type: 'Post',
+            datatype: 'Json',
+            data: { pinCode: pinCode }
+        }).done(function (result) {
+            if (result == null || result == undefined || result == "") {
+                $("#error").html(result);
+            }
+            else {
+                $("#ddlArea").html("");
+                //$('select#ddlArea').empty();
+                //$('select#ddlArea').append('<option value="0">--Select--</option>');
+                //$('select#ddlArea').show();
+                $.each(result.pincodedetail, function (index, value) {
+                    $("#ddlArea").append($("<option></option>").val(value.areacode).html(value.areaname));
+                });
+
+                //$.each(result.pincodedetail, function (key, value) {
+                //    $("#ddlArea").append($("<option></option>").val(value.areacode).html(value.areaname));
+                //});
+                debugger;
+                $("#district").val(result.districtname);
+                $("#statecode").val(result.statename);
+                $("#city").val(result.cityname);
+                $("#hdnStateCode").val(result.statecode);
+                $("#hdnCityCode").val(result.citycode);
+                $("#hdnDistrictCode").val(result.districtCode);
+            }
+
+            $(".preloader").hide();
+        });
+    }
+
+    function SignUp()
+    {
+        debugger;
+        var mobileNo = $("#mobile").val();
+        if (mobileNo == "")
+        {
+            alert("Please Enter the MobileNo! ")
+        }
+        var referralid = $("#referralid").val();
+        if (referralid == "") {
+            alert("Please Enter the referral id! ")
+        }
+        var name = $("#name").val();
+        if (name == "") {
+            alert("Please Enter the name! ")
+        }
+        var address = $("#address").val();
+        if (address == "") {
+            alert("Please Enter the address! ")
+        }
+        var statecode = $("#hdnStateCode").val();;
+        var district = $("#district").val();
+        //if (district = "") {
+        //    alert("Please Enter the district! ")
+        //}
+        var city = $("#city").val();
+        //if (city = "") {
+        //    alert("Please Enter the city! ")
+        //}
+        var email = $("#email").val();
+        if (email == "") {
+            alert("Please Enter the email! ")
+        }
+        var ddlArea = $("#ddlArea");
+        if (ddlArea == "") {
+            alert("Please Select the Area! ")
+        }
+        var areacode = ddlArea.val();
+        var citycode = $("#hdnCityCode").val();
+        var districtcode = $("#hdnDistrictCode").val();
+        var panno = $("#panno").val();
+        if (panno == "") {
+            alert("Please Enter the panno! ")
+        }
+        
+        var pinCode = $("#pincode").val();
+        if (pinCode == "") {
+            alert("Please pinCode the panno! ")
+        }
+        $.ajax({
+            type: "POST",
+            url: '/Account/SaveOtherRegister',
+            datatype: "Json",
+            data: { mobileNo: mobileNo, referralid: referralid, name: name, address: address, statecode: statecode, district: district, city: city, email: email, areacode: areacode, citycode: citycode, districtcode: districtcode, panno: panno, pinCode: pinCode },
+            success: function (data) {
+                debugger;
+
+                debugger;
+                var obj = $.parseJSON(data);
+                if (obj.response == "OK") {
+                    alert("Registered Successfully!! your ID No. is  " + obj.idno + " and password " + obj.password + "");
+                }
+                else {
+                    alert("invalid pincode");
+                }
+                $("#mobile").val("");
+                $("#referralid").val("");
+                $("#name").val("");
+                $("#address").val("");
+                $("#hdnStateCode").val("");
+                $("#district").val("");
+                $("#city").val("");
+                $("#email").val("");
+                $("#ddlArea").val("");
+                $("#hdnCityCode").val();
+                $("#hdnDistrictCode").val("");
+                $("#panno").val("");
+                $("#pincode").val("");
+            }
+
+        });
+
+    }
+</script>
