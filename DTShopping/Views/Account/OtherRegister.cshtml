@@ -106,7 +106,7 @@
                                 <label id="loginError" style="color:red;"></label>
                                 <div class="buttonSet" > 
                                   
-                                    <span class="buttonAction"> <input  type="button" id="signup" name="SignUp" value="SignUp"onclick="SignUp(); " class="unishop_button"/></span> 
+                                    <span class="buttonAction"> <input  type="button" id="signup" name="SignUp" value="SignUp"onclick="return SignUp(); " class="unishop_button"/></span> 
                                     <span class="buttonAction" style="margin-left:10px;"><a id="btnCancel" href="@Url.Action("Login", "Account")" class="unishop_button">Cancel</a></span>
  
                                 </div>
@@ -171,19 +171,23 @@
         var mobileNo = $("#mobile").val();
         if (mobileNo == "")
         {
-            alert("Please Enter the MobileNo! ")
+            alert("Please Enter the MobileNo! ");
+            return false;
         }
         var referralid = $("#referralid").val();
         if (referralid == "") {
-            alert("Please Enter the referral id! ")
+            alert("Please Enter the referral id! ");
+            return false;
         }
         var name = $("#name").val();
         if (name == "") {
-            alert("Please Enter the name! ")
+            alert("Please Enter the name! ");
+            return false;
         }
         var address = $("#address").val();
         if (address == "") {
-            alert("Please Enter the address! ")
+            alert("Please Enter the address! ");
+            return false;
         }
         var statecode = $("#hdnStateCode").val();;
         var district = $("#district").val();
@@ -196,23 +200,27 @@
         //}
         var email = $("#email").val();
         if (email == "") {
-            alert("Please Enter the email! ")
+            alert("Please Enter the email! ");
+            return false;
         }
         var ddlArea = $("#ddlArea");
         if (ddlArea == "") {
-            alert("Please Select the Area! ")
+            alert("Please Select the Area! ");
+            return false;
         }
         var areacode = ddlArea.val();
         var citycode = $("#hdnCityCode").val();
         var districtcode = $("#hdnDistrictCode").val();
         var panno = $("#panno").val();
         if (panno == "") {
-            alert("Please Enter the panno! ")
+            alert("Please Enter the panno! ");
+            return false;
         }
         
         var pinCode = $("#pincode").val();
         if (pinCode == "") {
-            alert("Please pinCode the panno! ")
+            alert("Please pinCode the panno! ");
+            return false;
         }
         $.ajax({
             type: "POST",
@@ -229,6 +237,7 @@
                 }
                 else {
                     alert("invalid pincode");
+                    return false;
                 }
                 $("#mobile").val("");
                 $("#referralid").val("");
