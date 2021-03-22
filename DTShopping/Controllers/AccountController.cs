@@ -13,6 +13,7 @@ using System.Globalization;
 using DTShopping.Properties;
 using DTShopping.Controllers;
 using System.Net;
+using System.Reflection;
 
 namespace DTShopping
 {
@@ -21,7 +22,7 @@ namespace DTShopping
     {
         private APIRepository _APIManager;
         string Theme = System.Configuration.ConfigurationManager.AppSettings["Theme"] == null ? string.Empty : System.Configuration.ConfigurationManager.AppSettings["Theme"].ToString();
-
+        General clsgen = new General();
         private static byte[] KeyByte = Encoding.ASCII.GetBytes("6b04d38748f94490a636cf1be3d82841");
         private static byte[] IVByte = Encoding.ASCII.GetBytes("f8adbf3c94b7463d");
 
@@ -70,19 +71,31 @@ namespace DTShopping
         {
             try
             {
-                //var dataStr = "GH637158|281614|30|" + DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
-                //var d = Encrypt(dataStr, KeyByte, IVByte);
+                var dataStr = "GH637158|281614|30|" + DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                var d = Encrypt(dataStr, KeyByte, IVByte);
                //var dataStr = "AT6665090|123123|45|02-12-2020 16:39:20";
                // string encrypted = Encrypt(dataStr, KeyByte, IVByte);
                //data = encrypted;
-               var detail = Decrypt(data, KeyByte, IVByte);
+               var detail = Decrypt(d, KeyByte, IVByte);
 
+
+
+                // var filename = AppDomain.CurrentDomain.BaseDirectory + "App_Data\\" + "log\\" + "logErrors.txt";
+                //var sw = new System.IO.StreamWriter(filename, true);
+                // sw.WriteLine(DateTime.Now.ToString() + " " + detail );
+                //sw.Close();
                 //var base64EncodedBytes = System.Convert.FromBase64String(data);
                 //var detail = System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
-
+                string path = System.Web.HttpContext.Current.Server.MapPath("~/Logs/ErrorLog");
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                clsgen.ErrorLog(path, ("LoginApiUser:" + detail));
                 if (detail != null && detail.Contains("|"))
                 {
                     var dataArray = detail.Split('|');
+
                     if (dataArray.Length == 4)
                     {
                         //check if request is within 1 min
@@ -129,7 +142,7 @@ namespace DTShopping
             }
             catch (Exception e)
             {
-
+                ExceptionLogging.SendErrorToText(e);
             }
 
             return null;
@@ -485,5 +498,19 @@ namespace DTShopping
         }
 
         /*****END****/
+        public void ErrorLog(string sPathName, string sErrMsg)
+        {
+            string sLogFormat = (DateTime.Now.ToShortDateString().ToString() + (" "
+                        + (DateTime.Now.ToLongTimeString().ToString() + " ==> ")));
+            string sYear = DateTime.Now.Year.ToString();
+            string sMonth = DateTime.Now.Month.ToString();
+            string sDay = DateTime.Now.Day.ToString();
+            string sErrorTime = (sYear
+                        + (sMonth + sDay));
+            StreamWriter sw = new StreamWriter((sPathName + sErrorTime), true);
+            sw.WriteLine((sLogFormat + sErrMsg));
+            sw.Flush();
+            sw.Close();
+        }
     }
 }
