@@ -71,12 +71,12 @@ namespace DTShopping
         {
             try
             {
-                var dataStr = "GH637158|281614|30|" + DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
-                var d = Encrypt(dataStr, KeyByte, IVByte);
+                //var dataStr = "GH637158|281614|30|" + DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+               // var d = Encrypt(dataStr, KeyByte, IVByte);
                //var dataStr = "AT6665090|123123|45|02-12-2020 16:39:20";
                // string encrypted = Encrypt(dataStr, KeyByte, IVByte);
                //data = encrypted;
-               var detail = Decrypt(d, KeyByte, IVByte);
+               var detail = Decrypt(data, KeyByte, IVByte);
 
 
 
