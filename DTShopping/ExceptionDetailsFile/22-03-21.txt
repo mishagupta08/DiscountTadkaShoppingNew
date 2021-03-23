@@ -1,0 +1,48 @@
+-----------Exception Details on  22-03-2021 16:39:24-----------------
+-------------------------------------------------------------------------------------
+
+
+
+Log Written Date: 22-03-2021 16:39:24
+
+Error Line No : eNext()
+
+Error Message: DirectoryNotFoundException
+
+Exception Type: System.IO.DirectoryNotFoundException
+
+Error Location : Could not find a part of the path 'D:\Srishti\Project\Dtshopping\DiscountTadkaShoppingNew\DTShopping\Account\Logs\ErrorLog2021322'.
+
+ Error Page Url: http://localhost:63692/Account/loginApiuser?data=1AurOJvEJUthD3bgj9kwKedN0FLzfKNmrZm7RkpEOD2CJ7H0jcvCXjuEqJrgzrsb
+
+User Host IP: 
+
+
+--------------------------------*End*------------------------------------------
+
+
+
+-----------Exception Details on  22-03-2021 16:43:15-----------------
+-------------------------------------------------------------------------------------
+
+
+
+Log Written Date: 22-03-2021 16:43:15
+
+Error Line No : ine 109
+
+Error Message: HttpRequestException
+
+Exception Type: System.Net.Http.HttpRequestException
+
+Error Location : An error occurred while sending the request.
+
+ Error Page Url: http://localhost:63692/Account/loginApiuser?data=1AurOJvEJUthD3bgj9kwKedN0FLzfKNmrZm7RkpEOD2CJ7H0jcvCXjuEqJrgzrsb
+
+User Host IP: 
+
+
+--------------------------------*End*------------------------------------------
+
+
+
